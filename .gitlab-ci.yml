@@ -7,6 +7,7 @@ build:
     - develop
   script:
     - cp -rv $STAGE_ENV_FILE .env
+    - whoami
     - bun i
     - bun run build
     - repo_dir=$(pwd)
