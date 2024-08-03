@@ -16,6 +16,12 @@
 @use '@/assets/styles/helpers/media';
 @use '@/assets/styles/helpers/functions';
 
+.top-nav {
+    @include media.sm-down {
+        display: none;
+    }
+}
+
 .top-nav__container {
     display: flex;
     gap: 30px;
