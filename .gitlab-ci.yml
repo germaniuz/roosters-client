@@ -1,7 +1,7 @@
 stages:
   - deploy
 
-deploy:
+build:
   stage: deploy
   only:
     - develop
@@ -16,3 +16,10 @@ deploy:
     - ln -snf $(pwd) /var/www/roosters-dev.ru
   tags:
     - roosters-runner
+run:
+  stage: deploy
+  only:
+    - develop
+  script:
+    - cd /var/www/roosters-dev.ru
+    - pm2 start
