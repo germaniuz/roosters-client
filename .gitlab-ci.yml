@@ -1,8 +1,9 @@
 stages:
-  - deploy
+  - build
+  - run
 
 build:
-  stage: deploy
+  stage: build
   only:
     - develop
   script:
@@ -11,15 +12,17 @@ build:
     - /home/devops/.bun/bin/bun run build
     - repo_dir=$(pwd)
     - cd ../
-    - rm -rf roosters-client
-    - mv $repo_dir roosters-client
-    - ln -snf $(pwd) /var/www/roosters-dev.ru
+    - rm -rf client-current
+    - mv $repo_dir client-current
+    - ln -snf $(pwd)/client-current /var/www/roosters-dev.ru
   tags:
     - roosters-runner
 run:
-  stage: deploy
+  stage: run
   only:
     - develop
   script:
     - cd /var/www/roosters-dev.ru
     - pm2 start
+  tags:
+    - roosters-runner
