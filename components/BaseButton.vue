@@ -2,7 +2,7 @@
 type BtnModifier = 'primary' | 'secondary' | 'success' | 'warning' | 'grey' | 'sm' | 'lg' | 'xl' | 'icon';
 
 type Props = {
-    modifiers: BtnModifier[];
+    modifiers: BtnModifier[] | BtnModifier;
     btnType: 'button' | 'submit';
 };
 
@@ -10,7 +10,11 @@ const props = withDefaults(defineProps<Props>(), {
     btnType: 'button',
 });
 
-const modifiers = computed(() => props.modifiers.map((modifier) => 'btn--' + modifier).join(' '));
+const modifiers = computed(() => {
+    return typeof props.modifiers === 'string'
+        ? props.modifiers
+        : props.modifiers.map((modifier) => 'btn--' + modifier).join(' ');
+});
 </script>
 
 <template>

@@ -2,6 +2,7 @@
 
 <template>
     <div class="default-layout">
+        <AppTopNav />
         <AppHeader />
         <div class="app">
             <AppToastNotification />

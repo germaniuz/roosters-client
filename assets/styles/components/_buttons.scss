@@ -54,7 +54,14 @@
     color: var(--c-grey80);
 
     &:hover {
-      background: color-mix(in srgb, var(--c-primary), var(--c-grey00) 15%);
+      background: var(--c-secondary-light);
     }
+  }
+
+  &--icon {
+    gap: 8px;
+    display: flex;
+    align-items: center;
+    padding: 5px 20px 5px 10px;
   }
 }
