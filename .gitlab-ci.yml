@@ -7,9 +7,8 @@ build:
     - develop
   script:
     - cp -rv $STAGE_ENV_FILE .env
-    - whoami
-    - bun i
-    - bun run build
+    - /home/devops/.bun/bin/bun i
+    - /home/devops/.bun/bin/bun run build
     - repo_dir=$(pwd)
     - cd ../
     - rm -rf roosters-client
