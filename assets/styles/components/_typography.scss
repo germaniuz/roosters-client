@@ -1,0 +1,26 @@
+@use "../helpers/functions";
+
+.link {
+  color: var(--c-primary);
+  text-decoration: underline;
+  background: none;
+  font-size: functions.rem(15);
+
+  &--no-wrap {
+    white-space: nowrap;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+p {
+  font-size: functions.rem(15);
+  line-height: functions.rem(22);
+  color: var(--c-text-secondary);
+}

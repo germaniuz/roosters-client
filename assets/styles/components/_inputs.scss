@@ -1,0 +1,8 @@
+@use "../helpers/functions";
+@use "../helpers/media";
+
+.auth-form {
+  max-width: var(--w-auth-form);
+  min-width: 300px;
+  width: 100%;
+}

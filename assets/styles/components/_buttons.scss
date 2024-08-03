@@ -1,0 +1,60 @@
+@use "../helpers/functions";
+
+.btn {
+  display: block;
+  height: min-content;
+  font-size: functions.rem(14);
+  line-height: 1;
+  padding: 12px 20px;
+  font-family: var(--f-base);
+  transition: all 0.25s ease-out;
+  border-radius: var(--b-radius-md);
+  background: none;
+  text-align: center;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  &--sm {
+    font-size: functions.rem(14);
+    line-height: 1;
+    padding: 10px 20px;
+  }
+
+  &--lg {
+    font-size: functions.rem(16);
+    padding: 17px 30px;
+  }
+
+  &--xl {
+    font-size: functions.rem(18);
+    border-radius: var(--b-radius);
+    padding: 20px 40px;
+  }
+
+  &--primary {
+    color: var(--c-grey00);
+    background-color: var(--c-primary);
+
+    &:hover,
+    &:focus,
+    &:active {
+      background: color-mix(in srgb, var(--c-primary), var(--c-grey00) 20%);
+    }
+  }
+
+  &--grey {
+    background: var(--c-grey10);
+    color: var(--c-grey80);
+
+    &:hover {
+      background: color-mix(in srgb, var(--c-primary), var(--c-grey00) 15%);
+    }
+  }
+}

@@ -1,0 +1,18 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  only:
+    - develop
+  script:
+    - cp -rv $STAGE_ENV_FILE .env
+    - npm i
+    - npm run build
+    - repo_dir=$(pwd)
+    - cd ../
+    - rm -rf roosters-client
+    - mv $repo_dir roosters-client
+    - ln -snf $(pwd) /var/www/roosters-dev.ru
+  tags:
+    - roosters-runner

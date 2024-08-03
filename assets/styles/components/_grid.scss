@@ -1,0 +1,76 @@
+@use '../helpers/functions.scss';
+@use '../helpers/media.scss';
+
+.container {
+  max-width: var(--w-container);
+  margin-inline: auto;
+  padding-inline: 16px;
+
+  @include media.lg-up {
+    padding-inline: 25px;
+  }
+}
+
+.body {
+  background-color: var(--c-body-bg);
+  font-family: var(--f-base);
+  font-size: functions.rem(15);
+  line-height: functions.rem(22);
+  transition: color, background 0.15s ease;
+
+  &--fixed {
+    overflow: hidden;
+  }
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-10 {
+  gap: 10px;
+}
+
+.grid {
+  display: grid;
+
+  &--cols-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-30 {
+  margin-top: 30px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mb-20 {
+  margin-bottom: 20px;
+}
+
+.mb-30 {
+  margin-bottom: 30px;
+}
+
+.w-100 {
+  width: 100%;
+}

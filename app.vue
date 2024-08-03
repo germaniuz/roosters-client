@@ -1,5 +1,15 @@
+<script lang="ts" setup>
+useHead({
+    bodyAttrs: {
+        class: 'body',
+    },
+});
+</script>
+
 <template>
-  <div>
-    <NuxtWelcome />
-  </div>
+    <div>
+        <NuxtLayout>
+            <NuxtPage />
+        </NuxtLayout>
+    </div>
 </template>

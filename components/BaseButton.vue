@@ -1,0 +1,20 @@
+<script lang="ts" setup>
+type BtnModifier = 'primary' | 'secondary' | 'success' | 'warning' | 'grey' | 'sm' | 'lg' | 'xl' | 'icon';
+
+type Props = {
+    modifiers: BtnModifier[];
+    btnType: 'button' | 'submit';
+};
+
+const props = withDefaults(defineProps<Props>(), {
+    btnType: 'button',
+});
+
+const modifiers = computed(() => props.modifiers.map((modifier) => 'btn--' + modifier).join(' '));
+</script>
+
+<template>
+    <button class="btn" :class="modifiers" :type="btnType">
+        <slot></slot>
+    </button>
+</template>

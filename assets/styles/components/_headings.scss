@@ -1,0 +1,9 @@
+@use "../helpers/functions";
+@use "../helpers/media";
+
+.h4 {
+  font-size: functions.rem(24);
+  line-height: functions.rem(38);
+  margin-bottom: 12px;
+  color: var(--c-text-primary);
+}
