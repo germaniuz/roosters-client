@@ -1,28 +1,40 @@
 stages:
-  - build
+  - deploy
   - run
 
-build:
-  stage: build
+testing:
+  stage: deploy
   only:
     - develop
   script:
-    - cp -rv $STAGE_ENV_FILE .env
+    # set variables
+    - domain_name="roosters-dev.ru"
+    - release_dir_name="$(date +'%Y%m%d%H%M%S')"
+    # service variables
+    - release_dir=$(dirname "$(pwd)")/$domain_name/$release_dir_name
+    - repo_dir=$(pwd)
+    - domain_dir=/var/www/$domain_name
+    - storage_dir=$domain_dir/storage
+    # user check
+    - whoami
+    # ...building the app
     - /home/devops/.bun/bin/bun i
     - /home/devops/.bun/bin/bun run build
-    - repo_dir=$(pwd)
-    - cd ../
-    - rm -rf client-current
-    - mv $repo_dir client-current
-    - ln -snf $(pwd)/client-current /var/www/roosters-dev.ru
+    # ...moving current build into release dir
+    - mv $repo_dir $release_dir
+    # create symlink
+    - ln -snf $release_dir $domain_dir/app
   tags:
     - roosters-runner
+
 run:
   stage: run
   only:
     - develop
   script:
-    - cd /var/www/roosters-dev.ru
-    - pm2 start
+    # set variables
+    - domain_name="roosters-dev.ru"
+    - cd /var/www/$domain_name/app
+    - pm2 start ecosystem.config.cjs
   tags:
     - roosters-runner
