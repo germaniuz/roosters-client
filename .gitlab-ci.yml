@@ -18,6 +18,7 @@ testing:
     # user check
     - whoami
     # ...building the app
+    - cp -rv $STAGE_ENV_FILE .env
     - /home/devops/.bun/bin/bun i
     - /home/devops/.bun/bin/bun run build
     # ...moving current build into release dir
