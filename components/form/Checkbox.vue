@@ -59,8 +59,8 @@ defineProps<Props>();
 
     &:checked {
         & ~ .checkbox__checkmark {
-            background-color: var(--c-primary);
-            border-color: var(--c-primary);
+            background-color: var(--c-secondary);
+            border-color: var(--c-secondary);
             box-shadow: var(--shadow-xs);
 
             &::after {
@@ -76,7 +76,7 @@ defineProps<Props>();
     flex: 0 0 18px;
     width: 18px;
     transition: all 0.25s ease;
-    border: 2px solid var(--c-text-secondary);
+    border: 2px solid var(--c-secondary);
     border-radius: var(--b-radius-xxs);
 
     &::after {
