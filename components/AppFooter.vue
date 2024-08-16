@@ -1,9 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>
+  <footer class="footer">
+
     Component: AppFooter
-  </div>
+  </footer>
 </template>
 
 <style scoped></style>
