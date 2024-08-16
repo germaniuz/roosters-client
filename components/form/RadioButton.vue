@@ -65,6 +65,7 @@ defineProps<Props>();
         }
     }
 }
+
 .radio-button__checkmark {
     position: absolute;
     top: 0;
@@ -76,7 +77,7 @@ defineProps<Props>();
     border-radius: 50px;
 
     .radio-button:hover & {
-        background-color:  color-mix(in lch, var(--c-grey20) 95%, var(--c-grey100) 5%);
+        background-color: color-mix(in lch, var(--c-grey20) 95%, var(--c-grey100) 5%);
     }
 
     &::after {
