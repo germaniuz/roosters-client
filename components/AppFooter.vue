@@ -206,7 +206,7 @@
 .footer__socials {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 22px;
 }
 
 .footer__social {
@@ -215,7 +215,6 @@
     display: flex;
     justify-content: center;
     position: relative;
-    overflow: hidden;
     align-items: center;
     border-radius: var(--b-radius-round);
     color: var(--c-grey00);
@@ -232,6 +231,17 @@
 
         &:hover {
             background: var(--c-vk-hover);
+        }
+    }
+
+    .icon-instagram {
+        &::after {
+            content: '*';
+            font-size: functions.rem(26);
+            position: absolute;
+            color: var(--c-primary);
+            right: -8px;
+            top: 2px;
         }
     }
 
