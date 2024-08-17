@@ -7,6 +7,6 @@ const radio = ref(false)
     <h1 class="h1">Главная</h1>
     <BaseButton :modifiers="['primary']">Btn</BaseButton>
     <FormRadioButton label="Radio btn" name="radio" v-model="radio"/>
-    <AuthCard></AuthCard>
-    <CodeCard></CodeCard>
+    <AuthCard/>
+    <CodeCard/>
 </template>
