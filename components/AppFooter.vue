@@ -21,7 +21,18 @@
                   <span class="footer__download-app-title">AppGallery</span>
               </div>
           </div>
-          <div class="footer__contacts"></div>
+          <div class="footer__contacts">
+              <div class="footer__contact">
+                  <img src="/images/icons/phone.svg" alt="" class="footer__contact-image">
+                  <a class="footer__contact-text" href="tel:8 (8442) 33-77-77">8 (8442) 33-77-77</a>
+                  <div class="footer__contact-subtext">Бесплатный звонок</div>
+              </div>
+              <div class="footer__contact">
+                  <img src="/images/icons/mail.svg" alt="" class="footer__contact-image">
+                  <a class="footer__contact-text" href="mailto:roosters-pizza@yandex.ru">roosters-pizza@yandex.ru</a>
+                  <div class="footer__contact-subtext">Для отзывов и предложений</div>
+              </div>
+          </div>
           <div class="footer__socials"></div>
       </div>
       <div class="footer__nav">
@@ -139,6 +150,49 @@
         border: 1px solid transparent;
         background: var(--c-aw-color);
     }
+}
+
+.footer__contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.footer__contact {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    grid-template-rows: repeat(2, auto);
+    align-items: center;
+    grid-column-gap: 10px;
+    grid-row-gap: 2px;
+
+    img {
+        grid-column: 1;
+        grid-row: 1/-1;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.footer__contact-text {
+    color: var(--c-grey70);
+    font-family: var(--f-base);
+    font-size: functions.rem(16);
+    font-weight: 600;
+    line-height: normal;
+    transition: all .2s linear;
+
+    &:hover {
+        color: var(--c-grey50);
+    }
+}
+
+.footer__contact-subtext {
+    color: var(--c-grey40);
+    font-family: var(--f-base);
+    font-size: functions.rem(12);
+    font-weight: 400;
+    line-height: normal;
 }
 
 .footer__dev-copyright {
