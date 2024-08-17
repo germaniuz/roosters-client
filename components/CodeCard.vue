@@ -2,17 +2,15 @@
 import { vMaska } from "maska/vue"
 import UserAgreement from '~/components/form/UserAgreement.vue';
 
-const phoneNumber = ref<string>('');
-const userAgreementChecked = ref<boolean>(false);
+const authCode = ref<string>('');
 </script>
 
 <template>
-    <div class="card auth-card">
-        <div class="auth-card__title">Вход</div>
-        <div class="auth-card__description">Подарим купон на день рождение, дадим бонусы за заказы и расскажем об акциях :)</div>
-        <FormInput v-model="phoneNumber" placeholder="+7 (___) ___ __-__" v-maska="'+7 (###) ### ##-##'" name="phone"/>
-        <BaseButton :modifiers="['primary']" class="auth-card__button">Отправить код</BaseButton>
-        <UserAgreement :model-value="userAgreementChecked"/>
+    <div class="card code-card">
+        <div class="code-card__title">Подтвердите номер</div>
+        <div class="code-card__description">СМС с кодом было отправлено на указанный вами номер</div>
+        <FormInput v-model="authCode" placeholder="" v-maska="'####'" name="code"/>
+        <BaseButton :modifiers="['primary']" class="code-card__button">Получить код снова</BaseButton>
     </div>
 </template>
 
@@ -20,7 +18,7 @@ const userAgreementChecked = ref<boolean>(false);
 @use '@/assets/styles/helpers/media';
 @use '@/assets/styles/helpers/functions';
 
-.auth-card {
+.code-card {
     border: 1px solid var(--c-grey40);
 
     @include media.md-up {
@@ -28,7 +26,7 @@ const userAgreementChecked = ref<boolean>(false);
     }
 }
 
-.auth-card__title {
+.code-card__title {
     color: var(--c-grey80);
     font-family: var(--f-base);
     font-size: functions.rem(24);
@@ -42,7 +40,7 @@ const userAgreementChecked = ref<boolean>(false);
     }
 }
 
-.auth-card__description {
+.code-card__description {
     color: var(--c-grey60);
     font-family: var(--f-base);
     font-size: functions.rem(14);
@@ -55,7 +53,7 @@ const userAgreementChecked = ref<boolean>(false);
     }
 }
 
-.auth-card__button {
+.code-card__button {
     width: 100%;
     margin-bottom: 15px;
     margin-top: 20px;

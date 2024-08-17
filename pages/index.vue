@@ -4,4 +4,6 @@ import BaseButton from '~/components/BaseButton.vue';
 <template>
     <h1 class="h1">Главная</h1>
     <BaseButton :modifiers="['primary']">Btn</BaseButton>
+    <AuthCard></AuthCard>
+    <CodeCard></CodeCard>
 </template>
