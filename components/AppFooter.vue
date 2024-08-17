@@ -44,28 +44,28 @@
       </div>
       <div class="footer__nav">
           <div class="footer__nav-item">
-              <a href="" class="footer__nav-item-title">Рустерс</a>
+              <a href="#" class="footer__nav-item-title">Рустерс</a>
               <div class="footer__nav-subitems">
-                  <a class="footer__nav-subitem" href="">О Нас</a>
-                  <a class="footer__nav-subitem" href="">Новости</a>
-                  <a class="footer__nav-subitem" href="">Вакансии</a>
-                  <a class="footer__nav-subitem" href="">Контакты</a>
+                  <a class="footer__nav-subitem" href="#">О Нас</a>
+                  <a class="footer__nav-subitem" href="#">Новости</a>
+                  <a class="footer__nav-subitem" href="#">Вакансии</a>
+                  <a class="footer__nav-subitem" href="#">Контакты</a>
               </div>
           </div>
           <div class="footer__nav-item">
-              <a href="" class="footer__nav-item-title">Покупателям</a>
+              <a href="#" class="footer__nav-item-title">Покупателям</a>
               <div class="footer__nav-subitems">
-                  <a class="footer__nav-subitem" href="">Отзывы</a>
-                  <a class="footer__nav-subitem" href="">Качество</a>
-                  <a class="footer__nav-subitem" href="">Доставка</a>
-                  <a class="footer__nav-subitem" href="">Оплата</a>
+                  <a class="footer__nav-subitem" href="#">Отзывы</a>
+                  <a class="footer__nav-subitem" href="#">Качество</a>
+                  <a class="footer__nav-subitem" href="#">Доставка</a>
+                  <a class="footer__nav-subitem" href="#">Оплата</a>
               </div>
           </div>
           <div class="footer__nav-item">
-              <a href="" class="footer__nav-item-title">Партнерам</a>
+              <a href="#" class="footer__nav-item-title">Партнерам</a>
               <div class="footer__nav-subitems">
-                  <a class="footer__nav-subitem" href="">Услуги</a>
-                  <a class="footer__nav-subitem" href="">Франшиза</a>
+                  <a class="footer__nav-subitem" href="#">Услуги</a>
+                  <a class="footer__nav-subitem" href="#">Франшиза</a>
               </div>
           </div>
       </div>
@@ -88,6 +88,12 @@
     display: flex;
     flex-direction: column;
     gap: 40px;
+    margin-bottom: 60px;
+
+    @include media.md-up {
+        margin-bottom: 40px;
+
+    }
 }
 
 .footer__download-apps {
@@ -253,6 +259,68 @@
     .icon-vk {
         font-size: functions.rem(20);
         margin-top: 3px;
+    }
+}
+
+.footer__nav {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 15px;
+    row-gap: 60px;
+
+    @include media.sm-down {
+        margin-bottom: 60px;
+    }
+
+    @include media.md-up {
+        gap: 40px;
+    }
+}
+
+.footer__nav-item-title {
+    display: block;
+    color: var(--c-grey80);
+    font-family: var(--f-base);
+    font-size: functions.rem(18);
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 30px;
+    transition: all .15s linear;
+
+    &:hover {
+        color: var(--c-secondary)
+    }
+}
+
+.footer__nav-subitems {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 160px;
+
+    * {
+        padding-block: 5px;
+
+        &:last-child {
+            padding-bottom: 0;
+        }
+
+        &:first-child {
+            padding-top: 0;
+        }
+    }
+}
+
+.footer__nav-subitem {
+    color: var(--c-grey60);
+    font-family: var(--c-grey60);
+    font-size: functions.rem(16);
+    font-weight: 400;
+    line-height: normal;
+    transition: all .15s linear;
+
+    &:hover {
+        color: var(--c-secondary)
     }
 }
 
