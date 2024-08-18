@@ -383,6 +383,24 @@
         padding-top: 80px;
         padding-bottom: 30px;
     }
+
+    @include media.lg-up {
+        background: url("/images/footer/footer-bottom-lg.webp") no-repeat;
+        background-size: 250% 100%;
+        background-position: 50%;
+        margin-top: 40px;
+        padding-top: 100px;
+        padding-bottom: 30px;
+    }
+
+    @include media.xl-up {
+        background: url("/images/footer/footer-bottom-lg.webp") no-repeat;
+        background-size: 3700px 100%;
+        background-position: 50%;
+        margin-top: 30px;
+        padding-top: 133px;
+        padding-bottom: 40px;
+    }
 }
 
 .footer__bottom-container {
@@ -395,6 +413,10 @@
         justify-content: space-between;
         padding-inline: 40px;
         align-items: flex-end;
+    }
+
+    @include media.lg-up {
+        padding-right: 95px;
     }
 }
 
