@@ -3,7 +3,7 @@ type BtnModifier = 'primary' | 'secondary' | 'success' | 'warning' | 'grey' | 's
 
 type Props = {
     modifiers: BtnModifier[] | BtnModifier;
-    btnType: 'button' | 'submit';
+    btnType?: 'button' | 'submit';
 };
 
 const props = withDefaults(defineProps<Props>(), {
