@@ -76,7 +76,14 @@
           </div>
       </div>
       <div class="footer__bottom">
-
+          <div class="container footer__bottom-container">
+              <BaseLogo class="footer__logo" :is-colored="false"/>
+              <div class="footer__bottom-text">
+                  <div>* Запрещен на территории РФ</div>
+                  <div>Внешний вид продукции может отличаться от изображений на сайте</div>
+                  <div>© ИП Ярембаш С.В, ИНН 502713354360.</div>
+              </div>
+          </div>
       </div>
   </footer>
 </template>
@@ -359,6 +366,54 @@
 
     &:hover {
         color: var(--c-grey100);
+    }
+}
+
+.footer__bottom {
+    background: url("/images/footer/footer-bottom-sm.webp") no-repeat;
+    background-size: 100% 100%;
+    padding-top: 66px;
+    margin-top: 60px;
+    padding-bottom: 23px;
+
+    @include media.md-up {
+        background: url("/images/footer/footer-bottom-md.webp") no-repeat;
+        background-size: 100% 100%;
+        margin-top: 40px;
+        padding-top: 80px;
+        padding-bottom: 30px;
+    }
+}
+
+.footer__bottom-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    @include media.md-up {
+        flex-direction: row;
+        justify-content: space-between;
+        padding-inline: 40px;
+        align-items: flex-end;
+    }
+}
+
+.footer__logo {
+    max-width: 200px;
+}
+
+.footer__bottom-text {
+    color: var(--c-grey00);
+    font-family: var(--f-base);
+    font-size: functions.rem(12);
+    font-weight: 300;
+    line-height: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    @include media.md-up {
+        max-width: 250px;
     }
 }
 </style>
