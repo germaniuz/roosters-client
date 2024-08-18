@@ -103,6 +103,7 @@
         width: 100%;
         height: 70%;
         bottom: 0;
+        z-index: -1;
         background: var(--c-footer-gradient);
     }
 
@@ -154,10 +155,12 @@
     padding: 7px 10px;
     border-radius: var(--b-radius-md);
     color: var(--c-grey70);
+    cursor: pointer;
 
     i {
         font-size: functions.rem(25);
         grid-row: 1/-1;
+        transition: all .2s ease;
 
         &:before {
             margin: unset;
@@ -166,6 +169,24 @@
 
     span {
         grid-column: 2;
+    }
+
+    &:hover {
+        .icon-huawei {
+            color: var(--c-huawei-hover);
+        }
+
+        .icon-appstore {
+            color: var(--c-grey100);
+        }
+
+        .icon-playmarket {
+            color: transparent;
+            background: var(--c-playmarket-hover);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     }
 }
 
@@ -243,7 +264,6 @@
 
     &:has(> .icon-instagram) {
         @include mixins.gradient-hover(var(--c-instagram), var(--c-instagram-hover));
-
     }
 
     &:has(> .icon-vk) {
