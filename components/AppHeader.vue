@@ -8,7 +8,7 @@ const { isGuest } = storeToRefs(useProfileStore());
 <template>
     <header class="header">
         <div class="container header__container">
-            <BaseLogo class="header__logo" />
+            <BaseLogo class="header__logo" :has-text="true"  />
             <div class="header__delivery-banner">
                 <i class="icon-f1"></i>
                 <span

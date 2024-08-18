@@ -1,7 +1,7 @@
 <script setup lang="ts">
 type Props = {
-    isColored: boolean
-    hasText: boolean
+    isColored?: boolean
+    hasText?: boolean
 }
 
 withDefaults(defineProps<Props>(), {
