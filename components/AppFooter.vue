@@ -375,6 +375,8 @@
     padding-top: 66px;
     margin-top: 60px;
     padding-bottom: 23px;
+    position: relative;
+    overflow: hidden;
 
     @include media.md-up {
         background: url("/images/footer/footer-bottom-md.webp") no-repeat;
@@ -395,10 +397,10 @@
 
     @include media.xl-up {
         background: url("/images/footer/footer-bottom-lg.webp") no-repeat;
-        background-size: 3700px 100%;
-        background-position: 50%;
+        background-size: 3700px calc(100% - 20px);
+        background-position: 50% 20px;
         margin-top: 30px;
-        padding-top: 133px;
+        padding-top: 153px;
         padding-bottom: 40px;
     }
 }
@@ -407,6 +409,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    position: relative;
 
     @include media.md-up {
         flex-direction: row;
@@ -418,10 +421,37 @@
     @include media.lg-up {
         padding-right: 95px;
     }
+
+    @include media.xl-up {
+        &::after {
+            content: '';
+            position: absolute;
+            width: 135px;
+            height: 135px;
+            background: url("/images/footer/footer-bottom-sun.webp") no-repeat;
+            background-size: 100%;
+            top: -150px;
+            right: -50px;
+        }
+    }
 }
 
 .footer__logo {
     max-width: 200px;
+    position: relative;
+
+    @include media.xl-up {
+        &::after {
+          content: '';
+            position: absolute;
+            background: url("/images/footer/footer-bottom-line.webp") no-repeat;
+            background-size: 100%;
+            width: 650px;
+            height: 80px;
+            left: -530px;
+            top: -60px;
+        }
+    }
 }
 
 .footer__bottom-text {
