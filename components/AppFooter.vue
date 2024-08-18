@@ -93,6 +93,26 @@
 @use '@/assets/styles/helpers/functions';
 @use '@/assets/styles/helpers/mixins';
 
+.footer {
+    position: relative;
+
+    &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 70%;
+        bottom: 0;
+        background: var(--c-footer-gradient);
+    }
+
+    @include media.xl-up {
+        &::before {
+            height: 100%;
+        }
+    }
+}
+
 .footer__top {
     @include media.md-up {
         display: grid;
@@ -403,6 +423,16 @@
         padding-top: 153px;
         padding-bottom: 40px;
     }
+
+    //&::before {
+    //    content: '';
+    //    display: block;
+    //    position: absolute;
+    //    width: 100%;
+    //    height: 110%;
+    //    top: -100px;
+    //    background: var(--c-footer-gradient);
+    //}
 }
 
 .footer__bottom-container {
