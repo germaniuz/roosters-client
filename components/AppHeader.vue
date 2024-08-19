@@ -4,6 +4,8 @@ import { useAppStore } from '~/stores/app';
 const { phone } = useAppStore();
 const { isGuest } = storeToRefs(useProfileStore());
 const menuIsActive = ref<boolean>(false);
+
+const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Закуски', 'Напитки', 'Акции'])
 </script>
 
 <template>
@@ -24,6 +26,11 @@ const menuIsActive = ref<boolean>(false);
                 ><img src="/images/icons/avatar.svg" alt="Вход Рустерс" /> <span>Войти</span>
             </BaseButton>
             <button class="menu-btn" :class="{'menu-btn--active' : menuIsActive}" @click="menuIsActive = !menuIsActive"></button>
+        </div>
+        <div class="container header__categories">
+            <div v-for="headerCategory in headerCategories" class="header__category">
+                {{ headerCategory }}
+            </div>
         </div>
     </header>
     <div class="mobile-menu" :class="{'mobile-menu--active' : menuIsActive}">
@@ -102,13 +109,11 @@ const menuIsActive = ref<boolean>(false);
 @use '@/assets/styles/helpers/functions';
 
 .header {
-    padding-block: 15px;
     position: relative;
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.05);
     z-index: var(--z-top-30);
 
-    @include media.lg-up {
-        padding-block: 20px;
+    @include media.md-down {
+        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.05);
     }
 }
 
@@ -117,9 +122,14 @@ const menuIsActive = ref<boolean>(false);
     align-items: center;
     justify-content: space-between;
     gap: 20px;
+    padding-block: 15px;
 
     @include media.md-to-lg {
         gap: 30px;
+    }
+
+    @include media.lg-up {
+        padding-block: 20px;
     }
 
     @include media.xl-up {
@@ -235,5 +245,47 @@ const menuIsActive = ref<boolean>(false);
     @include media.md-down {
         display: none;
     }
+}
+
+.header__categories {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    overflow-x: auto;
+    padding-block: 5px;
+    -webkit-transform: scaleY(1);
+    -o-transform: scaleY(1);
+    -ms-transform: scaleY(1);
+    transform: scaleY(1);
+    -webkit-transform-origin: top;
+    -o-transform-origin: top;
+    -ms-transform-origin: top;
+    transform-origin: top;
+    transition: transform 0.26s ease;
+
+    @include media.md-down {
+        .header--mobile-menu-active & {
+            -webkit-transform: scaleY(0);
+            -o-transform: scaleY(0);
+            -ms-transform: scaleY(0);
+            transform: scaleY(0);
+            position:absolute;
+        }
+    }
+
+    @include media.lg-up {
+        padding-block: 10px;
+    }
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.header__category {
+    padding: 8px 20px;
+    background-color: var(--c-grey10);
+    border-radius: var(--b-radius-round);
+    color: var(--c-grey80);
 }
 </style>
