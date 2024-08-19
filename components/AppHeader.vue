@@ -33,18 +33,10 @@ const menuIsActive = ref<boolean>(false);
 @use '@/assets/styles/helpers/functions';
 
 .header {
-    padding-block: 20px;
+    padding-block: 15px;
 
-    @include media.md-only {
-        padding-block: 15px;
-    }
-
-    @include media.lg-only {
-        padding-block: 15px 20px;
-    }
-
-    @include media.xl-up {
-        padding-block: 15px 25px;
+    @include media.lg-up {
+        padding-block: 20px;
     }
 }
 
@@ -65,7 +57,7 @@ const menuIsActive = ref<boolean>(false);
 
 .header__logo {
     position: relative;
-    top: -8px;
+    margin-top: -8px;
     flex: 0 0 116px;
 
     @include media.md-only {
@@ -119,6 +111,12 @@ const menuIsActive = ref<boolean>(false);
         margin-left: auto;
     }
 
+    &:hover {
+        span {
+            color: var(--c-primary);
+        }
+    }
+
     img {
         flex: 0 0 25px;
         width: 25px;
@@ -140,12 +138,13 @@ const menuIsActive = ref<boolean>(false);
     span {
         font-weight: 600;
         color: var(--c-grey70);
+        transition: all .2s ease-in-out;
     }
 }
 
 .header__login {
     margin-left: auto;
-    padding: 5px 30px 5px 5px;
+    padding: 5px 35px 5px 5px;
 
     @include media.md-down {
         display: none;
