@@ -3,6 +3,7 @@ import { useAppStore } from '~/stores/app';
 
 const { phone } = useAppStore();
 const { isGuest } = storeToRefs(useProfileStore());
+const menuIsActive = ref<boolean>(false);
 </script>
 
 <template>
@@ -22,7 +23,7 @@ const { isGuest } = storeToRefs(useProfileStore());
             <BaseButton v-if="isGuest" class="header__login" :modifiers="['grey', 'icon']"
                 ><img src="/images/icons/avatar.svg" alt="Вход Рустерс" /> <span>Войти</span>
             </BaseButton>
-            <div class="header__bars"><i class="icon-menu-bars"></i></div>
+            <button class="menu-btn" :class="{'menu-btn--active' : menuIsActive}" @click="menuIsActive = !menuIsActive"></button>
         </div>
     </header>
 </template>
@@ -50,6 +51,7 @@ const { isGuest } = storeToRefs(useProfileStore());
 .header__container {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 20px;
 
     @include media.md-to-lg {
@@ -76,20 +78,28 @@ const { isGuest } = storeToRefs(useProfileStore());
 }
 
 .header__delivery-banner {
+    background-color: var(--c-grey05);
+    padding: 10px 15px;
+    border-radius: var(--b-radius-md);
     display: flex;
     align-items: center;
     gap: 50px;
     color: var(--c-secondary);
-    line-height: 1;
+    line-height: normal;
+    max-width: 200px;
 
     @include media.sm-down {
         display: none;
     }
 
     i {
-        font-size: functions.rem(20);
+        font-size: functions.rem(16);
 
-        @include media.md-down {
+        @include media.lg-up {
+            font-size: functions.rem(18);
+        }
+
+        @include media.sm-down {
             display: none;
         }
     }
@@ -103,6 +113,11 @@ const { isGuest } = storeToRefs(useProfileStore());
     display: flex;
     align-items: center;
     gap: 10px;
+    white-space: nowrap;
+
+    @include media.sm-down {
+        margin-left: auto;
+    }
 
     img {
         flex: 0 0 25px;
@@ -130,23 +145,9 @@ const { isGuest } = storeToRefs(useProfileStore());
 
 .header__login {
     margin-left: auto;
+    padding: 5px 30px 5px 5px;
 
-    @include media.sm-down {
-        display: none;
-    }
-}
-
-.header__bars {
-    color: var(--c-primary);
-    font-size: functions.rem(20);
-    line-height: 1;
-    cursor: pointer;
-
-    @include media.sm-down {
-        margin-left: auto;
-    }
-
-    @include media.lg-up {
+    @include media.md-down {
         display: none;
     }
 }

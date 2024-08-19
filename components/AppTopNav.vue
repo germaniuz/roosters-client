@@ -17,7 +17,7 @@
 @use '@/assets/styles/helpers/functions';
 
 .top-nav {
-    @include media.sm-down {
+    @include media.md-down {
         display: none;
     }
 }
