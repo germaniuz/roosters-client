@@ -261,7 +261,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     -o-transform-origin: top;
     -ms-transform-origin: top;
     transform-origin: top;
-    transition: transform 0.26s ease;
+    transition: transform 0.2s ease-in-out;
 
     @include media.md-down {
         .header--mobile-menu-active & {
@@ -287,5 +287,32 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     background-color: var(--c-grey10);
     border-radius: var(--b-radius-round);
     color: var(--c-grey80);
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+        &::after {
+            background-color: var(--c-primary);
+        }
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        translate: -50%;
+        width: 50%;
+        height: 2px;
+        background-color: transparent;
+        border-radius: var(--b-radius-round);
+        transition: all .2s ease-in-out;
+    }
+
+    @include media.lg-up {
+        &::after {
+            height: 4px;
+        }
+    }
 }
 </style>
