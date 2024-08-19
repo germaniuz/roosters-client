@@ -33,74 +33,23 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
             </div>
         </div>
     </header>
-    <div class="mobile-menu" :class="{'mobile-menu--active' : menuIsActive}">
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
-        <div>123</div>
+    <div class="mobile-menu header__mobile-menu" :class="{'mobile-menu--active' : menuIsActive}">
+        <BaseButton class="header__mobile-menu-login-btn" :modifiers="['third', 'icon']"><i class="icon-avatar"></i> Войти</BaseButton>
+        <div class="header__mobile-menu-divider"/>
+        <div class="header__mobile-menu-categories">
+            <div v-for="headerCategory in headerCategories" class="header__category">
+                {{ headerCategory }}
+            </div>
+        </div>
+        <div class="header__mobile-menu-divider"/>
+        <div class="header__mobile-menu-nav">
+            <NuxtLink class="header__mobile-menu-nav-link" to="/delivery">Доставка</NuxtLink>
+            <NuxtLink class="header__mobile-menu-nav-link" to="/about">О нас</NuxtLink>
+            <NuxtLink class="header__mobile-menu-nav-link" to="/job-offers">Вакансии</NuxtLink>
+            <NuxtLink class="header__mobile-menu-nav-link" to="/news">Новости</NuxtLink>
+            <NuxtLink class="header__mobile-menu-nav-link" to="/reviews">Отзывы</NuxtLink>
+        </div>
+        <div class="header__mobile-menu-divider"/>
     </div>
 </template>
 
@@ -314,5 +263,49 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
             height: 4px;
         }
     }
+}
+
+.header__mobile-menu-login-btn {
+    width: 100%;
+    padding-block: 15px;
+
+    i {
+        font-size: functions.rem(24);
+    }
+}
+
+.header__mobile-menu-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 13px;
+}
+
+.header__mobile-menu-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.header__mobile-menu-nav-link {
+    color: var(--c-grey50);
+    max-width: max-content;
+    transition: all .2s ease-in-out;
+    
+    &:hover {
+        color: var(--c-secondary);
+    }
+
+    &:not(:first-child) {
+        padding-top: 10px;
+    }
+
+    &:not(:last-child) {
+        padding-bottom: 10px;
+    }
+}
+
+.header__mobile-menu-divider {
+    border-bottom: 1px solid var(--c-grey20);
+    margin-block: 30px;
 }
 </style>
