@@ -1,0 +1,31 @@
+@use "../helpers/functions";
+@use "../helpers/media";
+
+.mobile-menu {
+  display: none;
+
+  @include media.md-down {
+    display: block;
+    position: fixed;
+    margin-top: 89px;
+    inset: 0;
+    width: 100%;
+    height: calc(100% - 89px);
+    overflow-y: scroll;
+    z-index: var(--z-top-20);
+    background: var(--c-grey00);
+    transition: translate 0.5s ease-in, opacity 0s linear .5s;
+    translate: -100% 0;
+    padding: 20px 20px 30px 20px;
+  }
+
+  @include media.sm-down {
+    height: calc(100% - 57px);
+    margin-top: 57px;
+  }
+
+  &--active {
+    opacity: 1;
+    translate: 0;
+  }
+}

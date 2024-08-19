@@ -7,7 +7,7 @@ const menuIsActive = ref<boolean>(false);
 </script>
 
 <template>
-    <header class="header">
+    <header class="header" :class="{'header--mobile-menu-active' : menuIsActive}">
         <div class="container header__container">
             <BaseLogo class="header__logo" />
             <div class="header__delivery-banner">
@@ -26,6 +26,75 @@ const menuIsActive = ref<boolean>(false);
             <button class="menu-btn" :class="{'menu-btn--active' : menuIsActive}" @click="menuIsActive = !menuIsActive"></button>
         </div>
     </header>
+    <div class="mobile-menu" :class="{'mobile-menu--active' : menuIsActive}">
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+        <div>123</div>
+    </div>
 </template>
 
 <style scoped lang="scss">
@@ -34,6 +103,9 @@ const menuIsActive = ref<boolean>(false);
 
 .header {
     padding-block: 15px;
+    position: relative;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.05);
+    z-index: var(--z-top-30);
 
     @include media.lg-up {
         padding-block: 20px;
@@ -79,9 +151,16 @@ const menuIsActive = ref<boolean>(false);
     color: var(--c-secondary);
     line-height: normal;
     max-width: 200px;
+    transition: opacity .2s ease-in-out;
 
     @include media.sm-down {
         display: none;
+    }
+
+    @include media.md-down {
+        .header--mobile-menu-active & {
+            opacity: 0;
+        }
     }
 
     i {
@@ -106,9 +185,16 @@ const menuIsActive = ref<boolean>(false);
     align-items: center;
     gap: 10px;
     white-space: nowrap;
+    transition: opacity .2s ease-in-out;
 
     @include media.sm-down {
         margin-left: auto;
+    }
+
+    @include media.md-down {
+        .header--mobile-menu-active & {
+            opacity: 0;
+        }
     }
 
     &:hover {
