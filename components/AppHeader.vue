@@ -60,6 +60,8 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 .header {
     position: relative;
     z-index: var(--z-top-30);
+    background-color: var(--c-grey00);
+    transition: all 0.2s ease-in-out;
 
     @include media.md-down {
         box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.05);
@@ -289,7 +291,6 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 .header__mobile-menu-nav-link {
     color: var(--c-grey50);
     max-width: max-content;
-    transition: all .2s ease-in-out;
     
     &:hover {
         color: var(--c-secondary);
