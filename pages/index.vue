@@ -24,7 +24,7 @@ const product1 = ref<Product>({
         <h1 class="h1">Главная</h1>
         <BaseButton :modifiers="['primary']">Btn</BaseButton>
         <FormRadioButton label="Radio btn" name="radio" v-model="radio"/>
-        <div class="" style="display: grid; grid-template-columns: repeat(3, 1fr)">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr)">
             <ProductCard :product="product"/>
             <ProductCard :product="product1"/>
             <ProductCard :product="product"/>
