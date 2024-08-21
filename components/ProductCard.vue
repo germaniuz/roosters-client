@@ -15,15 +15,13 @@ defineProps<Props>()
             <img :src="product.image" :alt="product.name">
             <span class="product-card__tag"></span>
         </div>
-        <div class="product-card__info">
-            <div class="product-card__title">{{product.name}}</div>
-            <div class="product-card__description">
-                <span v-for="ingredient in product.ingredients">{{ingredient}}, </span>
-            </div>
-            <div class="product-card__price-block">
-                <BaseButton modifiers="item" class="product-card__price">от {{product.price}} ₽</BaseButton>
-                <div class="product-card__old-price">{{product.price}}₽</div>
-            </div>
+        <div class="product-card__title">{{product.name}}</div>
+        <div class="product-card__description">
+            <span v-for="ingredient in product.ingredients">{{ingredient}}, </span>
+        </div>
+        <div class="product-card__price-block">
+            <BaseButton modifiers="item" class="product-card__price">от {{product.price}} ₽</BaseButton>
+            <div class="product-card__old-price">{{product.price}}₽</div>
         </div>
     </div>
 </template>
@@ -33,42 +31,45 @@ defineProps<Props>()
 @use '@/assets/styles/helpers/functions';
 
 .product-card {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    grid-column-gap: 20px;
     padding-block: 15px;
+    grid-template-areas:
+        "product-card__image product-card__title"
+        "product-card__image product-card__description"
+        "product-card__image ."
+        "product-card__image product-card__price-block";
 
     @include media.lg-up {
-        flex-direction: column;
+        grid-template-columns: unset;
+        grid-template-rows: 180px auto;
+        grid-template-areas:
+        "product-card__image"
+        "product-card__title"
+        "product-card__description"
+        "product-card__price-block";
         padding: 15px;
         align-items: center;
+    }
+
+    @include media.xl-up {
+        grid-template-rows: 218px auto;
     }
 }
 
 .product-card__image {
-    width: 130px;
+    width: 100%;
+    height: 100%;
     aspect-ratio: 1;
     overflow: hidden;
-    flex-shrink: 0;
-
-    @include media.lg-up {
-        width: 180px;
-    }
-
-    @include media.xl-up {
-        width: 218px;
-    }
+    grid-area: product-card__image;
 
     img {
         width: 100%;
         height: 100%;
         object-fit: contain;
     }
-}
-
-.product-card__info {
-    display: flex;
-    flex-direction: column;
 }
 
 .product-card__title {
@@ -78,10 +79,12 @@ defineProps<Props>()
     font-weight: 400;
     line-height: normal;
     margin-bottom: 8px;
+    grid-area: product-card__title;
 
     @include media.lg-up {
         font-size: functions.rem(20);
         margin-bottom: 10px;
+        margin-top: 20px;
         text-align: center;
     }
 }
@@ -93,6 +96,7 @@ defineProps<Props>()
     font-weight: 500;
     line-height: 1.35;
     margin-bottom: 12px;
+    grid-area: product-card__description;
 
     @include media.lg-up {
         margin-bottom: 30px;
@@ -106,6 +110,7 @@ defineProps<Props>()
     flex-direction: row;
     gap: 15px;
     align-items: center;
+    grid-area: product-card__price-block;
 
     @include media.lg-up {
         flex-direction: column-reverse;
