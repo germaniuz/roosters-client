@@ -12,7 +12,7 @@ const product = ref<Product>({
 })
 
 const product1 = ref<Product>({
-    name: 'Пышная Дружная семейка Пышная Дружная семейка',
+    name: 'Пышная Дружная семейка  Пышная Дружная семейка Пышная Дружная семейка',
     ingredients: ['Ветчина', 'салями', 'шампиньоны', 'помидоры', 'перец сладкий', 'зелень', 'салями', 'шампиньоны', 'помидоры', 'перец сладкий', 'зелень', 'соус', 'сыр "Моцарелла"'],
     price: 1200,
     tag: 'Хит',
@@ -24,9 +24,11 @@ const product1 = ref<Product>({
         <h1 class="h1">Главная</h1>
         <BaseButton :modifiers="['primary']">Btn</BaseButton>
         <FormRadioButton label="Radio btn" name="radio" v-model="radio"/>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr)">
+        <div class="grid grid--product-test">
             <ProductCard :product="product"/>
             <ProductCard :product="product1"/>
+            <ProductCard :product="product"/>
+            <ProductCard :product="product"/>
             <ProductCard :product="product"/>
         </div>
     </div>

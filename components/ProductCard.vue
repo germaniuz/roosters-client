@@ -43,11 +43,12 @@ defineProps<Props>()
 
     @include media.lg-up {
         grid-template-columns: unset;
-        grid-template-rows: 180px auto;
+        grid-template-rows: 180px repeat(3, min-content);
         grid-template-areas:
         "product-card__image"
         "product-card__title"
         "product-card__description"
+        "product-card__price-block"
         "product-card__price-block";
         padding: 15px;
         align-items: center;

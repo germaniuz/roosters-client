@@ -45,6 +45,23 @@
   &--cols-2 {
     grid-template-columns: 1fr 1fr;
   }
+
+  &--product-test {
+    grid-template-rows: 1fr;
+    gap: 20px;
+
+    @include media.md-up {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include media.lg-up {
+     grid-template-columns: repeat(4, 1fr);
+    }
+
+    @include media.xl-up {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
 }
 
 .mt-10 {
