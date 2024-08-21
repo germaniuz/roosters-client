@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-type BtnModifier = 'primary' | 'secondary' | 'success' | 'warning' | 'grey' | 'sm' | 'lg' | 'xl' | 'icon';
+type BtnModifier = 'primary' | 'secondary' | 'success' | 'warning' | 'grey' | 'item' | 'sm' | 'lg' | 'xl' | 'icon';
 
 type Props = {
     modifiers: BtnModifier[] | BtnModifier;
@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const modifiers = computed(() => {
     return typeof props.modifiers === 'string'
-        ? props.modifiers
+        ? 'btn--' + props.modifiers
         : props.modifiers.map((modifier) => 'btn--' + modifier).join(' ');
 });
 </script>
