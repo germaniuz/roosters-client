@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
 </script>
 
 <template>
@@ -6,21 +7,9 @@
       <div class="footer__top container">
           <div class="footer__contacts-block">
               <div class="footer__download-apps">
-                  <div class="footer__download-app">
-                      <BaseIcon name="playmarket"/>
-                      <span class="footer__download-app-text">Скачать из</span>
-                      <span class="footer__download-app-title">Google Play</span>
-                  </div>
-                  <div class="footer__download-app">
-                      <BaseIcon name="appstore"/>
-                      <span class="footer__download-app-text">Загрузите в</span>
-                      <span class="footer__download-app-title">App Store</span>
-                  </div>
-                  <div class="footer__download-app">
-                      <BaseIcon name="huawei"/>
-                      <span class="footer__download-app-text">Откройте в</span>
-                      <span class="footer__download-app-title">AppGallery</span>
-                  </div>
+                  <BaseAppStoreButton icon="playmarket" download-text="Скачать из" store-name="Google Play"/>
+                  <BaseAppStoreButton icon="appstore" download-text="Загрузите в" store-name="App Store"/>
+                  <BaseAppStoreButton icon="huawei" download-text="Откройте в" store-name="AppGallery"/>
               </div>
               <div class="footer__contacts">
                   <div class="footer__contact">
@@ -143,62 +132,6 @@
     grid-gap: 15px;
     grid-template-columns: repeat(2, auto);
     margin-right: auto;
-}
-
-.footer__download-app {
-    display: inline-grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: repeat(2, auto);
-    align-items: center;
-    column-gap: 8px;
-    border: 1px solid var(--c-grey70);
-    padding: 7px 10px;
-    border-radius: var(--b-radius-md);
-    color: var(--c-grey70);
-    cursor: pointer;
-
-    i {
-        font-size: functions.rem(25);
-        grid-row: 1/-1;
-        transition: all .2s ease;
-
-        &:before {
-            margin: unset;
-        }
-    }
-
-    span {
-        grid-column: 2;
-    }
-
-    &:hover {
-        .icon-huawei {
-            color: var(--c-huawei-hover);
-        }
-
-        .icon-appstore {
-            color: var(--c-grey100);
-        }
-
-        .icon-playmarket {
-            color: transparent;
-            background: var(--c-playmarket-hover);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-    }
-}
-
-.footer__download-app-text {
-    font-size: functions.rem(8);
-    line-height: 1;
-    text-transform: uppercase;
-}
-
-.footer__download-app-title {
-    font-size: functions.rem(18);
-    line-height: 1;
 }
 
 .footer__contacts {
