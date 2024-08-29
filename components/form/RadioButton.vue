@@ -28,6 +28,7 @@ defineProps<Props>();
 @use "@/assets/styles/helpers/media";
 
 .radio-button {
+    display: block;
     position: relative;
     padding-left: 50px;
     cursor: pointer;
@@ -35,7 +36,7 @@ defineProps<Props>();
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    height: max-content;
+    height: 28px;
 
     &:hover {
         input {
@@ -59,7 +60,7 @@ defineProps<Props>();
                 background-color: var(--c-secondary);
 
                 &::after {
-                    left: 23px;
+                    left: 22px;
                 }
             }
         }
@@ -70,7 +71,7 @@ defineProps<Props>();
     position: absolute;
     top: 0;
     left: 0;
-    height: 28px;
+    height: 100%;
     width: 48px;
     background-color: var(--c-grey20);
     transition: background-color 0.2s ease;
@@ -84,8 +85,9 @@ defineProps<Props>();
         content: "";
         position: absolute;
         left: 4px;
+        right: auto;
         top: 4px;
-        width: 20px;
+        height: calc(100% - 8px);
         aspect-ratio: 1;
         display: block;
         background-color: var(--c-grey00);
