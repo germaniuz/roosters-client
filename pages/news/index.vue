@@ -1,4 +1,8 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+</script>
 <template>
-    <h1 class="h1">Новости</h1>
+    <div class="container">
+        <h1 class="h1">Новости</h1>
+
+    </div>
 </template>
