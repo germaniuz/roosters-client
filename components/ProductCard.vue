@@ -137,22 +137,15 @@ defineProps<Props>()
     font-family: var(--f-base);
     font-size: functions.rem(14);
     padding: 6px 25px;
-    //width: 100%;
-    //max-width: 150px;
-    width: auto; /* Start with auto width */
-    max-width: fit-content;
-
-
+    width: 100%;
+    max-width: 150px;
     font-weight: 600;
     font-style: italic;
     line-height: normal;
-    transition: all .2s ease-in-out;
-    transition: max-width 0.2s ease-in-out; /* Transition width only */
 
     @include media.lg-up {
-        padding: 10px 35px;
-        //width: auto;
-        //max-width: unset;
+        padding: 10px;
+        max-width: 170px;
     }
 
     @include media.xl-up {
@@ -163,7 +156,7 @@ defineProps<Props>()
         @extend .btn--primary;
 
         @include media.lg-up {
-            max-width: 100%; /* Expand to full width on hover */
+            max-width: 100%;
         }
     }
 }
