@@ -3,7 +3,6 @@ import { vMaska } from "maska/vue"
 
 const authCode = ref<Array<string>>(['','','','']);
 const codeCardInputs = ref();
-console.log(codeCardInputs.value)
 
 onMounted(() => {
     codeCardInputs.value.focus();
@@ -12,7 +11,6 @@ onMounted(() => {
 onUnmounted(() => {
     codeCardInputs.value.removeEventListener("input", (e: InputEvent) => handleInput(e));
     codeCardInputs.value.removeEventListener("keydown", (e: KeyboardEvent) => handleBackspace(e));
-
 })
 
 const handleInput = (e: InputEvent) => {
