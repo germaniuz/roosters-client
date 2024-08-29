@@ -132,30 +132,39 @@ defineProps<Props>()
 }
 
 .product-card__price-btn {
+    display: inline-block;
+    position: relative;
     font-family: var(--f-base);
     font-size: functions.rem(14);
     padding: 6px 25px;
-    width: 100%;
-    max-width: 150px;
+    //width: 100%;
+    //max-width: 150px;
+    width: auto; /* Start with auto width */
+    max-width: fit-content;
+
+
     font-weight: 600;
     font-style: italic;
     line-height: normal;
     transition: all .2s ease-in-out;
+    transition: max-width 0.2s ease-in-out; /* Transition width only */
 
     @include media.lg-up {
         padding: 10px 35px;
-        width: unset;
-        max-width: unset;
+        //width: auto;
+        //max-width: unset;
     }
 
     @include media.xl-up {
         font-size: functions.rem(16);
         padding: 10px 44px;
     }
-
     .product-card:hover & {
         @extend .btn--primary;
-        width: 100%;
+
+        @include media.lg-up {
+            max-width: 100%; /* Expand to full width on hover */
+        }
     }
 }
 
