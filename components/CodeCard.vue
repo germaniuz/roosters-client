@@ -10,20 +10,48 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-    codeCardInputs.value.removeEventListener("input");
+    codeCardInputs.value.removeEventListener("input", (e: InputEvent) => handleInput(e));
+    codeCardInputs.value.removeEventListener("keydown", (e: KeyboardEvent) => handleBackspace(e));
+
 })
+
+const handleInput = (e: InputEvent) => {
+    const target: HTMLInputElement = <HTMLInputElement>e.target;
+
+    if (target) {
+        const hasValue = target.value !== "";
+        const inputFormControl: HTMLDivElement = <HTMLDivElement>target.parentNode;
+        const hasNextSibling = inputFormControl.nextElementSibling;
+        const hasNextSiblingInput = hasNextSibling && inputFormControl.nextElementSibling.querySelector('input');
+
+        if (hasValue && hasNextSiblingInput) {
+            inputFormControl.nextElementSibling.querySelector('input')?.focus();
+        }
+    }
+}
+
+const handleBackspace = (e: KeyboardEvent) => {
+    if (e.key == "Backspace")
+    {
+        const target: HTMLInputElement = <HTMLInputElement>e.target;
+        const inputFormControl: HTMLDivElement = <HTMLDivElement>target.parentNode;
+        const hasPrevSibling = inputFormControl.previousElementSibling;
+        const hasPrevSiblingInput = hasPrevSibling && inputFormControl.previousElementSibling.querySelector('input');
+
+        if (hasPrevSibling && hasPrevSiblingInput) {
+            if (!inputFormControl.nextElementSibling && authCode.value[authCode.value.length - 1]) {
+                authCode.value[authCode.value.length - 1] = "";
+            } else {
+                inputFormControl.previousElementSibling.querySelector('input')?.focus();
+            }
+        }
+    }
+}
 
 watchEffect(() => {
     if (codeCardInputs.value) {
-        codeCardInputs.value.addEventListener("input", (e: any) => {
-            const hasValue = e.target.value !== "";
-            const hasSibling = e.target.parentNode.nextElementSibling;
-            const hasSiblingInput = hasSibling && e.target.parentNode.nextElementSibling.querySelector('input');
-
-            if ( hasValue && hasSiblingInput ){
-                e.target.parentNode.nextElementSibling.querySelector('input').focus();
-            }
-        });
+        codeCardInputs.value.addEventListener("input", (e: InputEvent) => handleInput(e));
+        codeCardInputs.value.addEventListener("keydown", (e: KeyboardEvent) => handleBackspace(e));
     }
 })
 </script>
@@ -33,10 +61,10 @@ watchEffect(() => {
         <div class="code-card__title">Подтвердите номер</div>
         <div class="code-card__description">СМС с кодом было отправлено на указанный вами номер</div>
         <div class="code-card__inputs" ref="codeCardInputs">
+            <FormInput class="code-card__input" v-model="authCode[0]" placeholder="" v-maska="'#'" name="code-digit-1"/>
             <FormInput class="code-card__input" v-model="authCode[1]" placeholder="" v-maska="'#'" name="code-digit-2"/>
             <FormInput class="code-card__input" v-model="authCode[2]" placeholder="" v-maska="'#'" name="code-digit-3"/>
             <FormInput class="code-card__input" v-model="authCode[3]" placeholder="" v-maska="'#'" name="code-digit-4"/>
-            <FormInput class="code-card__input" v-model="authCode[0]" placeholder="" v-maska="'#'" name="code-digit-1"/>
         </div>
         <BaseButton :modifiers="['primary']" class="code-card__button">Получить код снова</BaseButton>
     </div>
