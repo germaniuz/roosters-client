@@ -56,6 +56,7 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
                     <a href="#" class="footer__nav-item-title">Партнерам</a>
                     <div class="footer__nav-subitems">
                         <a class="footer__nav-subitem" href="#">Услуги</a>
+                        <a class="footer__nav-subitem" href="#">Поставщикам</a>
                     </div>
                 </div>
             </div>
