@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useAppStore } from '~/stores/app';
 import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
+import BaseSocial from '~/components/BaseSocial.vue';
 
 const { phone } = useAppStore();
 const { isGuest } = storeToRefs(useProfileStore());
@@ -58,6 +59,11 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
             <BaseAppStoreButton icon="appstore" download-text="Загрузите в" store-name="App Store"/>
             <BaseAppStoreButton icon="huawei" download-text="Откройте в" store-name="AppGallery"/>
         </div>
+        <div class="header__mobile-menu-socials">
+            <BaseSocial name="instagram" link="#"/>
+            <BaseSocial name="vk" link="#"/>
+        </div>
+        <div class="header__mobile-menu-remark">* Запрещен на территории РФ</div>
     </div>
 </template>
 
@@ -311,6 +317,21 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     flex-wrap: wrap;
     gap: 15px;
     margin-bottom: 30px;
+}
+
+.header__mobile-menu-socials {
+    display: flex;
+    flex-direction: row;
+    gap: 28px;
+    margin-bottom: 30px;
+}
+
+.header__mobile-menu-remark {
+    color: var(--c-grey50);
+    font-family: var(--f-base);
+    font-size: functions.rem(12);
+    font-weight: 400;
+    line-height: normal;
 }
 
 .header__mobile-menu-divider {

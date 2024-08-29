@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
+import BaseSocial from '~/components/BaseSocial.vue';
 </script>
 
 <template>
@@ -16,12 +17,8 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
                     <BaseContact image="/images/icons/mail.svg" text="roosters-pizza@yandex.ru" subtext="Для отзывов и предложений"/>
                 </div>
                 <div class="footer__socials">
-                    <a href="#" class="footer__social">
-                        <BaseIcon name="instagram"/>
-                    </a>
-                    <a href="#" class="footer__social">
-                        <BaseIcon name="vk"/>
-                    </a>
+                    <BaseSocial name="instagram" link="#"/>
+                    <BaseSocial name="vk" link="#"/>
                 </div>
             </div>
             <div class="footer__nav">
@@ -72,7 +69,6 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
 <style scoped lang="scss">
 @use '@/assets/styles/helpers/media';
 @use '@/assets/styles/helpers/functions';
-@use '@/assets/styles/helpers/mixins';
 
 .footer {
     position: relative;
@@ -136,52 +132,6 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
     display: flex;
     flex-direction: row;
     gap: 22px;
-}
-
-.footer__social {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    position: relative;
-    align-items: center;
-    border-radius: var(--b-radius-round);
-    color: var(--c-grey00);
-    cursor: pointer;
-    transition: all .2s linear;
-
-    &:has(> .icon-instagram) {
-        @include mixins.gradient-hover(var(--c-instagram), var(--c-instagram-hover));
-    }
-
-    &:has(> .icon-vk) {
-        background: var(--c-vk);
-
-        &:hover {
-            background: var(--c-vk-hover);
-        }
-    }
-
-    .icon-instagram {
-        &::after {
-            content: '*';
-            font-size: functions.rem(26);
-            position: absolute;
-            color: var(--c-primary);
-            right: -8px;
-            top: 2px;
-        }
-    }
-
-    i {
-        font-size: functions.rem(18);
-
-    }
-
-    .icon-vk {
-        font-size: functions.rem(20);
-        margin-top: 3px;
-    }
 }
 
 .footer__nav {
