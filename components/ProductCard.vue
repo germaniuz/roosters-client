@@ -13,7 +13,7 @@ defineProps<Props>()
     <div class="product-card">
         <div class="product-card__image">
             <img :src="product.image" :alt="product.name">
-            <span class="product-card__tag">2232</span>
+            <BaseBadge image="/images/test-badge.webp"/>
         </div>
         <div class="product-card__title">{{product.name}}</div>
         <div class="product-card__description">
@@ -73,27 +73,19 @@ defineProps<Props>()
     aspect-ratio: 1;
     overflow: hidden;
     grid-area: product-card__image;
-    transition: all .2s ease-in-out;
-
-    .product-card:hover & {
-        transform: scale(1.05);
-    }
 
     img {
         width: 100%;
         height: 100%;
         object-fit: contain;
+        transform: scale(0.95);
+        transition: all .2s ease-in-out;
+
+        .product-card:hover & {
+            transform: scale(1);
+        }
     }
 }
-
-.product-card__tag {
-    position: absolute;
-    max-height: 27px;
-    width: auto;
-    top: 0;
-    right: 0;
-}
-
 .product-card__title {
     color: var(--c-grey80);
     font-family: var(--f-base);
