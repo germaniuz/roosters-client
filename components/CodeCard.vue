@@ -29,10 +29,10 @@ watchEffect(() => {
         <div class="code-card__title">Подтвердите номер</div>
         <div class="code-card__description">СМС с кодом было отправлено на указанный вами номер</div>
         <div class="code-card__inputs" ref="codeCardInputs">
-            <FormInput v-model="authCode[0]" placeholder="" v-maska="'#'" name="code-digit-1"/>
-            <FormInput v-model="authCode[1]" placeholder="" v-maska="'#'" name="code-digit-2"/>
-            <FormInput v-model="authCode[2]" placeholder="" v-maska="'#'" name="code-digit-3"/>
-            <FormInput v-model="authCode[3]" placeholder="" v-maska="'#'" name="code-digit-4"/>
+            <FormInput class="code-card__input" v-model="authCode[1]" placeholder="" v-maska="'#'" name="code-digit-2"/>
+            <FormInput class="code-card__input" v-model="authCode[2]" placeholder="" v-maska="'#'" name="code-digit-3"/>
+            <FormInput class="code-card__input" v-model="authCode[3]" placeholder="" v-maska="'#'" name="code-digit-4"/>
+            <FormInput class="code-card__input" v-model="authCode[0]" placeholder="" v-maska="'#'" name="code-digit-1"/>
         </div>
         <BaseButton :modifiers="['primary']" class="code-card__button">Получить код снова</BaseButton>
     </div>
@@ -81,6 +81,8 @@ watchEffect(() => {
     display: flex;
     flex-direction: row;
     gap: 10px;
+    width: min-content;
+    margin-inline: auto;
 }
 
 .code-card__button {
@@ -91,5 +93,9 @@ watchEffect(() => {
     @include media.lg-up {
         margin-top: 30px;
     }
+}
+
+.code-card__input {
+    min-width: 50px;
 }
 </style>
