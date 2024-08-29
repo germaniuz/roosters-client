@@ -13,7 +13,7 @@ defineProps<Props>()
     <div class="product-card">
         <div class="product-card__image">
             <img :src="product.image" :alt="product.name">
-            <span class="product-card__tag"></span>
+            <span class="product-card__tag">2232</span>
         </div>
         <div class="product-card__title">{{product.name}}</div>
         <div class="product-card__description">
@@ -67,6 +67,7 @@ defineProps<Props>()
 }
 
 .product-card__image {
+    position: relative;
     width: 100%;
     height: 100%;
     aspect-ratio: 1;
@@ -83,6 +84,14 @@ defineProps<Props>()
         height: 100%;
         object-fit: contain;
     }
+}
+
+.product-card__tag {
+    position: absolute;
+    max-height: 27px;
+    width: auto;
+    top: 0;
+    right: 0;
 }
 
 .product-card__title {
