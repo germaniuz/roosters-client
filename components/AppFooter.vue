@@ -3,78 +3,78 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
 </script>
 
 <template>
-  <footer class="footer">
-      <div class="footer__top container">
-          <div class="footer__contacts-block">
-              <div class="footer__download-apps">
-                  <BaseAppStoreButton icon="playmarket" download-text="Скачать из" store-name="Google Play"/>
-                  <BaseAppStoreButton icon="appstore" download-text="Загрузите в" store-name="App Store"/>
-                  <BaseAppStoreButton icon="huawei" download-text="Откройте в" store-name="AppGallery"/>
-              </div>
-              <div class="footer__contacts">
-                  <div class="footer__contact">
-                      <img src="/images/icons/phone.svg" alt="" class="footer__contact-image">
-                      <a class="footer__contact-text" href="tel:8 (8442) 33-77-77">8 (8442) 33-77-77</a>
-                      <div class="footer__contact-subtext">Бесплатный звонок</div>
-                  </div>
-                  <div class="footer__contact">
-                      <img src="/images/icons/mail.svg" alt="" class="footer__contact-image">
-                      <a class="footer__contact-text" href="mailto:roosters-pizza@yandex.ru">roosters-pizza@yandex.ru</a>
-                      <div class="footer__contact-subtext">Для отзывов и предложений</div>
-                  </div>
-              </div>
-              <div class="footer__socials">
-                  <a href="#" class="footer__social">
-                      <BaseIcon name="instagram"/>
-                  </a>
-                  <a href="#" class="footer__social">
-                      <BaseIcon name="vk"/>
-                  </a>
-              </div>
-          </div>
-          <div class="footer__nav">
-              <div class="footer__nav-item">
-                  <a href="#" class="footer__nav-item-title">Рустерс</a>
-                  <div class="footer__nav-subitems">
-                      <a class="footer__nav-subitem" href="#">О Нас</a>
-                      <a class="footer__nav-subitem" href="#">Новости</a>
-                      <a class="footer__nav-subitem" href="#">Вакансии</a>
-                      <a class="footer__nav-subitem" href="#">Контакты</a>
-                  </div>
-              </div>
-              <div class="footer__nav-item">
-                  <a href="#" class="footer__nav-item-title">Покупателям</a>
-                  <div class="footer__nav-subitems">
-                      <a class="footer__nav-subitem" href="#">Отзывы</a>
-                      <a class="footer__nav-subitem" href="#">Качество</a>
-                      <a class="footer__nav-subitem" href="#">Доставка</a>
-                      <a class="footer__nav-subitem" href="#">Оплата</a>
-                  </div>
-              </div>
-              <div class="footer__nav-item">
-                  <a href="#" class="footer__nav-item-title">Партнерам</a>
-                  <div class="footer__nav-subitems">
-                      <a class="footer__nav-subitem" href="#">Услуги</a>
-                      <a class="footer__nav-subitem" href="#">Франшиза</a>
-                  </div>
-              </div>
-          </div>
-          <div class="footer__dev">
-              <div class="footer__dev-copyright">Разработка сайта</div>
-              <a href="https://studio-aw.ru/" target="_blank" class="footer__dev-info">Digital студия A&W</a>
-          </div>
-      </div>
-      <div class="footer__bottom">
-          <div class="container footer__bottom-container">
-              <BaseLogo class="footer__logo" :is-colored="false"/>
-              <div class="footer__bottom-text">
-                  <div>* Запрещен на территории РФ</div>
-                  <div>Внешний вид продукции может отличаться от изображений на сайте</div>
-                  <div>© ИП Ярембаш С.В, ИНН 502713354360.</div>
-              </div>
-          </div>
-      </div>
-  </footer>
+    <footer class="footer">
+        <div class="footer__top container">
+            <div class="footer__contacts-block">
+                <div class="footer__download-apps">
+                    <BaseAppStoreButton icon="playmarket" download-text="Скачать из" store-name="Google Play"/>
+                    <BaseAppStoreButton icon="appstore" download-text="Загрузите в" store-name="App Store"/>
+                    <BaseAppStoreButton icon="huawei" download-text="Откройте в" store-name="AppGallery"/>
+                </div>
+                <div class="footer__contacts">
+                    <div class="footer__contact">
+                        <img src="/images/icons/phone.svg" alt="" class="footer__contact-image">
+                        <a class="footer__contact-text" href="tel:8 (8442) 33-77-77">8 (8442) 33-77-77</a>
+                        <div class="footer__contact-subtext">Бесплатный звонок</div>
+                    </div>
+                    <div class="footer__contact">
+                        <img src="/images/icons/mail.svg" alt="" class="footer__contact-image">
+                        <a class="footer__contact-text"
+                           href="mailto:roosters-pizza@yandex.ru">roosters-pizza@yandex.ru</a>
+                        <div class="footer__contact-subtext">Для отзывов и предложений</div>
+                    </div>
+                </div>
+                <div class="footer__socials">
+                    <a href="#" class="footer__social">
+                        <BaseIcon name="instagram"/>
+                    </a>
+                    <a href="#" class="footer__social">
+                        <BaseIcon name="vk"/>
+                    </a>
+                </div>
+            </div>
+            <div class="footer__nav">
+                <div class="footer__nav-item">
+                    <a href="#" class="footer__nav-item-title">Рустерс</a>
+                    <div class="footer__nav-subitems">
+                        <a class="footer__nav-subitem" href="#">О Нас</a>
+                        <a class="footer__nav-subitem" href="#">Новости</a>
+                        <a class="footer__nav-subitem" href="#">Вакансии</a>
+                        <a class="footer__nav-subitem" href="#">Контакты</a>
+                    </div>
+                </div>
+                <div class="footer__nav-item">
+                    <a href="#" class="footer__nav-item-title">Покупателям</a>
+                    <div class="footer__nav-subitems">
+                        <a class="footer__nav-subitem" href="#">Отзывы</a>
+                        <a class="footer__nav-subitem" href="#">Качество</a>
+                        <a class="footer__nav-subitem" href="#">Доставка</a>
+                        <a class="footer__nav-subitem" href="#">Оплата</a>
+                    </div>
+                </div>
+                <div class="footer__nav-item">
+                    <a href="#" class="footer__nav-item-title">Партнерам</a>
+                    <div class="footer__nav-subitems">
+                        <a class="footer__nav-subitem" href="#">Услуги</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer__dev">
+                <div class="footer__dev-copyright">Разработка сайта</div>
+                <a href="https://studio-aw.ru/" target="_blank" class="footer__dev-info">Digital студия A&W</a>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <div class="container footer__bottom-container">
+                <BaseLogo class="footer__logo" :is-colored="false"/>
+                <div class="footer__bottom-text">
+                    <div>* Запрещен на территории РФ</div>
+                    <div>Внешний вид продукции может отличаться от изображений на сайте</div>
+                    <div>© ИП Ярембаш С.В, ИНН 502713354360.</div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </template>
 
 <style scoped lang="scss">
@@ -425,7 +425,7 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
 
     @include media.xl-up {
         &::after {
-          content: '';
+            content: '';
             position: absolute;
             background: url("/images/footer/footer-bottom-line.webp") no-repeat;
             background-size: 100%;
