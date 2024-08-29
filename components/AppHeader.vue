@@ -7,6 +7,11 @@ const { phone } = useAppStore();
 const { isGuest } = storeToRefs(useProfileStore());
 const menuIsActive = ref<boolean>(false);
 
+const toggleMobileMenu = () => {
+    menuIsActive.value = !menuIsActive.value;
+    document.querySelector('.body')?.classList.toggle('body--fixed')
+}
+
 const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Закуски', 'Напитки', 'Акции'])
 </script>
 
@@ -27,7 +32,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
             <BaseButton v-if="isGuest" class="header__login" :modifiers="['grey', 'icon']"
                 ><img src="/images/icons/avatar.svg" alt="Вход Рустерс" /> <span>Войти</span>
             </BaseButton>
-            <button class="menu-btn" :class="{'menu-btn--active' : menuIsActive}" @click="menuIsActive = !menuIsActive"></button>
+            <button class="menu-btn" :class="{'menu-btn--active' : menuIsActive}" @click="toggleMobileMenu()"></button>
         </div>
         <div class="container header__categories">
             <div v-for="headerCategory in headerCategories" class="header__category">
@@ -72,13 +77,14 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 @use '@/assets/styles/helpers/functions';
 
 .header {
-    position: relative;
+    width: 100%;
+    position: fixed;
     z-index: var(--z-top-30);
     background-color: var(--c-grey00);
     transition: all 0.2s ease-in-out;
 
     @include media.md-down {
-        box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.05);
     }
 }
 
