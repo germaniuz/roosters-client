@@ -20,7 +20,7 @@ defineProps<Props>()
             <span v-for="ingredient in product.ingredients">{{ingredient}}, </span>
         </div>
         <div class="product-card__price-block">
-            <BaseButton modifiers="item" class="product-card__price">от {{product.price}} ₽</BaseButton>
+            <BaseButton modifiers="item" class="product-card__price-btn">от {{product.price}} ₽</BaseButton>
             <div class="product-card__old-price">{{product.price}}₽</div>
         </div>
     </div>
@@ -29,9 +29,12 @@ defineProps<Props>()
 <style scoped lang="scss">
 @use '@/assets/styles/helpers/media';
 @use '@/assets/styles/helpers/functions';
+@use '@/assets/styles/components/buttons';
 
 .product-card {
     display: grid;
+    border-radius: var(--b-radius);
+    transition: all .2s ease-in-out;
     grid-template-columns: 130px 1fr;
     grid-column-gap: 20px;
     padding-block: 15px;
@@ -57,6 +60,10 @@ defineProps<Props>()
     @include media.xl-up {
         grid-template-rows: 218px auto;
     }
+
+    &:hover {
+        background-color: var(--c-grey05);
+    }
 }
 
 .product-card__image {
@@ -65,6 +72,11 @@ defineProps<Props>()
     aspect-ratio: 1;
     overflow: hidden;
     grid-area: product-card__image;
+    transition: all .2s ease-in-out;
+
+    .product-card:hover & {
+        transform: scale(1.05);
+    }
 
     img {
         width: 100%;
@@ -119,7 +131,7 @@ defineProps<Props>()
     }
 }
 
-.product-card__price {
+.product-card__price-btn {
     font-family: var(--f-base);
     font-size: functions.rem(14);
     padding: 6px 25px;
@@ -128,6 +140,7 @@ defineProps<Props>()
     font-weight: 600;
     font-style: italic;
     line-height: normal;
+    transition: all .2s ease-in-out;
 
     @include media.lg-up {
         padding: 10px 35px;
@@ -138,6 +151,11 @@ defineProps<Props>()
     @include media.xl-up {
         font-size: functions.rem(16);
         padding: 10px 44px;
+    }
+
+    .product-card:hover & {
+        @extend .btn--primary;
+        width: 100%;
     }
 }
 
