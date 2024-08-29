@@ -9,6 +9,10 @@ onMounted(() => {
     codeCardInputs.value.focus();
 })
 
+onUnmounted(() => {
+    codeCardInputs.value.removeEventListener("input");
+})
+
 watchEffect(() => {
     if (codeCardInputs.value) {
         codeCardInputs.value.addEventListener("input", (e: any) => {
