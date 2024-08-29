@@ -77,14 +77,16 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 @use '@/assets/styles/helpers/functions';
 
 .header {
-    width: 100%;
-    position: fixed;
+    position: relative;
     z-index: var(--z-top-30);
     background-color: var(--c-grey00);
     transition: all 0.2s ease-in-out;
 
-    @include media.md-down {
+    @include media.sm-down {
         box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.05);
+        position: sticky;
+        left: 0;
+        top: 0;
     }
 }
 
