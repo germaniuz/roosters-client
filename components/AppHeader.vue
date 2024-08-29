@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useAppStore } from '~/stores/app';
+import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
 
 const { phone } = useAppStore();
 const { isGuest } = storeToRefs(useProfileStore());
@@ -36,6 +37,8 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     <div class="mobile-menu header__mobile-menu" :class="{'mobile-menu--active' : menuIsActive}">
         <BaseButton class="header__mobile-menu-login-btn" :modifiers="['third', 'icon']"><i class="icon-avatar"></i> Войти</BaseButton>
         <div class="header__mobile-menu-divider"/>
+        <BaseContact image="/images/icons/phone.svg" text="8 (8442) 33-77-77" subtext="Бесплатный звонок"/>
+        <div class="header__mobile-menu-divider"/>
         <div class="header__mobile-menu-categories">
             <div v-for="headerCategory in headerCategories" class="header__category">
                 {{ headerCategory }}
@@ -50,6 +53,11 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
             <NuxtLink class="header__mobile-menu-nav-link" to="/reviews">Отзывы</NuxtLink>
         </div>
         <div class="header__mobile-menu-divider"/>
+        <div class="header__mobile-menu-apps">
+            <BaseAppStoreButton icon="playmarket" download-text="Скачать из" store-name="Google Play"/>
+            <BaseAppStoreButton icon="appstore" download-text="Загрузите в" store-name="App Store"/>
+            <BaseAppStoreButton icon="huawei" download-text="Откройте в" store-name="AppGallery"/>
+        </div>
     </div>
 </template>
 
@@ -296,6 +304,13 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     &:not(:last-child) {
         padding-bottom: 10px;
     }
+}
+
+.header__mobile-menu-apps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
 }
 
 .header__mobile-menu-divider {
