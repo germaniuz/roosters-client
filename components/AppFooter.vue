@@ -24,12 +24,12 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
                   </div>
               </div>
               <div class="footer__socials">
-                  <div class="footer__social">
+                  <a href="#" class="footer__social">
                       <BaseIcon name="instagram"/>
-                  </div>
-                  <div class="footer__social">
+                  </a>
+                  <a href="#" class="footer__social">
                       <BaseIcon name="vk"/>
-                  </div>
+                  </a>
               </div>
           </div>
           <div class="footer__nav">
