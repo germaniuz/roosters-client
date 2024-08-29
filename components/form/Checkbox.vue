@@ -64,7 +64,7 @@ defineProps<Props>();
             box-shadow: var(--shadow-xs);
 
             &::after {
-                content: '\e81a';
+                content: '\e809';
             }
         }
     }
