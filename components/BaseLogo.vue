@@ -1,9 +1,25 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+type Props = {
+    isColored?: boolean
+    hasText?: boolean
+}
+
+const props= withDefaults(defineProps<Props>(), {
+    isColored: true,
+    hasText: false
+});
+
+const logoImagePath = ref<string>('/images/logo.svg');
+
+if (!props.isColored) {
+    logoImagePath.value = '/images/logo-colorless.svg'
+}
+</script>
 
 <template>
-    <NuxtLink to="/" class="logo">
-        <img class="logo__image" src="/images/logo.svg" alt="Рустерс" />
-        <span class="logo__text">Основано в 1999</span>
+    <NuxtLink to="/" class="logo" :class="{'logo--has-text' : hasText}">
+        <img class="logo__image" :src="logoImagePath" alt="Рустерс" />
+        <span v-if="hasText" class="logo__text">Основано в 1999</span>
     </NuxtLink>
 </template>
 
@@ -12,15 +28,18 @@
 @use '@/assets/styles/helpers/functions';
 
 .logo {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+
+    &--has-text {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
 }
 
 .logo__image {
-    flex: 1 0 100%;
     width: 100%;
     height: auto;
+    object-fit: contain;
 }
 
 .logo__text {
