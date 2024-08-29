@@ -145,12 +145,11 @@ defineProps<Props>()
 
     @include media.lg-up {
         padding: 10px;
-        max-width: 170px;
     }
 
     @include media.xl-up {
         font-size: functions.rem(16);
-        padding: 10px 44px;
+        max-width: 170px;
     }
     .product-card:hover & {
         @extend .btn--primary;
