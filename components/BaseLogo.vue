@@ -4,16 +4,21 @@ type Props = {
     hasText?: boolean
 }
 
-withDefaults(defineProps<Props>(), {
+const props= withDefaults(defineProps<Props>(), {
     isColored: true,
     hasText: false
 });
+
+const logoImagePath = ref<string>('/images/logo.svg');
+
+if (!props.isColored) {
+    logoImagePath.value = '/images/logo-colorless.svg'
+}
 </script>
 
 <template>
     <NuxtLink to="/" class="logo" :class="{'logo--has-text' : hasText}">
-        <img v-if="isColored" class="logo__image" src="/images/logo.svg" alt="Рустерс" />
-        <img v-if="!isColored" class="logo__image" src="/images/logo-colorless.svg" alt="Рустерс" />
+        <img class="logo__image" :src="logoImagePath" alt="Рустерс" />
         <span v-if="hasText" class="logo__text">Основано в 1999</span>
     </NuxtLink>
 </template>
