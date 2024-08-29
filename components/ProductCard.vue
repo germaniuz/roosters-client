@@ -20,7 +20,7 @@ defineProps<Props>()
             <span v-for="ingredient in product.ingredients">{{ingredient}}, </span>
         </div>
         <div class="product-card__price-block">
-            <BaseButton modifiers="item" class="product-card__price-btn">от {{product.price}} ₽</BaseButton>
+            <BaseButton :modifiers="['item']" class="product-card__price-btn">от {{product.price}} ₽</BaseButton>
             <div class="product-card__old-price">{{product.price}}₽</div>
         </div>
     </div>
