@@ -1,24 +1,21 @@
 stages:
-  - deploy
+  - build
   - run
 
-testing:
-  stage: deploy
-  only:
-    - develop
+.deploy-template:
+  stage: build
   script:
-    # set variables
-    - domain_name="roosters-dev.ru"
+    # set variables (need to set domain_name in variables)
     - release_dir_name="$(date +'%Y%m%d%H%M%S')"
     # service variables
-    - release_dir=$(dirname "$(pwd)")/$domain_name/$release_dir_name
+    - release_dir=$(dirname "$(pwd)")/${domain_name}/$release_dir_name
     - repo_dir=$(pwd)
-    - domain_dir=/var/www/$domain_name
+    - domain_dir=/var/www/${domain_name}
     - storage_dir=$domain_dir/storage
     # user check
     - whoami
     # ...building the app
-    - cp -rv $STAGE_ENV_FILE .env
+    - cp -rv ${env_file} .env
     - /home/devops/.bun/bin/bun i
     - /home/devops/.bun/bin/bun run build
     # ...moving current build into release dir
@@ -28,14 +25,43 @@ testing:
   tags:
     - roosters-runner
 
-run:
+.run-template:
   stage: run
-  only:
-    - develop
   script:
-    # set variables
-    - domain_name="roosters-dev.ru"
-    - cd /var/www/$domain_name/app
-    - pm2 start ecosystem.config.cjs
+    # set variables (need to set domain_name and env in variables)
+    - cd /var/www/${domain_name}/app
+    - pm2 start ${env}.ecosystem.config.cjs
   tags:
     - roosters-runner
+
+stage-build:
+  extends: .deploy-template
+  only:
+    - develop
+  variables:
+    domain_name: "stage.roosters-dev.ru"
+    env_file: "$STAGE_ENV_FILE"
+
+stage-run:
+  extends: .run-template
+  only:
+    - develop
+  variables:
+    domain_name: "stage.roosters-dev.ru"
+    env: "stage"
+
+production-build:
+  extends: .deploy-template
+  only:
+    - master
+  variables:
+    domain_name: "roosters-dev.ru"
+    env_file: "$PRODUCTION_ENV_FILE"
+
+production-run:
+  extends: .run-template
+  only:
+    - master
+  variables:
+    domain_name: "roosters-dev.ru"
+    env: "production"
