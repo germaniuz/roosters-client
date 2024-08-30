@@ -13,8 +13,18 @@ import BaseSocial from '~/components/BaseSocial.vue';
                     <BaseAppStoreButton icon="huawei" download-text="Откройте в" store-name="AppGallery"/>
                 </div>
                 <div class="footer__contacts">
-                    <BaseContact image="/images/icons/phone.svg" text="8 (8442) 33-77-77" subtext="Бесплатный звонок"/>
-                    <BaseContact image="/images/icons/mail.svg" text="roosters-pizza@yandex.ru" subtext="Для отзывов и предложений"/>
+                    <BaseContact
+                        image="/images/icons/phone.svg"
+                        text="8 (8442) 33-77-77"
+                        subtext="Бесплатный звонок"
+                        type="phone"
+                    />
+                    <BaseContact
+                        image="/images/icons/mail.svg"
+                        text="roosters-pizza@yandex.ru"
+                        subtext="Для отзывов и предложений"
+                        type="email"
+                    />
                 </div>
                 <div class="footer__socials">
                     <BaseSocial name="instagram" link="#"/>
