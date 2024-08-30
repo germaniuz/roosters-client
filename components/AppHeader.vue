@@ -9,7 +9,7 @@ const menuIsActive = ref<boolean>(false);
 
 const toggleMobileMenu = () => {
     menuIsActive.value = !menuIsActive.value;
-    document.querySelector('.body')?.classList.toggle('body--fixed');
+    document.body.classList.toggle('body--fixed');
 };
 
 const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Закуски', 'Напитки', 'Акции']);
