@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-type BtnModifier = 'primary' | 'secondary' | 'success' | 'warning' | 'item' | 'grey' | 'sm' | 'lg' | 'xl' | 'icon';
+import type { ButtonModifier } from '~/types/Button';
 
 type Props = {
-    modifiers: BtnModifier[] | BtnModifier;
+    modifiers: ButtonModifier[] | ButtonModifier;
     btnType?: 'button' | 'submit';
 };
 
@@ -11,6 +11,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const modifiers = computed(() => {
+    // TODO: JS refactor after ProductCard Megred
     return typeof props.modifiers === 'string'
         ? props.modifiers
         : props.modifiers.map((modifier) => 'btn--' + modifier).join(' ');

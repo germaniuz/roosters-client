@@ -15,7 +15,7 @@ defineProps<Props>();
         </div>
         <div class="news-card__title">{{ newsItem.title }}</div>
         <div class="news-card__description">{{ newsItem.description }}</div>
-        <BaseButton :modifiers="['item']" class="news-card__button">Подробнее</BaseButton>
+        <BaseButtonLink :modifiers="['item']" class="news-card__button" linkTo="#"> Подробнее </BaseButtonLink>
     </div>
 </template>
 
