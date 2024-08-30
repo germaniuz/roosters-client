@@ -7,10 +7,10 @@
   @include media.md-down {
     display: block;
     position: fixed;
-    margin-top: 89px;
+    margin-top: var(--h-header-md);
     inset: 0;
     width: 100%;
-    height: calc(100% - 89px);
+    height: calc(100svh - var(--h-header-md));
     overflow-y: auto;
     z-index: var(--z-top-20);
     background: var(--c-grey00);
@@ -20,8 +20,8 @@
   }
 
   @include media.sm-down {
-    height: calc(100% - 57px);
-    margin-top: 57px;
+    height: calc(100svh - var(--h-header-sm));
+    margin-top: var(--h-header-sm);
   }
 
   &--active {
