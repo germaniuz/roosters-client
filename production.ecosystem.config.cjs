@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
         {
-            name: 'RoostersClient',
+            name: 'ProductionClient',
             exec_mode: 'cluster',
             port: 3000,
             instances: 'max', // Or a number of instances
