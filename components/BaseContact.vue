@@ -2,6 +2,7 @@
 type Props = {
     image: string,
     text: string,
+    link: string,
     subtext?: string
 }
 
@@ -11,7 +12,7 @@ defineProps<Props>();
 <template>
     <div class="contact">
         <img :src="image" alt="" class="contact__image">
-        <a class="contact__text" href="tel:8 (8442) 33-77-77">{{ text }}</a>
+        <a class="contact__text" :href="link">{{ text }}</a>
         <div v-if="subtext" class="contact__subtext">{{ subtext }}</div>
     </div>
 </template>

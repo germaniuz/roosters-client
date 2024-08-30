@@ -8,17 +8,27 @@ import BaseSocial from '~/components/BaseSocial.vue';
         <div class="footer__top container">
             <div class="footer__contacts-block">
                 <div class="footer__download-apps">
-                    <BaseAppStoreButton icon="playmarket" download-text="Скачать из" store-name="Google Play"/>
-                    <BaseAppStoreButton icon="appstore" download-text="Загрузите в" store-name="App Store"/>
-                    <BaseAppStoreButton icon="huawei" download-text="Откройте в" store-name="AppGallery"/>
+                    <BaseAppStoreButton icon="playmarket" download-text="Скачать из" store-name="Google Play" />
+                    <BaseAppStoreButton icon="appstore" download-text="Загрузите в" store-name="App Store" />
+                    <BaseAppStoreButton icon="huawei" download-text="Откройте в" store-name="AppGallery" />
                 </div>
                 <div class="footer__contacts">
-                    <BaseContact image="/images/icons/phone.svg" text="8 (8442) 33-77-77" subtext="Бесплатный звонок"/>
-                    <BaseContact image="/images/icons/mail.svg" text="roosters-pizza@yandex.ru" subtext="Для отзывов и предложений"/>
+                    <BaseContact
+                        image="/images/icons/phone.svg"
+                        text="8 (8442) 33-77-77"
+                        link="tel:8 (8442) 33-77-77"
+                        subtext="Бесплатный звонок"
+                    />
+                    <BaseContact
+                        image="/images/icons/mail.svg"
+                        text="roosters-pizza@yandex.ru"
+                        link="mailto:roosters-pizza@yandex.ru"
+                        subtext="Для отзывов и предложений"
+                    />
                 </div>
                 <div class="footer__socials">
-                    <BaseSocial name="instagram" link="#"/>
-                    <BaseSocial name="vk" link="#"/>
+                    <BaseSocial name="instagram" link="#" />
+                    <BaseSocial name="vk" link="#" />
                 </div>
             </div>
             <div class="footer__nav">
@@ -55,7 +65,7 @@ import BaseSocial from '~/components/BaseSocial.vue';
         </div>
         <div class="footer__bottom">
             <div class="container footer__bottom-container">
-                <BaseLogo class="footer__logo" :is-colored="false"/>
+                <BaseLogo class="footer__logo" :is-colored="false" />
                 <div class="footer__bottom-text">
                     <div>* Запрещен на территории РФ</div>
                     <div>Внешний вид продукции может отличаться от изображений на сайте</div>
@@ -96,8 +106,8 @@ import BaseSocial from '~/components/BaseSocial.vue';
         display: grid;
         grid-template-columns: 1fr auto;
         grid-template-areas:
-            "nav contacts"
-            "nav dev";
+            'nav contacts'
+            'nav dev';
         grid-column-gap: 77px;
     }
 }
@@ -111,7 +121,6 @@ import BaseSocial from '~/components/BaseSocial.vue';
 
     @include media.md-up {
         margin-bottom: 40px;
-
     }
 }
 
@@ -158,10 +167,10 @@ import BaseSocial from '~/components/BaseSocial.vue';
     font-weight: 600;
     line-height: normal;
     margin-bottom: 30px;
-    transition: all .15s linear;
+    transition: all 0.15s linear;
 
     &:hover {
-        color: var(--c-secondary)
+        color: var(--c-secondary);
     }
 }
 
@@ -194,10 +203,10 @@ import BaseSocial from '~/components/BaseSocial.vue';
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: normal;
-    transition: all .15s linear;
+    transition: all 0.15s linear;
 
     &:hover {
-        color: var(--c-secondary)
+        color: var(--c-secondary);
     }
 }
 
@@ -216,7 +225,7 @@ import BaseSocial from '~/components/BaseSocial.vue';
     }
 
     &::before {
-        content: "";
+        content: '';
         position: relative;
         top: 1px;
         display: inline-block;
@@ -240,7 +249,7 @@ import BaseSocial from '~/components/BaseSocial.vue';
     color: var(--c-grey80);
     font-weight: 400;
     font-size: functions.rem(14);
-    transition: all .2s linear;
+    transition: all 0.2s linear;
 
     &:hover {
         color: var(--c-grey100);
@@ -248,7 +257,7 @@ import BaseSocial from '~/components/BaseSocial.vue';
 }
 
 .footer__bottom {
-    background: url("/images/footer/footer-bottom-sm.webp") no-repeat;
+    background: url('/images/footer/footer-bottom-sm.webp') no-repeat;
     background-size: 100% 100%;
     padding-top: 66px;
     margin-top: 60px;
@@ -257,7 +266,7 @@ import BaseSocial from '~/components/BaseSocial.vue';
     overflow: hidden;
 
     @include media.md-up {
-        background: url("/images/footer/footer-bottom-md.webp") no-repeat;
+        background: url('/images/footer/footer-bottom-md.webp') no-repeat;
         background-size: 100% 100%;
         margin-top: 40px;
         padding-top: 80px;
@@ -265,7 +274,7 @@ import BaseSocial from '~/components/BaseSocial.vue';
     }
 
     @include media.lg-up {
-        background: url("/images/footer/footer-bottom-lg.webp") no-repeat;
+        background: url('/images/footer/footer-bottom-lg.webp') no-repeat;
         background-size: 250% 100%;
         background-position: 50%;
         margin-top: 40px;
@@ -274,7 +283,7 @@ import BaseSocial from '~/components/BaseSocial.vue';
     }
 
     @include media.xl-up {
-        background: url("/images/footer/footer-bottom-lg.webp") no-repeat;
+        background: url('/images/footer/footer-bottom-lg.webp') no-repeat;
         background-size: 3700px calc(100% - 20px);
         background-position: 50% 20px;
         margin-top: 30px;
@@ -316,7 +325,7 @@ import BaseSocial from '~/components/BaseSocial.vue';
             position: absolute;
             width: 135px;
             height: 135px;
-            background: url("/images/footer/footer-bottom-sun.webp") no-repeat;
+            background: url('/images/footer/footer-bottom-sun.webp') no-repeat;
             background-size: 100%;
             top: -150px;
             right: -50px;
@@ -332,7 +341,7 @@ import BaseSocial from '~/components/BaseSocial.vue';
         &::after {
             content: '';
             position: absolute;
-            background: url("/images/footer/footer-bottom-line.webp") no-repeat;
+            background: url('/images/footer/footer-bottom-line.webp') no-repeat;
             background-size: 100%;
             width: 650px;
             height: 80px;

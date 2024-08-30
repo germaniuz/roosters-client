@@ -9,16 +9,16 @@ const menuIsActive = ref<boolean>(false);
 
 const toggleMobileMenu = () => {
     menuIsActive.value = !menuIsActive.value;
-    document.querySelector('.body')?.classList.toggle('body--fixed')
-}
+    document.querySelector('.body')?.classList.toggle('body--fixed');
+};
 
-const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Закуски', 'Напитки', 'Акции'])
+const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Закуски', 'Напитки', 'Акции']);
 </script>
 
 <template>
-    <header class="header" :class="{'header--mobile-menu-active' : menuIsActive}">
+    <header class="header" :class="{ 'header--mobile-menu-active': menuIsActive }">
         <div class="container header__container">
-            <BaseLogo class="header__logo" :has-text="true"  />
+            <BaseLogo class="header__logo" :has-text="true" />
             <div class="header__delivery-banner">
                 <i class="icon-f1"></i>
                 <span
@@ -32,7 +32,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
             <BaseButton v-if="isGuest" class="header__login" :modifiers="['grey', 'icon']"
                 ><img src="/images/icons/avatar.svg" alt="Вход Рустерс" /> <span>Войти</span>
             </BaseButton>
-            <button class="menu-btn" :class="{'menu-btn--active' : menuIsActive}" @click="toggleMobileMenu()"></button>
+            <button class="menu-btn" :class="{ 'menu-btn--active': menuIsActive }" @click="toggleMobileMenu()"></button>
         </div>
         <div class="container header__categories">
             <div v-for="headerCategory in headerCategories" class="header__category">
@@ -40,17 +40,24 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
             </div>
         </div>
     </header>
-    <div class="mobile-menu header__mobile-menu" :class="{'mobile-menu--active' : menuIsActive}">
-        <BaseButton class="header__mobile-menu-login-btn" :modifiers="['third', 'icon']"><i class="icon-avatar"></i> Войти</BaseButton>
-        <div class="header__mobile-menu-divider"/>
-        <BaseContact image="/images/icons/phone.svg" text="8 (8442) 33-77-77" subtext="Бесплатный звонок"/>
-        <div class="header__mobile-menu-divider"/>
+    <div class="mobile-menu header__mobile-menu" :class="{ 'mobile-menu--active': menuIsActive }">
+        <BaseButton class="header__mobile-menu-login-btn" :modifiers="['third', 'icon']"
+            ><i class="icon-avatar"></i> Войти</BaseButton
+        >
+        <div class="header__mobile-menu-divider" />
+        <BaseContact
+            image="/images/icons/phone.svg"
+            text="8 (8442) 33-77-77"
+            link="tel:8 (8442) 33-77-77"
+            subtext="Бесплатный звонок"
+        />
+        <div class="header__mobile-menu-divider" />
         <div class="header__mobile-menu-categories">
             <div v-for="headerCategory in headerCategories" class="header__category">
                 {{ headerCategory }}
             </div>
         </div>
-        <div class="header__mobile-menu-divider"/>
+        <div class="header__mobile-menu-divider" />
         <div class="header__mobile-menu-nav">
             <NuxtLink class="header__mobile-menu-nav-link" to="/delivery">Доставка</NuxtLink>
             <NuxtLink class="header__mobile-menu-nav-link" to="/about">О нас</NuxtLink>
@@ -58,15 +65,15 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
             <NuxtLink class="header__mobile-menu-nav-link" to="/news">Новости</NuxtLink>
             <NuxtLink class="header__mobile-menu-nav-link" to="/reviews">Отзывы</NuxtLink>
         </div>
-        <div class="header__mobile-menu-divider"/>
+        <div class="header__mobile-menu-divider" />
         <div class="header__mobile-menu-apps">
-            <BaseAppStoreButton icon="playmarket" download-text="Скачать из" store-name="Google Play"/>
-            <BaseAppStoreButton icon="appstore" download-text="Загрузите в" store-name="App Store"/>
-            <BaseAppStoreButton icon="huawei" download-text="Откройте в" store-name="AppGallery"/>
+            <BaseAppStoreButton icon="playmarket" download-text="Скачать из" store-name="Google Play" />
+            <BaseAppStoreButton icon="appstore" download-text="Загрузите в" store-name="App Store" />
+            <BaseAppStoreButton icon="huawei" download-text="Откройте в" store-name="AppGallery" />
         </div>
         <div class="header__mobile-menu-socials">
-            <BaseSocial name="instagram" link="#"/>
-            <BaseSocial name="vk" link="#"/>
+            <BaseSocial name="instagram" link="#" />
+            <BaseSocial name="vk" link="#" />
         </div>
         <div class="header__mobile-menu-remark">* Запрещен на территории РФ</div>
     </div>
@@ -134,7 +141,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     color: var(--c-secondary);
     line-height: normal;
     max-width: 200px;
-    transition: opacity .2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
 
     @include media.sm-down {
         display: none;
@@ -168,7 +175,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     align-items: center;
     gap: 10px;
     white-space: nowrap;
-    transition: opacity .2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
 
     @include media.sm-down {
         margin-left: auto;
@@ -200,7 +207,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     span {
         font-weight: 600;
         color: var(--c-grey70);
-        transition: all .2s ease-in-out;
+        transition: all 0.2s ease-in-out;
     }
 }
 
@@ -235,7 +242,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
             -o-transform: scaleY(0);
             -ms-transform: scaleY(0);
             transform: scaleY(0);
-            position:absolute;
+            position: absolute;
         }
     }
 
@@ -272,7 +279,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
         height: 2px;
         background-color: transparent;
         border-radius: var(--b-radius-round);
-        transition: all .2s ease-in-out;
+        transition: all 0.2s ease-in-out;
     }
 
     @include media.lg-up {
@@ -306,7 +313,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 .header__mobile-menu-nav-link {
     color: var(--c-grey50);
     max-width: max-content;
-    
+
     &:hover {
         color: var(--c-secondary);
     }
