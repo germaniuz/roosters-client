@@ -43,7 +43,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     <div class="mobile-menu header__mobile-menu" :class="{'mobile-menu--active' : menuIsActive}">
         <BaseButton class="header__mobile-menu-login-btn" :modifiers="['third', 'icon']"><i class="icon-avatar"></i> Войти</BaseButton>
         <div class="header__mobile-menu-divider"/>
-        <BaseContact image="/images/icons/phone.svg" text="8 (8442) 33-77-77" subtext="Бесплатный звонок" type="phone"/>
+        <BaseContact image="/images/icons/phone.svg" text="8 (8442) 33-77-77" subtext="Бесплатный звонок"/>
         <div class="header__mobile-menu-divider"/>
         <div class="header__mobile-menu-categories">
             <div v-for="headerCategory in headerCategories" class="header__category">

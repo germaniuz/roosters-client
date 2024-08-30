@@ -1,28 +1,17 @@
 <script setup lang="ts">
-import type { Contact } from '~/types/Contact';
-
 type Props = {
     image: string,
     text: string,
     subtext?: string
-    type?: Contact
 }
 
-const props = defineProps<Props>();
-
-const linkType = computed(() => {
-    if (props.type === 'email') {
-        return 'mailto:'
-    } if (props.type === 'phone') {
-        return 'tel:'
-    } else return '';
-})
+defineProps<Props>();
 </script>
 
 <template>
     <div class="contact">
         <img :src="image" alt="" class="contact__image">
-        <a class="contact__text" :href="linkType + text">{{ text }}</a>
+        <a class="contact__text" href="tel:8 (8442) 33-77-77">{{ text }}</a>
         <div v-if="subtext" class="contact__subtext">{{ subtext }}</div>
     </div>
 </template>
