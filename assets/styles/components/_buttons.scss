@@ -1,4 +1,5 @@
 @use "../helpers/functions";
+@use "../helpers/media";
 
 .btn {
   display: block;
@@ -46,6 +47,20 @@
     &:focus,
     &:active {
       background: color-mix(in srgb, var(--c-primary), var(--c-grey00) 20%);
+    }
+  }
+
+
+  &--item {
+    font-style: italic;
+      color: var(--c-primary);
+      background-color: var(--c-grey10);
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: var(--c-grey00);
+      background-color: var(--c-primary);;
     }
   }
 
