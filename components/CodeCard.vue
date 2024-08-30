@@ -8,7 +8,7 @@ onMounted(() => {
     codeCardInputs.value.focus();
 })
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
     codeCardInputs.value.removeEventListener("input", (e: InputEvent) => handleInput(e));
     codeCardInputs.value.removeEventListener("keydown", (e: KeyboardEvent) => handleBackspace(e));
 })
