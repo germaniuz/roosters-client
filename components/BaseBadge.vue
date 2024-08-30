@@ -16,9 +16,16 @@ defineProps<Props>();
 
 .badge {
     position: absolute;
-    max-height: 27px;
+    height: 27px;
     width: auto;
     top: 0;
     right: 0;
+    overflow: hidden;
+
+    img {
+        height: 100%;
+        width: auto;
+        object-fit: contain;
+    }
 }
 </style>
