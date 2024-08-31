@@ -9,24 +9,37 @@ const newsItem = ref<NewsItem>({
     title: 'Новинки с фирменным соусом барбекю',
     subtitle: 'Roosters — ваш надежный спутник в любое время суток!',
     description:
-        'Круглосуточная доставка пиццы Рустерс! Заказывай в любой день в любое время! Время доставки на указанный адрес может превышать 60 минут и озвучивается оператором при подтверждении заказа.',
+        'Ночная жизнь оживает с пиццей Roosters! Наши двери никогда не закрываются для вас — круглосуточная доставка любимых пицц прямо к вам домой! Независимо от дня и времени, вы всегда можете насладиться ароматной, горячей пиццей. Наши операторы свяжутся с вами для подтверждения заказа и сообщат время доставки, которое может немного превышать 60 минут, чтобы вы точно знали, когда ждать свой вкусный заказ.',
     badge: '',
     link: '#',
     date: '01/08/2024',
 });
+
+const formatDate = (date: any) => {
+    return new Date(date).toLocaleDateString('ru-RU', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    });
+};
 </script>
 
 <template>
-    <div class="container news-single">
-        <h1 class="h1">{{ newsItem.title }}</h1>
-        <div class="news-single__image">
-            <img :src="newsItem.image" :alt="newsItem.title" />
+    <div class="news-single">
+        <div class="container">
+            <h1 class="h1">{{ newsItem.title }}</h1>
+            <div class="news-single__image">
+                <img :src="newsItem.image" :alt="newsItem.title" />
+            </div>
+            <div class="news-single__description">
+                <div v-if="newsItem.subtitle" class="news-single__subtitle">{{ newsItem.subtitle }}</div>
+                <div class="news-single__description">{{ newsItem.description }}</div>
+                <div class="news-single__date">
+                    {{ formatDate(newsItem.date) }}
+                </div>
+            </div>
         </div>
-        <div class="news-single__description">
-            <div v-if="newsItem.subtitle" class="news-single__subtitle">{{ newsItem.subtitle }}</div>
-            <div class="news-single__description">{{ newsItem.description }}</div>
-            <div class="news-single__date">{{ newsItem.date }}</div>
-        </div>
+        <div class="news-single_gradient"></div>
     </div>
 </template>
 
@@ -35,6 +48,7 @@ const newsItem = ref<NewsItem>({
 @use '@/assets/styles/helpers/functions';
 
 .news-single {
+    position: relative;
     margin-bottom: 80px;
 }
 
@@ -94,10 +108,39 @@ const newsItem = ref<NewsItem>({
 }
 
 .news-single__date {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
     color: var(--c-grey70);
     font-family: var(--f-base);
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: 1.5;
+
+    &::before {
+        content: '';
+        position: relative;
+        width: 33px;
+        border-bottom: 1px solid var(--c-grey30);
+    }
+}
+
+.news-single_gradient {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    height: 120px;
+    width: 100%;
+    z-index: -1;
+    background: var(--c-news-page-gradient);
+
+    @include media.md-up {
+        top: 170px;
+    }
+
+    @include media.lg-up {
+        top: 290px;
+    }
 }
 </style>
