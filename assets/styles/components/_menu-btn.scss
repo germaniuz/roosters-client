@@ -1,0 +1,38 @@
+@use "../helpers/functions";
+@use "../helpers/media";
+
+.menu-btn {
+  display: block;
+  min-width: 21px;
+  background-color: transparent;
+
+  @include media.lg-up {
+    display: none;
+  }
+
+  &::before,
+  &::after {
+    background-color: var(--c-primary);
+    content: '';
+    display: block;
+    height: 4px;
+    transition: all 200ms ease-in-out;
+    border-radius: 2px;
+  }
+
+  &::before {
+    box-shadow: 0 7px 0 var(--c-primary);
+    margin-bottom: 10px;
+  }
+
+  &--active {
+    &::before {
+      box-shadow: 0 0 0 var(--c-primary);
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    &::after{
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  }
+}
