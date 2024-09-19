@@ -1,1 +1,12 @@
-export type BtnModifier = 'primary' | 'secondary' | 'success' | 'warning' | 'grey' | 'item' | 'sm' | 'lg' | 'xl' | 'icon';
+export type BtnModifier =
+    | 'primary'
+    | 'secondary'
+    | 'third'
+    | 'success'
+    | 'warning'
+    | 'grey'
+    | 'item'
+    | 'sm'
+    | 'lg'
+    | 'xl'
+    | 'icon';
