@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-type BtnModifier = 'primary' | 'secondary' | 'third' | 'success' | 'warning' | 'grey' | 'sm' | 'lg' | 'xl' | 'icon';
+import type { BtnModifier } from '../types/Button'
 
 type Props = {
-    modifiers: BtnModifier[] | BtnModifier;
+    modifiers: BtnModifier[];
     btnType?: 'button' | 'submit';
 };
 
@@ -10,11 +10,10 @@ const props = withDefaults(defineProps<Props>(), {
     btnType: 'button',
 });
 
-const modifiers = computed(() => {
-    return typeof props.modifiers === 'string'
-        ? props.modifiers
-        : props.modifiers.map((modifier) => 'btn--' + modifier).join(' ');
-});
+const { modifiers } = useModifiers(
+    'btn',
+    computed(() => props.modifiers),
+);
 </script>
 
 <template>
