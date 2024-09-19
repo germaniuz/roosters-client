@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
+import BaseSocial from '~/components/BaseSocial.vue';
 </script>
 
 <template>
@@ -7,30 +8,27 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
         <div class="footer__top container">
             <div class="footer__contacts-block">
                 <div class="footer__download-apps">
-                    <BaseAppStoreButton icon="playmarket" download-text="Скачать из" store-name="Google Play"/>
-                    <BaseAppStoreButton icon="appstore" download-text="Загрузите в" store-name="App Store"/>
-                    <BaseAppStoreButton icon="huawei" download-text="Откройте в" store-name="AppGallery"/>
+                    <BaseAppStoreButton icon="playmarket" download-text="Скачать из" store-name="Google Play" />
+                    <BaseAppStoreButton icon="appstore" download-text="Загрузите в" store-name="App Store" />
+                    <BaseAppStoreButton icon="huawei" download-text="Откройте в" store-name="AppGallery" />
                 </div>
                 <div class="footer__contacts">
-                    <div class="footer__contact">
-                        <img src="/images/icons/phone.svg" alt="" class="footer__contact-image">
-                        <a class="footer__contact-text" href="tel:8 (8442) 33-77-77">8 (8442) 33-77-77</a>
-                        <div class="footer__contact-subtext">Бесплатный звонок</div>
-                    </div>
-                    <div class="footer__contact">
-                        <img src="/images/icons/mail.svg" alt="" class="footer__contact-image">
-                        <a class="footer__contact-text"
-                           href="mailto:roosters-pizza@yandex.ru">roosters-pizza@yandex.ru</a>
-                        <div class="footer__contact-subtext">Для отзывов и предложений</div>
-                    </div>
+                    <BaseContact
+                        image="/images/icons/phone.svg"
+                        text="8 (8442) 33-77-77"
+                        link="tel:8 (8442) 33-77-77"
+                        subtext="Бесплатный звонок"
+                    />
+                    <BaseContact
+                        image="/images/icons/mail.svg"
+                        text="roosters-pizza@yandex.ru"
+                        link="mailto:roosters-pizza@yandex.ru"
+                        subtext="Для отзывов и предложений"
+                    />
                 </div>
                 <div class="footer__socials">
-                    <a href="#" class="footer__social">
-                        <BaseIcon name="instagram"/>
-                    </a>
-                    <a href="#" class="footer__social">
-                        <BaseIcon name="vk"/>
-                    </a>
+                    <BaseSocial name="instagram" link="#" />
+                    <BaseSocial name="vk" link="#" />
                 </div>
             </div>
             <div class="footer__nav">
@@ -67,7 +65,7 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
         </div>
         <div class="footer__bottom">
             <div class="container footer__bottom-container">
-                <BaseLogo class="footer__logo" :is-colored="false"/>
+                <BaseLogo class="footer__logo" :is-colored="false" />
                 <div class="footer__bottom-text">
                     <div>* Запрещен на территории РФ</div>
                     <div>Внешний вид продукции может отличаться от изображений на сайте</div>
@@ -81,7 +79,6 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
 <style scoped lang="scss">
 @use '@/assets/styles/helpers/media';
 @use '@/assets/styles/helpers/functions';
-@use '@/assets/styles/helpers/mixins';
 
 .footer {
     position: relative;
@@ -109,8 +106,8 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
         display: grid;
         grid-template-columns: 1fr auto;
         grid-template-areas:
-            "nav contacts"
-            "nav dev";
+            'nav contacts'
+            'nav dev';
         grid-column-gap: 77px;
     }
 }
@@ -124,7 +121,6 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
 
     @include media.md-up {
         margin-bottom: 40px;
-
     }
 }
 
@@ -141,93 +137,10 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
     gap: 20px;
 }
 
-.footer__contact {
-    display: grid;
-    grid-template-columns: 30px 1fr;
-    grid-template-rows: repeat(2, auto);
-    align-items: center;
-    grid-column-gap: 10px;
-    grid-row-gap: 2px;
-
-    img {
-        grid-column: 1;
-        grid-row: 1/-1;
-        width: 100%;
-        height: 100%;
-    }
-}
-
-.footer__contact-text {
-    color: var(--c-grey70);
-    font-family: var(--f-base);
-    font-size: functions.rem(16);
-    font-weight: 600;
-    line-height: normal;
-    transition: all .2s linear;
-
-    &:hover {
-        color: var(--c-grey50);
-    }
-}
-
-.footer__contact-subtext {
-    color: var(--c-grey40);
-    font-family: var(--f-base);
-    font-size: functions.rem(12);
-    font-weight: 400;
-    line-height: normal;
-}
-
 .footer__socials {
     display: flex;
     flex-direction: row;
     gap: 22px;
-}
-
-.footer__social {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    position: relative;
-    align-items: center;
-    border-radius: var(--b-radius-round);
-    color: var(--c-grey00);
-    cursor: pointer;
-    transition: all .2s linear;
-
-    &:has(> .icon-instagram) {
-        @include mixins.gradient-hover(var(--c-instagram), var(--c-instagram-hover));
-    }
-
-    &:has(> .icon-vk) {
-        background: var(--c-vk);
-
-        &:hover {
-            background: var(--c-vk-hover);
-        }
-    }
-
-    .icon-instagram {
-        &::after {
-            content: '*';
-            font-size: functions.rem(26);
-            position: absolute;
-            color: var(--c-primary);
-            right: -8px;
-            top: 2px;
-        }
-    }
-
-    i {
-        font-size: functions.rem(18);
-
-    }
-
-    .icon-vk {
-        font-size: functions.rem(20);
-        margin-top: 3px;
-    }
 }
 
 .footer__nav {
@@ -254,10 +167,10 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
     font-weight: 600;
     line-height: normal;
     margin-bottom: 30px;
-    transition: all .15s linear;
+    transition: all 0.15s linear;
 
     &:hover {
-        color: var(--c-secondary)
+        color: var(--c-secondary);
     }
 }
 
@@ -290,10 +203,10 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: normal;
-    transition: all .15s linear;
+    transition: all 0.15s linear;
 
     &:hover {
-        color: var(--c-secondary)
+        color: var(--c-secondary);
     }
 }
 
@@ -312,7 +225,7 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
     }
 
     &::before {
-        content: "";
+        content: '';
         position: relative;
         top: 1px;
         display: inline-block;
@@ -336,7 +249,7 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
     color: var(--c-grey80);
     font-weight: 400;
     font-size: functions.rem(14);
-    transition: all .2s linear;
+    transition: all 0.2s linear;
 
     &:hover {
         color: var(--c-grey100);
@@ -344,7 +257,7 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
 }
 
 .footer__bottom {
-    background: url("/images/footer/footer-bottom-sm.webp") no-repeat;
+    background: url('/images/footer/footer-bottom-sm.webp') no-repeat;
     background-size: 100% 100%;
     padding-top: 66px;
     margin-top: 60px;
@@ -353,7 +266,7 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
     overflow: hidden;
 
     @include media.md-up {
-        background: url("/images/footer/footer-bottom-md.webp") no-repeat;
+        background: url('/images/footer/footer-bottom-md.webp') no-repeat;
         background-size: 100% 100%;
         margin-top: 40px;
         padding-top: 80px;
@@ -361,7 +274,7 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
     }
 
     @include media.lg-up {
-        background: url("/images/footer/footer-bottom-lg.webp") no-repeat;
+        background: url('/images/footer/footer-bottom-lg.webp') no-repeat;
         background-size: 250% 100%;
         background-position: 50%;
         margin-top: 40px;
@@ -370,7 +283,7 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
     }
 
     @include media.xl-up {
-        background: url("/images/footer/footer-bottom-lg.webp") no-repeat;
+        background: url('/images/footer/footer-bottom-lg.webp') no-repeat;
         background-size: 3700px calc(100% - 20px);
         background-position: 50% 20px;
         margin-top: 30px;
@@ -412,7 +325,7 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
             position: absolute;
             width: 135px;
             height: 135px;
-            background: url("/images/footer/footer-bottom-sun.webp") no-repeat;
+            background: url('/images/footer/footer-bottom-sun.webp') no-repeat;
             background-size: 100%;
             top: -150px;
             right: -50px;
@@ -428,7 +341,7 @@ import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
         &::after {
             content: '';
             position: absolute;
-            background: url("/images/footer/footer-bottom-line.webp") no-repeat;
+            background: url('/images/footer/footer-bottom-line.webp') no-repeat;
             background-size: 100%;
             width: 650px;
             height: 80px;
