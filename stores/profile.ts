@@ -1,4 +1,4 @@
-import type { Profile } from '~/types/profile';
+import type { Profile } from '~/types/Profile';
 
 export const useProfileStore = defineStore('profile', () => {
     const profile = ref<Profile | null>(null);
