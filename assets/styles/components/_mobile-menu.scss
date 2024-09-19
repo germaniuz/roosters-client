@@ -1,0 +1,31 @@
+@use "../helpers/functions";
+@use "../helpers/media";
+
+.mobile-menu {
+  display: none;
+
+  @include media.md-down {
+    display: block;
+    position: fixed;
+    margin-top: var(--h-header-md);
+    inset: 0;
+    width: 100%;
+    height: calc(100svh - var(--h-header-md));
+    overflow-y: auto;
+    z-index: var(--z-top-20);
+    background: var(--c-grey00);
+    transition: translate 0.5s ease-in, opacity 0s linear .5s;
+    translate: -100% 0;
+    padding: 30px 20px 30px 20px;
+  }
+
+  @include media.sm-down {
+    height: calc(100svh - var(--h-header-sm));
+    margin-top: var(--h-header-sm);
+  }
+
+  &--active {
+    opacity: 1;
+    translate: 0;
+  }
+}

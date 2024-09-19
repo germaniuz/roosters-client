@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-type BtnModifier = 'primary' | 'secondary' | 'success' | 'warning' | 'grey' | 'sm' | 'lg' | 'xl' | 'icon';
+type BtnModifier = 'primary' | 'secondary' | 'third' | 'success' | 'warning' | 'grey' | 'sm' | 'lg' | 'xl' | 'icon';
 
 type Props = {
     modifiers: BtnModifier[] | BtnModifier;

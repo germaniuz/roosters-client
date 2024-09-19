@@ -17,7 +17,7 @@
 @use '@/assets/styles/helpers/functions';
 
 .top-nav {
-    @include media.sm-down {
+    @include media.md-down {
         display: none;
     }
 }
@@ -40,7 +40,7 @@
         display: block;
         width: 590px;
         height: 100px;
-        background: radial-gradient(50% 50% at 50% 50%, #ffd0d0 0%, rgba(255, 255, 255, 0) 100%) no-repeat;
+        background: var(--c-top-nav-gradient);
     }
 }
 
@@ -48,5 +48,10 @@
     color: var(--c-grey50);
     font-size: functions.rem(14);
     line-height: 1;
+    transition: all .2s ease-in-out;
+
+    &:hover {
+        color: var(--c-secondary);
+    }
 }
 </style>
