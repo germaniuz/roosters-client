@@ -3,7 +3,7 @@
 .card {
   background: var(--c-grey00);
   padding: 30px;
-  border-radius: var(--b-radius-lg);
+  border-radius: var(--b-radius-xl);
 
   @include media.md-up {
     padding: 40px;
