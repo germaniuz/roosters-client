@@ -21,7 +21,11 @@
                 </div>
                 <a href="#">Как их использовать?</a>
             </div>
-            <div class="profile__user-orders">3</div>
+            <div class="profile__user-orders">
+                <span>Все заказы и начисления баллов</span>
+                <div>История заказов</div>
+                <BaseButton :modifiers="['secondary']">Посмотреть все</BaseButton>
+            </div>
             <div class="profile__user-active-orders">4</div>
         </div>
     </div>
@@ -44,6 +48,7 @@
     @include media.md-up {
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(3, auto);
+        grid-gap: 20px;
         grid-template-areas:
             'user-welcome user-welcome'
             'user-orders user-points'
@@ -53,6 +58,7 @@
     @include media.lg-up {
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(2, auto);
+        grid-gap: 30px;
         grid-template-areas:
             'user-welcome user-welcome user-points'
             'user-orders user-active-orders user-active-orders';
@@ -67,10 +73,10 @@
 }
 
 .profile__user-welcome {
+    grid-area: user-welcome;
     padding-top: 40px;
     padding-bottom: 15px;
     padding-left: 30px;
-    grid-area: user-welcome;
 }
 
 .profile__user-welcome-hello {
@@ -206,6 +212,49 @@
 
 .profile__user-orders {
     grid-area: user-orders;
+    border-radius: var(--b-radius-lg);
+    background-color: var(--c-grey10);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 163px;
+    padding: 15px;
+
+    @include media.md-up {
+        padding: 20px;
+        min-height: unset;
+    }
+
+    span {
+        font-family: var(--f-base);
+        font-size: functions.rem(14);
+        line-height: functions.rem(16);
+        color: var(--c-grey50);
+        font-weight: 400;
+    }
+
+    div {
+        font-family: var(--f-base);
+        font-size: functions.rem(20);
+        line-height: functions.rem(24);
+        font-weight: 400;
+        color: var(--c-grey70);
+        margin-bottom: 15px;
+
+        @include media.lg-up {
+            font-size: functions.rem(24);
+            line-height: functions.rem(28);
+        }
+
+        @include media.xl-up {
+            font-size: functions.rem(32);
+            line-height: functions.rem(38);
+        }
+    }
+
+    button {
+        margin-top: auto;
+    }
 }
 
 .profile__user-active-orders {

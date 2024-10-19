@@ -50,6 +50,18 @@
     }
   }
 
+  &--secondary {
+    color: var(--c-primary);
+    background-color: var(--c-grey00);
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: var(--c-grey00);
+      background-color: var(--c-primary);
+    }
+  }
+
   &--third {
     color: var(--c-grey00);
     background-color: var(--c-secondary);
