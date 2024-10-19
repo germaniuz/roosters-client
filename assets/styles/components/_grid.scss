@@ -9,6 +9,16 @@
   @include media.lg-up {
     padding-inline: 40px;
   }
+
+  &--sm {
+    @include media.md-only {
+      padding-inline: 80px;
+    }
+
+    @include media.xl-up {
+      padding-inline: 120px;
+    }
+  }
 }
 
 .body {
@@ -17,6 +27,7 @@
   font-size: functions.rem(16);
   line-height: functions.rem(22);
   transition: color, background 0.15s ease;
+  overflow-x: hidden;
 
   &--fixed {
     overflow: hidden;

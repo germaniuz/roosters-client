@@ -1,13 +1,13 @@
 <script lang="ts" setup></script>
 <template>
-    <div class="profile container">
+    <div class="profile container container--sm">
         <h1 class="h1">Профиль</h1>
         <div class="profile__user-grid">
             <div class="profile__user-welcome">
                 <div class="profile__user-welcome-hello">Добрый день,</div>
                 <div class="profile__user-welcome-name">
                     <div class="profile__user-welcome-icon">
-                        <img src="/images/icons/avatar.svg" alt="Profile" />
+                        <img src="/images/icons/avatar-dark.svg" alt="Profile" />
                     </div>
                     <span>Гость!</span>
                 </div>
@@ -56,7 +56,7 @@
     }
 
     @include media.lg-up {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 282px auto 320px;
         grid-template-rows: repeat(2, auto);
         grid-gap: 30px;
         grid-template-areas:
@@ -65,10 +65,10 @@
     }
 
     @include media.xl-up {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: 320px auto 320px;
         grid-template-areas:
-            'user-welcome user-welcome user-welcome user-points'
-            'user-orders user-active-orders user-active-orders user-active-orders';
+            'user-welcome user-welcome user-points'
+            'user-orders user-active-orders user-active-orders';
     }
 }
 
@@ -77,6 +77,60 @@
     padding-top: 40px;
     padding-bottom: 15px;
     padding-left: 30px;
+    position: relative;
+
+    @include media.xl-up {
+        overflow-y: hidden;
+        padding-left: 80px;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 10px;
+        left: -160px;
+        height: 30px;
+        width: 300px;
+        background: url('/images/user/vector-line.webp') no-repeat;
+        background-size: 100%;
+
+        @include media.md-up {
+            height: 45px;
+        }
+
+        @include media.lg-up {
+            left: -190px;
+            top: 0;
+            width: 400px;
+        }
+
+        @include media.xl-up {
+            width: 450px;
+        }
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 230px;
+        z-index: -1;
+        width: 62px;
+        aspect-ratio: 1;
+        background: url('/images/user/sun-pale.webp') no-repeat;
+        background-size: 100%;
+
+        @include media.lg-up {
+            width: 76px;
+            left: unset;
+            right: 30px;
+        }
+
+        @include media.xl-up {
+            width: 122px;
+            right: 60px;
+        }
+    }
 }
 
 .profile__user-welcome-hello {
@@ -138,9 +192,37 @@
     border-radius: var(--b-radius-lg);
     background-color: var(--c-secondary-extra-light);
     padding: 15px;
+    position: relative;
 
     @include media.md-up {
         padding: 20px;
+    }
+
+    @include media.xl-up {
+        overflow-x: clip;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        right: -15px;
+        width: 127px;
+        height: 87px;
+        background-image: url('/images/user/pizza_slice.webp');
+        background-size: 100%;
+
+        @include media.md-up {
+            width: 105px;
+            height: 72px;
+        }
+
+        @include media.lg-up {
+            width: 184px;
+            height: 125px;
+            right: -47px;
+            bottom: -25px;
+        }
     }
 
     span {
