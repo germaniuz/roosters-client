@@ -1,7 +1,9 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const activeOrder = ref(1);
+</script>
 <template>
     <div class="profile container container--sm">
-        <h1 class="h1">Профиль</h1>
+        <h1 class="h1">Личный кабинет</h1>
         <div class="profile__user-grid">
             <div class="profile__user-welcome">
                 <div class="profile__user-welcome-hello">Добрый день,</div>
@@ -19,14 +21,34 @@
                     150
                     <BaseIcon name="pizza-slice" />
                 </div>
-                <a href="#">Как их использовать?</a>
+                <a class="profile__link" href="#">Как их использовать?</a>
             </div>
-            <div class="profile__user-orders">
-                <span>Все заказы и начисления баллов</span>
-                <div>История заказов</div>
+            <div class="profile__user-orders-history">
+                <div class="profile__text">Все заказы и начисления баллов</div>
+                <span>История заказов</span>
                 <BaseButton :modifiers="['secondary']">Посмотреть все</BaseButton>
             </div>
-            <div class="profile__user-active-orders">4</div>
+            <div class="profile__user-order">
+                <div v-if="activeOrder">
+                    <div class="profile__user-actual-order"></div>
+                    <div class="profile__user-actual-order-info"></div>
+                </div>
+                <div v-if="activeOrder" class="profile__user-no-active-orders">
+                    <img src="/images/sad-face.webp" alt="no-orders" />
+                    <div class="profile__user-no-active-orders-title">Нет активных заказов</div>
+                    <div class="profile__text">
+                        Попробуйте наши новинки в <a class="profile__link" href="#">каталоге</a>
+                    </div>
+                    <div class="profile__recommended-to-order-block">
+                        <div class="profile__recommended-to-order">
+                            <img src="/images/test-pizza.webp" alt="" />
+                            <span class="profile__recommended-to-order-name">Диабло</span>
+                            <span class="profile__recommended-to-order-plus">+</span>
+                        </div>
+                        <BaseButton :modifiers="['secondary']">...</BaseButton>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -35,6 +57,28 @@
 @use '@/assets/styles/helpers/media';
 @use '@/assets/styles/helpers/functions';
 
+.profile__text {
+    font-family: var(--f-base);
+    font-size: functions.rem(14);
+    line-height: functions.rem(16);
+    color: var(--c-grey50);
+    font-weight: 400;
+}
+
+.profile__link {
+    font-family: var(--f-base);
+    font-weight: 400;
+    font-size: functions.rem(14);
+    line-height: functions.rem(16);
+    color: var(--c-secondary);
+    text-decoration: underline;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        color: var(--c-secondary-extra-dark);
+    }
+}
+
 .profile__user-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -42,8 +86,8 @@
     grid-template-areas:
         'user-welcome'
         'user-points'
-        'user-orders'
-        'user-active-orders';
+        'user-orders-history'
+        'user-order';
 
     @include media.md-up {
         grid-template-columns: repeat(2, 1fr);
@@ -51,8 +95,8 @@
         grid-gap: 20px;
         grid-template-areas:
             'user-welcome user-welcome'
-            'user-orders user-points'
-            'user-active-orders user-active-orders';
+            'user-orders-history user-points'
+            'user-order user-order';
     }
 
     @include media.lg-up {
@@ -61,14 +105,14 @@
         grid-gap: 30px;
         grid-template-areas:
             'user-welcome user-welcome user-points'
-            'user-orders user-active-orders user-active-orders';
+            'user-orders-history user-order user-order';
     }
 
     @include media.xl-up {
         grid-template-columns: 320px auto 320px;
         grid-template-areas:
             'user-welcome user-welcome user-points'
-            'user-orders user-active-orders user-active-orders';
+            'user-orders-history user-order user-order';
     }
 }
 
@@ -240,20 +284,6 @@
             margin-bottom: 15px;
         }
     }
-
-    a {
-        font-family: var(--f-base);
-        font-weight: 400;
-        font-size: functions.rem(14);
-        line-height: functions.rem(16);
-        color: var(--c-secondary);
-        text-decoration: underline;
-        transition: all 0.2s ease-in-out;
-
-        &:hover {
-            color: var(--c-secondary-extra-dark);
-        }
-    }
 }
 
 .profile__user-points-converting {
@@ -292,8 +322,8 @@
     }
 }
 
-.profile__user-orders {
-    grid-area: user-orders;
+.profile__user-orders-history {
+    grid-area: user-orders-history;
     border-radius: var(--b-radius-lg);
     background-color: var(--c-grey10);
     display: flex;
@@ -308,14 +338,6 @@
     }
 
     span {
-        font-family: var(--f-base);
-        font-size: functions.rem(14);
-        line-height: functions.rem(16);
-        color: var(--c-grey50);
-        font-weight: 400;
-    }
-
-    div {
         font-family: var(--f-base);
         font-size: functions.rem(20);
         line-height: functions.rem(24);
@@ -339,7 +361,83 @@
     }
 }
 
-.profile__user-active-orders {
-    grid-area: user-active-orders;
+.profile__user-order {
+    grid-area: user-order;
+    min-height: 190px;
+}
+
+.profile__user-no-active-orders {
+    border-radius: var(--b-radius-lg);
+    background: var(--c-grey10);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    @include media.md-up {
+        padding: 20px;
+    }
+
+    @include media.lg-up {
+        padding: 25px;
+    }
+
+    img {
+        width: 37px;
+        height: 20px;
+    }
+}
+
+.profile__user-no-active-orders-title {
+    color: var(--c-grey70);
+    font-family: var(--f-base);
+    font-size: functions.rem(24);
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: 5px;
+
+    @include media.lg-up {
+        font-size: functions.rem(32);
+    }
+}
+
+.profile__recommended-to-order-block {
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.profile__recommended-to-order {
+    border-radius: var(--b-radius-md);
+    background: var(--c-grey00);
+    display: flex;
+    flex-direction: row;
+    padding: 5px 15px 5px 5px;
+    gap: 10px;
+    align-items: center;
+
+    img {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+.profile__recommended-to-order-name {
+    color: var(--c-grey50);
+    font-family: var(--f-base);
+    font-size: functions.rem(14);
+    font-weight: 400;
+    line-height: normal;
+}
+
+.profile__recommended-to-order-plus {
+    color: var(--c-secondary);
+    font-family: var(--f-base);
+    font-size: functions.rem(16);
+    font-weight: 400;
+    line-height: normal;
 }
 </style>
