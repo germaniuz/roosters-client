@@ -1,8 +1,29 @@
 <script lang="ts" setup>
 import BaseOrderCard from '~/components/BaseOrderCard.vue';
 import RadioButton from '~/components/form/RadioButton.vue';
+import type { UserGender } from '~/types/Profile';
 
 const mailingEmail = ref('');
+const name = ref('');
+const phone = ref('');
+const email = ref('');
+const birthday = ref('');
+const gender = ref<UserGender>('male');
+
+const userIsMale = ref<boolean>(true);
+const userIsFemale = ref<boolean>(false);
+
+const handleMaleCheckboxClick = () => {
+    userIsMale.value = true;
+    userIsFemale.value = false;
+    gender.value = 'male';
+};
+
+const handleFemaleCheckboxClick = () => {
+    userIsFemale.value = true;
+    userIsMale.value = false;
+    gender.value = 'female';
+};
 
 const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьянская 31', 'Улица Клавы Нечаевой, 4']);
 </script>
@@ -43,7 +64,7 @@ const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьян�
             <div class="profile__mailing-description">Получать персональные предложения, акции и новости.</div>
             <FormInput
                 class="profile__mailing-mail"
-                name="category-name"
+                name="mailing-email"
                 v-model="mailingEmail"
                 placeholder="roosters@ya.ru"
             />
@@ -71,6 +92,48 @@ const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьян�
                     </div>
                     <div class="profile__personal-data-bonus-subtext">Бонусами можно оплачивать заказы</div>
                 </div>
+            </div>
+            <div class="profile__personal-data-image-block">
+                <div class="profile__personal-data-image">
+                    <img src="/images/icons/avatar-dark.svg" alt="Profile" />
+                </div>
+                <BaseButton :modifiers="['outline']">Изменить изображение</BaseButton>
+            </div>
+            <div class="profile__input">
+                <FormInput name="name" v-model="name" placeholder="Имя" />
+                <div class="profile__bonus">+50</div>
+            </div>
+            <div class="profile__input">
+                <FormInput name="phone" v-model="phone" placeholder="Телефон" />
+                <div class="profile__bonus">+50</div>
+            </div>
+            <div class="profile__input">
+                <FormInput name="email" v-model="email" placeholder="Email" />
+                <div class="profile__bonus">+50</div>
+            </div>
+            <div class="profile__input-label">Пол</div>
+            <div class="profile__personal-data-gender">
+                <FormCheckbox
+                    v-model="userIsMale"
+                    label="Мужской"
+                    name="userIsMale"
+                    @change="handleMaleCheckboxClick()"
+                />
+                <FormCheckbox
+                    v-model="userIsFemale"
+                    label="Женский"
+                    name="userIsFemale"
+                    @change="handleFemaleCheckboxClick()"
+                />
+            </div>
+            <div class="profile__input-label">Дата рождения</div>
+            <div class="profile__input">
+                <FormInput name="birthday" v-model="birthday" placeholder="День рождения" />
+                <div class="profile__bonus">+50</div>
+            </div>
+            <div class="profile__personal-data-btns">
+                <BaseButton :modifiers="['primary']">Сохранить</BaseButton>
+                <BaseButton :modifiers="['outline']">Выйти</BaseButton>
             </div>
         </div>
     </div>
@@ -439,6 +502,22 @@ const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьян�
     margin-left: auto;
 }
 
+.profile__personal-data {
+    margin-bottom: 60px;
+
+    @include media.md-up {
+        margin-bottom: 30px;
+    }
+
+    @include media.lg-up {
+        margin-bottom: 80px;
+    }
+
+    @include media.xl-up {
+        margin-bottom: 120px;
+    }
+}
+
 .profile__personal-data-bonus {
     display: flex;
     flex-direction: row;
@@ -453,10 +532,9 @@ const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьян�
 
 .profile__personal-data-bonus-img {
     width: 58px;
-    aspect-ratio: 1;
+    height: 58px;
 
     img {
-        width: 100%;
         height: 100%;
         object-fit: contain;
     }
@@ -473,7 +551,7 @@ const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьян�
     span {
         background-color: var(--c-secondary-extra-light);
         padding: 3px 10px;
-        border-radius: 33px;
+        border-radius: var(--b-radius-2xl);
         color: var(--c-secondary);
         font-family: var(--f-base);
         font-size: functions.rem(16);
@@ -496,5 +574,102 @@ const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьян�
     font-size: functions.rem(14);
     font-weight: 400;
     line-height: normal;
+}
+
+.profile__personal-data-image-block {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+
+    @include media.md-up {
+        margin-bottom: 30px;
+    }
+}
+
+.profile__personal-data-image {
+    width: 58px;
+    height: 58px;
+
+    img {
+        height: 100%;
+        object-fit: contain;
+    }
+}
+
+.profile__personal-data-gender {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    margin-bottom: 20px;
+    color: var(--c-grey70);
+}
+
+.profile__personal-data-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 60px;
+
+    @include media.md-up {
+        flex-direction: row-reverse;
+        max-width: 540px;
+    }
+
+    button {
+        padding: 20px;
+        font-size: functions.rem(18);
+        width: 100%;
+
+        @include media.md-up {
+            font-size: functions.rem(16);
+        }
+    }
+}
+
+.profile__bonus {
+    background-color: var(--c-secondary-extra-light);
+    padding: 3px 10px;
+    border-radius: var(--b-radius-2xl);
+    width: max-content;
+    color: var(--c-secondary);
+    font-family: var(--f-base);
+    font-size: functions.rem(16);
+    font-weight: 700;
+    line-height: normal;
+
+    &::after {
+        content: '\e812';
+        font-family: var(--f-fontello);
+        color: var(--c-primary);
+        font-size: functions.rem(18);
+        margin-left: 5px;
+    }
+}
+
+.profile__input {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+
+    .form-control {
+        width: 100%;
+
+        @include media.md-up {
+            max-width: 312px;
+        }
+    }
+}
+
+.profile__input-label {
+    color: var(--c-grey70);
+    font-family: var(--f-base);
+    font-size: functions.rem(16);
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: 15px;
 }
 </style>

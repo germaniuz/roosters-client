@@ -11,3 +11,5 @@ export const ProfileSchema = v.object({
 });
 
 export type Profile = InferOutput<typeof ProfileSchema>;
+
+export type UserGender = 'male' | 'female';
