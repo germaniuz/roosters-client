@@ -58,6 +58,21 @@ const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьян�
             </div>
         </div>
         <div class="h2">Персональные данные</div>
+        <div class="profile__personal-data">
+            <div class="profile__personal-data-bonus">
+                <div class="profile__personal-data-bonus-img">
+                    <img src="/images/exclamation.webp" alt="" />
+                </div>
+                <div>
+                    <div class="profile__personal-data-bonus-text">
+                        Получите
+                        <span>до 450 <BaseIcon name="pizza-slice" /></span>
+                        за заполнение профиля!
+                    </div>
+                    <div class="profile__personal-data-bonus-subtext">Бонусами можно оплачивать заказы</div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -422,5 +437,64 @@ const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьян�
     color: var(--c-grey30);
     font-size: functions.rem(24);
     margin-left: auto;
+}
+
+.profile__personal-data-bonus {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+
+    @include media.md-up {
+        margin-bottom: 30px;
+    }
+}
+
+.profile__personal-data-bonus-img {
+    width: 58px;
+    aspect-ratio: 1;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}
+
+.profile__personal-data-bonus-text {
+    color: var(--c-grey70);
+    font-family: var(--f-base);
+    font-size: functions.rem(16);
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: 10px;
+
+    span {
+        background-color: var(--c-secondary-extra-light);
+        padding: 3px 10px;
+        border-radius: 33px;
+        color: var(--c-secondary);
+        font-family: var(--f-base);
+        font-size: functions.rem(16);
+        font-weight: 700;
+        line-height: normal;
+
+        i {
+            color: var(--c-primary);
+
+            &:before {
+                margin-right: 0;
+            }
+        }
+    }
+}
+
+.profile__personal-data-bonus-subtext {
+    color: var(--c-grey50);
+    font-family: var(--f-base);
+    font-size: functions.rem(14);
+    font-weight: 400;
+    line-height: normal;
 }
 </style>
