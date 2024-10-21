@@ -3,6 +3,8 @@ import BaseOrderCard from '~/components/BaseOrderCard.vue';
 import RadioButton from '~/components/form/RadioButton.vue';
 import type { UserGender } from '~/types/Profile';
 
+const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьянская 31', 'Улица Клавы Нечаевой, 4']);
+
 const mailingEmail = ref('');
 const name = ref('');
 const phone = ref('');
@@ -12,6 +14,8 @@ const gender = ref<UserGender>('male');
 
 const userIsMale = ref<boolean>(true);
 const userIsFemale = ref<boolean>(false);
+
+const subscribeMailing = ref(false);
 
 const handleMaleCheckboxClick = () => {
     userIsMale.value = true;
@@ -24,8 +28,6 @@ const handleFemaleCheckboxClick = () => {
     userIsMale.value = false;
     gender.value = 'female';
 };
-
-const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьянская 31', 'Улица Клавы Нечаевой, 4']);
 </script>
 <template>
     <div class="profile container container--sm">
@@ -58,16 +60,22 @@ const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьян�
         </div>
         <div class="profile__mailing">
             <div class="profile__mailing-radio-btn">
-                <RadioButton name="profile-mailing" label="" />
+                <RadioButton v-model="subscribeMailing" name="profile-mailing" label="" />
                 <span class="h2 h2--no-mb">Подписаться на рассылку</span>
             </div>
             <div class="profile__mailing-description">Получать персональные предложения, акции и новости.</div>
-            <FormInput
-                class="profile__mailing-mail"
-                name="mailing-email"
-                v-model="mailingEmail"
-                placeholder="roosters@ya.ru"
-            />
+            <div class="profile__input" v-if="subscribeMailing">
+                <FormInput
+                    class="profile__mailing-mail"
+                    name="mailing-email"
+                    v-model="mailingEmail"
+                    placeholder="Введите адрес"
+                />
+                <div v-if="!mailingEmail" class="profile__bonus">+50</div>
+                <BaseButton v-if="mailingEmail" class="profile__mailing-save-btn" :modifiers="['primary']"
+                    >Сохранить</BaseButton
+                >
+            </div>
         </div>
         <div class="h2">Персональные акции</div>
         <div class="h2">Ваши адреса</div>
@@ -464,6 +472,10 @@ const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьян�
     }
 }
 
+.profile__mailing-save-btn {
+    padding: 20px 30px;
+}
+
 .profile__saved-addresses {
     margin-bottom: 40px;
     display: flex;
@@ -556,7 +568,7 @@ const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьян�
         font-family: var(--f-base);
         font-size: functions.rem(16);
         font-weight: 700;
-        line-height: normal;
+        line-height: 1.5;
 
         i {
             color: var(--c-primary);
