@@ -394,6 +394,7 @@ const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьян�
 
     @include media.md-up {
         margin-bottom: 60px;
+        max-width: 360px;
     }
 }
 
