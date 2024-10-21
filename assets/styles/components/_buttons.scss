@@ -62,6 +62,19 @@
     }
   }
 
+  &--outline {
+    color: var(--c-primary);
+    background-color: var(--c-grey00);
+    border: 1px solid var(--c-primary);
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: var(--c-secondary);
+      background-color: var(--c-secondary);
+    }
+  }
+
   &--third {
     color: var(--c-grey00);
     background-color: var(--c-secondary);
@@ -106,5 +119,9 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+  }
+
+  &--single-icon {
+    padding: 0;
   }
 }

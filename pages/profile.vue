@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const activeOrder = ref(1);
+import BaseOrderCard from '~/components/BaseOrderCard.vue';
 </script>
 <template>
     <div class="profile container container--sm">
@@ -14,41 +14,21 @@ const activeOrder = ref(1);
                     <span>Гость!</span>
                 </div>
             </div>
-            <div class="profile__user-points">
+            <div class="card card--p-md profile__user-points">
                 <div class="profile__user-points-converting">1 балл Рустерс = 1 ₽</div>
                 <span>Сейчас у вас</span>
                 <div class="profile__user-points-balance">
                     150
                     <BaseIcon name="pizza-slice" />
                 </div>
-                <a class="profile__link" href="#">Как их использовать?</a>
+                <a class="link link--secondary" href="#">Как их использовать?</a>
             </div>
-            <div class="profile__user-orders-history">
-                <div class="profile__text">Все заказы и начисления баллов</div>
+            <div class="card card--p-md card--grey profile__user-orders-history">
+                <div class="text14 g50">Все заказы и начисления баллов</div>
                 <span>История заказов</span>
                 <BaseButton :modifiers="['secondary']">Посмотреть все</BaseButton>
             </div>
-            <div class="profile__user-order">
-                <div v-if="activeOrder">
-                    <div class="profile__user-actual-order"></div>
-                    <div class="profile__user-actual-order-info"></div>
-                </div>
-                <div v-if="activeOrder" class="profile__user-no-active-orders">
-                    <img src="/images/sad-face.webp" alt="no-orders" />
-                    <div class="profile__user-no-active-orders-title">Нет активных заказов</div>
-                    <div class="profile__text">
-                        Попробуйте наши новинки в <a class="profile__link" href="#">каталоге</a>
-                    </div>
-                    <div class="profile__recommended-to-order-block">
-                        <div class="profile__recommended-to-order">
-                            <img src="/images/test-pizza.webp" alt="" />
-                            <span class="profile__recommended-to-order-name">Диабло</span>
-                            <span class="profile__recommended-to-order-plus">+</span>
-                        </div>
-                        <BaseButton :modifiers="['secondary']">...</BaseButton>
-                    </div>
-                </div>
-            </div>
+            <BaseOrderCard class="profile__user-order" />
         </div>
     </div>
 </template>
@@ -56,28 +36,6 @@ const activeOrder = ref(1);
 <style scoped lang="scss">
 @use '@/assets/styles/helpers/media';
 @use '@/assets/styles/helpers/functions';
-
-.profile__text {
-    font-family: var(--f-base);
-    font-size: functions.rem(14);
-    line-height: functions.rem(16);
-    color: var(--c-grey50);
-    font-weight: 400;
-}
-
-.profile__link {
-    font-family: var(--f-base);
-    font-weight: 400;
-    font-size: functions.rem(14);
-    line-height: functions.rem(16);
-    color: var(--c-secondary);
-    text-decoration: underline;
-    transition: all 0.2s ease-in-out;
-
-    &:hover {
-        color: var(--c-secondary-extra-dark);
-    }
-}
 
 .profile__user-grid {
     display: grid;
@@ -233,14 +191,8 @@ const activeOrder = ref(1);
 
 .profile__user-points {
     grid-area: user-points;
-    border-radius: var(--b-radius-lg);
     background-color: var(--c-secondary-extra-light);
-    padding: 15px;
     position: relative;
-
-    @include media.md-up {
-        padding: 20px;
-    }
 
     @include media.xl-up {
         overflow-x: clip;
@@ -324,16 +276,12 @@ const activeOrder = ref(1);
 
 .profile__user-orders-history {
     grid-area: user-orders-history;
-    border-radius: var(--b-radius-lg);
-    background-color: var(--c-grey10);
     display: flex;
     flex-direction: column;
     gap: 10px;
     min-height: 163px;
-    padding: 15px;
 
     @include media.md-up {
-        padding: 20px;
         min-height: unset;
     }
 
@@ -364,80 +312,9 @@ const activeOrder = ref(1);
 .profile__user-order {
     grid-area: user-order;
     min-height: 190px;
-}
-
-.profile__user-no-active-orders {
-    border-radius: var(--b-radius-lg);
-    background: var(--c-grey10);
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-
-    @include media.md-up {
-        padding: 20px;
-    }
 
     @include media.lg-up {
-        padding: 25px;
+        min-height: 206px;
     }
-
-    img {
-        width: 37px;
-        height: 20px;
-    }
-}
-
-.profile__user-no-active-orders-title {
-    color: var(--c-grey70);
-    font-family: var(--f-base);
-    font-size: functions.rem(24);
-    font-weight: 400;
-    line-height: normal;
-    margin-bottom: 5px;
-
-    @include media.lg-up {
-        font-size: functions.rem(32);
-    }
-}
-
-.profile__recommended-to-order-block {
-    margin-top: auto;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-}
-
-.profile__recommended-to-order {
-    border-radius: var(--b-radius-md);
-    background: var(--c-grey00);
-    display: flex;
-    flex-direction: row;
-    padding: 5px 15px 5px 5px;
-    gap: 10px;
-    align-items: center;
-
-    img {
-        width: 38px;
-        height: 38px;
-    }
-}
-
-.profile__recommended-to-order-name {
-    color: var(--c-grey50);
-    font-family: var(--f-base);
-    font-size: functions.rem(14);
-    font-weight: 400;
-    line-height: normal;
-}
-
-.profile__recommended-to-order-plus {
-    color: var(--c-secondary);
-    font-family: var(--f-base);
-    font-size: functions.rem(16);
-    font-weight: 400;
-    line-height: normal;
 }
 </style>

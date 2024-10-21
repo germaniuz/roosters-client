@@ -1,6 +1,7 @@
 export type BtnModifier =
     | 'primary'
     | 'secondary'
+    | 'outline'
     | 'third'
     | 'success'
     | 'warning'
@@ -9,4 +10,5 @@ export type BtnModifier =
     | 'sm'
     | 'lg'
     | 'xl'
-    | 'icon';
+    | 'icon'
+    | 'single-icon';
