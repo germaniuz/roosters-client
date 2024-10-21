@@ -1,5 +1,10 @@
 <script lang="ts" setup>
 import BaseOrderCard from '~/components/BaseOrderCard.vue';
+import RadioButton from '~/components/form/RadioButton.vue';
+
+const mailingEmail = ref('');
+
+const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьянская 31', 'Улица Клавы Нечаевой, 4']);
 </script>
 <template>
     <div class="profile container container--sm">
@@ -30,6 +35,29 @@ import BaseOrderCard from '~/components/BaseOrderCard.vue';
             </div>
             <BaseOrderCard class="profile__user-order" />
         </div>
+        <div class="profile__mailing">
+            <div class="profile__mailing-radio-btn">
+                <RadioButton name="profile-mailing" label="" />
+                <span class="h2 h2--no-mb">Подписаться на рассылку</span>
+            </div>
+            <div class="profile__mailing-description">Получать персональные предложения, акции и новости.</div>
+            <FormInput
+                class="profile__mailing-mail"
+                name="category-name"
+                v-model="mailingEmail"
+                placeholder="roosters@ya.ru"
+            />
+        </div>
+        <div class="h2">Персональные акции</div>
+        <div class="h2">Ваши адреса</div>
+        <div class="profile__saved-addresses">
+            <div v-for="savedAddress in savedAddresses" class="profile__saved-address">
+                <BaseIcon class="profile__saved-address-icon" name="pin-scheme" />
+                <div class="profile__saved-address-name">{{ savedAddress }}</div>
+                <BaseIcon class="profile__saved-address-remove" name="close" />
+            </div>
+        </div>
+        <div class="h2">Персональные данные</div>
     </div>
 </template>
 
@@ -41,6 +69,7 @@ import BaseOrderCard from '~/components/BaseOrderCard.vue';
     display: grid;
     grid-template-columns: 1fr;
     grid-row-gap: 20px;
+    margin-bottom: 40px;
     grid-template-areas:
         'user-welcome'
         'user-points'
@@ -48,6 +77,7 @@ import BaseOrderCard from '~/components/BaseOrderCard.vue';
         'user-order';
 
     @include media.md-up {
+        margin-bottom: 60px;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(3, auto);
         grid-gap: 20px;
@@ -316,5 +346,80 @@ import BaseOrderCard from '~/components/BaseOrderCard.vue';
     @include media.lg-up {
         min-height: 206px;
     }
+}
+
+.profile__mailing {
+    margin-bottom: 40px;
+
+    @include media.md-up {
+        margin-bottom: 60px;
+    }
+}
+
+.profile__mailing-radio-btn {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    @include media.lg-up {
+        margin-bottom: 30px;
+    }
+}
+
+.profile__mailing-description {
+    color: var(--c-grey60);
+    font-family: var(--f-base);
+    font-size: functions.rem(16);
+    font-weight: 400;
+    line-height: normal;
+    margin-bottom: 20px;
+
+    @include media.lg-up {
+        margin-bottom: 30px;
+    }
+}
+
+.profile__mailing-mail {
+    @include media.md-up {
+        max-width: 312px;
+    }
+}
+
+.profile__saved-addresses {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    @include media.md-up {
+        margin-bottom: 60px;
+    }
+}
+
+.profile__saved-address {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile__saved-address-icon {
+    color: var(--c-primary);
+    font-size: functions.rem(24);
+}
+
+.profile__saved-address-name {
+    color: var(--c-secondary);
+    font-family: var(--f-base);
+    font-size: functions.rem(16);
+    font-weight: 600;
+    line-height: normal;
+}
+
+.profile__saved-address-remove {
+    color: var(--c-grey30);
+    font-size: functions.rem(24);
+    margin-left: auto;
 }
 </style>
