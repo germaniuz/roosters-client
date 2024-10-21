@@ -512,6 +512,12 @@ const handleFemaleCheckboxClick = () => {
     color: var(--c-grey30);
     font-size: functions.rem(24);
     margin-left: auto;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+
+    &:hover {
+        color: var(--c-grey60);
+    }
 }
 
 .profile__personal-data {
@@ -594,9 +600,14 @@ const handleFemaleCheckboxClick = () => {
     gap: 20px;
     align-items: center;
     margin-bottom: 20px;
+    max-width: 312px;
 
     @include media.md-up {
         margin-bottom: 30px;
+    }
+
+    button {
+        width: 100%;
     }
 }
 
