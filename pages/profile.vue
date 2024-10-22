@@ -2,8 +2,27 @@
 import BaseOrderCard from '~/components/BaseOrderCard.vue';
 import RadioButton from '~/components/form/RadioButton.vue';
 import type { UserGender } from '~/types/Profile';
+import type { Story } from '~/types/Story';
 
 const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьянская 31', 'Улица Клавы Нечаевой, 4']);
+const stories = ref<Array<Story>>([
+    {
+        image: '/images/stories/story.webp',
+        link: '#',
+    },
+    {
+        image: '/images/stories/story2.webp',
+        link: '#',
+    },
+    {
+        image: '/images/stories/story3.webp',
+        link: '#',
+    },
+    {
+        image: '/images/stories/story3.webp',
+        link: '#',
+    },
+]);
 
 const mailingEmail = ref('');
 const name = ref('');
@@ -77,7 +96,16 @@ const handleFemaleCheckboxClick = () => {
                 >
             </div>
         </div>
-        <div class="h2">Персональные акции</div>
+        <div class="profile__promo">
+            <div class="h2 h2--no-mb profile__promo-title">Персональные акции</div>
+            <div class="profile__promo-carousel">
+                <div class="profile__promo-image" v-for="story in stories">
+                    <a :href="story.link"></a>
+                    <img :src="story.image" alt="story" />
+                </div>
+            </div>
+            <BaseButton class="profile__all-promo-btn" :modifiers="['outline-secondary']">Посмотреть все</BaseButton>
+        </div>
         <div class="h2">Ваши адреса</div>
         <div class="profile__saved-addresses">
             <div v-for="savedAddress in savedAddresses" class="profile__saved-address">
@@ -474,6 +502,77 @@ const handleFemaleCheckboxClick = () => {
 
 .profile__mailing-save-btn {
     padding: 20px 30px;
+}
+
+.profile__promo {
+    display: grid;
+    grid-row-gap: 30px;
+    margin-bottom: 40px;
+    grid-template-areas:
+        'promo-title'
+        'promo-carousel'
+        'all-promo-btn';
+
+    @include media.md-up {
+        margin-bottom: 60px;
+        grid-template-columns: max-content 1fr;
+        align-items: center;
+        column-gap: 20px;
+        grid-template-areas:
+            'promo-title all-promo-btn'
+            'promo-carousel promo-carousel';
+    }
+}
+
+.profile__promo-title {
+    grid-area: promo-title;
+}
+
+.profile__promo-carousel {
+    grid-area: promo-carousel;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 20px;
+    margin-inline: calc(var(--pi-container-xs) * -1);
+    padding-inline: var(--pi-container-xs);
+
+    @include media.md-only {
+        margin-inline: calc(var(--pi-container-xl) * -1);
+        padding-inline: var(--pi-container-xl);
+    }
+}
+
+.profile__promo-image {
+    min-width: 130px;
+    max-height: 174px;
+    aspect-ratio: 0.75;
+    border-radius: var(--b-radius);
+    overflow: hidden;
+
+    @include media.md-up {
+        min-width: 185px;
+        max-height: 244px;
+    }
+
+    @include media.lg-up {
+        width: 208px;
+        max-height: 276px;
+    }
+
+    img {
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+.profile__all-promo-btn {
+    grid-area: all-promo-btn;
+    padding: 10px 30px;
+
+    @include media.md-up {
+        width: max-content;
+    }
 }
 
 .profile__saved-addresses {

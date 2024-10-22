@@ -71,7 +71,20 @@
     &:focus,
     &:active {
       color: var(--c-secondary);
-      background-color: var(--c-secondary);
+      border-color: var(--c-secondary);
+    }
+  }
+
+  &--outline-secondary {
+    color: var(--c-secondary);
+    background-color: var(--c-grey00);
+    border: 1px solid var(--c-secondary);
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: var(--c-primary);
+      border-color: var(--c-primary);
     }
   }
 
