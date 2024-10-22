@@ -164,7 +164,7 @@ const handleFemaleCheckboxClick = () => {
             </div>
             <div class="profile__input-label">Дата рождения</div>
             <div class="profile__input">
-                <FormInput name="birthday" v-model="birthday" placeholder="День рождения" />
+                <FormInput name="birthday" type="date" v-model="birthday" placeholder="День рождения" />
                 <div class="profile__bonus">+50</div>
             </div>
             <div class="profile__personal-data-btns">
