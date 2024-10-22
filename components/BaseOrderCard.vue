@@ -38,11 +38,11 @@ const handleNextBtnClick = () => {
             <div class="card card--p-md card--grey order-card__actual-order">
                 <div class="text14 g50">Актуальные заказы:</div>
                 <div class="order-card__orders-quantity">
-                    <BaseIcon name="arrow-right" @click="handlePrevBtnClick()" />
+                    <BaseIcon name="angle-left" @click="handlePrevBtnClick()" />
                     <div class="order-card__orders-quantity-number">
                         {{ orderNumber }} <span v-if="ordersQuantity > 1">/ {{ ordersQuantity }}</span>
                     </div>
-                    <BaseIcon name="arrow-right" @click="handleNextBtnClick()" />
+                    <BaseIcon name="angle-right" @click="handleNextBtnClick()" />
                 </div>
                 <BaseButton :modifiers="['secondary']">Посмотреть все</BaseButton>
             </div>
@@ -127,6 +127,17 @@ const handleNextBtnClick = () => {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+
+    i {
+        color: var(--c-grey20);
+        cursor: pointer;
+        transition: all 0.2s ease-in;
+
+        &:hover {
+            color: var(--c-grey50);
+        }
+    }
 }
 
 .order-card__orders-quantity-number {
