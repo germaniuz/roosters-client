@@ -66,7 +66,7 @@ const handleFemaleCheckboxClick = () => {
                 <span>Сейчас у вас</span>
                 <div class="profile__user-points-balance">
                     150
-                    <BaseIcon name="pizza-slice" />
+                    <BaseIcon name="pizza-slice-filled" />
                 </div>
                 <a class="link link--secondary" href="#">Как их использовать?</a>
             </div>
@@ -109,7 +109,7 @@ const handleFemaleCheckboxClick = () => {
         <div class="h2">Ваши адреса</div>
         <div class="profile__saved-addresses">
             <div v-for="savedAddress in savedAddresses" class="profile__saved-address">
-                <BaseIcon class="profile__saved-address-icon" name="pin-scheme" />
+                <BaseIcon class="profile__saved-address-icon" name="location" />
                 <div class="profile__saved-address-name">{{ savedAddress }}</div>
                 <BaseIcon class="profile__saved-address-remove" name="close" />
             </div>
@@ -123,7 +123,7 @@ const handleFemaleCheckboxClick = () => {
                 <div>
                     <div class="profile__personal-data-bonus-text">
                         Получите
-                        <span>до 450 <BaseIcon name="pizza-slice" /></span>
+                        <span>до 450 <BaseIcon name="pizza-slice-filled" /></span>
                         за заполнение профиля!
                     </div>
                     <div class="profile__personal-data-bonus-subtext">Бонусами можно оплачивать заказы</div>
@@ -762,7 +762,7 @@ const handleFemaleCheckboxClick = () => {
     line-height: normal;
 
     &::after {
-        content: '\e812';
+        content: '\e846';
         font-family: var(--f-fontello);
         color: var(--c-primary);
         font-size: functions.rem(18);

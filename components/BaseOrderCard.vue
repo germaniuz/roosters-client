@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import BaseIconButton from '~/components/BaseIconButton.vue';
+
 const activeOrder = ref(1);
 const orderNumber = ref(1);
 const ordersQuantity = 3;
@@ -55,9 +57,11 @@ const handleNextBtnClick = () => {
                     <div class="order-card__order-address">Ул. Рабоче-крестьянская, 31</div>
                     <div class="order-card__order-price"><span>1200₽</span> 1900₽</div>
                     <div class="order-card__more-info">
-                        <BaseButton :modifiers="['outline', 'icon', 'single-icon']" class="order-card__more-info-btn"
-                            >...</BaseButton
-                        >
+                        <BaseIconButton
+                            icon="three-dots-horizontal"
+                            :modifiers="['outline']"
+                            class="order-card__more-info-btn"
+                        ></BaseIconButton>
                         <div class="order-card__more-info-img">
                             <img src="/images/test-pizza.webp" alt="image" />
                         </div>
@@ -78,7 +82,10 @@ const handleNextBtnClick = () => {
                     <span class="order-card__recommended-to-order-name">{{ recommendedItem.name }}</span>
                     <span class="order-card__recommended-to-order-plus">+</span>
                 </div>
-                <BaseButton :modifiers="['secondary']">...</BaseButton>
+                <BaseIconButton
+                    icon="three-dots-horizontal"
+                    class="order-card__more-info-btn order-card__more-info-btn--lg"
+                ></BaseIconButton>
             </div>
         </div>
     </div>
@@ -358,8 +365,38 @@ const handleNextBtnClick = () => {
 }
 
 .order-card__more-info-btn {
-    width: 37px;
     height: 37px;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    * {
+        font-size: functions.rem(3);
+        position: relative;
+        left: -5px;
+    }
+
+    &--lg {
+        height: 50px;
+        background-color: var(--c-grey00);
+        transition: all 0.2s ease-in;
+
+        &:hover {
+            * {
+                color: var(--c-primary);
+            }
+        }
+
+        * {
+            font-size: functions.rem(4);
+            position: relative;
+            left: -7px;
+            top: 2px;
+            color: var(--c-secondary);
+            transition: all 0.2s ease-in;
+        }
+    }
 }
 
 .order-card__recommended-to-order {
