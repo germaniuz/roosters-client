@@ -4,8 +4,9 @@ import RadioButton from '~/components/form/RadioButton.vue';
 import type { UserGender } from '~/types/Profile';
 import type { Story } from '~/types/Story';
 
-const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьянская 31', 'Улица Клавы Нечаевой, 4']);
+const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьянская 31', 'Улица Клавы Нечаевой, 4']); // TODO: JS add addresses
 const stories = ref<Array<Story>>([
+    // TODO: JS add stories
     {
         image: '/images/stories/story.webp',
         link: '#',
@@ -24,7 +25,7 @@ const stories = ref<Array<Story>>([
     },
 ]);
 
-const mailingEmail = ref('');
+const mailingEmail = ref(''); // TODO: JS add proper data
 const name = ref('');
 const phone = ref('');
 const email = ref('');
