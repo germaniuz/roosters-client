@@ -137,12 +137,12 @@ const handleNextBtnClick = () => {
     align-items: center;
 
     i {
-        color: var(--c-grey20);
+        color: var(--c-grey40);
         cursor: pointer;
         transition: all 0.2s ease-in;
 
         &:hover {
-            color: var(--c-grey50);
+            color: var(--c-grey60);
         }
     }
 }
