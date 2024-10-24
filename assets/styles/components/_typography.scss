@@ -19,6 +19,10 @@
   text-align: right;
 }
 
+.color-primary {
+  color: var(--c-primary);
+}
+
 p {
   font-size: functions.rem(15);
   line-height: functions.rem(22);

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 type Props = {
     modelValue: boolean;
+    errors?: string[] | undefined;
 };
 const props = defineProps<Props>();
 const emit = defineEmits(['update:modelValue']);
@@ -17,5 +18,6 @@ watchEffect(() => {
 <template>
     <div class="form-control">
         <FormCheckbox v-model="agreement" name="agreement" :label="label" />
+        <span class="form-control__error" v-if="errors?.length">{{ errors[0] }}</span>
     </div>
 </template>

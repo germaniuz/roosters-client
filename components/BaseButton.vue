@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { BtnModifier } from '../types/Button'
+import type { BtnModifier } from '~/types/Button';
 
 type Props = {
     modifiers: BtnModifier[];
@@ -17,7 +17,7 @@ const { modifiers } = useModifiers(
 </script>
 
 <template>
-    <button class="btn" :class="modifiers" :type="btnType">
+    <button class="btn" :class="modifiers" :type="btnType" :disabled="modifiers.includes('disabled')">
         <slot></slot>
     </button>
 </template>

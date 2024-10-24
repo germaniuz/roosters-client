@@ -9,4 +9,6 @@ export type BtnModifier =
     | 'sm'
     | 'lg'
     | 'xl'
-    | 'icon';
+    | 'disabled'
+    | 'icon'
+    | 'single-icon';

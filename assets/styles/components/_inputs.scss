@@ -52,3 +52,10 @@ input {
     border-color: var(--c-success);
   }
 }
+
+
+.form-control__error {
+  font-size: functions.rem(13);
+  line-height: 1;
+  color: var(--c-error);
+}
