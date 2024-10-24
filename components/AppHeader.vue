@@ -2,6 +2,7 @@
 import { useAppStore } from '~/stores/app';
 import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
 import BaseSocial from '~/components/BaseSocial.vue';
+import { CLIENT_PROFILE } from '~/gql/queries/profile';
 
 const { phone } = useAppStore();
 const { isGuest } = storeToRefs(useProfileStore());
@@ -11,8 +12,27 @@ const toggleMobileMenu = () => {
     menuIsActive.value = !menuIsActive.value;
     document.body.classList.toggle('body--fixed');
 };
+const isAuthDialogActive = ref(false);
+
+const authPhone = ref('');
+const isCodeVerificationDialogActive = ref(false);
+const openCodeVerificationDialog = (phone: string) => {
+    authPhone.value = phone;
+    isAuthDialogActive.value = false;
+    isCodeVerificationDialogActive.value = true;
+};
 
 const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Закуски', 'Напитки', 'Акции']);
+const { onLogin } = useApollo();
+
+const logginUser = async (token: string) => {
+    isCodeVerificationDialogActive.value = false;
+    onLogin(token, 'default');
+    nextTick(async () => {
+        const { data: profile } = await useAsyncQuery(CLIENT_PROFILE);
+        console.log(profile.value);
+    });
+};
 </script>
 
 <template>
@@ -29,8 +49,14 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
             <a :href="`tel:${phone}`" class="header__phone">
                 <img src="/images/icons/phone.svg" alt="Рустерс звонок" /> <span>{{ phone }}</span>
             </a>
-            <BaseButton v-if="isGuest" class="header__login" :modifiers="['grey', 'icon']"
-                ><img src="/images/icons/avatar.svg" alt="Вход Рустерс" /> <span>Войти</span>
+            <UserCard class="header__desktop-user-card" />
+            <BaseButton
+                v-if="isGuest"
+                class="header__login"
+                :modifiers="['grey', 'icon']"
+                @click="isAuthDialogActive = true"
+            >
+                <img src="/images/icons/avatar.svg" alt="Вход Рустерс" /> <span>Войти</span>
             </BaseButton>
             <button class="menu-btn" :class="{ 'menu-btn--active': menuIsActive }" @click="toggleMobileMenu()"></button>
         </div>
@@ -41,9 +67,14 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
         </div>
     </header>
     <div class="mobile-menu header__mobile-menu" :class="{ 'mobile-menu--active': menuIsActive }">
-        <BaseButton class="header__mobile-menu-login-btn" :modifiers="['third', 'icon']"
-            ><i class="icon-avatar"></i> Войти</BaseButton
+        <BaseButton
+            class="header__mobile-menu-login-btn"
+            :modifiers="['third', 'icon']"
+            @click="isAuthDialogActive = true"
+            v-if="isGuest"
         >
+            <i class="icon-avatar"></i> Войти
+        </BaseButton>
         <div class="header__mobile-menu-divider" />
         <BaseContact
             image="/images/icons/phone.svg"
@@ -72,11 +103,15 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
             <BaseAppStoreButton icon="huawei" download-text="Откройте в" store-name="AppGallery" />
         </div>
         <div class="header__mobile-menu-socials">
-            <BaseSocial name="instagram" link="#" />
             <BaseSocial name="vk" link="#" />
         </div>
-        <div class="header__mobile-menu-remark">* Запрещен на территории РФ</div>
     </div>
+    <BaseDialog v-model:is-active="isAuthDialogActive">
+        <AuthCard @open-code-verification-dialog="openCodeVerificationDialog" />
+    </BaseDialog>
+    <BaseDialog v-model:is-active="isCodeVerificationDialogActive">
+        <CodeCard :phone="authPhone" @logging-in="logginUser" />
+    </BaseDialog>
 </template>
 
 <style scoped lang="scss">
@@ -226,21 +261,12 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     gap: 10px;
     overflow-x: auto;
     padding-block: 5px;
-    -webkit-transform: scaleY(1);
-    -o-transform: scaleY(1);
-    -ms-transform: scaleY(1);
     transform: scaleY(1);
-    -webkit-transform-origin: top;
-    -o-transform-origin: top;
-    -ms-transform-origin: top;
     transform-origin: top;
     transition: transform 0.2s ease-in-out;
 
     @include media.md-down {
         .header--mobile-menu-active & {
-            -webkit-transform: scaleY(0);
-            -o-transform: scaleY(0);
-            -ms-transform: scaleY(0);
             transform: scaleY(0);
             position: absolute;
         }
@@ -352,5 +378,11 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 .header__mobile-menu-divider {
     border-bottom: 1px solid var(--c-grey20);
     margin-block: 30px;
+}
+
+.header__desktop-user-card {
+    @include media.md-down {
+        display: none;
+    }
 }
 </style>

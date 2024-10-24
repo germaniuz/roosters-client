@@ -1,18 +1,73 @@
 <script setup lang="ts">
-import { vMaska } from "maska/vue"
+import { vMaska } from 'maska/vue';
 import UserAgreement from '~/components/form/UserAgreement.vue';
+import { SEND_SMS_CODE } from '~/gql/mutations/auth';
+import type { BtnModifier } from '~/types/Button';
+import { AuthFieldsSchema, type AuthFields } from '~/types/Auth';
+import useValidateFormData from '~/composables/useValidateFormData';
+import { flatten } from 'valibot';
+
+const emit = defineEmits(['openCodeVerificationDialog']);
 
 const phoneNumber = ref<string>('');
 const userAgreementChecked = ref<boolean>(false);
+
+const authFields = computed<AuthFields>(() => {
+    return {
+        phone: '+' + phoneNumber.value.replace(/\D/g, ''),
+        userAgreement: userAgreementChecked.value,
+    };
+});
+
+const { validate, formErrors } = useValidateFormData<AuthFields>(authFields, AuthFieldsSchema);
+const { mutate } = useMutation(SEND_SMS_CODE);
+
+const btnModifiers = computed(() => {
+    const modifiers: Array<BtnModifier> = ['primary'];
+    if (!userAgreementChecked.value) {
+        modifiers.push('disabled');
+    }
+
+    return modifiers;
+});
+
+const getCode = async () => {
+    const result = validate();
+    if (result.success) {
+        const smsResponse = await mutate({
+            phone: authFields.value.phone,
+        });
+        if (smsResponse?.data?.sendClientSmsCode) {
+            emit('openCodeVerificationDialog', authFields.value.phone);
+        }
+    } else {
+        console.error({ ...flatten(result.issues).nested });
+    }
+};
 </script>
 
 <template>
-    <div class="card auth-card">
+    <div class="auth-card">
         <div class="auth-card__title">Вход</div>
-        <div class="auth-card__description">Подарим купон на день рождение, дадим бонусы за заказы и расскажем об акциях :)</div>
-        <FormInput v-model="phoneNumber" placeholder="+7 (___) ___ __-__" v-maska="'+7 (###) ### ##-##'" name="phone"/>
-        <BaseButton :modifiers="['primary']" class="auth-card__button">Отправить код</BaseButton>
-        <UserAgreement :model-value="userAgreementChecked"/>
+        <div class="auth-card__description">
+            Подарим купон на день рождение, дадим бонусы за заказы и расскажем об акциях :)
+        </div>
+        <FormInput
+            v-model="phoneNumber"
+            placeholder="+7 (___) ___ __-__"
+            v-maska="'+7 (9##) ### ##-##'"
+            name="phone"
+            :errors="formErrors?.phone"
+        />
+        <BaseButton :modifiers="btnModifiers" class="auth-card__button" @click.prevent="getCode"
+            >Отправить код
+        </BaseButton>
+        <!--        TODO: refactor checkboxes-->
+        <UserAgreement
+            :model-value="userAgreementChecked"
+            @update:model-value="userAgreementChecked = $event"
+            :errors="formErrors?.userAgreement"
+        />
     </div>
 </template>
 
@@ -21,10 +76,10 @@ const userAgreementChecked = ref<boolean>(false);
 @use '@/assets/styles/helpers/functions';
 
 .auth-card {
-    border: 1px solid var(--c-grey40);
+    width: 100%;
 
     @include media.md-up {
-        max-width: 550px;
+        max-width: 450px;
     }
 }
 

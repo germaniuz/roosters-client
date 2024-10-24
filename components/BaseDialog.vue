@@ -1,16 +1,26 @@
 <script lang="ts" setup>
+type Modifier = 'p-sm' | 'bg-grey';
 type Props = {
     isActive: boolean;
+    modifiers?: Modifier[];
 };
+
 const props = defineProps<Props>();
+
 const emit = defineEmits(['update:isActive']);
 
 const dialog = ref<HTMLDialogElement>();
+const dialogBody = ref<HTMLDialogElement>();
+
+const modifiers = computed(() => {
+    return props?.modifiers?.map((modifier) => 'dialog--' + modifier).join(' ') ?? '';
+});
 
 const closeDialog = () => {
     dialog.value?.close();
     emit('update:isActive', false);
 };
+
 const showDialog = () => {
     dialog.value?.showModal();
 };
@@ -22,11 +32,12 @@ watchEffect(() => {
         closeDialog();
     }
 });
+useClickOutside(dialogBody, closeDialog);
 </script>
 
 <template>
-    <dialog class="dialog" ref="dialog" @keydown.stop.esc="closeDialog">
-        <div class="dialog__body">
+    <dialog :class="`dialog ${modifiers}`" ref="dialog" @keydown.stop.esc="closeDialog">
+        <div class="dialog__body" ref="dialogBody">
             <slot />
         </div>
         <button class="dialog__close-btn" @click.prevent="closeDialog"><i class="icon-close"></i></button>
@@ -42,17 +53,29 @@ watchEffect(() => {
     top: 50%;
     left: 50%;
     translate: -50% -50%;
-    padding: 20px;
-    border-radius: var(--b-radius-xs);
-    background: var(--c-paper);
-    box-shadow: var(--shadow-md);
+    border-radius: var(--b-radius);
+    background: var(--c-grey00);
+    box-shadow: var(--shadow);
+
+    &::backdrop {
+        background: color(from var(--c-grey90) srgb r g b / 0.8);
+    }
+
+    &--bg-grey {
+        background: var(--c-grey10);
+    }
+}
+
+.dialog__body {
+    padding: 40px;
 
     @include media.md-up {
         padding: 65px;
     }
 
-    &::backdrop {
-        background: var(--c-backdrop-overlay);
+    .dialog--p-sm & {
+        padding-block: 50px 20px;
+        padding-inline: 20px;
     }
 }
 
@@ -60,13 +83,13 @@ watchEffect(() => {
     position: absolute;
     top: 15px;
     right: 15px;
-    color: var(--c-text-secondary);
+    color: var(--c-grey50);
     background: none;
     font-size: functions.rem(18);
 
     @include media.md-up {
-        top: 20px;
-        right: 20px;
+        top: 18px;
+        right: 18px;
     }
 }
 </style>

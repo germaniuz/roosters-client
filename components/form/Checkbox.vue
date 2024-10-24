@@ -3,6 +3,7 @@ type Props = {
     modelValue: boolean;
     label: string;
     name: string;
+    errors?: string[] | undefined;
 };
 
 const emit = defineEmits(['update:modelValue']);
@@ -23,6 +24,7 @@ defineProps<Props>();
             <span class="checkbox__checkmark"></span>
             <span class="checkbox-label" v-html="label"></span>
         </label>
+        <span class="form-control__error" v-if="errors?.length">{{ errors[0] }}</span>
     </div>
 </template>
 
