@@ -6,6 +6,8 @@ import type { Story } from '~/types/Story';
 import { useProfileStore } from '~/stores/profile';
 import { UPDATE_CLIENT_USER } from '~/gql/mutations/clientUser';
 
+// TODO: JS fix hydration
+
 const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьянская 31', 'Улица Клавы Нечаевой, 4']); // TODO: JS add addresses
 const stories = ref<Array<Story>>([
     // TODO: JS add stories
@@ -91,7 +93,10 @@ const saveProfile = async () => {
                     <div class="profile__user-welcome-icon">
                         <img src="/images/icons/avatar-dark.svg" alt="Profile" />
                     </div>
-                    <span>{{ !isGuest && profileStore.profile?.name ? profileStore.profile.name : 'Гость' }}!</span>
+                    <client-only
+                        ><span v-if="!isGuest">{{ profileStore.profile?.name ? profileStore.profile.name : '' }}</span>
+                        <span v-if="isGuest">Гость</span>
+                    </client-only>
                 </div>
             </div>
             <div class="card card--p-md profile__user-points">
@@ -147,7 +152,7 @@ const saveProfile = async () => {
                 <BaseIcon class="profile__saved-address-remove" name="close" />
             </div>
         </div>
-        <div class="h2" v-if="profileStore.profile">Персональные данные</div>
+        <div class="h2" v-if="!isGuest">Персональные данные</div>
         <div class="profile__personal-data" v-if="profileStore.profile">
             <div class="profile__personal-data-bonus">
                 <div class="profile__personal-data-bonus-img">
