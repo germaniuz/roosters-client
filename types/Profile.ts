@@ -1,12 +1,12 @@
 import * as v from 'valibot';
 import type { InferOutput } from 'valibot';
 
-export const ProfileSchema = v.object({
+export const ProfileFieldsSchema = v.object({
     id: v.optional(v.number()),
     name: v.nullish(v.string()),
     lastname: v.nullish(v.string()),
     phone: v.string(),
-    email: v.nullish(v.pipe(v.string(), v.email())),
+    email: v.union([v.pipe(v.string(), v.email()), v.literal('')]),
     avatar: v.nullish(
         v.pipe(
             v.blob('Добавьте файл'),
@@ -22,7 +22,19 @@ export const ProfileSchema = v.object({
     is_active: v.boolean(),
 });
 
-export type Profile = InferOutput<typeof ProfileSchema>;
+export type ProfileFields = InferOutput<typeof ProfileFieldsSchema>;
+
+export type Profile = {
+    id: number;
+    name: string | null;
+    lastname: string | null;
+    phone: string;
+    email: string | null;
+    avatar: string | null;
+    birthday: string | null;
+    gender: string | null;
+    is_active: boolean;
+};
 
 export type ClientProfile = {
     clientProfile: Profile;

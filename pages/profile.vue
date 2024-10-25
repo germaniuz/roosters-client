@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import BaseOrderCard from '~/components/BaseOrderCard.vue';
 import RadioButton from '~/components/form/RadioButton.vue';
-import type { ClientProfile, Profile } from '~/types/Profile';
+import { type ClientProfile, type Profile, type ProfileFields, ProfileFieldsSchema } from '~/types/Profile';
 import type { Story } from '~/types/Story';
 import { CLIENT_PROFILE } from '~/gql/queries/clientProfile';
 import { getItem } from '~/utils/apollo';
@@ -35,33 +35,34 @@ const { mutate: updateClientUser } = useMutation(UPDATE_CLIENT_USER);
 const { data: profileData } = await useAsyncQuery<ClientProfile>(CLIENT_PROFILE);
 const user = ref(getItem<Profile>(profileData.value));
 
-const profileFields = ref<Profile>({
+const profileFields = ref<ProfileFields>({
     name: user.value?.name ?? '',
     lastname: user.value?.lastname ?? '',
     phone: user.value?.phone,
     email: user.value?.email ?? '',
-    avatar: user.value?.avatar,
+    avatar: null,
     birthday: user.value?.birthday ?? '1900-01-01',
-    gender: user.value?.gender == 'Мужской' || user.value?.gender == 'Женский' ? user.value?.gender : 'Мужской',
+    gender: user.value?.gender == 'male' || user.value?.gender == 'female' ? user.value?.gender : 'male',
     is_active: user.value?.is_active ?? false,
 });
+const { validate, formErrors } = useValidateFormData<ProfileFields>(profileFields, ProfileFieldsSchema);
 
 const mailingEmail = ref('');
 const subscribeMailing = ref(false);
 
-const userIsMale = ref<boolean>(profileFields.value.gender === 'Мужской');
-const userIsFemale = ref<boolean>(profileFields.value.gender === 'Женский');
+const userIsMale = ref<boolean>(profileFields.value.gender === 'male');
+const userIsFemale = ref<boolean>(profileFields.value.gender === 'female');
 
 const handleMaleCheckboxClick = () => {
     userIsMale.value = true;
     userIsFemale.value = false;
-    profileFields.value.gender = 'Мужской';
+    profileFields.value.gender = 'male';
 };
 
 const handleFemaleCheckboxClick = () => {
     userIsFemale.value = true;
     userIsMale.value = false;
-    profileFields.value.gender = 'Женский';
+    profileFields.value.gender = 'female';
 };
 
 const handleFile = (file: File): void => {
@@ -69,10 +70,14 @@ const handleFile = (file: File): void => {
 };
 
 const saveProfile = async () => {
-    try {
-        await updateClientUser(profileFields.value);
-    } catch (e) {
-        console.error(e);
+    const validationResult = validate();
+
+    if (validationResult.success) {
+        try {
+            await updateClientUser(profileFields.value);
+        } catch (e) {
+            console.error(e);
+        }
     }
 };
 </script>
@@ -173,7 +178,7 @@ const saveProfile = async () => {
                 <div v-if="!profileFields.phone" class="profile__bonus">+50</div>
             </div>
             <div class="profile__input">
-                <FormInput name="email" v-model="profileFields.email" placeholder="Email" />
+                <FormInput name="email" v-model="profileFields.email" :errors="formErrors?.email" placeholder="Email" />
                 <div v-if="!profileFields.email" class="profile__bonus">+50</div>
             </div>
             <div class="profile__input-label">Пол</div>
