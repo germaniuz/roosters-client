@@ -1,10 +1,8 @@
 <script lang="ts" setup>
 import BaseOrderCard from '~/components/BaseOrderCard.vue';
 import RadioButton from '~/components/form/RadioButton.vue';
-import { type ClientProfile, type Profile, type ProfileFields, ProfileFieldsSchema } from '~/types/Profile';
+import { type ProfileFields, ProfileFieldsSchema } from '~/types/Profile';
 import type { Story } from '~/types/Story';
-import { CLIENT_PROFILE } from '~/gql/queries/clientProfile';
-import { getItem } from '~/utils/apollo';
 import { useProfileStore } from '~/stores/profile';
 import { UPDATE_CLIENT_USER } from '~/gql/mutations/clientUser';
 
@@ -31,19 +29,21 @@ const stories = ref<Array<Story>>([
 
 const profileStore = useProfileStore();
 const isGuest = ref<boolean>(profileStore.isGuest);
+
 const { mutate: updateClientUser } = useMutation(UPDATE_CLIENT_USER);
-const { data: profileData } = await useAsyncQuery<ClientProfile>(CLIENT_PROFILE);
-const user = ref(getItem<Profile>(profileData.value));
 
 const profileFields = ref<ProfileFields>({
-    name: user.value?.name ?? '',
-    lastname: user.value?.lastname ?? '',
-    phone: user.value?.phone,
-    email: user.value?.email ?? '',
+    name: profileStore.profile?.name ?? '',
+    lastname: profileStore.profile?.lastname ?? '',
+    phone: profileStore.profile?.phone ?? '',
+    email: profileStore.profile?.email ?? '',
     avatar: null,
-    birthday: user.value?.birthday ?? '1900-01-01',
-    gender: user.value?.gender == 'male' || user.value?.gender == 'female' ? user.value?.gender : 'male',
-    is_active: user.value?.is_active ?? false,
+    birthday: profileStore.profile?.birthday ?? '1900-01-01',
+    gender:
+        profileStore.profile?.gender == 'male' || profileStore.profile?.gender == 'female'
+            ? profileStore.profile?.gender
+            : 'male',
+    is_active: profileStore.profile?.is_active ?? false,
 });
 const { validate, formErrors } = useValidateFormData<ProfileFields>(profileFields, ProfileFieldsSchema);
 
@@ -91,7 +91,7 @@ const saveProfile = async () => {
                     <div class="profile__user-welcome-icon">
                         <img src="/images/icons/avatar-dark.svg" alt="Profile" />
                     </div>
-                    <span>{{ !isGuest && user?.name ? user.name : 'Гость' }}!</span>
+                    <span>{{ !isGuest && profileStore.profile?.name ? profileStore.profile.name : 'Гость' }}!</span>
                 </div>
             </div>
             <div class="card card--p-md profile__user-points">
@@ -147,8 +147,8 @@ const saveProfile = async () => {
                 <BaseIcon class="profile__saved-address-remove" name="close" />
             </div>
         </div>
-        <div class="h2" v-if="profileData">Персональные данные</div>
-        <div class="profile__personal-data" v-if="profileData">
+        <div class="h2" v-if="profileStore.profile">Персональные данные</div>
+        <div class="profile__personal-data" v-if="profileStore.profile">
             <div class="profile__personal-data-bonus">
                 <div class="profile__personal-data-bonus-img">
                     <img src="/images/exclamation.webp" alt="" />
@@ -163,7 +163,6 @@ const saveProfile = async () => {
                 </div>
             </div>
             <div class="profile__personal-data-image-block">
-                <FormFile name="profile-avatar" @change="handleFile" />
                 <div class="profile__personal-data-image">
                     <img src="/images/icons/avatar-dark.svg" alt="Profile" />
                 </div>
