@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import BaseOrderCard from '~/components/BaseOrderCard.vue';
 import RadioButton from '~/components/form/RadioButton.vue';
-import type { ClientProfile, Profile, UserGender } from '~/types/Profile';
+import type { ClientProfile, Profile } from '~/types/Profile';
 import type { Story } from '~/types/Story';
 import { CLIENT_PROFILE } from '~/gql/queries/clientProfile';
 import { getItem } from '~/utils/apollo';
 import { useProfileStore } from '~/stores/profile';
+import { UPDATE_CLIENT_USER } from '~/gql/mutations/clientUser';
 
 const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьянская 31', 'Улица Клавы Нечаевой, 4']); // TODO: JS add addresses
 const stories = ref<Array<Story>>([
@@ -30,39 +31,49 @@ const stories = ref<Array<Story>>([
 
 const profileStore = useProfileStore();
 const isGuest = ref<boolean>(profileStore.isGuest);
-
+const { mutate: updateClientUser } = useMutation(UPDATE_CLIENT_USER);
 const { data: profileData } = await useAsyncQuery<ClientProfile>(CLIENT_PROFILE);
 const user = ref(getItem<Profile>(profileData.value));
 
 const profileFields = ref<Profile>({
-    id: user.value?.id ?? -1,
     name: user.value?.name ?? '',
     lastname: user.value?.lastname ?? '',
-    phone: user.value?.phone ?? '',
+    phone: user.value?.phone,
     email: user.value?.email ?? '',
-    avatar: user.value?.avatar ?? '',
-    birthday: user.value?.birthday ?? '',
-    gender: user.value?.gender ?? '',
+    avatar: user.value?.avatar,
+    birthday: user.value?.birthday ?? '1900-01-01',
+    gender: user.value?.gender == 'Мужской' || user.value?.gender == 'Женский' ? user.value?.gender : 'Мужской',
     is_active: user.value?.is_active ?? false,
 });
 
-const mailingEmail = ref(''); // TODO: JS add proper data
-const gender = ref<UserGender>('male');
-const userIsMale = ref<boolean>(true);
-const userIsFemale = ref<boolean>(false);
-
+const mailingEmail = ref('');
 const subscribeMailing = ref(false);
+
+const userIsMale = ref<boolean>(profileFields.value.gender === 'Мужской');
+const userIsFemale = ref<boolean>(profileFields.value.gender === 'Женский');
 
 const handleMaleCheckboxClick = () => {
     userIsMale.value = true;
     userIsFemale.value = false;
-    gender.value = 'male';
+    profileFields.value.gender = 'Мужской';
 };
 
 const handleFemaleCheckboxClick = () => {
     userIsFemale.value = true;
     userIsMale.value = false;
-    gender.value = 'female';
+    profileFields.value.gender = 'Женский';
+};
+
+const handleFile = (file: File): void => {
+    profileFields.value.avatar = file;
+};
+
+const saveProfile = async () => {
+    try {
+        await updateClientUser(profileFields.value);
+    } catch (e) {
+        console.error(e);
+    }
 };
 </script>
 <template>
@@ -131,8 +142,8 @@ const handleFemaleCheckboxClick = () => {
                 <BaseIcon class="profile__saved-address-remove" name="close" />
             </div>
         </div>
-        <div class="h2" v-if="!isGuest">Персональные данные</div>
-        <div class="profile__personal-data" v-if="!isGuest">
+        <div class="h2" v-if="profileData">Персональные данные</div>
+        <div class="profile__personal-data" v-if="profileData">
             <div class="profile__personal-data-bonus">
                 <div class="profile__personal-data-bonus-img">
                     <img src="/images/exclamation.webp" alt="" />
@@ -147,6 +158,7 @@ const handleFemaleCheckboxClick = () => {
                 </div>
             </div>
             <div class="profile__personal-data-image-block">
+                <FormFile name="profile-avatar" @change="handleFile" />
                 <div class="profile__personal-data-image">
                     <img src="/images/icons/avatar-dark.svg" alt="Profile" />
                 </div>
@@ -185,7 +197,7 @@ const handleFemaleCheckboxClick = () => {
                 <div v-if="!profileFields.birthday" class="profile__bonus">+50</div>
             </div>
             <div class="profile__personal-data-btns">
-                <BaseButton :modifiers="['primary']">Сохранить</BaseButton>
+                <BaseButton :modifiers="['primary']" @click="saveProfile">Сохранить</BaseButton>
                 <BaseButton :modifiers="['outline']">Выйти</BaseButton>
             </div>
         </div>
