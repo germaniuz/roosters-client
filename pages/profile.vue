@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import BaseOrderCard from '~/components/BaseOrderCard.vue';
 import RadioButton from '~/components/form/RadioButton.vue';
-import type { UserGender } from '~/types/Profile';
+import type { ClientProfile, Profile, UserGender } from '~/types/Profile';
 import type { Story } from '~/types/Story';
+import { CLIENT_PROFILE } from '~/gql/queries/clientProfile';
+import { getItem } from '~/utils/apollo';
+import { useProfileStore } from '~/stores/profile';
 
 const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьянская 31', 'Улица Клавы Нечаевой, 4']); // TODO: JS add addresses
 const stories = ref<Array<Story>>([
@@ -25,13 +28,26 @@ const stories = ref<Array<Story>>([
     },
 ]);
 
-const mailingEmail = ref(''); // TODO: JS add proper data
-const name = ref('');
-const phone = ref('');
-const email = ref('');
-const birthday = ref('');
-const gender = ref<UserGender>('male');
+const profileStore = useProfileStore();
+const isGuest = ref<boolean>(profileStore.isGuest);
 
+const { data: profileData } = await useAsyncQuery<ClientProfile>(CLIENT_PROFILE);
+const user = ref(getItem<Profile>(profileData.value));
+
+const profileFields = ref<Profile>({
+    id: user.value?.id ?? -1,
+    name: user.value?.name ?? '',
+    lastname: user.value?.lastname ?? '',
+    phone: user.value?.phone ?? '',
+    email: user.value?.email ?? '',
+    avatar: user.value?.avatar ?? '',
+    birthday: user.value?.birthday ?? '',
+    gender: user.value?.gender ?? '',
+    is_active: user.value?.is_active ?? false,
+});
+
+const mailingEmail = ref(''); // TODO: JS add proper data
+const gender = ref<UserGender>('male');
 const userIsMale = ref<boolean>(true);
 const userIsFemale = ref<boolean>(false);
 
@@ -59,7 +75,7 @@ const handleFemaleCheckboxClick = () => {
                     <div class="profile__user-welcome-icon">
                         <img src="/images/icons/avatar-dark.svg" alt="Profile" />
                     </div>
-                    <span>Гость!</span>
+                    <span>{{ !isGuest && user?.name ? user.name : 'Гость' }}!</span>
                 </div>
             </div>
             <div class="card card--p-md profile__user-points">
@@ -107,16 +123,16 @@ const handleFemaleCheckboxClick = () => {
             </div>
             <BaseButton class="profile__all-promo-btn" :modifiers="['outline-secondary']">Посмотреть все</BaseButton>
         </div>
-        <div class="h2">Ваши адреса</div>
-        <div class="profile__saved-addresses">
+        <div v-if="!isGuest" class="h2">Ваши адреса</div>
+        <div v-if="!isGuest" class="profile__saved-addresses">
             <div v-for="savedAddress in savedAddresses" class="profile__saved-address">
                 <BaseIcon class="profile__saved-address-icon" name="location" />
                 <div class="profile__saved-address-name">{{ savedAddress }}</div>
                 <BaseIcon class="profile__saved-address-remove" name="close" />
             </div>
         </div>
-        <div class="h2">Персональные данные</div>
-        <div class="profile__personal-data">
+        <div class="h2" v-if="!isGuest">Персональные данные</div>
+        <div class="profile__personal-data" v-if="!isGuest">
             <div class="profile__personal-data-bonus">
                 <div class="profile__personal-data-bonus-img">
                     <img src="/images/exclamation.webp" alt="" />
@@ -137,16 +153,16 @@ const handleFemaleCheckboxClick = () => {
                 <BaseButton :modifiers="['outline']">Изменить изображение</BaseButton>
             </div>
             <div class="profile__input">
-                <FormInput name="name" v-model="name" placeholder="Имя" />
-                <div class="profile__bonus">+50</div>
+                <FormInput name="name" v-model="profileFields.name" placeholder="Имя" />
+                <div v-if="!profileFields.name" class="profile__bonus">+50</div>
             </div>
             <div class="profile__input">
-                <FormInput name="phone" v-model="phone" placeholder="Телефон" />
-                <div class="profile__bonus">+50</div>
+                <FormInput name="phone" v-model="profileFields.phone" placeholder="Телефон" />
+                <div v-if="!profileFields.phone" class="profile__bonus">+50</div>
             </div>
             <div class="profile__input">
-                <FormInput name="email" v-model="email" placeholder="Email" />
-                <div class="profile__bonus">+50</div>
+                <FormInput name="email" v-model="profileFields.email" placeholder="Email" />
+                <div v-if="!profileFields.email" class="profile__bonus">+50</div>
             </div>
             <div class="profile__input-label">Пол</div>
             <div class="profile__personal-data-gender">
@@ -165,8 +181,8 @@ const handleFemaleCheckboxClick = () => {
             </div>
             <div class="profile__input-label">Дата рождения</div>
             <div class="profile__input">
-                <FormInput name="birthday" type="date" v-model="birthday" placeholder="День рождения" />
-                <div class="profile__bonus">+50</div>
+                <FormInput name="birthday" type="date" v-model="profileFields.birthday" placeholder="День рождения" />
+                <div v-if="!profileFields.birthday" class="profile__bonus">+50</div>
             </div>
             <div class="profile__personal-data-btns">
                 <BaseButton :modifiers="['primary']">Сохранить</BaseButton>

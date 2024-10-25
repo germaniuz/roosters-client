@@ -1,6 +1,6 @@
 <script setup lang="ts">
 type Props = {
-    modelValue: string;
+    modelValue: string | null | undefined;
     placeholder: string;
     name: string;
     label?: string;
