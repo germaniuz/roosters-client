@@ -93,9 +93,10 @@ const saveProfile = async () => {
                     <div class="profile__user-welcome-icon">
                         <img src="/images/icons/avatar-dark.svg" alt="Profile" />
                     </div>
-                    <client-only
-                        ><span v-if="!isGuest">{{ profileStore.profile?.name ? profileStore.profile.name : '' }}</span>
-                        <span v-if="isGuest">Гость</span>
+                    <client-only>
+                        <span v-if="!isGuest">{{
+                            profileStore.profile?.name ? profileStore.profile.name : 'Гость'
+                        }}</span>
                     </client-only>
                 </div>
             </div>
@@ -130,8 +131,8 @@ const saveProfile = async () => {
                 />
                 <div v-if="!mailingEmail" class="profile__bonus">+50</div>
                 <BaseButton v-if="mailingEmail" class="profile__mailing-save-btn" :modifiers="['primary']"
-                    >Сохранить</BaseButton
-                >
+                    >Сохранить
+                </BaseButton>
             </div>
         </div>
         <div class="profile__promo">
