@@ -3,7 +3,7 @@ const { profile } = storeToRefs(useProfileStore());
 </script>
 
 <template>
-    <div class="user-card">
+    <NuxtLink to="/profile" class="user-card">
         <div class="user-card__avatar">
             <img v-if="profile?.avatar" src="#" :alt="profile?.name ?? ''" />
             <img v-else src="/images/avatar.svg" :alt="profile?.name ?? ''" />
@@ -14,7 +14,7 @@ const { profile } = storeToRefs(useProfileStore());
                 ><strong>150</strong> <i class="icon-pizza-slice color-primary"></i>
             </BaseTextBadge>
         </div>
-    </div>
+    </NuxtLink>
 </template>
 
 <style scoped lang="scss">

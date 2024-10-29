@@ -1,6 +1,41 @@
 @use "../helpers/functions";
 @use "../helpers/media";
 
+.h1 {
+  color: var(--c-grey80);
+  font-family: var(--f-base);
+  font-size: functions.rem(28);
+  font-weight: 700;
+  line-height: normal;
+  margin-bottom: 20px;
+
+  @include media.md-up {
+    margin-bottom: 30px;
+  }
+
+  @include media.lg-up {
+    font-size: functions.rem(32);
+    margin-bottom: 40px;
+  }
+}
+
+.h2 {
+  color: var(--c-grey80);
+  font-family: var(--f-base);
+  font-size: functions.rem(28);
+  font-weight: 600;
+  line-height: normal;
+  margin-bottom: 20px;
+
+  @include media.lg-up {
+    font-size: functions.rem(32);
+  }
+
+  &--no-mb {
+    margin-bottom: 0;
+  }
+}
+
 .h4 {
   font-size: functions.rem(24);
   line-height: functions.rem(38);

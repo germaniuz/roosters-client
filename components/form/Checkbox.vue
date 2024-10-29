@@ -78,8 +78,8 @@ defineProps<Props>();
     flex: 0 0 18px;
     width: 18px;
     transition: all 0.25s ease;
-    border: 2px solid var(--c-secondary);
-    border-radius: var(--b-radius-xxs);
+    border: 2px solid var(--c-grey20);
+    border-radius: var(--b-radius-round);
 
     &::after {
         content: '';

@@ -3,7 +3,7 @@
 .card {
   background: var(--c-grey00);
   padding: 30px;
-  border-radius: var(--b-radius-lg);
+  border-radius: var(--b-radius-xl);
 
   @include media.md-up {
     padding: 40px;
@@ -13,11 +13,39 @@
     background: var(--c-grey10);
   }
 
+  &--outline {
+    border: 1px solid var(--c-grey20);
+  }
+
   &--p-xs {
     padding: 5px;
   }
 
+  &--p-md {
+    padding: 15px;
+
+    @include media.md-up {
+      padding: 20px;
+    }
+  }
+
+  &--p-lg {
+    padding: 15px;
+
+    @include media.md-up {
+      padding: 20px;
+    }
+
+    @include media.lg-up {
+      padding: 25px 20px 20px;
+    }
+  }
+
   &--b-md {
     border-radius: var(--b-radius-md);
+  }
+
+  &--b-lg {
+    border-radius: var(--b-radius-lg);
   }
 }

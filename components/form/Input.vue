@@ -1,14 +1,17 @@
 <script setup lang="ts">
 type Props = {
-    modelValue: string;
+    modelValue: string | null | undefined;
     placeholder: string;
     name: string;
     label?: string;
     size?: 'sm' | 'lg';
     errors?: string[] | undefined;
+    type?: 'text' | 'date';
 };
 
-defineProps<Props>();
+withDefaults(defineProps<Props>(), {
+    type: 'text',
+});
 const emit = defineEmits(['update:modelValue']);
 </script>
 
@@ -25,7 +28,7 @@ const emit = defineEmits(['update:modelValue']);
         <input
             :id="name"
             :name="name"
-            type="text"
+            :type="type"
             :placeholder="placeholder"
             :value="modelValue"
             @input="emit('update:modelValue', ($event.currentTarget as HTMLInputElement).value)"

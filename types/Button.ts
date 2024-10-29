@@ -1,6 +1,8 @@
 export type BtnModifier =
     | 'primary'
     | 'secondary'
+    | 'outline'
+    | 'outline-secondary'
     | 'third'
     | 'success'
     | 'warning'
