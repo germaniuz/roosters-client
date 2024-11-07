@@ -77,7 +77,7 @@ const saveProfile = async () => {
 
     if (validationResult.success) {
         try {
-            if (profileFields.value.email === '' && mailingEmail.value) {
+            if (mailingEmail.value) {
                 profileFields.value.email = mailingEmail.value;
             }
             await updateClientUser(profileFields.value);
@@ -133,7 +133,7 @@ const saveProfile = async () => {
                 />
                 <div v-if="!mailingEmail" class="profile__bonus">+50</div>
                 <BaseButton
-                    v-if="mailingEmail"
+                    v-if="mailingEmail && mailingEmail !== profileStore.profile?.email"
                     class="profile__mailing-save-btn"
                     @click="saveProfile"
                     :modifiers="['primary']"
