@@ -47,10 +47,11 @@ const profileFields = ref<ProfileFields>({
             : 'male',
     is_active: profileStore.profile?.is_active ?? false,
 });
+
 const { validate, formErrors } = useValidateFormData<ProfileFields>(profileFields, ProfileFieldsSchema);
 
-const mailingEmail = ref('');
-const subscribeMailing = ref(false);
+const mailingEmail = ref<string>(profileFields.value.email);
+const subscribeMailing = ref<boolean>(mailingEmail.value !== '');
 
 const userIsMale = ref<boolean>(profileFields.value.gender === 'male');
 const userIsFemale = ref<boolean>(profileFields.value.gender === 'female');
@@ -76,6 +77,9 @@ const saveProfile = async () => {
 
     if (validationResult.success) {
         try {
+            if (profileFields.value.email === '' && mailingEmail.value) {
+                profileFields.value.email = mailingEmail.value;
+            }
             await updateClientUser(profileFields.value);
         } catch (e) {
             console.error(e);
@@ -94,13 +98,11 @@ const saveProfile = async () => {
                         <img src="/images/icons/avatar-dark.svg" alt="Profile" />
                     </div>
                     <client-only>
-                        <span v-if="!isGuest">{{
-                            profileStore.profile?.name ? profileStore.profile.name : 'Гость'
-                        }}</span>
+                        <span>{{ profileStore.profile?.name ? profileStore.profile.name : 'Гость' }}</span>
                     </client-only>
                 </div>
             </div>
-            <div class="card card--p-md profile__user-points">
+            <div v-if="!isGuest" class="card card--p-md profile__user-points">
                 <div class="profile__user-points-converting">1 балл Рустерс = 1 ₽</div>
                 <span>Сейчас у вас</span>
                 <div class="profile__user-points-balance">
@@ -109,14 +111,14 @@ const saveProfile = async () => {
                 </div>
                 <a class="link link--secondary" href="#">Как их использовать?</a>
             </div>
-            <div class="card card--p-md card--grey profile__user-orders-history">
+            <div v-if="!isGuest" class="card card--p-md card--grey profile__user-orders-history">
                 <div class="text14 g50">Все заказы и начисления баллов</div>
                 <span>История заказов</span>
                 <BaseButton :modifiers="['secondary']">Посмотреть все</BaseButton>
             </div>
-            <BaseOrderCard class="profile__user-order" />
+            <BaseOrderCard v-if="!isGuest" class="profile__user-order" />
         </div>
-        <div class="profile__mailing">
+        <div v-if="!isGuest" class="profile__mailing">
             <div class="profile__mailing-radio-btn">
                 <RadioButton v-model="subscribeMailing" name="profile-mailing" label="" />
                 <span class="h2 h2--no-mb">Подписаться на рассылку</span>
@@ -130,12 +132,16 @@ const saveProfile = async () => {
                     placeholder="Введите адрес"
                 />
                 <div v-if="!mailingEmail" class="profile__bonus">+50</div>
-                <BaseButton v-if="mailingEmail" class="profile__mailing-save-btn" :modifiers="['primary']"
+                <BaseButton
+                    v-if="mailingEmail"
+                    class="profile__mailing-save-btn"
+                    @click="saveProfile"
+                    :modifiers="['primary']"
                     >Сохранить
                 </BaseButton>
             </div>
         </div>
-        <div class="profile__promo">
+        <div v-if="!isGuest" class="profile__promo">
             <div class="h2 h2--no-mb profile__promo-title">Персональные акции</div>
             <div class="profile__promo-carousel">
                 <div class="profile__promo-image" v-for="story in stories">
