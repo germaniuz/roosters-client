@@ -15,7 +15,7 @@ defineProps<Props>();
         </div>
         <div class="news-card__title">{{ newsItem.title }}</div>
         <div class="news-card__description">{{ newsItem.description }}</div>
-        <BaseButtonLink :modifiers="['item']" class="news-card__button" :linkTo="{ to: '#' }">
+        <BaseButtonLink :modifiers="['item']" class="news-card__button" :linkTo="'news/' + newsItem.id">
             Подробнее
         </BaseButtonLink>
     </div>

@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import type { NewsItem } from '~/types/news';
+import { formatDate } from '../../../utils/date';
 
 const route = useRoute();
 const newsId = +route.params.id;
 
 const newsItem = ref<NewsItem>({
+    id: 13,
     image: '/images/test-image-3.webp',
     title: 'Новинки с фирменным соусом барбекю',
     subtitle: 'Roosters — ваш надежный спутник в любое время суток!',
@@ -14,14 +16,6 @@ const newsItem = ref<NewsItem>({
     link: '#',
     date: '01/08/2024',
 });
-
-const formatDate = (date: any) => {
-    return new Date(date).toLocaleDateString('ru-RU', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-    });
-};
 </script>
 
 <template>
@@ -53,7 +47,7 @@ const formatDate = (date: any) => {
 }
 
 .news-single__image {
-    border-radius: var(--b-radius-sm);
+    border-radius: var(--b-radius-lg);
     overflow: hidden;
     max-height: 200px;
     width: 100%;

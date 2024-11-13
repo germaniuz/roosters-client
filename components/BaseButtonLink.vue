@@ -3,7 +3,7 @@ import type { ButtonModifier } from '~/types/Button';
 
 type Props = {
     modifiers: Array<ButtonModifier>;
-    linkTo: Object;
+    linkTo: string;
 };
 
 const props = withDefaults(defineProps<Props>(), {});

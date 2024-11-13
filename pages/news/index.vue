@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 const news = [
     {
+        id: 1,
         image: '/images/test-image.webp',
         title: 'Какая пицца с доставкой в Волгограде называется ЛУЧШЕЙ?',
         description:
@@ -10,6 +11,7 @@ const news = [
         date: '01/08/2024',
     },
     {
+        id: 2,
         image: '/images/test-image-2.webp',
         title: 'Утоли ночной голод с пиццей Рустерс!',
         description:
@@ -19,6 +21,7 @@ const news = [
         date: '01/08/2024',
     },
     {
+        id: 3,
         image: '/images/test-image-3',
         title: 'Новинки с фирменным соусом барбекю',
         description:
@@ -28,6 +31,7 @@ const news = [
         date: '01/08/2024',
     },
     {
+        id: 4,
         image: '/images/test-image-4.webp',
         title: 'Празднуйте день рождения вместе с Рустерс!',
         description:
@@ -37,6 +41,7 @@ const news = [
         date: '01/08/2024',
     },
     {
+        id: 5,
         image: '/images/test-image-2.webp',
         title: 'Любители сыра, это для вас!',
         description:
