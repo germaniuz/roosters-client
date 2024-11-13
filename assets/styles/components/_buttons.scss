@@ -102,8 +102,8 @@
 
   &--item {
     font-style: italic;
-      color: var(--c-primary);
-      background-color: var(--c-grey10);
+    color: var(--c-primary);
+    background-color: var(--c-grey10);
 
     &:hover,
     &:focus,
@@ -120,24 +120,6 @@
 
     &:hover {
       background: var(--c-secondary-light);
-    }
-  }
-
-  &--item {
-    color: var(--c-grey00);
-    background-color: var(--c-primary);
-    font-style: italic;
-
-    @include media.lg-up {
-      color: var(--c-primary);
-      background-color: var(--c-grey10);
-    }
-
-    &:hover,
-    &:focus,
-    &:active {
-      color: var(--c-grey00);
-      background-color: var(--c-primary);;
     }
   }
 

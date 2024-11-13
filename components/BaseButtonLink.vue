@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { ButtonModifier } from '~/types/Button';
+import type { BtnModifier } from '~/types/Button';
 
 type Props = {
-    modifiers: Array<ButtonModifier>;
+    modifiers: Array<BtnModifier>;
     linkTo: string;
 };
 
 const props = withDefaults(defineProps<Props>(), {});
 
 const modifiers = props.modifiers.map((item) => {
-    return `btn--${item}`; // TODO: JS refactor after ProductCard Megred
+    return `btn--${item}`;
 });
 </script>
 
