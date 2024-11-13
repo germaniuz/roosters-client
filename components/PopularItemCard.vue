@@ -14,7 +14,7 @@ defineProps<Props>();
             <img :src="item.img" :alt="item.title">
         </div>
         <div class="popular-item-card__title">{{ item.title }}</div>
-        <BaseButton :modifiers="['item-white']" class="popular-item-card__price">{{ item.price }}</BaseButton>
+        <BaseButton :modifiers="['item-white']" class="popular-item-card__price">от {{ item.price }} ₽</BaseButton>
     </div>
 </template>
 
@@ -29,10 +29,16 @@ defineProps<Props>();
     min-width: 240px;
     display: grid;
     grid-template-columns: 62px 1fr;
-    gap: 20px;
+    gap: 17px 20px;
     grid-template-areas:
         'img title'
         'img price';
+
+    @include media.lg-up {
+        padding: 20px;
+        min-height: 120px;
+        min-width: 260px;
+    }
 }
 
 .popular-item-card__img {
@@ -54,6 +60,10 @@ defineProps<Props>();
 }
 
 .popular-item-card__price {
+    padding: 5px 20px;
+    width: max-content;
+    font-weight: 600;
+    margin-top: auto;
     grid-area: price;
 }
 </style>

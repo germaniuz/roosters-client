@@ -7,7 +7,7 @@ const popularItems: Array<PopularItem> = [{
     price: 1200,
     img: '/images/test-pizza.webp',
 },{
-    title: 'Пышная Дружная семейка',
+    title: 'Пышная',
     price: 1200,
     img: '/images/test-pizza.webp',
 },{
@@ -36,6 +36,7 @@ const popularItems: Array<PopularItem> = [{
 .popular-items {
     display: flex;
     flex-direction: row;
+    overflow: hidden;
     gap: 20px;
 }
 </style>
