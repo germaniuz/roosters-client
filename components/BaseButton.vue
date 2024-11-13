@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { ButtonModifier } from '~/types/Button';
+import type { BtnModifier } from '~/types/Button';
 
 type Props = {
-    modifiers: ButtonModifier[] | ButtonModifier;
+    modifiers: BtnModifier[];
     btnType?: 'button' | 'submit';
 };
 
@@ -10,16 +10,14 @@ const props = withDefaults(defineProps<Props>(), {
     btnType: 'button',
 });
 
-const modifiers = computed(() => {
-    // TODO: JS refactor after ProductCard Megred
-    return typeof props.modifiers === 'string'
-        ? props.modifiers
-        : props.modifiers.map((modifier) => 'btn--' + modifier).join(' ');
-});
+const { modifiers } = useModifiers(
+    'btn',
+    computed(() => props.modifiers),
+);
 </script>
 
 <template>
-    <button class="btn" :class="modifiers" :type="btnType">
+    <button class="btn" :class="modifiers" :type="btnType" :disabled="modifiers.includes('disabled')">
         <slot></slot>
     </button>
 </template>

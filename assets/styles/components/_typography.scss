@@ -2,9 +2,20 @@
 
 .link {
   color: var(--c-primary);
+  font-family: var(--f-base);
   text-decoration: underline;
   background: none;
-  font-size: functions.rem(15);
+  font-size: functions.rem(14);
+  line-height: functions.rem(16);
+  transition: all 0.2s ease-in-out;
+
+  &--secondary {
+    color: var(--c-secondary);
+
+    &:hover {
+      color: var(--c-secondary-extra-dark);
+    }
+  }
 
   &--no-wrap {
     white-space: nowrap;
@@ -19,8 +30,23 @@
   text-align: right;
 }
 
+.color-primary {
+  color: var(--c-primary);
+}
+
 p {
   font-size: functions.rem(15);
   line-height: functions.rem(22);
   color: var(--c-text-secondary);
+}
+
+.text14 {
+  font-family: var(--f-base);
+  font-size: functions.rem(14);
+  line-height: functions.rem(16);
+  font-weight: 400;
+}
+
+.g50 {
+  color: var(--c-grey50);
 }

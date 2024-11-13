@@ -30,6 +30,7 @@ stages:
   script:
     # set variables (need to set domain_name and env in variables)
     - cd /var/www/${domain_name}/app
+    - pm2 delete ${app_name}
     - pm2 start ${env}.ecosystem.config.cjs
   tags:
     - roosters-runner
@@ -39,6 +40,7 @@ stage-build:
   only:
     - develop
   variables:
+    app_name: "StageClient"
     domain_name: "stage.roosters-dev.ru"
     env_file: "$STAGE_ENV_FILE"
 
@@ -47,6 +49,7 @@ stage-run:
   only:
     - develop
   variables:
+    app_name: "ProductionClient"
     domain_name: "stage.roosters-dev.ru"
     env: "stage"
 

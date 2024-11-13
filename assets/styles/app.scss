@@ -5,8 +5,9 @@
   //fonts
   --f-fontello: 'Fontello', sans-serif;
   --f-rubik: 'Rubik', sans-serif;
+  --f-montserrat: 'Montserrat', sans-serif;
   --f-base: var(--f-rubik);
-  --f-headings: var(--f-rubik);
+  --f-headings: var(--f-montserrat);
   --f-icons: var(--f-fontello);
 
   //colors
@@ -34,6 +35,7 @@
   --c-success: #1F890E;
   --c-error: #A84646;
 
+  --c-top-nav-gradient: radial-gradient(50% 50% at 50% 50%, rgba(255, 208, 208, 0.58) 0%, rgba(255, 255, 255, 0) 100%) no-repeat;
   --c-footer-gradient: linear-gradient(180deg, rgba(255, 113, 113, 0.00) 51.78%, rgba(255, 70, 70, 0.20) 100%);
   --c-news-page-gradient: linear-gradient(0deg, #F7F7F7 0%, rgba(247, 247, 247, 0.00) 100%);
 
@@ -52,8 +54,17 @@
   --b-radius-sm: 8px;
   --b-radius-md: 10px;
   --b-radius: 15px;
-  --b-radius-lg: 25px;
+  --b-radius-lg: 20px;
+  --b-radius-xl: 25px;
+  --b-radius-2xl: 33px;
   --b-radius-round: 50px;
+
+  //container
+  --pi-container-xs: 20px;
+  --pi-container-md: 40px;
+  --pi-container-lg: 60px;
+  --pi-container-xl: 80px;
+  --pi-container-2xl: 120px;
 
   //z-indexes
   --z-bottom: 10;
@@ -68,4 +79,8 @@
   //container
   --w-container: 1600px;
   --w-auth-form: 360px;
+
+  // heights
+  --h-header-sm: 57px;
+  --h-header-md: 89px;
 }

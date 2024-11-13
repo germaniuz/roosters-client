@@ -1,0 +1,404 @@
+# This file was generated. Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+"Тип профиля"
+type ClientProfile {
+    "Дата рождения"
+    birthday: String
+    "Email"
+    email: String
+    "Пол"
+    gender: String
+    "id"
+    id: Int
+    "Статус профиля"
+    is_active: Boolean
+    "Фамилия"
+    lastname: String
+    "Имя"
+    name: String
+    "Телефон"
+    phone: String
+}
+
+"Бейдж/Тег"
+type CommonBadge {
+    "Описание"
+    description: String
+    "Изображение"
+    file: CommonFile
+    "id"
+    id: Int
+    "Название"
+    name: String
+}
+
+"Категории"
+type CommonCategory {
+    "Список вариантов товаров в категории"
+    category_options: [CommonCategoryOption]
+    "Список вариантов интгредиентов в категории"
+    category_options_ingredient: [CommonCategoryOptionIngredient]
+    "Дата создания"
+    created_at: String
+    "Описание"
+    description: String
+    "Изображение"
+    file: CommonFile
+    "id"
+    id: Int
+    "Название"
+    name: String
+    "Машинное название"
+    slug: String
+    "Дата последнего изменения пользователя"
+    updated_at: String
+}
+
+"Список категорий"
+type CommonCategoryList {
+    "Всего записей по фильтру"
+    count: Int
+    "Список категорий"
+    items: [CommonCategory]
+}
+
+"Вариант товаров в категории"
+type CommonCategoryOption {
+    "Категория"
+    category: CommonCategory
+    "Дата создания"
+    created_at: String
+    "id"
+    id: Int
+    "Варианты"
+    option: CommonOption
+    "Количество"
+    order: Int
+    "Дата последнего изменения пользователя"
+    updated_at: String
+}
+
+"Вариант товаров в категории"
+type CommonCategoryOptionIngredient {
+    "Список вариантов товаров в категории"
+    category_options: CommonCategoryOption
+    "Дата создания"
+    created_at: String
+    "id"
+    id: Int
+    "Ингредиент"
+    ingredient: CommonIngredient
+    "Сортировка"
+    order: Int
+    "Цена"
+    price: Float
+    "Дата последнего изменения пользователя"
+    updated_at: String
+}
+
+"Список вариантов товаров в категории"
+type CommonCategoryOptionIngredientList {
+    "Всего записей по фильтру"
+    count: Int
+    "Список вариантов товаров в категории"
+    items: [CommonCategoryOptionIngredient]
+}
+
+"Список вариантов товаров в категории"
+type CommonCategoryOptionList {
+    "Всего записей по фильтру"
+    count: Int
+    "Список вариантов товаров в категории"
+    items: [CommonCategoryOption]
+}
+
+"Файл"
+type CommonFile {
+    "Дата создания"
+    created_at: String
+    "Расширение файла"
+    ext: String
+    "Идентификатор организации"
+    id: Int
+    "Наименование"
+    name: String
+    "Размер файла"
+    size: Int
+    "Дата обновления"
+    updated_at: String
+    "Ссылка на скачивание файла"
+    url: String
+}
+
+"Ингредиент"
+type CommonIngredient {
+    "Описание"
+    description: String
+    "Изображение"
+    file: CommonFile
+    "id"
+    id: Int
+    "Название"
+    name: String
+}
+
+"Список ингридиентов"
+type CommonIngredientList {
+    "Всего записей по фильтру"
+    count: Int
+    "Список ингридиентов"
+    items: [CommonIngredient]
+}
+
+"Вариант"
+type CommonOption {
+    "Описание"
+    description: String
+    "Изображение"
+    file: CommonFile
+    "id"
+    id: Int
+    "Активен"
+    is_active: Boolean
+    "Название"
+    name: String
+}
+
+"Список вариантов"
+type CommonOptionList {
+    "Всего записей по фильтру"
+    count: Int
+    "Список вариантов"
+    items: [CommonOption]
+}
+
+"Сет"
+type CommonPreset {
+    "Описание"
+    description: String
+    "Изображение"
+    file: CommonFile
+    "id"
+    id: Int
+    "Список позиций"
+    items: [CommonPresetItem]
+    "Название"
+    name: String
+    "Slug"
+    slug: String
+}
+
+"Позиция сета"
+type CommonPresetItem {
+    "Вариант товаров в категории"
+    category_option: CommonCategoryOption
+    "Идентификатор варианта категории"
+    category_option_id: Int!
+    "Товар"
+    default_product: CommonProduct
+    "Идентификатор продукта по умолчанию"
+    default_product_id: Int!
+    "скидка"
+    discount: Float!
+    "id"
+    id: Int
+    "Название"
+    name: String
+}
+
+"Товар"
+type CommonProduct {
+    "Бейджи/Теги"
+    badges: [CommonBadge]
+    "Черный список вариантов товаров в категории"
+    category_option_ingredient_excludes: [CommonCategoryOptionIngredient]
+    "Дата создания"
+    created_at: String
+    "Описание"
+    description: String
+    "Эн. ценность, ккал"
+    energy_value: String
+    "Изображение"
+    file: CommonFile
+    "id"
+    id: Int
+    "Название"
+    name: String
+    "Пищевая ценность продукта Углеводы"
+    nutritional_value_carbs: String
+    "Пищевая ценность продукта Жиры"
+    nutritional_value_fats: String
+    "Пищевая ценность продукта Белки"
+    nutritional_value_proteins: String
+    "Варианты товара"
+    product_category_options: [CommonProductCategoryOption]
+    "Ингредиенты товара (из чего состоит)"
+    product_ingredients: [CommonProductIngredient]
+    "Список уникальных добавок для товара (ингридиенты которых нет в категории)"
+    product_unique_ingredients: [CommonProductUniqueIngredient]
+    "Дата последнего изменения пользователя"
+    updated_at: String
+}
+
+"Вариант товара"
+type CommonProductCategoryOption {
+    "Вариант товаров в категории"
+    category_option: CommonCategoryOption
+    "Идентификатор продукта"
+    category_option_id: String
+    "Дата создания"
+    created_at: String
+    "id"
+    id: Int
+    "Стоимость"
+    price: Float
+    "Продукт"
+    product: CommonProduct
+    "Идентификатор продукта"
+    product_id: String
+    "Дата последнего изменения пользователя"
+    updated_at: String
+    "Вес"
+    weight: Float
+}
+
+"Ингредиент товара (из чего состоит)"
+type CommonProductIngredient {
+    "Дата создания"
+    created_at: String
+    "id"
+    id: Int
+    "Ингредиент"
+    ingredient: CommonIngredient
+    "Идентификатор ингредиента"
+    ingredient_id: String
+    "Сортировка"
+    order: Int
+    "Продукт"
+    product: CommonProduct
+    "Идентификатор продукта"
+    product_id: String
+    "Дата последнего изменения пользователя"
+    updated_at: String
+}
+
+"Список продуктов"
+type CommonProductList {
+    "Всего записей по фильтру"
+    count: Int
+    "Список продуктов"
+    items: [CommonProduct]
+}
+
+"Уникальные добавки для товара (ингридиенты которых нет в категории)"
+type CommonProductUniqueIngredient {
+    "Дата создания"
+    created_at: String
+    "id"
+    id: Int
+    "Ингредиент"
+    ingredient: CommonIngredient
+    "Идентификатор ингредиента"
+    ingredient_id: String
+    "Сортировка"
+    order: Int
+    "Стоимость"
+    price: Float
+    "Идентификатор продукта"
+    product_id: String
+    "Дата последнего изменения пользователя"
+    updated_at: String
+}
+
+"Смс код"
+type CommonSmsCode {
+    "Код"
+    code: String
+    "Телефонный номер, на который отправлено СМС"
+    phone: String
+}
+
+"Пользователь"
+type CommonToken {
+    "Токен"
+    token: String
+}
+
+"Пользователь"
+type CommonUser {
+    "Дата создания"
+    created_at: String
+    "Email"
+    email: String
+    "id"
+    id: Int
+    "Имя"
+    name: String
+    "Дата последнего изменения пользователя"
+    updated_at: String
+}
+
+type Mutation {
+    sendClientSmsCode(phone: String!): CommonSmsCode
+    "Изменение пользователя"
+    updateClientUser(birthday: String!, email: String!, gender: ClientEnumsGenderEnum!, lastname: String!, name: String!): ClientProfile
+    verifyClientSmsCode(code: String!, phone: String!): CommonToken
+}
+
+type Query {
+    "Список продуктов для клиента"
+    clientProductList(
+        "Max 50"
+        ids: [Int],
+        "Max 50"
+        limit: Int = 10,
+        offset: Int = 0,
+        orders: [ClientProductListOrder],
+        search: String
+    ): CommonProductList
+    "Профиль клиента"
+    clientProfile: ClientProfile
+}
+
+"Enumeration of gender "
+enum ClientEnumsGenderEnum {
+    female
+    male
+}
+
+enum ClientProductListOrderField {
+    created_at
+    description
+    energy_value
+    id
+    name
+    nutritional_value_carbs
+    nutritional_value_fats
+    nutritional_value_proteins
+    updated_at
+}
+
+"Направление сортировки"
+enum CommonOrderDirectionEnum {
+    "Прямая сортировка"
+    asc
+    "Обратная сортировка"
+    desc
+}
+
+"""
+
+The `Upload` special type represents a file to be uploaded in the same HTTP request as specified by
+[graphql-multipart-request-spec](https://github.com/jaydenseric/graphql-multipart-request-spec).
+"""
+scalar Upload
+
+input ClientProductListOrder {
+    dir: CommonOrderDirectionEnum = asc
+    field: ClientProductListOrderField!
+}

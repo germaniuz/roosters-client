@@ -1,11 +1,16 @@
-export type ButtonModifier =
+export type BtnModifier =
     | 'primary'
     | 'secondary'
+    | 'outline'
+    | 'outline-secondary'
+    | 'third'
     | 'success'
     | 'warning'
-    | 'item'
     | 'grey'
+    | 'item'
     | 'sm'
     | 'lg'
     | 'xl'
-    | 'icon';
+    | 'disabled'
+    | 'icon'
+    | 'single-icon';

@@ -3,6 +3,7 @@ type Props = {
     modelValue: boolean;
     label: string;
     name: string;
+    errors?: string[] | undefined;
 };
 
 const emit = defineEmits(['update:modelValue']);
@@ -23,6 +24,7 @@ defineProps<Props>();
             <span class="checkbox__checkmark"></span>
             <span class="checkbox-label" v-html="label"></span>
         </label>
+        <span class="form-control__error" v-if="errors?.length">{{ errors[0] }}</span>
     </div>
 </template>
 
@@ -59,12 +61,12 @@ defineProps<Props>();
 
     &:checked {
         & ~ .checkbox__checkmark {
-            background-color: var(--c-primary);
-            border-color: var(--c-primary);
+            background-color: var(--c-secondary);
+            border-color: var(--c-secondary);
             box-shadow: var(--shadow-xs);
 
             &::after {
-                content: '\e81a';
+                content: '\e809';
             }
         }
     }
@@ -76,8 +78,8 @@ defineProps<Props>();
     flex: 0 0 18px;
     width: 18px;
     transition: all 0.25s ease;
-    border: 2px solid var(--c-text-secondary);
-    border-radius: var(--b-radius-xxs);
+    border: 2px solid var(--c-grey20);
+    border-radius: var(--b-radius-round);
 
     &::after {
         content: '';

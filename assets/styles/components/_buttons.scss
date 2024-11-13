@@ -6,7 +6,7 @@
   height: min-content;
   font-size: functions.rem(14);
   line-height: 1;
-  padding: 12px 20px;
+  padding: 15px 20px;
   font-family: var(--f-base);
   transition: all 0.25s ease-out;
   border-radius: var(--b-radius-md);
@@ -50,6 +50,55 @@
     }
   }
 
+  &--secondary {
+    color: var(--c-primary);
+    background-color: var(--c-grey00);
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: var(--c-grey00);
+      background-color: var(--c-primary);
+    }
+  }
+
+  &--outline {
+    color: var(--c-primary);
+    background-color: var(--c-grey00);
+    border: 1px solid var(--c-primary);
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: var(--c-secondary);
+      border-color: var(--c-secondary);
+    }
+  }
+
+  &--outline-secondary {
+    color: var(--c-secondary);
+    background-color: var(--c-grey00);
+    border: 1px solid var(--c-secondary);
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: var(--c-primary);
+      border-color: var(--c-primary);
+    }
+  }
+
+  &--third {
+    color: var(--c-grey00);
+    background-color: var(--c-secondary);
+
+    &:hover,
+    &:focus,
+    &:active {
+      background: color-mix(in srgb, var(--c-primary), var(--c-grey00) 20%);
+    }
+  }
+
 
   &--item {
     font-style: italic;
@@ -74,10 +123,33 @@
     }
   }
 
+  &--item {
+    color: var(--c-grey00);
+    background-color: var(--c-primary);
+    font-style: italic;
+
+    @include media.lg-up {
+      color: var(--c-primary);
+      background-color: var(--c-grey10);
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: var(--c-grey00);
+      background-color: var(--c-primary);;
+    }
+  }
+
   &--icon {
-    gap: 8px;
     display: flex;
+    flex-direction: row;
     align-items: center;
-    padding: 5px 20px 5px 10px;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  &--single-icon {
+    padding: 0;
   }
 }
