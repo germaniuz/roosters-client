@@ -45,28 +45,16 @@ const popularItemsBlockRef = ref();
 const itemsScrolled = ref<boolean>(false);
 const itemsScrolledToEnd = ref<boolean>(false);
 
-onMounted(() => {
-    if (popularItemsRef.value && popularItemsBlockRef.value) {
-        const updateButtonsVisibility = () => {
-            if (popularItemsRef.value.scrollLeft !== 0) {
-                itemsScrolled.value = true;
-                itemsScrolledToEnd.value =
-                    popularItemsRef.value.scrollWidth <=
-                    popularItemsRef.value.scrollLeft + popularItemsRef.value.clientWidth;
-            } else {
-                itemsScrolled.value = false;
-            }
-        };
-
-        updateButtonsVisibility();
-
-        popularItemsRef.value.addEventListener('scroll', updateButtonsVisibility);
-
-        onBeforeUnmount(() => {
-            popularItemsRef.value.removeEventListener('scroll', updateButtonsVisibility);
-        });
+const updateButtonsVisibility = () => {
+    console.log(23);
+    if (popularItemsRef.value.scrollLeft !== 0) {
+        itemsScrolled.value = true;
+        itemsScrolledToEnd.value =
+            popularItemsRef.value.scrollWidth <= popularItemsRef.value.scrollLeft + popularItemsRef.value.clientWidth;
+    } else {
+        itemsScrolled.value = false;
     }
-});
+};
 
 const scrollRight = () => {
     popularItemsRef.value.scrollLeft += 300;
@@ -88,18 +76,16 @@ const scrollLeft = () => {
             ]"
             ref="popularItemsBlockRef"
         >
-            <div class="popular-items__grid" ref="popularItemsRef">
+            <div class="popular-items__grid" ref="popularItemsRef" @scroll="updateButtonsVisibility">
                 <PopularItemCard v-for="popularItem in popularItems" :item="popularItem" />
             </div>
             <BaseIconButton
-                ref="scrollLeftBtn"
                 icon="angle-left"
                 @click="scrollLeft"
                 class="popular-items__scroll-btn popular-items__scroll-left-btn"
                 :modifiers="['icon', 'single-icon']"
             />
             <BaseIconButton
-                ref="scrollRightBtn"
                 icon="angle-right"
                 @click="scrollRight"
                 class="popular-items__scroll-btn popular-items__scroll-right-btn"
