@@ -113,6 +113,19 @@
     }
   }
 
+  &--item-white {
+    color: var(--c-primary);
+    background-color: var(--c-grey00);
+    font-style: italic;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: var(--c-grey00);
+      background-color: var(--c-primary);;
+    }
+  }
+
 
   &--grey {
     background: var(--c-grey10);

@@ -8,6 +8,7 @@ export type BtnModifier =
     | 'warning'
     | 'grey'
     | 'item'
+    | 'item-white'
     | 'sm'
     | 'lg'
     | 'xl'

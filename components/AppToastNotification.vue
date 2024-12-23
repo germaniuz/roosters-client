@@ -1,9 +1,11 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>
-    Component: AppToastNotification
-  </div>
+    <div class="notification">Component: AppToastNotification</div>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.notification {
+    display: none;
+}
+</style>

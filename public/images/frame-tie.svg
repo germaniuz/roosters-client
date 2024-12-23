@@ -1,0 +1,89 @@
+<svg width="261.824219" height="139.610596" viewBox="0 0 261.824 139.611" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs>
+		<filter id="filter_71_53990_dd" x="171.035400" y="15.673584" width="28.414307" height="60.231445" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+			<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+			<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+			<feOffset dx="0" dy="-0.60177"/>
+			<feGaussianBlur stdDeviation="2.40708"/>
+			<feComposite in2="hardAlpha" operator="out" k2="-1" k3="1"/>
+			<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+			<feBlend mode="normal" in2="BackgroundImageFix" result="effect_dropShadow_1"/>
+			<feBlend mode="normal" in="SourceGraphic" in2="effect_dropShadow_1" result="shape"/>
+		</filter>
+		<filter id="filter_71_53991_dd" x="159.978516" y="0.559814" width="32.334717" height="31.563110" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+			<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+			<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+			<feOffset dx="0" dy="-0.60177"/>
+			<feGaussianBlur stdDeviation="2.40708"/>
+			<feComposite in2="hardAlpha" operator="out" k2="-1" k3="1"/>
+			<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/>
+			<feBlend mode="normal" in2="BackgroundImageFix" result="effect_dropShadow_1"/>
+			<feBlend mode="normal" in="SourceGraphic" in2="effect_dropShadow_1" result="shape"/>
+		</filter>
+		<radialGradient gradientTransform="rotate(0) scale(130.912 27.7024)" cx="0.000000" cy="0.000000" r="1.000000" id="paint_radial_71_53953_0" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#000000"/>
+			<stop offset="1.000000" stop-color="#000000" stop-opacity="0.000000"/>
+		</radialGradient>
+		<linearGradient x1="192.146713" y1="65.058350" x2="204.659943" y2="122.999039" id="paint_linear_71_53984_0" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FF8686"/>
+			<stop offset="1.000000" stop-color="#E62A2B"/>
+		</linearGradient>
+		<linearGradient x1="159.861847" y1="8.069702" x2="159.861847" y2="14.291643" id="paint_linear_71_53988_0" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FFA00A"/>
+			<stop offset="1.000000" stop-color="#FFC466"/>
+		</linearGradient>
+		<linearGradient x1="182.779968" y1="4.456917" x2="182.779968" y2="8.872488" id="paint_linear_71_53989_0" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FFA00A"/>
+			<stop offset="1.000000" stop-color="#FFC466"/>
+		</linearGradient>
+		<linearGradient x1="185.242584" y1="23.496582" x2="185.242584" y2="69.285583" id="paint_linear_71_53990_0" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FDA924"/>
+			<stop offset="1.000000" stop-color="#FFCA77"/>
+		</linearGradient>
+		<radialGradient gradientTransform="translate(177.955 16.405) rotate(-17.4429) scale(14.7508 15.3697)" cx="0.000000" cy="0.000000" r="1.000000" id="paint_radial_71_53991_0" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FFCB78"/>
+			<stop offset="1.000000" stop-color="#FF9F07"/>
+		</radialGradient>
+	</defs>
+	<ellipse id="Ellipse 39" rx="130.912079" ry="27.702345" transform="matrix(1 2.77801e-17 0.000914895 1 130.912 109.638)" fill="url(#paint_radial_71_53953_0)" fill-opacity="0.200000"/>
+	<path id="Rectangle 42" d="M40.27 95.1L55.67 92.6L98.29 101.9L157.74 100.11L127.3 115.13L105.81 116.2L40.27 99.75L40.27 95.1Z" fill="#F2F2F2" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 40" d="M127.3 114.77L105.81 116.2L105.81 129.07L127.3 128L127.3 114.77Z" fill="#D9D9D9" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 41" d="M127.3 114.77L153.08 102.61L153.08 115.49L127.3 128L127.3 114.77Z" fill="#D3D3D3" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 39" d="M40.27 99.75L105.81 116.2L105.81 129.07L40.27 112.63L40.27 99.75Z" fill="#D2D2D2" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 38" d="M40.27 80.09L58.53 76.15L101.15 85.45L153.8 88.31L130.88 98.68L109.03 99.75L40.27 84.74L40.27 80.09Z" fill="#F2F2F2" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 36" d="M130.88 98.68L109.03 99.75L109.03 112.63L130.88 111.91L130.88 98.68Z" fill="#D9D9D9" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 37" d="M130.88 98.68L150.93 89.38L150.93 102.26L130.88 111.91L130.88 98.68Z" fill="#D3D3D3" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 35" d="M40.27 84.74L109.03 99.75L109.03 112.63L40.27 97.61L40.27 84.74Z" fill="#D2D2D2" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 34" d="M40.27 65.07L58.53 61.14L101.15 70.43L150.22 76.51L124.07 85.09L101.15 85.09L40.27 69.72L40.27 65.07Z" fill="#F2F2F2" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 29" d="M124.07 85.09L146.99 77.58L146.99 90.46L124.07 97.97L124.07 85.09Z" fill="#D3D3D3" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 27" d="M40.27 69.72L101.15 85.09L101.15 97.97L40.27 82.59L40.27 69.72Z" fill="#D2D2D2" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 28" d="M101.15 85.09L124.07 85.09L124.07 97.97L101.15 97.97L101.15 85.09Z" fill="#D9D9D9" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 32" d="M41.34 49.34L59.61 45.4L102.23 54.7L143.77 62.21L133.03 67.22L112.61 69L41.34 53.99L41.34 49.34Z" fill="#F2F2F2" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 33" d="M148.78 60.06L132.67 67.22L133.03 80.09L148.78 74.37L148.78 60.06Z" fill="#D3D3D3" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 26" d="M112.61 69L133.03 67.22L133.03 80.09L112.61 81.88L112.61 69Z" fill="#D9D9D9" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 25" d="M41.34 53.99L112.61 69L112.61 81.88L41.34 66.86L41.34 53.99Z" fill="#D2D2D2" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 23" d="M40.27 33.61L58.89 30.03L101.51 39.33L143.06 46.83L124.43 51.13L101.51 53.27L40.27 38.25L40.27 33.61Z" fill="#F2F2F2" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 11" d="M40.27 38.25L101.51 53.27L101.51 67.22L40.27 52.2L40.27 38.25Z" fill="#D2D2D2" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 12" d="M124.07 51.13L101.51 53.27L101.51 67.22L124.07 66.14L124.07 51.13Z" fill="#D9D9D9" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 13" d="M147.35 45.76L124.07 51.13L124.07 66.14L147.35 60.06L147.35 45.76Z" fill="#D3D3D3" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 6" d="M40.64 33.59L101.53 17.5L152.02 24.29L148.09 47.53L124.07 51.22L101.66 53.32L40.64 38.24L40.64 33.59Z" fill="#F2F2F2" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 7" d="M125.86 14.65L219.34 0L241.9 94.39L234.74 115.49L171.71 129.43L149.14 111.91L125.86 14.65Z" fill="#FF2424" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 13" d="M170.99 126.57L148.43 109.05L144.49 85.09C154.87 88.67 166.19 88.52 177.44 85.09C190.54 81.11 189.28 71.46 201.43 64C210.74 58.28 235.1 66.14 235.1 66.14L241.19 91.53L234.02 112.63L170.99 126.57Z" fill="#FFC262" fill-opacity="1.000000" fill-rule="evenodd"/>
+	<path id="Rectangle 12" d="M171.71 129.43L149.14 111.91L145.2 85.09C155.89 90.59 166.88 90.95 178.83 87.6C192.56 83.74 190.91 71.96 203.58 65.43C213.29 60.42 235.1 66.14 235.1 66.14L241.9 94.39L234.74 115.49L171.71 129.43Z" fill="#FDA924" fill-opacity="1.000000" fill-rule="evenodd"/>
+	<path id="Rectangle 10" d="M171.71 129.43L149.14 111.91L142.38 83.66C153.06 89.16 167.99 94.52 179.94 91.17C193.68 87.32 193.67 71.48 207.16 66.86C217.5 63.32 235.13 66.08 235.13 66.08L241.9 94.39L234.74 115.49L171.71 129.43Z" fill="url(#paint_linear_71_53984_0)" fill-opacity="1.000000" fill-rule="evenodd"/>
+	<path id="Rectangle 8" d="M117.99 19.3L125.86 14.65L149.14 111.91L141.98 116.56L117.99 19.3Z" fill="#FF6969" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 9" d="M141.98 116.56L149.14 111.91L171.71 129.43L162.75 131.93L141.98 116.56Z" fill="#FF4B4B" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 45" d="M151.09 9.24C155.84 7.93 160.75 7.87 165.66 8.31C170.48 8.74 175.74 10.75 175.74 10.75L168.73 14.29C168.73 14.29 166.43 11.79 160.62 10.75C154.82 9.7 148.03 11.31 143.98 12.17C146.93 10.56 148.2 10.04 151.09 9.24Z" fill="#FF9C00" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 45" d="M151.09 9.24C155.84 7.93 160.75 7.87 165.66 8.31C170.48 8.74 175.74 10.75 175.74 10.75L168.73 14.29C168.73 14.29 166.43 11.79 160.62 10.75C154.82 9.7 148.03 11.31 143.98 12.17C146.93 10.56 148.2 10.04 151.09 9.24Z" fill="url(#paint_linear_71_53988_0)" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 46" d="M180.36 5.25C181.71 4.81 183.72 4.33 185.19 4.53L184.4 8.86L179.06 8.86L180.36 5.25Z" fill="#FF9C00" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<path id="Rectangle 46" d="M180.36 5.25C181.71 4.81 183.72 4.33 185.19 4.53L184.4 8.86L179.06 8.86L180.36 5.25Z" fill="url(#paint_linear_71_53989_0)" fill-opacity="1.000000" fill-rule="nonzero"/>
+	<g filter="url(#filter_71_53990_dd)">
+		<path id="Rectangle 44" d="M178.25 25.5L182.98 23.49C187.16 36.27 189.25 43.85 192.22 60.15L186.29 69.28L180.26 62.86C180.53 40.82 180.77 39.38 178.25 25.5Z" fill="url(#paint_linear_71_53990_0)" fill-opacity="1.000000" fill-rule="nonzero"/>
+	</g>
+	<g filter="url(#filter_71_53991_dd)">
+		<path id="Rectangle 43" d="M167.2 13.76C172.69 9.21 176.63 8.08 185.09 8.44L182.98 23.49L178.25 25.5L167.2 13.76Z" fill="url(#paint_radial_71_53991_0)" fill-opacity="1.000000" fill-rule="nonzero"/>
+	</g>
+</svg>
