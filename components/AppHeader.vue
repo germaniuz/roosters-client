@@ -5,7 +5,7 @@ import BaseSocial from '~/components/BaseSocial.vue';
 import { CLIENT_PROFILE } from '~/gql/queries/profile';
 
 const { phone } = useAppStore();
-const { isGuest } = storeToRefs(useProfileStore());
+const { isGuest, isAuthenticated } = storeToRefs(useProfileStore());
 const menuIsActive = ref<boolean>(false);
 
 const toggleMobileMenu = () => {
@@ -49,7 +49,7 @@ const logginUser = async (token: string) => {
             <a :href="`tel:${phone}`" class="header__phone">
                 <img src="/images/icons/phone.svg" alt="Рустерс звонок" /> <span>{{ phone }}</span>
             </a>
-            <UserCard v-if="!isGuest" class="header__desktop-user-card" />
+            <UserCard v-if="!isGuest" class="header__desktop-user-card" v-if="isAuthenticated" />
             <BaseButton
                 v-if="isGuest"
                 class="header__login"
@@ -264,6 +264,7 @@ const logginUser = async (token: string) => {
     transform: scaleY(1);
     transform-origin: top;
     transition: transform 0.2s ease-in-out;
+    margin-bottom: 40px;
 
     @include media.md-down {
         .header--mobile-menu-active & {

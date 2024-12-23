@@ -1,0 +1,10 @@
+@use "../helpers/functions";
+@use "../helpers/media";
+
+.section {
+  margin-block: 60px;
+
+  @include media.lg-up {
+    margin-block: 80px;
+  }
+}
