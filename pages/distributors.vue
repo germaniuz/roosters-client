@@ -1,30 +1,32 @@
 <script lang="ts" setup>
 import BaseButton from '~/components/BaseButton.vue';
-import { type RequestServiceFields } from '~/types/RequestFrom';
+import { type RequestDistributorFields } from '~/types/RequestFrom';
 
 const advantages = [
-    'Организация корпоративного питания с доставкой',
-    'Использование только высококачественных ингредиентов',
-    'Личный менеджер для оперативного и удобного оформления заказов',
-    'Гибкие объемы заказов — от небольших ланчей до крупных банкетов',
+    'Мы стремимся к долгосрочным и честным отношениям.',
+    'Возможность развиваться вместе с нами.',
+    'Честные договоренности и своевременные оплаты.',
+    'Персональный менеджер, который поможет на каждом этапе.',
 ];
 
-const formFields = ref<RequestServiceFields>({
+const formFields = ref<RequestDistributorFields>({
     name: '',
     companyName: '',
     phone: '',
     email: '',
+    offer: '',
+    text: '',
 });
 </script>
 
 <template>
     <div class="container">
-        <h1 class="h1">Услуги</h1>
-        <div class="text-center service-r2b"><img src="/images/r2b.svg" alt="Рустерс" /></div>
-        <h2 class="h2 h2--orange text-center text-uppercase">Корпоративные заказы для вашей компании</h2>
+        <h1 class="h1">Поставщикам</h1>
+        <div class="text-center service-r2b"><img src="/images/handshake.svg" alt="Рустерс" /></div>
+        <h2 class="h2 h2--orange text-center text-uppercase">Сотрудничество с нами</h2>
         <p class="text-center service__text">
-            Поделитесь своими впечатлениями о нашем сервисе и помогите нам стать лучше. Оставьте отзыв и расскажите, что
-            вам понравилось, а что можно улучшить!
+            Мы ищем надежных поставщиков, которые готовы предложить качественные продукты и услуги. Если вам интересно
+            сотрудничество, будем рады обсудить детали
         </p>
         <div class="service__advantages">
             <div class="text-center service-tie"><img src="/images/frame-tie.svg" alt="Рустерс" /></div>
@@ -42,6 +44,12 @@ const formFields = ref<RequestServiceFields>({
             <FormInput v-model="formFields.companyName" name="company-name" placeholder="Название компании" />
             <FormInput v-model="formFields.phone" name="phone" placeholder="Телефон" />
             <FormInput v-model="formFields.email" name="email" placeholder="Ваш email" />
+            <FormInput
+                v-model="formFields.offer"
+                name="offer"
+                placeholder="Предлагаемая продукция / тип оборудования"
+            />
+            <FormTextarea v-model="formFields.text" />
             <BaseButton :modifiers="['primary']" class="service-form__btn">Отправить</BaseButton>
             <p class="text-center text-small form__notice">
                 Продолжая, вы соглашаетесь со сбором и обработкой персональных данных, пользовательским соглашением, а
