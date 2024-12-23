@@ -5,6 +5,9 @@ import BaseSocial from '~/components/BaseSocial.vue';
 
 <template>
     <footer class="footer">
+        <div class="container">
+            <div class="footer__banner"></div>
+        </div>
         <div class="footer__top container">
             <div class="footer__contacts-block">
                 <div class="footer__download-apps">
@@ -98,6 +101,29 @@ import BaseSocial from '~/components/BaseSocial.vue';
         &::before {
             height: 100%;
         }
+    }
+}
+
+.footer__banner {
+    background-color: var(--c-secondary);
+    border-radius: var(--b-radius-md);
+    max-width: 830px;
+    height: 80px;
+    margin-bottom: 40px;
+
+    @include media.md-up {
+        margin-inline: 170px;
+    }
+
+    @include media.lg-up {
+        border-radius: var(--b-radius-lg);
+        height: 90px;
+        margin-bottom: 90px;
+        margin-inline: auto;
+    }
+
+    @include media.xl-up {
+        margin-bottom: 60px;
     }
 }
 

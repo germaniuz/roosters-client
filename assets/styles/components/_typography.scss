@@ -34,6 +34,10 @@
   color: var(--c-primary);
 }
 
+.text-uppercase {
+  text-transform: uppercase;
+}
+
 p {
   font-size: functions.rem(15);
   line-height: functions.rem(22);

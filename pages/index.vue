@@ -97,8 +97,6 @@ const scrollStoriesLeft = () => {
 <template>
     <div class="container front-page">
         <h1 class="h1">Главная</h1>
-        <BaseButton :modifiers="['primary']">Btn</BaseButton>
-        <FormRadioButton label="Radio btn" name="radio" v-model="radio" />
         <div class="front-page__stories">
             <div class="front-page__stories-grid" ref="storiesRef">
                 <div class="front-page__story" v-for="story in stories">
@@ -125,6 +123,7 @@ const scrollStoriesLeft = () => {
             <ProductCard :product="product" />
             <ProductCard :product="product" />
         </div>
+        <PopularItems/>
     </div>
 </template>
 

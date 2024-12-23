@@ -59,3 +59,11 @@ input {
   line-height: 1;
   color: var(--c-error);
 }
+
+.form__notice {
+  font-size: functions.rem(12);
+  color: var(--c-grey50);
+  max-width: 500px;
+  line-height: 1.2;
+  margin-inline: auto;
+}
