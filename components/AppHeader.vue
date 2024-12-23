@@ -49,7 +49,7 @@ const logginUser = async (token: string) => {
             <a :href="`tel:${phone}`" class="header__phone">
                 <img src="/images/icons/phone.svg" alt="Рустерс звонок" /> <span>{{ phone }}</span>
             </a>
-            <UserCard class="header__desktop-user-card" v-if="isAuthenticated" />
+            <UserCard v-if="!isGuest" class="header__desktop-user-card" v-if="isAuthenticated" />
             <BaseButton
                 v-if="isGuest"
                 class="header__login"
