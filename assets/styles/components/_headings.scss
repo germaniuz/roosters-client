@@ -22,17 +22,31 @@
 .h2 {
   color: var(--c-grey80);
   font-family: var(--f-base), serif;
-  font-size: functions.rem(28);
+  font-size: functions.rem(24);
+  line-height: functions.rem(28);
   font-weight: 600;
-  line-height: normal;
-  margin-bottom: 20px;
-
-  @include media.lg-up {
-    font-size: functions.rem(32);
-  }
+  margin-bottom: 30px;
+  font-style: italic;
 
   &--no-mb {
     margin-bottom: 0;
+  }
+
+  &--icon {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-start;
+
+    i {
+      font-size: functions.rem(24);
+      color: var(--c-secondary);
+
+      &:before {
+        margin: 0;
+      }
+    }
   }
 
   &--orange {
