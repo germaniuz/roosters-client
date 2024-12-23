@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import BaseButton from '~/components/BaseButton.vue';
 import { type RequestDistributorFields } from '~/types/RequestFrom';
+import PopularItems from '~/components/PopularItems.vue';
 
 const advantages = [
     'Мы стремимся к долгосрочным и честным отношениям.',
@@ -56,6 +57,7 @@ const formFields = ref<RequestDistributorFields>({
                 также на получением рекламных сообщений
             </p>
         </form>
+        <PopularItems />
     </div>
 </template>
 

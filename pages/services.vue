@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import BaseButton from '~/components/BaseButton.vue';
 import { type RequestServiceFields } from '~/types/RequestFrom';
+import PopularItems from '~/components/PopularItems.vue';
 
 const advantages = [
     'Организация корпоративного питания с доставкой',
@@ -48,6 +49,7 @@ const formFields = ref<RequestServiceFields>({
                 также на получением рекламных сообщений
             </p>
         </form>
+        <PopularItems />
     </div>
 </template>
 
