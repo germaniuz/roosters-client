@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import { useAppStore } from '~/stores/app';
-import BaseAppStoreButton from '~/components/BaseAppStoreButton.vue';
-import BaseSocial from '~/components/BaseSocial.vue';
 import { CLIENT_PROFILE } from '~/gql/queries/profile';
 
 const { phone } = useAppStore();
@@ -49,7 +47,7 @@ const logginUser = async (token: string) => {
             <a :href="`tel:${phone}`" class="header__phone">
                 <img src="/images/icons/phone.svg" alt="Рустерс звонок" /> <span>{{ phone }}</span>
             </a>
-            <UserCard v-if="!isGuest" class="header__desktop-user-card" v-if="isAuthenticated" />
+            <UserCard v-if="isAuthenticated" class="header__desktop-user-card" />
             <BaseButton
                 v-if="isGuest"
                 class="header__login"

@@ -24,13 +24,13 @@ const formFields = ref<RequestDistributorFields>({
     <div class="container">
         <h1 class="h1">Поставщикам</h1>
         <div class="text-center service-r2b"><img src="/images/handshake.svg" alt="Рустерс" /></div>
-        <h2 class="h2 h2--orange text-center text-uppercase">Сотрудничество с нами</h2>
+        <h2 class="h2 text-center text-uppercase">Сотрудничество с нами</h2>
         <p class="text-center service__text">
             Мы ищем надежных поставщиков, которые готовы предложить качественные продукты и услуги. Если вам интересно
             сотрудничество, будем рады обсудить детали
         </p>
         <div class="service__advantages">
-            <div class="text-center service-tie"><img src="/images/frame-tie.svg" alt="Рустерс" /></div>
+            <div class="text-center service-tie"><img src="/images/girl.svg" alt="Рустерс" /></div>
             <div class="card card--grey service-card" v-for="advantage in advantages" :key="advantage">
                 <img src="/images/check-orange-icon.svg" :alt="advantage" />
                 <span>{{ advantage }}</span>

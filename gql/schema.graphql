@@ -5,12 +5,34 @@ schema {
     mutation: Mutation
 }
 
+"Корзина"
+type ClientCart {
+    "Вариант товаров в категории"
+    items: [ClientCartItem]
+    "Пользователь чья корзина"
+    user: ClientProfile
+}
+
+"Продукты в корзине"
+type ClientCartItem {
+    "Сет"
+    preset: CommonPreset
+    "Вариант товаров в категории"
+    product: CommonProductCategoryOption
+    "Количество"
+    quantity: Int
+}
+
 "Тип профиля"
 type ClientProfile {
+    "Аватар"
+    avatar: CommonFile
     "Дата рождения"
     birthday: String
     "Email"
     email: String
+    "Полное имя"
+    fullname: String
     "Пол"
     gender: String
     "id"
@@ -215,6 +237,8 @@ type CommonPresetItem {
 type CommonProduct {
     "Бейджи/Теги"
     badges: [CommonBadge]
+    "Категория"
+    category: CommonCategory
     "Черный список вариантов товаров в категории"
     category_option_ingredient_excludes: [CommonCategoryOptionIngredient]
     "Дата создания"
@@ -344,13 +368,21 @@ type CommonUser {
 }
 
 type Mutation {
+    "Добавление в корзину"
+    createClientCart(preset: AppGraphQLv1ClientTypesPresetFieldInput, product_category_option: AppGraphQLv1ClientTypesProductCategoryOptionFieldInput): ClientCart
+    "Удаление товара из корзины"
+    deleteClientCart(preset_id: Int, product_category_option_id: Int): Boolean
     sendClientSmsCode(phone: String!): CommonSmsCode
+    "Изменение корзины"
+    updateClientCart(preset: AppGraphQLv1ClientTypesPresetFieldInput, product_category_option: AppGraphQLv1ClientTypesProductCategoryOptionFieldInput): ClientCart
     "Изменение пользователя"
-    updateClientUser(birthday: String!, email: String!, gender: ClientEnumsGenderEnum!, lastname: String!, name: String!): ClientProfile
+    updateClientUser(avatar: Upload, birthday: String, email: String, gender: ClientEnumsGenderEnum, lastname: String, name: String): ClientProfile
     verifyClientSmsCode(code: String!, phone: String!): CommonToken
 }
 
 type Query {
+    "Корзина"
+    clientCart: ClientCart
     "Список продуктов для клиента"
     clientProductList(
         "Max 50"
@@ -397,6 +429,22 @@ The `Upload` special type represents a file to be uploaded in the same HTTP requ
 [graphql-multipart-request-spec](https://github.com/jaydenseric/graphql-multipart-request-spec).
 """
 scalar Upload
+
+"Данные по сетам"
+input AppGraphQLv1ClientTypesPresetFieldInput {
+    "Идентификатор сетам"
+    preset_id: Int!
+    "Количество товара"
+    quantity: Int!
+}
+
+"Данные по вариантам товара"
+input AppGraphQLv1ClientTypesProductCategoryOptionFieldInput {
+    "Идентификатор варианта товара"
+    product_category_option_id: Int!
+    "Количество товара"
+    quantity: Int!
+}
 
 input ClientProductListOrder {
     dir: CommonOrderDirectionEnum = asc

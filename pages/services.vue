@@ -22,7 +22,7 @@ const formFields = ref<RequestServiceFields>({
     <div class="container">
         <h1 class="h1">Услуги</h1>
         <div class="text-center service-r2b"><img src="/images/r2b.svg" alt="Рустерс" /></div>
-        <h2 class="h2 h2--orange text-center text-uppercase">Корпоративные заказы для вашей компании</h2>
+        <h2 class="h2 text-center text-uppercase">Корпоративные заказы для вашей компании</h2>
         <p class="text-center service__text">
             Поделитесь своими впечатлениями о нашем сервисе и помогите нам стать лучше. Оставьте отзыв и расскажите, что
             вам понравилось, а что можно улучшить!
@@ -85,6 +85,7 @@ const formFields = ref<RequestServiceFields>({
     @include media.xl-up {
         grid-template-columns: 1fr 340px 1fr;
         grid-template-rows: auto auto;
+        gap: 40px 20px;
     }
 
     & > * {

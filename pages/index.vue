@@ -1,38 +1,12 @@
 <script lang="ts" setup>
-import BaseButton from '~/components/BaseButton.vue';
 import type { Product } from '~/types/Product';
 import type { Story } from '~/types/Story';
+import { useListQuery } from '~/composables/useListQuery';
+import { PRODUCT_LIST } from '~/gql/queries/product';
+
+const { items } = useListQuery<Product>(PRODUCT_LIST);
 
 const radio = ref(false);
-const product = ref<Product>({
-    name: 'Пышная Дружная семейка',
-    ingredients: ['Ветчина', 'салями', 'шампиньоны', 'помидоры', 'перец сладкий', 'зелень', 'соус', 'сыр "Моцарелла"'],
-    price: 1200,
-    tag: 'Хит',
-    image: '/images/test-pizza.webp',
-});
-
-const product1 = ref<Product>({
-    name: 'Пышная Дружная семейка  Пышная Дружная семейка Пышная Дружная семейка',
-    ingredients: [
-        'Ветчина',
-        'салями',
-        'шампиньоны',
-        'помидоры',
-        'перец сладкий',
-        'зелень',
-        'салями',
-        'шампиньоны',
-        'помидоры',
-        'перец сладкий',
-        'зелень',
-        'соус',
-        'сыр "Моцарелла"',
-    ],
-    price: 1200,
-    tag: 'Хит',
-    image: '/images/test-pizza.webp',
-});
 
 const stories = ref<Array<Story>>([
     // TODO: JS add stories
@@ -117,13 +91,9 @@ const scrollStoriesLeft = () => {
             />
         </div>
         <div class="grid grid--product-test">
-            <ProductCard :product="product" />
-            <ProductCard :product="product1" />
-            <ProductCard :product="product" />
-            <ProductCard :product="product" />
-            <ProductCard :product="product" />
+            <ProductCard v-for="product in items" :product="product" :key="product.id" />
         </div>
-        <PopularItems/>
+        <PopularItems />
     </div>
 </template>
 
