@@ -8,6 +8,7 @@ export default defineNuxtRouteMiddleware(async () => {
     const { setProfile } = useProfileStore();
 
     const token = useCookie('apollo:default.token');
+    console.log(token.value);
 
     if (token.value) {
         await getProfile();

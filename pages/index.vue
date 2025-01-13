@@ -91,7 +91,9 @@ const scrollStoriesLeft = () => {
             />
         </div>
         <div v-if="items.length" class="grid grid--product-test">
-            <ProductCard v-for="product in items" :key="product.id" :product="product" />
+            <ClientOnly>
+                <ProductCard v-for="product in items" :key="product.id" :product="product" />
+            </ClientOnly>
         </div>
         <PopularItems />
     </div>
