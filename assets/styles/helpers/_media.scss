@@ -116,7 +116,7 @@
 }
 
 @mixin xl-only {
-    @media screen and (min-width: vars.$xl-break) and (max-width: vars.$xxl-break - 1) {
+  @media screen and (min-width: vars.$xl-break) and (max-width: vars.$xxl-break - 1) {
     @content;
   }
 }

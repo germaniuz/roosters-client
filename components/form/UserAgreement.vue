@@ -18,6 +18,6 @@ watchEffect(() => {
 <template>
     <div class="form-control">
         <FormCheckbox v-model="agreement" name="agreement" :label="label" />
-        <span class="form-control__error" v-if="errors?.length">{{ errors[0] }}</span>
+        <span v-if="errors?.length" class="form-control__error">{{ errors[0] }}</span>
     </div>
 </template>

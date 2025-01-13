@@ -3,7 +3,7 @@ import type { NewsItem } from '~/types/news';
 import { formatDate } from '../../../utils/date';
 
 const route = useRoute();
-const newsId = +route.params.id;
+const _newsId = +route.params.id;
 
 const newsItem = ref<NewsItem>({
     id: 13,

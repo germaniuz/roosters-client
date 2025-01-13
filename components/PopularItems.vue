@@ -67,29 +67,32 @@ const scrollLeft = () => {
 
 <template>
     <div class="popular-items section">
-        <h2 class="h2 h2--icon"><BaseIcon name="sets" /> Часто заказывают</h2>
+        <h2 class="h2 h2--icon">
+            <BaseIcon name="sets" />
+            Часто заказывают
+        </h2>
         <div
+            ref="popularItemsBlockRef"
             class="popular-items__grid-wrapper"
             :class="[
                 itemsScrolled && 'popular-items__grid-wrapper--scrolled',
                 itemsScrolledToEnd && 'popular-items__grid-wrapper--scrolled-to-end',
             ]"
-            ref="popularItemsBlockRef"
         >
-            <div class="popular-items__grid" ref="popularItemsRef" @scroll="updateButtonsVisibility">
-                <PopularItemCard v-for="popularItem in popularItems" :item="popularItem" />
+            <div ref="popularItemsRef" class="popular-items__grid" @scroll="updateButtonsVisibility">
+                <PopularItemCard v-for="popularItem in popularItems" :key="popularItem.title" :item="popularItem" />
             </div>
             <BaseIconButton
                 icon="angle-left"
-                @click="scrollLeft"
                 class="popular-items__scroll-btn popular-items__scroll-left-btn"
                 :modifiers="['icon', 'single-icon']"
+                @click="scrollLeft"
             />
             <BaseIconButton
                 icon="angle-right"
-                @click="scrollRight"
                 class="popular-items__scroll-btn popular-items__scroll-right-btn"
                 :modifiers="['icon', 'single-icon']"
+                @click="scrollRight"
             />
         </div>
     </div>

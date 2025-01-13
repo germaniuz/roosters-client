@@ -27,25 +27,24 @@ onBeforeUnmount(() => {
 const { mutate: verifySmsCode } = useMutation(VERIFY_SMS_CODE);
 
 const handleInput = (e: InputEvent) => {
-    const target: HTMLInputElement = <HTMLInputElement>e.target;
+    const target = e.target as HTMLInputElement;
 
     if (target) {
-        const hasValue = target.value !== '';
-        const inputFormControl: HTMLDivElement = <HTMLDivElement>target.parentNode;
+        const hasValue = target.value;
+        const inputFormControl = target.parentNode as HTMLDivElement;
         const hasNextSibling = inputFormControl.nextElementSibling;
         const hasNextSiblingInput = hasNextSibling && inputFormControl.nextElementSibling.querySelector('input');
 
         if (hasValue && hasNextSiblingInput) {
             inputFormControl.nextElementSibling.querySelector('input')?.focus();
-        } else {
         }
     }
 };
 
 const handleBackspace = (e: KeyboardEvent) => {
     if (e.key == 'Backspace') {
-        const target: HTMLInputElement = <HTMLInputElement>e.target;
-        const inputFormControl: HTMLDivElement = <HTMLDivElement>target.parentNode;
+        const target = e.target as HTMLInputElement;
+        const inputFormControl = target.parentNode as HTMLDivElement;
         const hasPrevSibling = inputFormControl.previousElementSibling;
         const hasPrevSiblingInput = hasPrevSibling && inputFormControl.previousElementSibling.querySelector('input');
 
@@ -85,33 +84,33 @@ watchEffect(async () => {
     <div class="code-card">
         <div class="code-card__title">Подтвердите номер</div>
         <div class="code-card__description">СМС с кодом было отправлено на указанный вами номер</div>
-        <div class="code-card__inputs" ref="codeCardInputs">
+        <div ref="codeCardInputs" class="code-card__inputs">
             <FormInput
-                class="code-card__input"
                 v-model="authCode[0]"
-                placeholder=""
                 v-maska="'#'"
+                class="code-card__input"
+                placeholder=""
                 name="code-digit-1"
             />
             <FormInput
-                class="code-card__input"
                 v-model="authCode[1]"
-                placeholder=""
                 v-maska="'#'"
+                class="code-card__input"
+                placeholder=""
                 name="code-digit-2"
             />
             <FormInput
-                class="code-card__input"
                 v-model="authCode[2]"
-                placeholder=""
                 v-maska="'#'"
+                class="code-card__input"
+                placeholder=""
                 name="code-digit-3"
             />
             <FormInput
-                class="code-card__input"
                 v-model="authCode[3]"
-                placeholder=""
                 v-maska="'#'"
+                class="code-card__input"
+                placeholder=""
                 name="code-digit-4"
             />
         </div>

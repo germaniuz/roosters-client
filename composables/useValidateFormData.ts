@@ -1,9 +1,9 @@
-import { flatten, type IntersectSchema, type ObjectSchema, safeParse } from 'valibot';
+import { type BaseIssue, type BaseSchema, flatten, safeParse } from 'valibot';
 import type { Ref, UnwrapRef } from 'vue';
 
 export default function useValidateFormData<T>(
     fields: Ref<T | null>,
-    schema: ObjectSchema<any, any> | IntersectSchema<any, any>,
+    schema: BaseSchema<unknown, unknown, BaseIssue<unknown>>,
 ) {
     type FormErrors = { [key in keyof T]?: [string, ...string[]] };
 

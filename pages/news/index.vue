@@ -56,7 +56,7 @@ const news = [
     <div class="news container">
         <h1 class="h1">Новости</h1>
         <div class="news__grid">
-            <NewsCard v-for="newsItem in news" :newsItem="newsItem" />
+            <NewsCard v-for="newsItem in news" :key="newsItem.id" :news-item="newsItem" />
         </div>
     </div>
 </template>

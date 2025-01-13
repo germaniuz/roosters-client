@@ -22,9 +22,9 @@ defineProps<Props>();
                 @change="emit('update:modelValue', ($event.currentTarget as HTMLInputElement).checked)"
             />
             <span class="checkbox__checkmark"></span>
-            <span class="checkbox-label" v-html="label"></span>
+            <span v-sane-html="label" class="checkbox-label"></span>
         </label>
-        <span class="form-control__error" v-if="errors?.length">{{ errors[0] }}</span>
+        <span v-if="errors?.length" class="form-control__error">{{ errors[0] }}</span>
     </div>
 </template>
 

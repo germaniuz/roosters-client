@@ -7,7 +7,7 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const emit = defineEmits(['update:isActive']);
+const emit = defineEmits(['update:isActive', 'close']);
 
 const dialog = ref<HTMLDialogElement>();
 const dialogBody = ref<HTMLDialogElement>();
@@ -19,6 +19,7 @@ const modifiers = computed(() => {
 const closeDialog = () => {
     dialog.value?.close();
     emit('update:isActive', false);
+    emit('close');
 };
 
 const showDialog = () => {
@@ -36,8 +37,8 @@ useClickOutside(dialogBody, closeDialog);
 </script>
 
 <template>
-    <dialog :class="`dialog ${modifiers}`" ref="dialog" @keydown.stop.esc="closeDialog">
-        <div class="dialog__body" ref="dialogBody">
+    <dialog ref="dialog" :class="`dialog ${modifiers}`" @keydown.stop.esc="closeDialog">
+        <div ref="dialogBody" class="dialog__body">
             <slot />
         </div>
         <button class="dialog__close-btn" @click.prevent="closeDialog"><i class="icon-close"></i></button>
@@ -49,7 +50,7 @@ useClickOutside(dialogBody, closeDialog);
 @use '@/assets/styles/helpers/functions';
 
 .dialog {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     translate: -50% -50%;

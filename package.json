@@ -4,6 +4,10 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "lint": "bun lint:eslint && bun lint:prettier",
+    "lintfix": "eslint . --fix && prettier --write --list-different .",
+    "lint:eslint": "eslint .",
+    "lint:prettier": "prettier . --check",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -14,15 +18,23 @@
     "@vue/apollo-composable": "^4.0.2",
     "apollo-upload-client": "^18.0.1",
     "maska": "^3.0.0",
-    "prettier": "^3.3.3",
     "sass": "^1.77.8",
-    "vue-tsc": "^2.0.29"
+    "vue-tsc": "^2.0.29",
+    "@nuxt/eslint": "^0.7.4",
+    "@nuxtjs/eslint-config-typescript": "^12.1.0",
+    "@nuxt/eslint-config": "^0.7.4",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.4.2"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.2",
-    "nuxt": "^3.12.4",
+    "nuxt": "^3.15.0",
     "pinia": "^2.2.0",
     "valibot": "^0.42.1",
-    "vue": "latest"
-  }
+    "vue": "latest",
+    "dompurify": "^3.2.3"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

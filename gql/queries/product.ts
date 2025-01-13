@@ -16,9 +16,25 @@ export const PRODUCT_LIST = gql`
                 }
                 product_category_options {
                     id
+                    price
+                    category_option {
+                        id
+                        option {
+                            id
+                            name
+                        }
+                        category {
+                            id
+                            name
+                        }
+                    }
                 }
                 product_ingredients {
                     id
+                    ingredient {
+                        id
+                        name
+                    }
                 }
                 badges {
                     id
@@ -33,6 +49,23 @@ export const PRODUCT_LIST = gql`
                 category {
                     id
                     name
+                    category_options_ingredient {
+                        id
+                        price
+                        category_options {
+                            id
+                            option {
+                                id
+                            }
+                        }
+                        ingredient {
+                            id
+                            name
+                            file {
+                                url
+                            }
+                        }
+                    }
                 }
             }
             count

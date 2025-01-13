@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import BaseButton from '~/components/BaseButton.vue';
-import { type RequestDistributorFields } from '~/types/RequestFrom';
+import type { RequestDistributorFields } from '~/types/RequestFrom';
 import PopularItems from '~/components/PopularItems.vue';
 
 const advantages = [
@@ -31,7 +31,7 @@ const formFields = ref<RequestDistributorFields>({
         </p>
         <div class="service__advantages">
             <div class="text-center service-tie"><img src="/images/girl.svg" alt="Рустерс" /></div>
-            <div class="card card--grey service-card" v-for="advantage in advantages" :key="advantage">
+            <div v-for="advantage in advantages" :key="advantage" class="card card--grey service-card">
                 <img src="/images/check-orange-icon.svg" :alt="advantage" />
                 <span>{{ advantage }}</span>
             </div>

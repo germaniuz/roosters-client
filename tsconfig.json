@@ -3,5 +3,6 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "module": "ESNext"
-  }
+  },
+  "exclude": ["node_modules"]
 }

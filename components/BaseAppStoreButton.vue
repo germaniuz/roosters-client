@@ -1,16 +1,15 @@
 <script setup lang="ts">
 type Props = {
-    icon: string,
-    downloadText: string,
-    storeName: string
-}
-
-const props = defineProps<Props>();
+    icon: string;
+    downloadText: string;
+    storeName: string;
+};
+defineProps<Props>();
 </script>
 
 <template>
     <div class="app-store-btn">
-        <BaseIcon :name="icon"/>
+        <BaseIcon :name="icon" />
         <span class="app-store-btn__text">{{ downloadText }}</span>
         <span class="app-store-btn__title">{{ storeName }}</span>
     </div>
@@ -35,7 +34,7 @@ const props = defineProps<Props>();
     i {
         font-size: functions.rem(25);
         grid-row: 1/-1;
-        transition: all .2s ease;
+        transition: all 0.2s ease;
 
         &:before {
             margin: unset;

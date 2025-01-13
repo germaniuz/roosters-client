@@ -1,5 +1,5 @@
-@use "../helpers/functions";
-@use "../helpers/media";
+@use '../helpers/functions';
+@use '../helpers/media';
 
 .mobile-menu {
   display: none;
@@ -14,7 +14,9 @@
     overflow-y: auto;
     z-index: var(--z-top-20);
     background: var(--c-grey00);
-    transition: translate 0.5s ease-in, opacity 0s linear .5s;
+    transition:
+      translate 0.5s ease-in,
+      opacity 0s linear 0.5s;
     translate: -100% 0;
     padding: 30px 20px 30px 20px;
   }

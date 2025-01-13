@@ -1,15 +1,15 @@
 <script setup lang="ts">
 type Props = {
-    name: string,
-    link: string
-}
+    name: string;
+    link: string;
+};
 
 defineProps<Props>();
 </script>
 
 <template>
     <a :href="link" class="social">
-        <BaseIcon :name="name"/>
+        <BaseIcon :name="name" />
     </a>
 </template>
 
@@ -28,7 +28,7 @@ defineProps<Props>();
     border-radius: var(--b-radius-round);
     color: var(--c-grey00);
     cursor: pointer;
-    transition: all .2s linear;
+    transition: all 0.2s linear;
 
     &:has(> .icon-instagram) {
         @include mixins.gradient-hover(var(--c-instagram), var(--c-instagram-hover));
@@ -55,7 +55,6 @@ defineProps<Props>();
 
     i {
         font-size: functions.rem(18);
-
     }
 
     .icon-vk {

@@ -1,23 +1,23 @@
 <script setup lang="ts">
 type Props = {
-    isColored?: boolean
-    hasText?: boolean
-}
+    isColored?: boolean;
+    hasText?: boolean;
+};
 
-const props= withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     isColored: true,
-    hasText: false
+    hasText: false,
 });
 
 const logoImagePath = ref<string>('/images/logo.svg');
 
 if (!props.isColored) {
-    logoImagePath.value = '/images/logo-colorless.svg'
+    logoImagePath.value = '/images/logo-colorless.svg';
 }
 </script>
 
 <template>
-    <NuxtLink to="/" class="logo" :class="{'logo--has-text' : hasText}">
+    <NuxtLink to="/" class="logo" :class="{ 'logo--has-text': hasText }">
         <img class="logo__image" :src="logoImagePath" alt="Рустерс" />
         <span v-if="hasText" class="logo__text">Основано в 1999</span>
     </NuxtLink>
@@ -28,7 +28,6 @@ if (!props.isColored) {
 @use '@/assets/styles/helpers/functions';
 
 .logo {
-
     &--has-text {
         display: flex;
         flex-direction: column;

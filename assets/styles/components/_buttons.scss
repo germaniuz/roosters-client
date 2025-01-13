@@ -1,5 +1,5 @@
-@use "../helpers/functions";
-@use "../helpers/media";
+@use '../helpers/functions';
+@use '../helpers/media';
 
 .btn {
   display: block;
@@ -99,7 +99,6 @@
     }
   }
 
-
   &--item {
     font-style: italic;
     color: var(--c-primary);
@@ -109,7 +108,7 @@
     &:focus,
     &:active {
       color: var(--c-grey00);
-      background-color: var(--c-primary);;
+      background-color: var(--c-primary);
     }
   }
 
@@ -122,10 +121,9 @@
     &:focus,
     &:active {
       color: var(--c-grey00);
-      background-color: var(--c-primary);;
+      background-color: var(--c-primary);
     }
   }
-
 
   &--grey {
     background: var(--c-grey10);
@@ -146,5 +144,10 @@
 
   &--single-icon {
     padding: 0;
+  }
+
+  &--light {
+    background: var(--c-grey00);
+    color: var(--c-primary);
   }
 }

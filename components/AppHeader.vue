@@ -59,17 +59,17 @@ const logginUser = async (token: string) => {
             <button class="menu-btn" :class="{ 'menu-btn--active': menuIsActive }" @click="toggleMobileMenu()"></button>
         </div>
         <div class="container header__categories">
-            <div v-for="headerCategory in headerCategories" class="header__category">
+            <div v-for="headerCategory in headerCategories" :key="headerCategory" class="header__category">
                 {{ headerCategory }}
             </div>
         </div>
     </header>
     <div class="mobile-menu header__mobile-menu" :class="{ 'mobile-menu--active': menuIsActive }">
         <BaseButton
+            v-if="isGuest"
             class="header__mobile-menu-login-btn"
             :modifiers="['third', 'icon']"
             @click="isAuthDialogActive = true"
-            v-if="isGuest"
         >
             <i class="icon-avatar"></i> Войти
         </BaseButton>
@@ -82,7 +82,7 @@ const logginUser = async (token: string) => {
         />
         <div class="header__mobile-menu-divider" />
         <div class="header__mobile-menu-categories">
-            <div v-for="headerCategory in headerCategories" class="header__category">
+            <div v-for="headerCategory in headerCategories" :key="headerCategory" class="header__category">
                 {{ headerCategory }}
             </div>
         </div>

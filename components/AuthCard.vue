@@ -54,8 +54,8 @@ const getCode = async () => {
         </div>
         <FormInput
             v-model="phoneNumber"
-            placeholder="+7 (___) ___ __-__"
             v-maska="'+7 (9##) ### ##-##'"
+            placeholder="+7 (___) ___ __-__"
             name="phone"
             :errors="formErrors?.phone"
         />
@@ -65,8 +65,8 @@ const getCode = async () => {
         <!--        TODO: refactor checkboxes-->
         <UserAgreement
             :model-value="userAgreementChecked"
-            @update:model-value="userAgreementChecked = $event"
             :errors="formErrors?.userAgreement"
+            @update:model-value="userAgreementChecked = $event"
         />
     </div>
 </template>

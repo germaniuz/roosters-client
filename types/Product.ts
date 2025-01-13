@@ -55,7 +55,7 @@ export type CategoryOptionIngredient = {
     created_at: string;
     updated_at: string;
     ingredient: Ingredient;
-    category_option: CategoryOption;
+    category_options: CategoryOption;
     order: number;
 };
 

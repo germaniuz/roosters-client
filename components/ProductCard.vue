@@ -1,27 +1,37 @@
 <script setup lang="ts">
 import type { Product } from '~/types/Product';
+import { useProductStore } from '~/stores/product';
 
 type Props = {
     product: Product;
-}
+};
+const props = defineProps<Props>();
 
-defineProps<Props>()
+const price = computed(() =>
+    props.product.product_category_options.reduce((min, option) => {
+        return option.price < min ? option.price : min;
+    }, props.product.product_category_options[0].price),
+);
 
+const { openProductDialog } = useProductStore();
 </script>
 
 <template>
     <div class="product-card">
         <div class="product-card__image">
-            <img :src="product.image" :alt="product.name">
-            <BaseBadge image="/images/test-badge.webp"/>
+            <img :src="product.file.url" :alt="product.name" />
+            <BaseBadge image="/images/test-badge.webp" />
         </div>
-        <div class="product-card__title">{{product.name}}</div>
+        <div class="product-card__title">{{ product.name }}</div>
         <div class="product-card__description">
-            <span v-for="ingredient in product.ingredients">{{ingredient}}, </span>
+            <span v-for="ingredient in product.product_ingredients" :key="ingredient.id"
+                >{{ ingredient.ingredient.name }},
+            </span>
         </div>
         <div class="product-card__price-block">
-            <BaseButton :modifiers="['item']" class="product-card__price-btn">от {{product.price}} ₽</BaseButton>
-            <div class="product-card__old-price">{{product.price}}₽</div>
+            <BaseButton :modifiers="['item']" class="product-card__price-btn" @click="openProductDialog(product)"
+                >от {{ price }} ₽
+            </BaseButton>
         </div>
     </div>
 </template>
@@ -34,25 +44,25 @@ defineProps<Props>()
 .product-card {
     display: grid;
     border-radius: var(--b-radius);
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
     grid-template-columns: 130px 1fr;
     grid-column-gap: 20px;
     padding-block: 15px;
     grid-template-areas:
-        "product-card__image product-card__title"
-        "product-card__image product-card__description"
-        "product-card__image ."
-        "product-card__image product-card__price-block";
+        'product-card__image product-card__title'
+        'product-card__image product-card__description'
+        'product-card__image .'
+        'product-card__image product-card__price-block';
 
     @include media.lg-up {
         grid-template-columns: unset;
         grid-template-rows: 180px repeat(3, min-content);
         grid-template-areas:
-        "product-card__image"
-        "product-card__title"
-        "product-card__description"
-        "product-card__price-block"
-        "product-card__price-block";
+            'product-card__image'
+            'product-card__title'
+            'product-card__description'
+            'product-card__price-block'
+            'product-card__price-block';
         padding: 15px;
         align-items: center;
     }
@@ -79,16 +89,17 @@ defineProps<Props>()
         height: 100%;
         object-fit: contain;
         transform: scale(0.95);
-        transition: all .2s ease-in-out;
+        transition: all 0.2s ease-in-out;
 
         .product-card:hover & {
             transform: scale(1);
         }
     }
 }
+
 .product-card__title {
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), serif;
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: normal;
@@ -105,7 +116,7 @@ defineProps<Props>()
 
 .product-card__description {
     color: var(--c-grey50);
-    font-family: var(--f-headings);
+    font-family: var(--f-headings), serif;
     font-size: functions.rem(10);
     font-weight: 500;
     line-height: 1.35;
@@ -135,7 +146,7 @@ defineProps<Props>()
 .product-card__price-btn {
     display: inline-block;
     position: relative;
-    font-family: var(--f-base);
+    font-family: var(--f-base), serif;
     font-size: functions.rem(14);
     padding: 6px 25px;
     width: 100%;
@@ -152,6 +163,7 @@ defineProps<Props>()
         font-size: functions.rem(16);
         max-width: 170px;
     }
+
     .product-card:hover & {
         @extend .btn--primary;
 
@@ -163,7 +175,7 @@ defineProps<Props>()
 
 .product-card__old-price {
     color: var(--c-grey50);
-    font-family: var(--f-base);
+    font-family: var(--f-base), serif;
     font-size: functions.rem(14);
     font-style: italic;
     font-weight: 500;

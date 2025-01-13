@@ -369,14 +369,27 @@ type CommonUser {
 
 type Mutation {
     "Добавление в корзину"
-    createClientCart(preset: AppGraphQLv1ClientTypesPresetFieldInput, product_category_option: AppGraphQLv1ClientTypesProductCategoryOptionFieldInput): ClientCart
+    createClientCart(
+        preset: AppGraphQLv1ClientTypesPresetFieldInput
+        product_category_option: AppGraphQLv1ClientTypesProductCategoryOptionFieldInput
+    ): ClientCart
     "Удаление товара из корзины"
     deleteClientCart(preset_id: Int, product_category_option_id: Int): Boolean
     sendClientSmsCode(phone: String!): CommonSmsCode
     "Изменение корзины"
-    updateClientCart(preset: AppGraphQLv1ClientTypesPresetFieldInput, product_category_option: AppGraphQLv1ClientTypesProductCategoryOptionFieldInput): ClientCart
+    updateClientCart(
+        preset: AppGraphQLv1ClientTypesPresetFieldInput
+        product_category_option: AppGraphQLv1ClientTypesProductCategoryOptionFieldInput
+    ): ClientCart
     "Изменение пользователя"
-    updateClientUser(avatar: Upload, birthday: String, email: String, gender: ClientEnumsGenderEnum, lastname: String, name: String): ClientProfile
+    updateClientUser(
+        avatar: Upload
+        birthday: String
+        email: String
+        gender: ClientEnumsGenderEnum
+        lastname: String
+        name: String
+    ): ClientProfile
     verifyClientSmsCode(code: String!, phone: String!): CommonToken
 }
 
@@ -386,11 +399,11 @@ type Query {
     "Список продуктов для клиента"
     clientProductList(
         "Max 50"
-        ids: [Int],
+        ids: [Int]
         "Max 50"
-        limit: Int = 10,
-        offset: Int = 0,
-        orders: [ClientProductListOrder],
+        limit: Int = 10
+        offset: Int = 0
+        orders: [ClientProductListOrder]
         search: String
     ): CommonProductList
     "Профиль клиента"
@@ -424,7 +437,6 @@ enum CommonOrderDirectionEnum {
 }
 
 """
-
 The `Upload` special type represents a file to be uploaded in the same HTTP request as specified by
 [graphql-multipart-request-spec](https://github.com/jaydenseric/graphql-multipart-request-spec).
 """

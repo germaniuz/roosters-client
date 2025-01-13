@@ -37,20 +37,20 @@ const removeFile = () => {
 <template>
     <div class="form-file">
         <div class="single-file-input">
-            <img class="single-file-input__preview" v-if="file" :src="file" :alt="name" />
-            <label :for="name" v-else class="single-file-input__add-btn" :style="`background: url(${file})`"
+            <img v-if="file" class="single-file-input__preview" :src="file" :alt="name" />
+            <label v-else :for="name" class="single-file-input__add-btn" :style="`background: url(${file})`"
                 >+ Добавить изображение</label
             >
             <input
-                class="single-file-input__input"
-                ref="inputField"
                 :id="name"
+                ref="inputField"
+                class="single-file-input__input"
                 :name="name"
                 type="file"
                 @change="fileHandler"
             />
         </div>
-        <span class="form-control__error" v-if="errors?.length">{{ errors[0] }}</span>
+        <span v-if="errors?.length" class="form-control__error">{{ errors[0] }}</span>
         <BaseButton v-if="file" :modifiers="['outline']" btn-type="button" @click="removeFile">
             <BaseIcon name="close" />
             <span>Удалить</span>

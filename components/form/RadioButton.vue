@@ -24,8 +24,8 @@ defineProps<Props>();
 </template>
 
 <style lang="scss" scoped>
-@use "@/assets/styles/helpers/functions";
-@use "@/assets/styles/helpers/media";
+@use '@/assets/styles/helpers/functions';
+@use '@/assets/styles/helpers/media';
 
 .radio-button {
     display: block;
@@ -82,7 +82,7 @@ defineProps<Props>();
     }
 
     &::after {
-        content: "";
+        content: '';
         position: absolute;
         left: 4px;
         right: auto;
@@ -91,7 +91,7 @@ defineProps<Props>();
         aspect-ratio: 1;
         display: block;
         background-color: var(--c-grey00);
-        box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.10);
+        box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
         border-radius: 50%;
         transition: left 0.2s ease;
     }

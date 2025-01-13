@@ -24,7 +24,7 @@ const emit = defineEmits(['update:modelValue']);
             'form-control--success': modelValue && !errors?.length,
         }"
     >
-        <label :for="name" v-if="label">{{ label }}</label>
+        <label v-if="label" :for="name">{{ label }}</label>
         <input
             :id="name"
             :name="name"
@@ -33,6 +33,6 @@ const emit = defineEmits(['update:modelValue']);
             :value="modelValue"
             @input="emit('update:modelValue', ($event.currentTarget as HTMLInputElement).value)"
         />
-        <span class="form-control__error" v-if="errors?.length">{{ errors[0] }}</span>
+        <span v-if="errors?.length" class="form-control__error">{{ errors[0] }}</span>
     </div>
 </template>

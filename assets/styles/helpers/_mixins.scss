@@ -33,7 +33,6 @@
     -webkit-box-shadow: inset 0 0 2px rgba($back-color, 0.8);
     background-color: $back-color;
     border-radius: $border-radius;
-
   }
 
   &::-webkit-scrollbar-thumb {
@@ -49,21 +48,17 @@
   }
 }
 
-@mixin gradient-hover(
-  $main-color: var(--c-grey-30),
-  $hover-color: var(--c-grey-60)
-) {
-
+@mixin gradient-hover($main-color: var(--c-grey-30), $hover-color: var(--c-grey-60)) {
   &::before,
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     border-radius: inherit;
     inset: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
-    transition: opacity .35s ease;
+    transition: opacity 0.35s ease;
   }
 
   &::before {

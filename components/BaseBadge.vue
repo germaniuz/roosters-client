@@ -1,19 +1,18 @@
 <script setup lang="ts">
 type Props = {
-    image: string
-}
+    image: string;
+};
 
 defineProps<Props>();
 </script>
 
 <template>
     <div class="badge">
-        <img :src="image" alt="">
+        <img :src="image" alt="" />
     </div>
 </template>
 
 <style scoped lang="scss">
-
 .badge {
     position: absolute;
     height: 27px;

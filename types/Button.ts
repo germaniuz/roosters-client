@@ -14,4 +14,5 @@ export type BtnModifier =
     | 'xl'
     | 'disabled'
     | 'icon'
-    | 'single-icon';
+    | 'single-icon'
+    | 'light';

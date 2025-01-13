@@ -48,7 +48,7 @@
     color: var(--c-grey50);
     font-size: functions.rem(14);
     line-height: 1;
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 
     &:hover {
         color: var(--c-secondary);

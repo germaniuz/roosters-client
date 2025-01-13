@@ -77,7 +77,11 @@ const handleNextBtnClick = () => {
                 Попробуйте наши новинки в <a class="link link--secondary" href="#">каталоге</a>
             </div>
             <div class="order-card__recommended-to-order-block">
-                <div v-for="recommendedItem in recommendedItems" class="order-card__recommended-to-order">
+                <div
+                    v-for="recommendedItem in recommendedItems"
+                    :key="recommendedItem.name"
+                    class="order-card__recommended-to-order"
+                >
                     <img :src="recommendedItem.image" alt="" />
                     <span class="order-card__recommended-to-order-name">{{ recommendedItem.name }}</span>
                     <span class="order-card__recommended-to-order-plus">+</span>

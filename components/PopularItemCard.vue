@@ -3,7 +3,7 @@ import type { PopularItem } from '~/types/PopularItem';
 
 type Props = {
     item: PopularItem;
-}
+};
 
 defineProps<Props>();
 </script>
@@ -11,7 +11,7 @@ defineProps<Props>();
 <template>
     <div class="popular-item-card">
         <div class="popular-item-card__img">
-            <img :src="item.img" :alt="item.title">
+            <img :src="item.img" :alt="item.title" />
         </div>
         <div class="popular-item-card__title">{{ item.title }}</div>
         <BaseButton :modifiers="['item-white']" class="popular-item-card__price">от {{ item.price }} ₽</BaseButton>

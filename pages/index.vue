@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { Product } from '~/types/Product';
 import type { Story } from '~/types/Story';
-import { useListQuery } from '~/composables/useListQuery';
 import { PRODUCT_LIST } from '~/gql/queries/product';
+import { useListQuery } from '~/composables/useListQuery';
 
 const { items } = useListQuery<Product>(PRODUCT_LIST);
 
-const radio = ref(false);
+const _radio = ref(false);
 
 const stories = ref<Array<Story>>([
     // TODO: JS add stories
@@ -72,26 +72,26 @@ const scrollStoriesLeft = () => {
     <div class="container front-page">
         <h1 class="h1">Главная</h1>
         <div class="front-page__stories">
-            <div class="front-page__stories-grid" ref="storiesRef">
-                <div class="front-page__story" v-for="story in stories">
+            <div ref="storiesRef" class="front-page__stories-grid">
+                <div v-for="story in stories" :key="story.link" class="front-page__story">
                     <img :src="story.image" alt="" />
                 </div>
             </div>
             <BaseIconButton
                 icon="angle-left"
-                @click="scrollStoriesLeft"
                 class="front-page__stories-scroll-btn front-page__stories-scroll-left-btn"
                 :modifiers="['icon', 'single-icon']"
+                @click="scrollStoriesLeft"
             />
             <BaseIconButton
                 icon="angle-right"
-                @click="scrollStoriesRight"
                 class="front-page__stories-scroll-btn front-page__stories-scroll-right-btn"
                 :modifiers="['icon', 'single-icon']"
+                @click="scrollStoriesRight"
             />
         </div>
-        <div class="grid grid--product-test">
-            <ProductCard v-for="product in items" :product="product" :key="product.id" />
+        <div v-if="items.length" class="grid grid--product-test">
+            <ProductCard v-for="product in items" :key="product.id" :product="product" />
         </div>
         <PopularItems />
     </div>

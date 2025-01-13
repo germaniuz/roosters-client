@@ -1,5 +1,5 @@
-@use "../helpers/functions";
-@use "../helpers/media";
+@use '../helpers/functions';
+@use '../helpers/media';
 
 .menu-btn {
   display: block;
@@ -31,7 +31,7 @@
       transform: translateY(7px) rotate(45deg);
     }
 
-    &::after{
+    &::after {
       transform: translateY(-7px) rotate(-45deg);
     }
   }
