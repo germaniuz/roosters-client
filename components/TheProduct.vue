@@ -68,7 +68,7 @@ const activeSauce = ref(sauces.value[0]);
                     <template #btn="{ item }">
                         <div class="option">
                             <span class="option__title">{{ item.category_option.option.name }}</span>
-                            <div class="option__price">{{ item.price }} ₽</div>
+                            <div class="option__price">{{ item.price }}&nbsp;₽</div>
                         </div>
                     </template>
                 </BaseTabsChooser>
