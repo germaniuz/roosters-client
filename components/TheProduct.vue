@@ -45,6 +45,8 @@ const sauces = ref([
     },
 ]);
 const activeSauce = ref(sauces.value[0]);
+
+const isDataInfoShowed = ref(true);
 </script>
 
 <template>
@@ -52,7 +54,35 @@ const activeSauce = ref(sauces.value[0]);
         <div class="product__image">
             <div v-if="product.badges" class="badge">{{ product.badges[0].name }}</div>
             <img :src="product.file.url" :alt="product.name" />
-            <div class="product__info"><i class="icon-info"></i></div>
+            <div
+                class="product__info"
+                @mouseenter="isDataInfoShowed = true"
+                @mouseleave="isDataInfoShowed = false"
+                @click="isDataInfoShowed = !isDataInfoShowed"
+            >
+                <i class="icon-info"></i>
+            </div>
+            <div v-if="isDataInfoShowed" class="product__info-data">
+                <div class="product__info-title">Пищевая ценность на 100г:</div>
+                <table>
+                    <tr>
+                        <td>Энергетическая ценность</td>
+                        <td>257&nbsp;ккал</td>
+                    </tr>
+                    <tr>
+                        <td>Белки</td>
+                        <td>{{ product.nutritional_value_proteins }}&nbsp;г</td>
+                    </tr>
+                    <tr>
+                        <td>Жиры</td>
+                        <td>{{ product.nutritional_value_fats }}&nbsp;г</td>
+                    </tr>
+                    <tr>
+                        <td>Углеводы</td>
+                        <td>{{ product.nutritional_value_carbs }}&nbsp;г</td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <div class="product__data">
             <div class="product__title">{{ product.name }}</div>
@@ -247,5 +277,31 @@ const activeSauce = ref(sauces.value[0]);
     bottom: 10px;
     border: 6px solid var(--c-grey00);
     border-radius: var(--b-radius);
+}
+
+.product__info-data {
+    position: absolute;
+    top: 50px;
+    left: 30px;
+    background: color(from var(--c-grey90) srgb r g b / 0.9);
+    color: var(--c-grey20);
+    font-size: functions.rem(14);
+    font-weight: 300;
+    border-radius: var(--b-radius);
+    padding: 10px;
+
+    @include media.lg-up {
+        left: initial;
+        right: 70px;
+        top: 20px;
+    }
+
+    td {
+        padding: 1px 5px;
+    }
+}
+
+.product__info-title {
+    margin-bottom: 5px;
 }
 </style>
