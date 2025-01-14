@@ -211,6 +211,7 @@ const activeSauce = ref(sauces.value[0]);
 
 .option__title {
     font-size: functions.rem(14);
+    line-height: 1.2;
     font-weight: 700;
     font-family: var(--f-base), serif;
 }
