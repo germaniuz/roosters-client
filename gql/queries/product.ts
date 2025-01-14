@@ -27,6 +27,7 @@ export const PRODUCT_LIST = gql`
                             id
                             name
                         }
+                        order
                     }
                 }
                 product_ingredients {

@@ -86,8 +86,8 @@ const activeSauce = ref(sauces.value[0]);
                         <BaseButton :modifiers="['light']" class="adds-card__price">{{ item.price }} ₽</BaseButton>
                     </div>
                 </div>
-                <BaseButton :modifiers="['primary']" class="w-100" @click="addToCart"
-                    >В корзину за {{ activeProductCategoryOption.price }} ₽
+                <BaseButton :modifiers="['primary']" class="w-100 product__add-btn" @click="addToCart"
+                    >В корзину за {{ activeProductCategoryOption.price }}&nbsp;₽
                 </BaseButton>
             </div>
         </div>
@@ -130,6 +130,27 @@ const activeSauce = ref(sauces.value[0]);
         @include media.xl-up {
             width: 380px;
         }
+    }
+}
+
+.product__info {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: var(--c-secondary);
+    background: var(--c-secondary-light);
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: functions.rem(24);
+    cursor: pointer;
+
+    @include media.lg-up {
+        left: initial;
+        right: 20px;
     }
 }
 
@@ -219,5 +240,12 @@ const activeSauce = ref(sauces.value[0]);
 .option__price {
     font-size: functions.rem(13);
     font-weight: 400;
+}
+
+.product__add-btn {
+    position: sticky;
+    bottom: 10px;
+    border: 6px solid var(--c-grey00);
+    border-radius: var(--b-radius);
 }
 </style>

@@ -57,6 +57,7 @@ useClickOutside(dialogBody, closeDialog);
     border-radius: var(--b-radius);
     background: var(--c-grey00);
     box-shadow: var(--shadow);
+    overflow: initial;
 
     &::backdrop {
         background: color(from var(--c-grey90) srgb r g b / 0.8);
@@ -86,11 +87,12 @@ useClickOutside(dialogBody, closeDialog);
     right: 15px;
     color: var(--c-grey50);
     background: none;
-    font-size: functions.rem(18);
+    font-size: functions.rem(24);
 
-    @include media.md-up {
-        top: 18px;
-        right: 18px;
+    @include media.lg-up {
+        top: -40px;
+        right: 0;
+        color: var(--c-grey00);
     }
 }
 </style>
