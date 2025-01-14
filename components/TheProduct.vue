@@ -83,7 +83,7 @@ const activeSauce = ref(sauces.value[0]);
                             <img :src="item.ingredient.file.url" :alt="item.ingredient.name" />
                         </div>
                         <div class="adds-card__title">{{ item.ingredient.name }}</div>
-                        <BaseButton :modifiers="['light']">{{ item.price }} ₽</BaseButton>
+                        <BaseButton :modifiers="['light']" class="adds-card__price">{{ item.price }} ₽</BaseButton>
                     </div>
                 </div>
                 <BaseButton :modifiers="['primary']" class="w-100" @click="addToCart"
@@ -195,6 +195,10 @@ const activeSauce = ref(sauces.value[0]);
     font-size: functions.rem(14);
     color: var(--c-grey70);
     text-align: center;
+}
+
+.adds-card__price {
+    margin-top: auto;
 }
 
 .option {
