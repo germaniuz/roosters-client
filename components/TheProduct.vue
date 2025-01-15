@@ -46,7 +46,7 @@ const sauces = ref([
 ]);
 const activeSauce = ref(sauces.value[0]);
 
-const isDataInfoShowed = ref(true);
+const isDataInfoShowed = ref(false);
 </script>
 
 <template>
