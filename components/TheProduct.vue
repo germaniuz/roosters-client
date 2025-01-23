@@ -67,7 +67,7 @@ const isDataInfoShowed = ref(false);
                 <table>
                     <tr>
                         <td>Энергетическая ценность</td>
-                        <td>257&nbsp;ккал</td>
+                        <td>{{ product.energy_value }}&nbsp;ккал</td>
                     </tr>
                     <tr>
                         <td>Белки</td>
