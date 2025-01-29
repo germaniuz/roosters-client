@@ -40,7 +40,10 @@
 
 .cart-summary {
     position: relative;
-    margin-bottom: 30px;
+
+    @include media.md-down {
+        margin-bottom: 30px;
+    }
 }
 
 .cart-summary__top {

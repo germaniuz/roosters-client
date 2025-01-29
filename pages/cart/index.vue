@@ -67,8 +67,8 @@ const items = ref([
     @include media.lg-up {
         display: grid;
         grid-template-columns: 1fr 350px;
-        //grid-template-rows: max-content max-content 1fr;
-        gap: 20px;
+        column-gap: 20px;
+        row-gap: 30px;
         grid-template-areas:
             'items summary'
             'items promocode'
