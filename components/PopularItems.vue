@@ -39,6 +39,16 @@ const popularItems: Array<PopularItem> = [
     },
 ];
 
+type Props = {
+    title: string;
+    icon: string;
+};
+
+withDefaults(defineProps<Props>(), {
+    title: 'Часто заказывают',
+    icon: 'sets',
+});
+
 const popularItemsRef = ref();
 const popularItemsBlockRef = ref();
 
@@ -68,8 +78,8 @@ const scrollLeft = () => {
 <template>
     <div class="popular-items section">
         <h2 class="h2 h2--icon">
-            <BaseIcon name="sets" />
-            Часто заказывают
+            <BaseIcon :name="icon" />
+            {{ title }}
         </h2>
         <div
             ref="popularItemsBlockRef"

@@ -185,6 +185,7 @@ defineProps<Props>();
     font-size: functions.rem(16);
     font-weight: 600;
     line-height: functions.rem(19);
+    font-style: italic;
 
     @include media.lg-up {
         font-size: functions.rem(18);
