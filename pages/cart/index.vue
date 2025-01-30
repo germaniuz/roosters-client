@@ -45,7 +45,7 @@ const items = ref([
 
 <template>
     <div class="container container--sm cart">
-        <h1 class="h1">Корзина</h1>
+        <h1 class="h1">Корзина <span class="h1--grey h1--md-hidden">- Оформление - Заказ принят</span></h1>
         <div class="cart__grid">
             <div class="cart__items">
                 <CartItem v-for="item in items" :item="item" />

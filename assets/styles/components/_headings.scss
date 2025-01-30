@@ -17,6 +17,16 @@
     font-size: functions.rem(32);
     margin-bottom: 40px;
   }
+
+  &--grey {
+    color: var(--c-grey30);
+  }
+
+  &--md-hidden {
+    @include media.md-down {
+      display: none;
+    }
+  }
 }
 
 .h2 {
@@ -26,7 +36,11 @@
   line-height: functions.rem(28);
   font-weight: 600;
   margin-bottom: 30px;
-  font-style: italic;
+
+  @include media.lg-up {
+    font-size: functions.rem(32);
+    line-height: functions.rem(38);
+  }
 
   &--no-mb {
     margin-bottom: 0;

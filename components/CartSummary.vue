@@ -30,7 +30,7 @@
             Итого
             <span>1 600 ₽</span>
         </div>
-        <button class="btn btn--primary cart-summary__btn">Перейти коформлению</button>
+        <NuxtLink class="btn btn--primary cart-summary__btn" to="placing-order">Перейти коформлению</NuxtLink>
     </div>
 </template>
 
