@@ -1,47 +1,6 @@
 <script lang="ts" setup>
 import CartSummary from '~/components/CartSummary.vue';
 
-const items = ref([
-    {
-        title: 'СЕТ "ХИТ" 5 ПИЦЦ',
-        img: '/images/test-pizza.webp',
-        details: [
-            {
-                title: 'Маргарита',
-                text: ['Средняя 28 см, традиционное тесто'],
-            },
-            {
-                title: 'Жюльен',
-                text: ['Средняя 28 см, традиционное тесто'],
-            },
-            {
-                title: 'Фирменная Рустерс',
-                text: ['Фирменная Рустерс'],
-            },
-            {
-                title: 'Добавки',
-                text: ['Наггетсы куриные', 'Картофель по-деревенски', 'Напиток Черноголовка, стекло 1 л'],
-            },
-        ],
-        quantity: '1',
-        price: '1200',
-        price_old: '1500',
-    },
-    {
-        title: 'ФИРМЕННАЯ РУСТЕРС',
-        img: '/images/test-pizza.webp',
-        details: [
-            {
-                title: 'Добавки',
-                text: ['Наггетсы куриные', 'Картофель по-деревенски', 'Напиток Черноголовка, стекло 1 л'],
-            },
-        ],
-        quantity: '1',
-        price: '1200',
-        price_old: '1500',
-    },
-]);
-
 const deliveryOptions = ref([
     {
         id: 1,
@@ -148,7 +107,7 @@ const activeAddress = ref(addresses.value[0]);
                     </div>
                 </div>
             </div>
-            <CartSummary class="placing-order__summary" />
+            <CartSummary class="placing-order__summary" type="view" />
         </div>
     </div>
 </template>
