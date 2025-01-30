@@ -134,7 +134,7 @@ const activeAddress = ref(addresses.value[0]);
                 </div>
                 <div class="placing-order__bottom">
                     <div class="placing-order__action-btns">
-                        <NuxtLink class="btn btn--outline">Назад в корзину</NuxtLink>
+                        <NuxtLink class="btn btn--outline" to="./">Назад в корзину</NuxtLink>
                         <NuxtLink class="btn btn--primary">Заказать</NuxtLink>
                     </div>
                     <div class="placing-order__user-agreement">

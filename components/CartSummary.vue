@@ -94,7 +94,7 @@ const items = ref([
             Итого
             <span>1 600 ₽</span>
         </div>
-        <NuxtLink v-if="type === 'action'" class="btn btn--primary cart-summary__btn" to="placing-order">
+        <NuxtLink v-if="type === 'action'" class="btn btn--primary cart-summary__btn" to="/cart/placing-order">
             Перейти коформлению
         </NuxtLink>
     </div>
