@@ -14,6 +14,18 @@ const deliveryOptions = ref([
 ]);
 const activeDeliveryOption = ref(deliveryOptions.value[0]);
 
+const deliveryTimeOptions = ref([
+    {
+        id: 1,
+        title: 'Как можно скорее',
+    },
+    {
+        id: 2,
+        title: 'Другое время',
+    },
+]);
+const activeDeliveryTimeOption = ref(deliveryTimeOptions.value[0]);
+
 const paymentOptions = ref([
     {
         id: 1,
@@ -90,7 +102,23 @@ const activeAddress = ref(addresses.value[0]);
                         </div>
                     </div>
                 </div>
-                <h2 class="h2">Время доставки</h2>
+                <div class="placing-order__delivery">
+                    <h2 class="h2">Время доставки</h2>
+                    <div class="placing-order__delivery-options">
+                        <div
+                            class="placing-order__delivery-option"
+                            v-for="deliveryTime in deliveryTimeOptions"
+                            :class="
+                                deliveryTime.id === activeDeliveryTimeOption.id
+                                    ? 'placing-order__delivery-option--active'
+                                    : ''
+                            "
+                            @click="activeDeliveryTimeOption = deliveryTime"
+                        >
+                            {{ deliveryTime.title }}
+                        </div>
+                    </div>
+                </div>
                 <div class="placing-order__we-are-here">
                     <div class="placing-order__we-are-here-title">
                         <RadioButton name="we-are-here" label="" />
@@ -345,6 +373,43 @@ const activeAddress = ref(addresses.value[0]);
 
     .placing-order__address--active & {
         opacity: 1;
+    }
+}
+
+.placing-order__delivery-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    @include media.md-up {
+        flex-direction: row;
+    }
+
+    @include media.lg-up {
+        max-width: 460px;
+    }
+}
+
+.placing-order__delivery-option {
+    padding: 13px 20px;
+    border-radius: var(--b-radius-md);
+    border: 1px solid var(--c-grey20);
+    flex: 1;
+    color: var(--c-grey50);
+    font-family: var(--f-base);
+    font-size: functions.rem(14);
+    line-height: functions.rem(17);
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.1s ease-in;
+
+    @include media.lg-up {
+        padding-block: 18px;
+    }
+
+    &--active {
+        border-color: var(--c-secondary);
+        color: var(--c-grey80);
     }
 }
 
