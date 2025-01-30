@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import CartSummary from '~/components/CartSummary.vue';
+import RadioButton from '~/components/form/RadioButton.vue';
 
 const deliveryOptions = ref([
     {
@@ -90,6 +91,13 @@ const activeAddress = ref(addresses.value[0]);
                     </div>
                 </div>
                 <h2 class="h2">Время доставки</h2>
+                <div class="placing-order__we-are-here">
+                    <div class="placing-order__we-are-here-title">
+                        <RadioButton name="we-are-here" label="" />
+                        <h2 class="h2">Мы рядом!</h2>
+                    </div>
+                    <span>Наши операторы свяжутся с вами чтобы уточнить, что привезти из ближайшего магазина</span>
+                </div>
                 <div class="placing-order__payment">
                     <h2 class="h2">Оплата</h2>
                     <BaseTabsChooser v-model="activePaymentOption" :tabs="paymentOptions" item-key="id">
@@ -340,12 +348,36 @@ const activeAddress = ref(addresses.value[0]);
     }
 }
 
+.placing-order__we-are-here {
+    max-width: 540px;
+
+    span {
+        color: var(--c-grey60);
+        font-family: var(--f-base);
+        font-size: functions.rem(14);
+        line-height: functions.rem(17);
+        font-weight: 400;
+    }
+}
+
+.placing-order__we-are-here-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 20px;
+
+    h2 {
+        margin-bottom: 0;
+    }
+}
+
 .placing-order__payment {
+    margin-bottom: -20px;
+
     @include media.lg-up {
         max-width: 460px;
     }
-
-    margin-bottom: -20px;
 }
 
 .placing-order__action-btns {
