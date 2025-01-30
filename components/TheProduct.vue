@@ -87,7 +87,7 @@ const isDataInfoShowed = ref(false);
         <div class="product__data">
             <div class="product__title">{{ product.name }}</div>
             <div class="product__description">
-                {{ ingredients }}
+                {{ product.description + ', ' + ingredients }}
             </div>
             <div>
                 <BaseTabsChooser
