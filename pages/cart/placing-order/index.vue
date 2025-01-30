@@ -54,6 +54,18 @@ const deliveryOptions = ref([
 ]);
 const activeDeliveryOption = ref(deliveryOptions.value[0]);
 
+const paymentOptions = ref([
+    {
+        id: 1,
+        title: 'Онлайн',
+    },
+    {
+        id: 2,
+        title: 'При получении',
+    },
+]);
+const activePaymentOption = ref(paymentOptions.value[0]);
+
 const addresses = ref([
     {
         id: 1,
@@ -119,7 +131,22 @@ const activeAddress = ref(addresses.value[0]);
                     </div>
                 </div>
                 <h2 class="h2">Время доставки</h2>
-                <h2 class="h2">Оплата</h2>
+                <div class="placing-order__payment">
+                    <h2 class="h2">Оплата</h2>
+                    <BaseTabsChooser v-model="activePaymentOption" :tabs="paymentOptions" item-key="id">
+                        <template #btn="{ item }">{{ item.title }}</template>
+                    </BaseTabsChooser>
+                </div>
+                <div class="placing-order__bottom">
+                    <div class="placing-order__action-btns">
+                        <NuxtLink class="btn btn--outline">Назад в корзину</NuxtLink>
+                        <NuxtLink class="btn btn--primary">Заказать</NuxtLink>
+                    </div>
+                    <div class="placing-order__user-agreement">
+                        Нажимая на кнопку “Заказать”, вы соглашаетесь со сбором и обработкой персональных данных,
+                        пользовательским соглашением, а также на получением рекламных сообщений
+                    </div>
+                </div>
             </div>
             <CartSummary class="placing-order__summary" />
         </div>
@@ -140,15 +167,25 @@ const activeAddress = ref(addresses.value[0]);
 
 .placing-order__grid {
     width: 100%;
+    margin-bottom: 60px;
+
+    @include media.md-up {
+        margin-bottom: 30px;
+    }
 
     @include media.lg-up {
         display: grid;
         grid-template-columns: 1fr 350px;
         column-gap: 20px;
+        margin-bottom: 80px;
         grid-template-areas:
             'info summary'
             'info .'
             'info .';
+    }
+
+    @include media.xl-up {
+        margin-bottom: 120px;
     }
 }
 
@@ -157,9 +194,15 @@ const activeAddress = ref(addresses.value[0]);
     display: flex;
     flex-direction: column;
     gap: 40px;
+    margin-bottom: 40px;
+
+    @include media.md-only {
+        margin-bottom: 20px;
+    }
 
     @include media.lg-up {
         gap: 60px;
+        margin-bottom: 0;
     }
 }
 
@@ -172,11 +215,15 @@ const activeAddress = ref(addresses.value[0]);
         gap: 15px;
     }
 
-    .form-control:not(:last-child) {
-        margin-bottom: 20px;
+    .form-control {
+        max-width: 312px;
 
-        @include media.md-up {
-            margin-bottom: 15px;
+        &:not(:last-child) {
+            margin-bottom: 20px;
+
+            @include media.md-up {
+                margin-bottom: 15px;
+            }
         }
     }
 }
@@ -332,5 +379,49 @@ const activeAddress = ref(addresses.value[0]);
     .placing-order__address--active & {
         opacity: 1;
     }
+}
+
+.placing-order__payment {
+    @include media.lg-up {
+        max-width: 460px;
+    }
+
+    margin-bottom: -20px;
+}
+
+.placing-order__action-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+
+    @include media.md-up {
+        flex-direction: row;
+    }
+
+    @include media.lg-up {
+        max-width: 540px;
+    }
+
+    @include media.xl-up {
+        max-width: 690px;
+    }
+
+    .btn {
+        flex: 1;
+        padding-block: 17px;
+
+        @include media.lg-up {
+            padding-block: 19px;
+        }
+    }
+}
+
+.placing-order__user-agreement {
+    color: var(--c-grey60);
+    font-family: var(--f-base);
+    font-size: functions.rem(12);
+    line-height: functions.rem(14);
+    font-weight: 400;
 }
 </style>
