@@ -33,6 +33,8 @@ watchEffect(() => {
         closeDialog();
     }
 });
+
+useClickOutside(dialogBody, closeDialog);
 </script>
 
 <template>
