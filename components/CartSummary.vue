@@ -1,53 +1,18 @@
 <script setup lang="ts">
+import type { QueryList } from '~/types/Query';
+import type { Product } from '~/types/Product';
+import { PRODUCT_LIST } from '~/gql/queries/product';
+
 type Props = {
-    type: 'action' | 'view';
+    type?: 'action' | 'view';
 };
 
 withDefaults(defineProps<Props>(), {
     type: 'action',
 });
 
-const items = ref([
-    // TODO: JS get from store
-    {
-        title: 'СЕТ "ХИТ" 5 ПИЦЦ',
-        img: '/images/test-pizza.webp',
-        details: [
-            {
-                title: 'Маргарита',
-                text: ['Средняя 28 см, традиционное тесто'],
-            },
-            {
-                title: 'Жюльен',
-                text: ['Средняя 28 см, традиционное тесто'],
-            },
-            {
-                title: 'Фирменная Рустерс',
-                text: ['Фирменная Рустерс'],
-            },
-            {
-                title: 'Добавки',
-                text: ['Наггетсы куриные', 'Картофель по-деревенски', 'Напиток Черноголовка, стекло 1 л'],
-            },
-        ],
-        quantity: '1',
-        price: '1200',
-        price_old: '1500',
-    },
-    {
-        title: 'ФИРМЕННАЯ РУСТЕРС',
-        img: '/images/test-pizza.webp',
-        details: [
-            {
-                title: 'Добавки',
-                text: ['Наггетсы куриные', 'Картофель по-деревенски', 'Напиток Черноголовка, стекло 1 л'],
-            },
-        ],
-        quantity: '1',
-        price: '1200',
-        price_old: '1500',
-    },
-]);
+const { data: queriedProducts } = await useAsyncQuery<QueryList<Product>>(PRODUCT_LIST);
+const { list: productList } = useGetQueriedList<QueryList<Product>, Product>(queriedProducts);
 </script>
 
 <template>
@@ -62,15 +27,15 @@ const items = ref([
             <span>Сумма заказа</span>
             <span>2 400 ₽</span>
         </div>
-        <div v-if="type === 'view' && items" class="cart-summary__items">
-            <div v-for="item in items" class="cart-summary__item">
+        <div v-if="type === 'view' && productList.items" class="cart-summary__items">
+            <div v-for="product in productList.items" class="cart-summary__item">
                 <div class="cart-summary__item-title">
-                    <span>{{ item.title }}</span>
-                    <div class="cart-summary__item-price">{{ item.price }} ₽</div>
+                    <span>{{ product.name }}</span>
+                    <div class="cart-summary__item-price">1000 ₽</div>
                 </div>
-                <div class="cart-summary__item-detail" v-for="detail in item.details">
-                    <span>{{ detail.title }}</span>
-                    <div v-for="text in detail.text" class="cart-summary__item-detail-text">{{ text }}</div>
+                <div class="cart-summary__item-detail" v-for="productIngredient in product.product_ingredients">
+                    <span>{{ productIngredient.ingredient.name }}</span>
+                    <div class="cart-summary__item-detail-text">{{ productIngredient.ingredient.description }}</div>
                 </div>
             </div>
         </div>
@@ -197,6 +162,10 @@ const items = ref([
     @include media.lg-up {
         font-size: functions.rem(14);
         line-height: functions.rem(17);
+    }
+
+    span {
+        text-transform: uppercase;
     }
 }
 

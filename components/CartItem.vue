@@ -1,41 +1,51 @@
 <script setup lang="ts">
+import type { Product } from '~/types/Product';
+
 type Props = {
-    item: {};
+    product: Product;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
+
+const price = computed(() =>
+    props.product.product_category_options.reduce((min, option) => {
+        return option.price < min ? option.price : min;
+    }, props.product.product_category_options[0].price),
+);
+
+const price_old = ref<number>(1500);
 </script>
 
 <template>
     <div class="cart-item">
         <div class="cart-item__img">
-            <img :src="item.img" alt="" />
+            <img :src="product.file?.url" alt="" />
         </div>
         <div class="cart-item__content">
             <div class="cart-item__title">
-                <span>{{ item.title }}</span>
+                <span>{{ product.name }}</span>
                 <div class="cart-item__action-btns">
                     <BaseIcon class="cart-item__edit-btn" name="pencil" />
                     <BaseIcon class="cart-item__remove-btn" name="close" />
                 </div>
             </div>
             <div class="cart-item__details">
-                <div class="cart-item__detail" v-for="item in item.details">
-                    <div class="cart-item__detail-title">{{ item.title }}</div>
-                    <div class="cart-item__detail-text" v-for="item in item.text">
-                        {{ item }}
+                <div class="cart-item__detail" v-for="productIngredient in product.product_ingredients">
+                    <div class="cart-item__detail-title">{{ productIngredient.ingredient.name }}</div>
+                    <div class="cart-item__detail-text">
+                        {{ productIngredient.ingredient.description }}
                     </div>
                 </div>
             </div>
             <div class="cart-item__quantity-price">
                 <div class="cart-item__quantity">
                     <div class="cart-item__quantity-btn">-</div>
-                    {{ item.quantity }}
+                    1
                     <div class="cart-item__quantity-btn">+</div>
                 </div>
                 <div class="cart-item__price">
-                    <span v-if="item.price_old" class="cart-item__price-old">{{ item.price_old }} ₽</span>
-                    {{ item.price }} ₽
+                    <span v-if="price_old" class="cart-item__price-old">{{ price_old }} ₽</span>
+                    {{ price }} ₽
                 </div>
             </div>
         </div>

@@ -57,6 +57,9 @@ const addresses = ref([
     },
 ]);
 const activeAddress = ref(addresses.value[0]);
+
+const name = ref<string>('');
+const phone = ref<string>('');
 </script>
 
 <template>
@@ -72,8 +75,8 @@ const activeAddress = ref(addresses.value[0]);
                         <h2 class="h2">Контакты</h2>
                         <button class="btn btn--outline">Action</button>
                     </div>
-                    <FormInput placeholder="Имя" />
-                    <FormInput placeholder="Телефон" />
+                    <FormInput v-model="name" placeholder="Имя" name="name" />
+                    <FormInput v-model="phone" placeholder="Телефон" name="phone" />
                 </div>
                 <div class="placing-order__delivery">
                     <h2 class="h2">Доставка</h2>

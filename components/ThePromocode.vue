@@ -1,9 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const promo = ref<string>('');
+</script>
 
 <template>
     <div class="promocode">
         <span>Есть промокод?</span>
-        <FormInput placeholder="Введите промокод" class="promocode__input" />
+        <FormInput v-model="promo" placeholder="Введите промокод" class="promocode__input" name="promocode" />
         <div class="promocode__login">
             Промокоды и бонусные баллы действуют только для авторизованных пользователей.
             <a href="#">Войти</a>
