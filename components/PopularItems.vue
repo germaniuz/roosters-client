@@ -40,8 +40,8 @@ const popularItems: Array<PopularItem> = [
 ];
 
 type Props = {
-    title: string;
-    icon: string;
+    title?: string;
+    icon?: string;
 };
 
 withDefaults(defineProps<Props>(), {

@@ -27,7 +27,7 @@ const { list: productList } = useGetQueriedList<QueryList<Product>, Product>(que
             <span>Сумма заказа</span>
             <span>2 400 ₽</span>
         </div>
-        <div v-if="type === 'view' && productList.items" class="cart-summary__items">
+        <div v-if="type === 'view' && productList" class="cart-summary__items">
             <div v-for="product in productList.items" class="cart-summary__item">
                 <div class="cart-summary__item-title">
                     <span>{{ product.name }}</span>
