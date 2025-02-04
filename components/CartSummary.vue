@@ -13,6 +13,8 @@ withDefaults(defineProps<Props>(), {
 
 const { data: queriedProducts } = await useAsyncQuery<QueryList<Product>>(PRODUCT_LIST);
 const { list: productList } = useGetQueriedList<QueryList<Product>, Product>(queriedProducts);
+
+const smOrderExpanded = ref<boolean>(false);
 </script>
 
 <template>
@@ -27,15 +29,26 @@ const { list: productList } = useGetQueriedList<QueryList<Product>, Product>(que
             <span>Сумма заказа</span>
             <span>2 400 ₽</span>
         </div>
-        <div v-if="type === 'view' && productList" class="cart-summary__items">
-            <div v-for="product in productList.items" class="cart-summary__item">
-                <div class="cart-summary__item-title">
-                    <span>{{ product.name }}</span>
-                    <div class="cart-summary__item-price">1000 ₽</div>
-                </div>
-                <div class="cart-summary__item-detail" v-for="productIngredient in product.product_ingredients">
-                    <span>{{ productIngredient.ingredient.name }}</span>
-                    <div class="cart-summary__item-detail-text">{{ productIngredient.ingredient.description }}</div>
+        <div
+            v-if="type === 'view' && productList"
+            class="cart-summary__items"
+            :class="[!smOrderExpanded ? 'cart-summary__items--collapsed' : '']"
+        >
+            <button class="cart-summary__expand-btn" @click="smOrderExpanded = !smOrderExpanded">Состав заказа</button>
+            <div class="cart-summary__items-inner">
+                <div>
+                    <div v-for="product in productList.items" class="cart-summary__item">
+                        <div class="cart-summary__item-title">
+                            <span>{{ product.name }}</span>
+                            <div class="cart-summary__item-price">1000 ₽</div>
+                        </div>
+                        <div class="cart-summary__item-detail" v-for="productIngredient in product.product_ingredients">
+                            <span>{{ productIngredient.ingredient.name }}</span>
+                            <div class="cart-summary__item-detail-text">
+                                {{ productIngredient.ingredient.description }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -135,12 +148,65 @@ const { list: productList } = useGetQueriedList<QueryList<Product>, Product>(que
 }
 
 .cart-summary__items {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid var(--c-grey30);
     margin-bottom: 20px;
+}
+
+.cart-summary__items-inner {
+    position: relative;
+    display: grid;
+    transition: all 0.5s ease-in-out;
+    line-height: 1.4;
+    margin-block: 10px;
+    grid-template-rows: 1fr;
+
+    .cart-summary__items--collapsed & {
+        @include media.md-down {
+            grid-template-rows: 0fr;
+            margin-block: 0;
+        }
+    }
+
+    & > div {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+.cart-summary__expand-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    color: var(--c-grey80);
+    font-family: var(--f-headings);
+    font-size: functions.rem(14);
+    font-weight: 500;
+    line-height: 1.35;
+    background-color: unset;
+    width: 100%;
+    cursor: pointer;
+
+    @include media.lg-up {
+        display: none;
+    }
+
+    &::after {
+        content: '\e800';
+        font-family: var(--f-fontello);
+        font-size: functions.rem(8);
+        color: var(--c-grey80);
+        transform: rotate(90deg);
+        transition: all 0.5s;
+
+        .cart-summary__items--collapsed & {
+            transform: rotate(0deg);
+        }
+    }
 }
 
 .cart-summary__item {

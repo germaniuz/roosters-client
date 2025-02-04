@@ -126,6 +126,7 @@ const phone = ref<string>('');
                     <div class="placing-order__we-are-here-title">
                         <RadioButton name="we-are-here" label="" />
                         <h2 class="h2">Мы рядом!</h2>
+                        <span>i</span>
                     </div>
                     <span>Наши операторы свяжутся с вами чтобы уточнить, что привезти из ближайшего магазина</span>
                 </div>
@@ -437,6 +438,25 @@ const phone = ref<string>('');
 
     h2 {
         margin-bottom: 0;
+    }
+
+    span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        aspect-ratio: 1;
+        border-radius: 50px;
+        background-color: var(--c-secondary-extra-light);
+        font-size: functions.rem(22);
+        color: var(--c-secondary);
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.1s ease-in;
+
+        &:hover {
+            background-color: var(--c-secondary-light);
+        }
     }
 }
 
