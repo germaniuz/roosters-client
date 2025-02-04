@@ -52,7 +52,7 @@ const { list: productList } = useGetQueriedList<QueryList<Product>, Product>(que
             <span class="cart-summary__info-data">-100 <BaseIcon name="pizza-slice" /></span>
         </div>
         <div class="cart-summary__info">
-            <span class="cart-summary__info-title">Начислим баллов</span>
+            <span class="cart-summary__info-title">Начислим баллов <span class="cart-summary__info-icon">i</span></span>
             <span class="cart-summary__info-data cart-summary__info-data--add">+1 <BaseIcon name="pizza-slice" /></span>
         </div>
         <div class="cart-summary__final-price">
@@ -204,6 +204,30 @@ const { list: productList } = useGetQueriedList<QueryList<Product>, Product>(que
     @include media.lg-up {
         font-size: functions.rem(14);
         line-height: functions.rem(17);
+    }
+}
+
+.cart-summary__info-title {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.cart-summary__info-icon {
+    color: var(--c-grey80);
+    border: 1px solid var(--c-grey40);
+    border-radius: 50px;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.1s ease-in;
+
+    &:hover {
+        color: var(--c-secondary);
+        border-color: var(--c-secondary);
     }
 }
 

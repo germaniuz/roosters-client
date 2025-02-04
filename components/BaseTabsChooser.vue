@@ -58,6 +58,7 @@ const activeTab = defineModel<TItem>({ required: true });
     color: var(--c-grey60);
     flex: 1;
     text-align: center;
+    transition: all 0.1s ease-in;
 
     @include media.md-down {
         flex: 1;
