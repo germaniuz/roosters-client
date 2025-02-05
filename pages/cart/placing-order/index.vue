@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import CartSummary from '~/components/CartSummary.vue';
 import RadioButton from '~/components/form/RadioButton.vue';
+import type { DeliveryTimeOption } from '~/types/Cart';
+
+const router = useRouter();
 
 const deliveryOptions = ref([
     {
@@ -14,7 +17,7 @@ const deliveryOptions = ref([
 ]);
 const activeDeliveryOption = ref(deliveryOptions.value[0]);
 
-const deliveryTimeOptions = ref([
+const deliveryTimeOptions = ref<DeliveryTimeOption[]>([
     {
         id: 1,
         title: 'Как можно скорее',
@@ -58,8 +61,83 @@ const addresses = ref([
 ]);
 const activeAddress = ref(addresses.value[0]);
 
+const dateOptions = ref([
+    {
+        id: 1,
+        title: 'Сегодня, 28.01',
+    },
+    {
+        id: 2,
+        title: '29.01',
+    },
+    {
+        id: 3,
+        title: '30.01',
+    },
+    {
+        id: 4,
+        title: '31.01',
+    },
+    {
+        id: 5,
+        title: '01.02',
+    },
+    {
+        id: 6,
+        title: '02.02',
+    },
+]);
+const activeDateOption = ref(dateOptions.value[0]);
+
+const timeOptions = ref([
+    {
+        id: 1,
+        title: '~16:30',
+    },
+    {
+        id: 2,
+        title: '~17:00',
+    },
+    {
+        id: 3,
+        title: '~18:00',
+    },
+    {
+        id: 4,
+        title: '~19:00',
+    },
+    {
+        id: 5,
+        title: '~20:00',
+    },
+    {
+        id: 6,
+        title: '~21:00',
+    },
+]);
+const activeTimeOption = ref(timeOptions.value[0]);
+
+const dateTimeDialogActive = ref<boolean>(false);
+
 const name = ref<string>('');
 const phone = ref<string>('');
+
+const handleDateTimeClick = (option: DeliveryTimeOption) => {
+    activeDeliveryTimeOption.value = option;
+
+    if (option.id === 1) {
+        activeDateOption.value = dateOptions.value[0];
+        activeTimeOption.value = timeOptions.value[0];
+    }
+
+    if (option.id === 2) {
+        dateTimeDialogActive.value = true;
+    }
+};
+
+const handleOrder = () => {
+    router.push({ path: '/orders', query: { from: 'placing-order' } });
+};
 </script>
 
 <template>
@@ -116,7 +194,7 @@ const phone = ref<string>('');
                                     ? 'placing-order__delivery-option--active'
                                     : ''
                             "
-                            @click="activeDeliveryTimeOption = deliveryTime"
+                            @click="handleDateTimeClick(deliveryTime)"
                         >
                             {{ deliveryTime.title }}
                         </div>
@@ -139,7 +217,7 @@ const phone = ref<string>('');
                 <div class="placing-order__bottom">
                     <div class="placing-order__action-btns">
                         <NuxtLink class="btn btn--outline" to="./">Назад в корзину</NuxtLink>
-                        <NuxtLink class="btn btn--primary">Заказать</NuxtLink>
+                        <NuxtLink class="btn btn--primary" @click="handleOrder">Заказать</NuxtLink>
                     </div>
                     <div class="placing-order__user-agreement">
                         Нажимая на кнопку “Заказать”, вы соглашаетесь со сбором и обработкой персональных данных,
@@ -149,6 +227,31 @@ const phone = ref<string>('');
             </div>
             <CartSummary class="placing-order__summary" type="view" />
         </div>
+        <BaseDialog v-model:is-active="dateTimeDialogActive" class="placing-order__dialog" :sm="true">
+            <div class="placing-order__date-time-options">
+                <div class="placing-order__date-time-option-group">
+                    <div
+                        class="placing-order__date-time-option"
+                        :class="date.id === activeDateOption.id ? 'placing-order__date-time-option--active' : ''"
+                        v-for="date in dateOptions"
+                        @click="activeDateOption = date"
+                    >
+                        {{ date.title }}
+                    </div>
+                </div>
+                <div class="placing-order__date-time-option-group">
+                    <div
+                        class="placing-order__date-time-option"
+                        v-for="time in timeOptions"
+                        :class="time.id === activeTimeOption.id ? 'placing-order__date-time-option--active' : ''"
+                        @click="activeTimeOption = time"
+                    >
+                        {{ time.title }}
+                    </div>
+                </div>
+            </div>
+            <BaseButton :modifiers="['primary']" @click="dateTimeDialogActive = false">Action</BaseButton>
+        </BaseDialog>
     </div>
 </template>
 
@@ -417,6 +520,39 @@ const phone = ref<string>('');
     }
 }
 
+.placing-order__date-time-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.placing-order__date-time-option {
+    padding: 15px;
+    color: var(--c-grey80);
+    font-family: var(--f-base);
+    font-size: functions.rem(14);
+    font-weight: 400;
+    line-height: functions.rem(17);
+    border-radius: var(--b-radius-sm);
+    cursor: pointer;
+    transition: all 0.1s ease-in;
+
+    &:hover {
+        color: var(--c-secondary);
+    }
+
+    &--active {
+        background-color: var(--c-secondary-extra-light);
+        color: var(--c-secondary);
+    }
+}
+
+.placing-order__date-time-option-group {
+    overflow: auto;
+    height: 200px;
+    margin-bottom: 20px;
+}
+
 .placing-order__we-are-here {
     max-width: 540px;
 
@@ -502,5 +638,13 @@ const phone = ref<string>('');
     font-size: functions.rem(12);
     line-height: functions.rem(14);
     font-weight: 400;
+}
+
+.placing-order__dialog {
+    width: 412px;
+
+    button {
+        width: 100%;
+    }
 }
 </style>
