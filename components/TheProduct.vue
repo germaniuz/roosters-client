@@ -67,7 +67,7 @@ const isDataInfoShowed = ref(false);
                 <table>
                     <tr>
                         <td>Энергетическая ценность</td>
-                        <td>257&nbsp;ккал</td>
+                        <td>{{ product.energy_value }}&nbsp;ккал</td>
                     </tr>
                     <tr>
                         <td>Белки</td>
@@ -87,7 +87,7 @@ const isDataInfoShowed = ref(false);
         <div class="product__data">
             <div class="product__title">{{ product.name }}</div>
             <div class="product__description">
-                {{ ingredients }}
+                {{ product.description + ', ' + ingredients }}
             </div>
             <div>
                 <BaseTabsChooser

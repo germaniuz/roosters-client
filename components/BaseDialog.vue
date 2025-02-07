@@ -42,6 +42,7 @@ watchEffect(() => {
         }
     }
 });
+
 useClickOutside(dialogBody, closeDialog);
 </script>
 
