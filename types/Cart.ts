@@ -6,6 +6,7 @@ export type CartProduct = {
     product: {
         id: number;
         product_id: number;
+        price: number;
         product: Product;
     };
 };

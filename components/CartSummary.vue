@@ -11,18 +11,23 @@ withDefaults(defineProps<Props>(), {
 });
 
 const cart = ref<CartProduct[] | null>(null);
+const cartPrice = ref<number>(0);
 
-onMounted(() => {
-    const { result: queriedCart, onResult, onError } = useQuery(CLIENT_CART);
+if (import.meta.client) {
+    const { onResult, onError } = useQuery(CLIENT_CART);
 
     onResult((r) => {
         if (r.data) {
             cart.value = getItems<CartProduct>(r.data);
+
+            cartPrice.value = cart.value.reduce((acc, value) => {
+                return acc + value.product.price * value.quantity;
+            }, 0);
         }
     });
 
     onError(() => (cart.value = null));
-});
+}
 
 const smOrderExpanded = ref<boolean>(false);
 </script>
@@ -37,7 +42,7 @@ const smOrderExpanded = ref<boolean>(false);
         </div>
         <div class="cart-summary__price">
             <span>Сумма заказа</span>
-            <span>2 400 ₽</span>
+            <span>{{ cartPrice }} ₽</span>
         </div>
         <div
             v-if="type === 'view' && cart"
@@ -49,8 +54,8 @@ const smOrderExpanded = ref<boolean>(false);
                 <div>
                     <div v-for="product in cart" class="cart-summary__item">
                         <div class="cart-summary__item-title">
-                            <span>{{ product.product.product.name }}</span>
-                            <div class="cart-summary__item-price">1000 ₽</div>
+                            <span>{{ product.product.product.name }} x {{ product.quantity }}</span>
+                            <div class="cart-summary__item-price">{{ product.product.price * product.quantity }} ₽</div>
                         </div>
                         <div class="cart-summary__item-detail">
                             <span>Ингредиенты</span>
@@ -83,7 +88,7 @@ const smOrderExpanded = ref<boolean>(false);
         </div>
         <div class="cart-summary__final-price">
             Итого
-            <span>1 600 ₽</span>
+            <span>{{ cartPrice }} ₽</span>
         </div>
         <NuxtLink v-if="type === 'action'" class="btn btn--primary cart-summary__btn" to="/cart/placing-order">
             Перейти коформлению

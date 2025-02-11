@@ -5,8 +5,8 @@ import type { CartProduct } from '~/types/Cart';
 
 const cart = ref<CartProduct[] | null>(null);
 
-onMounted(() => {
-    const { result: queriedCartQuery, onResult, onError } = useQuery(CLIENT_CART);
+if (import.meta.client) {
+    const { onResult, onError } = useQuery(CLIENT_CART);
 
     onResult((r) => {
         if (r.data) {
@@ -15,7 +15,12 @@ onMounted(() => {
     });
 
     onError(() => (cart.value = null));
-});
+}
+
+const refreshCart = () => {
+    const { refetch } = useQuery(CLIENT_CART);
+    refetch();
+};
 </script>
 
 <template>
@@ -23,7 +28,7 @@ onMounted(() => {
         <h1 class="h1">Корзина <span class="h1--grey h1--md-hidden">- Оформление - Заказ принят</span></h1>
         <div class="cart__grid">
             <div class="cart__items" v-if="cart">
-                <CartItem v-for="product in cart" :product="product" />
+                <CartItem v-for="product in cart" :product="product" @itemChanged="refreshCart" />
             </div>
             <PopularItems title="Рекомендуем добавить" class="cart__recommended" />
             <CartSummary class="cart__summary" />

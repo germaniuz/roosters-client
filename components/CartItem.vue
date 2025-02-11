@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Product, ProductCategoryOption } from '~/types/Product';
 import { DELETE_CLIENT_CART, UPDATE_CLIENT_CART } from '~/gql/mutations/clientCart';
 import type { CartProduct } from '~/types/Cart';
 
@@ -8,15 +7,7 @@ type Props = {
 };
 
 const props = defineProps<Props>();
-
-// const price = computed(() =>
-//     props.product.product_category_options.reduce((min, option) => {
-//         return option.price < min ? option.price : min;
-//     }, props.product.product_category_options[0].price),
-// );
-
-const cartItem: Product = props.product.product.product;
-const activeProductCategoryOption = ref<ProductCategoryOption>(cartItem.product_category_options[0]);
+const emit = defineEmits(['itemChanged']);
 
 const { mutate: updateCart } = useMutation(UPDATE_CLIENT_CART);
 const { mutate: removeItemFromCart } = useMutation(DELETE_CLIENT_CART);
@@ -24,24 +15,30 @@ const { mutate: removeItemFromCart } = useMutation(DELETE_CLIENT_CART);
 const increaseQuantity = async () => {
     await updateCart({
         product_category_option: {
-            product_category_option_id: activeProductCategoryOption.value.id,
+            product_category_option_id: props.product.product.id,
             quantity: 1,
         },
+    }).then(() => {
+        emit('itemChanged');
     });
 };
 
 const decreaseQuantity = async () => {
     await updateCart({
         product_category_option: {
-            product_category_option_id: activeProductCategoryOption.value.id,
+            product_category_option_id: props.product.product.id,
             quantity: -1,
         },
+    }).then(() => {
+        emit('itemChanged');
     });
 };
 
 const removeFromCart = async () => {
     await removeItemFromCart({
-        product_category_option_id: activeProductCategoryOption.value.id,
+        product_category_option_id: props.product.product.id,
+    }).then(() => {
+        emit('itemChanged');
     });
 };
 
@@ -51,11 +48,11 @@ const price_old = ref<number>(1500);
 <template>
     <div class="cart-item">
         <div class="cart-item__img">
-            <img :src="cartItem.file?.url" alt="" />
+            <img :src="product.product.product.file?.url" alt="" />
         </div>
         <div class="cart-item__content">
             <div class="cart-item__title">
-                <span>{{ cartItem.name }}</span>
+                <span>{{ product.product.product.name }}</span>
                 <div class="cart-item__action-btns">
                     <BaseIcon class="cart-item__edit-btn" name="pencil" />
                     <BaseIcon class="cart-item__remove-btn" name="close" @click="removeFromCart" />
@@ -64,7 +61,10 @@ const price_old = ref<number>(1500);
             <div class="cart-item__details">
                 <div class="cart-item__detail">
                     <div class="cart-item__detail-title">Ингредиенты</div>
-                    <div class="cart-item__detail-text" v-for="productIngredient in cartItem.product_ingredients">
+                    <div
+                        class="cart-item__detail-text"
+                        v-for="productIngredient in product.product.product.product_ingredients"
+                    >
                         {{ productIngredient.ingredient.description }}
                     </div>
                 </div>
@@ -77,7 +77,7 @@ const price_old = ref<number>(1500);
                 </div>
                 <div class="cart-item__price">
                     <span v-if="price_old" class="cart-item__price-old">{{ price_old }} ₽</span>
-                    <!--                    {{ price }} ₽-->
+                    {{ product.product.price }} ₽
                 </div>
             </div>
         </div>
