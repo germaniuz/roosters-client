@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { QueryList } from '~/types/Query';
 import type { CartProduct } from '~/types/Cart';
 import { CLIENT_CART } from '~/gql/queries/clientCart';
 
@@ -11,8 +10,19 @@ withDefaults(defineProps<Props>(), {
     type: 'action',
 });
 
-const { data: queriedCart } = await useAsyncQuery<QueryList<CartProduct>>(CLIENT_CART);
-const { list: productCartList } = useGetQueriedList<QueryList<CartProduct>, CartProduct>(queriedCart);
+const cart = ref<CartProduct[] | null>(null);
+
+onMounted(() => {
+    const { result: queriedCart, onResult, onError } = useQuery(CLIENT_CART);
+
+    onResult((r) => {
+        if (r.data) {
+            cart.value = getItems<CartProduct>(r.data);
+        }
+    });
+
+    onError(() => (cart.value = null));
+});
 
 const smOrderExpanded = ref<boolean>(false);
 </script>
@@ -30,14 +40,14 @@ const smOrderExpanded = ref<boolean>(false);
             <span>2 400 ₽</span>
         </div>
         <div
-            v-if="type === 'view' && productCartList"
+            v-if="type === 'view' && cart"
             class="cart-summary__items"
             :class="[!smOrderExpanded ? 'cart-summary__items--collapsed' : '']"
         >
             <button class="cart-summary__expand-btn" @click="smOrderExpanded = !smOrderExpanded">Состав заказа</button>
             <div class="cart-summary__items-inner">
                 <div>
-                    <div v-for="product in productCartList.items" class="cart-summary__item">
+                    <div v-for="product in cart" class="cart-summary__item">
                         <div class="cart-summary__item-title">
                             <span>{{ product.product.product.name }}</span>
                             <div class="cart-summary__item-price">1000 ₽</div>

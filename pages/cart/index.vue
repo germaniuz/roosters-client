@@ -1,19 +1,29 @@
 <script lang="ts" setup>
 import CartSummary from '~/components/CartSummary.vue';
-import type { QueryList } from '~/types/Query';
 import { CLIENT_CART } from '~/gql/queries/clientCart';
 import type { CartProduct } from '~/types/Cart';
 
-const { data: queriedCart } = await useAsyncQuery<QueryList<CartProduct>>(CLIENT_CART);
-const { list: productCartList } = useGetQueriedList<QueryList<CartProduct>, CartProduct>(queriedCart);
+const cart = ref<CartProduct[] | null>(null);
+
+onMounted(() => {
+    const { result: queriedCartQuery, onResult, onError } = useQuery(CLIENT_CART);
+
+    onResult((r) => {
+        if (r.data) {
+            cart.value = getItems<CartProduct>(r.data);
+        }
+    });
+
+    onError(() => (cart.value = null));
+});
 </script>
 
 <template>
     <div class="container container--sm cart">
         <h1 class="h1">Корзина <span class="h1--grey h1--md-hidden">- Оформление - Заказ принят</span></h1>
         <div class="cart__grid">
-            <div class="cart__items" v-if="productCartList">
-                <CartItem v-for="product in productCartList.items" :product="product" />
+            <div class="cart__items" v-if="cart">
+                <CartItem v-for="product in cart" :product="product" />
             </div>
             <PopularItems title="Рекомендуем добавить" class="cart__recommended" />
             <CartSummary class="cart__summary" />
