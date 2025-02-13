@@ -67,7 +67,7 @@ useClickOutside(dialogBody, closeDialog);
     border-radius: var(--b-radius);
     background: var(--c-grey00);
     box-shadow: var(--shadow);
-    overflow: initial;
+    overflow: auto;
 
     &::backdrop {
         background: color(from var(--c-grey90) srgb r g b / 0.8);
