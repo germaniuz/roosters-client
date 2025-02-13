@@ -13,6 +13,8 @@ const activeProductCategoryOption = ref<ProductCategoryOption>(props.product.pro
 
 const { mutate } = useMutation(CREATE_CLIENT_CART);
 const { closeProductDialog } = useProductStore();
+const { updateCartQuery } = useCartStore();
+
 const addToCart = async () => {
     await mutate({
         product_category_option: {
@@ -21,6 +23,7 @@ const addToCart = async () => {
         },
     });
     closeProductDialog();
+    updateCartQuery();
 };
 
 const adds = computed(() =>

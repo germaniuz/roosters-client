@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { DELETE_CLIENT_CART, UPDATE_CLIENT_CART } from '~/gql/mutations/clientCart';
 import type { CartProduct } from '~/types/Cart';
+import { useCartStore } from '~/stores/cartStore';
 
 type Props = {
     product: CartProduct;
 };
 
 const props = defineProps<Props>();
-const emit = defineEmits(['itemChanged']);
+const { updateCartQuery } = useCartStore();
 
 const { mutate: updateCart } = useMutation(UPDATE_CLIENT_CART);
 const { mutate: removeItemFromCart } = useMutation(DELETE_CLIENT_CART);
@@ -19,7 +20,7 @@ const increaseQuantity = async () => {
             quantity: 1,
         },
     }).then(() => {
-        emit('itemChanged');
+        updateCartQuery();
     });
 };
 
@@ -30,7 +31,7 @@ const decreaseQuantity = async () => {
             quantity: -1,
         },
     }).then(() => {
-        emit('itemChanged');
+        updateCartQuery();
     });
 };
 
@@ -38,7 +39,7 @@ const removeFromCart = async () => {
     await removeItemFromCart({
         product_category_option_id: props.product.product.id,
     }).then(() => {
-        emit('itemChanged');
+        updateCartQuery();
     });
 };
 

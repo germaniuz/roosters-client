@@ -1,10 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useCartStore } from '~/stores/cartStore';
+
+const cartStore = useCartStore();
+</script>
 
 <template>
-    <div class="cart-btn">
+    <div class="cart-btn" v-if="cartStore.cartSum">
         <NuxtLink class="btn btn--primary cart-btn__btn" to="/cart">
             <div class="cart-btn__icon"><img src="/images/cart.svg" alt="" /></div>
-            <div class="cart-btn__text">В корзине<span>1500₽</span></div>
+            <div class="cart-btn__text">
+                В корзине<span>{{ cartStore.cartSum }}₽</span>
+            </div>
             <BaseIcon name="arrow-right" />
         </NuxtLink>
     </div>

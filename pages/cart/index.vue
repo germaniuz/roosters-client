@@ -1,34 +1,16 @@
 <script lang="ts" setup>
 import CartSummary from '~/components/CartSummary.vue';
-import { CLIENT_CART } from '~/gql/queries/clientCart';
-import type { CartProduct } from '~/types/Cart';
+import { useCartStore } from '~/stores/cartStore';
 
-const cart = ref<CartProduct[] | null>(null);
-
-if (import.meta.client) {
-    const { onResult, onError } = useQuery(CLIENT_CART);
-
-    onResult((r) => {
-        if (r.data) {
-            cart.value = getItems<CartProduct>(r.data);
-        }
-    });
-
-    onError(() => (cart.value = null));
-}
-
-const refreshCart = () => {
-    const { refetch } = useQuery(CLIENT_CART);
-    refetch();
-};
+const cartStore = useCartStore();
 </script>
 
 <template>
     <div class="container container--sm cart">
         <h1 class="h1">Корзина <span class="h1--grey h1--md-hidden">- Оформление - Заказ принят</span></h1>
         <div class="cart__grid">
-            <div class="cart__items" v-if="cart">
-                <CartItem v-for="product in cart" :product="product" @itemChanged="refreshCart" />
+            <div class="cart__items" v-if="cartStore.cart">
+                <CartItem v-for="product in cartStore.cart" :product="product" />
             </div>
             <PopularItems title="Рекомендуем добавить" class="cart__recommended" />
             <CartSummary class="cart__summary" />
