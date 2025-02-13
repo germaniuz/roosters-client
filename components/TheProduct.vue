@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Product, ProductCategoryOption } from '~/types/Product';
 import { CREATE_CLIENT_CART } from '~/gql/mutations/clientCart';
+import { useProductStore } from '~/stores/product';
 
 type Props = {
     product: Product;
@@ -11,6 +12,7 @@ const ingredients = computed(() => props.product.product_ingredients.map((i) => 
 const activeProductCategoryOption = ref<ProductCategoryOption>(props.product.product_category_options[0]);
 
 const { mutate } = useMutation(CREATE_CLIENT_CART);
+const { closeProductDialog } = useProductStore();
 const addToCart = async () => {
     await mutate({
         product_category_option: {
@@ -18,6 +20,7 @@ const addToCart = async () => {
             quantity: 1,
         },
     });
+    closeProductDialog();
 };
 
 const adds = computed(() =>
