@@ -5,11 +5,11 @@ const cartStore = useCartStore();
 </script>
 
 <template>
-    <div class="cart-btn" v-if="cartStore.cartSum">
+    <div class="cart-btn" v-if="cartStore.cartPrice">
         <NuxtLink class="btn btn--primary cart-btn__btn" to="/cart">
             <div class="cart-btn__icon"><img src="/images/cart.svg" alt="" /></div>
             <div class="cart-btn__text">
-                В корзине<span>{{ cartStore.cartSum }}₽</span>
+                В корзине<span>{{ cartStore.cartPrice }}₽</span>
             </div>
             <BaseIcon name="arrow-right" />
         </NuxtLink>

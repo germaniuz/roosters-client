@@ -56,7 +56,6 @@ const itemsScrolled = ref<boolean>(false);
 const itemsScrolledToEnd = ref<boolean>(false);
 
 const updateButtonsVisibility = () => {
-    console.log(23);
     if (popularItemsRef.value.scrollLeft !== 0) {
         itemsScrolled.value = true;
         itemsScrolledToEnd.value =

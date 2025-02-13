@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { CartProduct } from '~/types/Cart';
-import { CLIENT_CART } from '~/gql/queries/clientCart';
+import { useCartStore } from '~/stores/cartStore';
 
 type Props = {
     type?: 'action' | 'view';
@@ -10,24 +9,7 @@ withDefaults(defineProps<Props>(), {
     type: 'action',
 });
 
-const cart = ref<CartProduct[] | null>(null);
-const cartPrice = ref<number>(0);
-
-if (import.meta.client) {
-    const { onResult, onError } = useQuery(CLIENT_CART);
-
-    onResult((r) => {
-        if (r.data) {
-            cart.value = getItems<CartProduct>(r.data);
-
-            cartPrice.value = cart.value.reduce((acc, value) => {
-                return acc + value.product.price * value.quantity;
-            }, 0);
-        }
-    });
-
-    onError(() => (cart.value = null));
-}
+const cartStore = useCartStore();
 
 const smOrderExpanded = ref<boolean>(false);
 </script>
@@ -35,24 +17,24 @@ const smOrderExpanded = ref<boolean>(false);
 <template>
     <div class="cart-summary card card--grey card--p-md">
         <div class="cart-summary__top">
-            <div class="cart-summary__quantity">2 товара</div>
+            <div class="cart-summary__quantity">{{ cartStore.itemsQuantity }} товар</div>
             <div v-if="type === 'action'" class="cart-summary__clean-cart">
                 Очистить корзину <BaseIcon name="close" />
             </div>
         </div>
         <div class="cart-summary__price">
             <span>Сумма заказа</span>
-            <span>{{ cartPrice }} ₽</span>
+            <span>{{ cartStore.cartPrice }} ₽</span>
         </div>
         <div
-            v-if="type === 'view' && cart"
+            v-if="type === 'view' && cartStore.cart"
             class="cart-summary__items"
             :class="[!smOrderExpanded ? 'cart-summary__items--collapsed' : '']"
         >
             <button class="cart-summary__expand-btn" @click="smOrderExpanded = !smOrderExpanded">Состав заказа</button>
             <div class="cart-summary__items-inner">
                 <div>
-                    <div v-for="product in cart" class="cart-summary__item">
+                    <div v-for="product in cartStore.cart" class="cart-summary__item">
                         <div class="cart-summary__item-title">
                             <span>{{ product.product.product.name }} x {{ product.quantity }}</span>
                             <div class="cart-summary__item-price">{{ product.product.price * product.quantity }} ₽</div>
@@ -88,7 +70,7 @@ const smOrderExpanded = ref<boolean>(false);
         </div>
         <div class="cart-summary__final-price">
             Итого
-            <span>{{ cartPrice }} ₽</span>
+            <span>{{ cartStore.cartPrice }} ₽</span>
         </div>
         <NuxtLink v-if="type === 'action'" class="btn btn--primary cart-summary__btn" to="/cart/placing-order">
             Перейти коформлению
