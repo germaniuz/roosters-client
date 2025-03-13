@@ -40,6 +40,9 @@ export const PRODUCT_LIST = gql`
                 badges {
                     id
                     name
+                    file {
+                        url
+                    }
                 }
                 category_option_ingredient_excludes {
                     id

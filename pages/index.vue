@@ -71,7 +71,6 @@ const scrollStoriesLeft = () => {
 </script>
 <template>
     <div class="container front-page">
-        <h1 class="h1">Главная</h1>
         <BaseCartButton />
         <div class="front-page__stories">
             <div ref="storiesRef" class="front-page__stories-grid">

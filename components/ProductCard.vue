@@ -13,6 +13,10 @@ const price = computed(() =>
     }, props.product.product_category_options[0].price),
 );
 
+const ingredients = computed(
+    () => props.product.description + ', ' + props.product.product_ingredients.map((i) => i.ingredient.name).join(', '),
+);
+
 const { openProductDialog } = useProductStore();
 </script>
 
@@ -20,13 +24,16 @@ const { openProductDialog } = useProductStore();
     <div class="product-card">
         <div class="product-card__image">
             <img :src="product.file.url" :alt="product.name" />
-            <BaseBadge image="/images/test-badge.webp" />
+            <BaseBadge
+                v-if="product.badges"
+                class="product-card__badge"
+                :image="product.badges[0].file.url"
+                :alt="product.badges[0].file.name"
+            />
         </div>
         <div class="product-card__title">{{ product.name }}</div>
         <div class="product-card__description">
-            <span v-for="ingredient in product.product_ingredients" :key="ingredient.id"
-                >{{ ingredient.ingredient.name }},
-            </span>
+            {{ ingredients }}
         </div>
         <div class="product-card__price-block">
             <BaseButton :modifiers="['item']" class="product-card__price-btn" @click="openProductDialog(product)"
@@ -74,6 +81,12 @@ const { openProductDialog } = useProductStore();
     &:hover {
         background-color: var(--c-grey05);
     }
+}
+
+.product-card__badge {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 .product-card__image {

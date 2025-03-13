@@ -2,6 +2,8 @@
 import type { Product, ProductCategoryOption } from '~/types/Product';
 import { CREATE_CLIENT_CART } from '~/gql/mutations/clientCart';
 import { useProductStore } from '~/stores/product';
+import { useCartStore } from '~/stores/cartStore';
+import BaseBadge from '~/components/BaseBadge.vue';
 
 type Props = {
     product: Product;
@@ -58,7 +60,12 @@ const isDataInfoShowed = ref(false);
 <template>
     <div class="product">
         <div class="product__image">
-            <div v-if="product.badges" class="badge">{{ product.badges[0].name }}</div>
+            <BaseBadge
+                v-if="product.badges"
+                class="product__badge"
+                :image="product.badges[0].file.url"
+                :alt="product.badges[0].file.name"
+            />
             <img :src="product.file.url" :alt="product.name" />
             <div
                 class="product__info"
@@ -135,29 +142,36 @@ const isDataInfoShowed = ref(false);
 @use '../assets/styles/helpers/functions';
 
 .product {
+    --product-height: 730px;
+
     display: grid;
     gap: 30px;
-    align-items: center;
+    align-items: start;
+    height: 100%;
+    max-height: var(--product-height);
 
     @include media.md-up {
-        grid-template-columns: 245px 1fr;
+        grid-template-columns: 245px 480px;
     }
 
     @include media.xl-up {
-        grid-template-columns: 380px 1fr;
+        grid-template-columns: 380px 480px;
     }
-}
 
-.product__subtitle {
-    font-size: functions.rem(18);
-    color: var(--c-grey80);
-    margin-bottom: 15px;
+    & > * {
+        min-width: 0;
+        min-height: 0;
+    }
 }
 
 .product__image {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    height: 100%;
+    flex: 0 0 100%;
+    justify-content: center;
+    max-height: var(--product-height);
 
     img {
         width: 245px;
@@ -167,6 +181,10 @@ const isDataInfoShowed = ref(false);
             width: 380px;
         }
     }
+}
+
+.product__badge {
+    margin-inline: auto;
 }
 
 .product__info {
@@ -190,8 +208,20 @@ const isDataInfoShowed = ref(false);
     }
 }
 
+.product__data {
+    height: 100%;
+    overflow-y: auto;
+    max-height: var(--product-height);
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
 .product__title {
     font-size: functions.rem(24);
+    line-height: functions.rem(36);
     font-weight: 700;
     font-family: var(--f-headings), serif;
     color: var(--c-grey80);
@@ -201,6 +231,12 @@ const isDataInfoShowed = ref(false);
         font-size: functions.rem(32);
         margin-bottom: 20px;
     }
+}
+
+.product__subtitle {
+    font-size: functions.rem(18);
+    color: var(--c-grey80);
+    margin-bottom: 15px;
 }
 
 .product__description {
@@ -280,7 +316,7 @@ const isDataInfoShowed = ref(false);
 
 .product__add-btn {
     position: sticky;
-    bottom: 10px;
+    bottom: 0;
     border: 6px solid var(--c-grey00);
     border-radius: var(--b-radius);
 }
