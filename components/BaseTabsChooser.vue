@@ -39,6 +39,7 @@ const activeTab = defineModel<TItem>({ required: true });
 .tabs-chooser__btns {
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
     margin-bottom: 20px;
     width: 100%;
     border-radius: var(--b-radius);
@@ -55,6 +56,9 @@ const activeTab = defineModel<TItem>({ required: true });
     font-weight: 700;
     border-radius: var(--b-radius-md);
     color: var(--c-grey60);
+    flex: 1;
+    text-align: center;
+    transition: all 0.1s ease-in;
 
     @include media.md-down {
         flex: 1;

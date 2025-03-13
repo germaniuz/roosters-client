@@ -1,6 +1,7 @@
 <script setup lang="ts">
 type Props = {
     image: string;
+    alt: string;
 };
 
 defineProps<Props>();
@@ -8,17 +9,14 @@ defineProps<Props>();
 
 <template>
     <div class="badge">
-        <img :src="image" alt="" />
+        <img :src="image" :alt="alt" />
     </div>
 </template>
 
 <style scoped lang="scss">
 .badge {
-    position: absolute;
     height: 27px;
     width: auto;
-    top: 0;
-    right: 0;
     overflow: hidden;
 
     img {

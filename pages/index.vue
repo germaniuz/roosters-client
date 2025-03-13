@@ -3,6 +3,7 @@ import type { Product } from '~/types/Product';
 import type { Story } from '~/types/Story';
 import { PRODUCT_LIST } from '~/gql/queries/product';
 import { useListQuery } from '~/composables/useListQuery';
+import BaseCartButton from '~/components/BaseCartButton.vue';
 
 const { items } = useListQuery<Product>(PRODUCT_LIST);
 
@@ -70,7 +71,7 @@ const scrollStoriesLeft = () => {
 </script>
 <template>
     <div class="container front-page">
-        <h1 class="h1">Главная</h1>
+        <BaseCartButton />
         <div class="front-page__stories">
             <div ref="storiesRef" class="front-page__stories-grid">
                 <div v-for="story in stories" :key="story.link" class="front-page__story">
@@ -214,5 +215,12 @@ const scrollStoriesLeft = () => {
 
 .front-page__stories-scroll-right-btn {
     right: -20px;
+}
+
+.front-page__cart-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 50px;
+    z-index: var(--z-top-20);
 }
 </style>

@@ -3,6 +3,7 @@ type Modifier = 'p-sm' | 'bg-grey';
 type Props = {
     isActive: boolean;
     modifiers?: Modifier[];
+    sm?: boolean;
 };
 
 const props = defineProps<Props>();
@@ -29,8 +30,16 @@ const showDialog = () => {
 watchEffect(() => {
     if (props.isActive) {
         showDialog();
+
+        if (document) {
+            document.body.classList.add('body--fixed');
+        }
     } else {
         closeDialog();
+
+        if (document) {
+            document.body.classList.remove('body--fixed');
+        }
     }
 });
 
@@ -38,7 +47,7 @@ useClickOutside(dialogBody, closeDialog);
 </script>
 
 <template>
-    <dialog ref="dialog" :class="`dialog ${modifiers}`" @keydown.stop.esc="closeDialog">
+    <dialog ref="dialog" :class="`dialog ${modifiers} ${sm ? 'dialog--sm' : ''}`" @keydown.stop.esc="closeDialog">
         <div ref="dialogBody" class="dialog__body">
             <slot />
         </div>
@@ -58,7 +67,10 @@ useClickOutside(dialogBody, closeDialog);
     border-radius: var(--b-radius);
     background: var(--c-grey00);
     box-shadow: var(--shadow);
-    overflow: initial;
+
+    @include media.lg-up {
+        overflow: initial !important;
+    }
 
     &::backdrop {
         background: color(from var(--c-grey90) srgb r g b / 0.8);
@@ -79,6 +91,10 @@ useClickOutside(dialogBody, closeDialog);
     .dialog--p-sm & {
         padding-block: 50px 20px;
         padding-inline: 20px;
+    }
+
+    .dialog--sm & {
+        padding: 20px;
     }
 }
 
