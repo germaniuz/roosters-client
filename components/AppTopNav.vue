@@ -3,6 +3,9 @@
 <template>
     <nav class="top-nav">
         <div class="container top-nav__container">
+            <span class="top-nav__description"
+                >Любимая пицца волгоградцев <img src="/images/heart.svg" alt="Любимая пицца волгоградцев"
+            /></span>
             <NuxtLink class="top-nav__link" to="/delivery">Доставка</NuxtLink>
             <NuxtLink class="top-nav__link" to="/about">О нас</NuxtLink>
             <NuxtLink class="top-nav__link" to="/job-offers">Вакансии</NuxtLink>
@@ -28,6 +31,7 @@
     padding-block: 10px;
     position: relative;
     overflow: hidden;
+    align-items: center;
 
     &::before {
         content: '';
@@ -52,6 +56,22 @@
 
     &:hover {
         color: var(--c-secondary);
+    }
+}
+
+.top-nav__description {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--c-primary);
+    font-style: italic;
+    font-size: functions.rem(14);
+    font-weight: 400;
+
+    img {
+        position: relative;
+        top: -1px;
+        width: 18px;
     }
 }
 </style>

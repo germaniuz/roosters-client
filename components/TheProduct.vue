@@ -145,7 +145,7 @@ const isDataInfoShowed = ref(false);
     --product-height: 730px;
 
     display: grid;
-    gap: 30px;
+    gap: 40px;
     align-items: start;
     height: 100%;
     max-height: var(--product-height);
@@ -176,9 +176,19 @@ const isDataInfoShowed = ref(false);
     img {
         width: 245px;
         object-fit: contain;
+        transition: all 0.75s ease-in-out;
+        z-index: var(--z-top-10);
+        position: relative;
+        left: 0;
+        top: 0;
 
         @include media.xl-up {
             width: 380px;
+        }
+
+        &:hover {
+            scale: 2;
+            left: 250px;
         }
     }
 }
@@ -224,25 +234,24 @@ const isDataInfoShowed = ref(false);
     line-height: functions.rem(36);
     font-weight: 700;
     font-family: var(--f-headings), serif;
-    color: var(--c-grey80);
-    margin-bottom: 8px;
+    color: var(--c-grey90);
+    margin-bottom: 5px;
 
     @include media.xl-up {
         font-size: functions.rem(32);
-        margin-bottom: 20px;
     }
 }
 
 .product__subtitle {
-    font-size: functions.rem(18);
-    color: var(--c-grey80);
-    margin-bottom: 15px;
+    font-size: functions.rem(20);
+    color: var(--c-grey90);
+    margin-bottom: 12px;
 }
 
 .product__description {
     font-size: functions.rem(12);
     color: var(--c-grey60);
-    margin-bottom: 30px;
+    margin-bottom: 12px;
     font-weight: 300;
 
     @include media.xl-up {
@@ -319,6 +328,7 @@ const isDataInfoShowed = ref(false);
     bottom: 0;
     border: 6px solid var(--c-grey00);
     border-radius: var(--b-radius);
+    font-size: functions.rem(16);
 }
 
 .product__info-data {

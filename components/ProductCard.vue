@@ -21,7 +21,7 @@ const { openProductDialog } = useProductStore();
 </script>
 
 <template>
-    <div class="product-card">
+    <div class="product-card" @click="openProductDialog(product)">
         <div class="product-card__image">
             <img :src="product.file.url" :alt="product.name" />
             <BaseBadge
@@ -49,30 +49,14 @@ const { openProductDialog } = useProductStore();
 @use '@/assets/styles/components/buttons';
 
 .product-card {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     border-radius: var(--b-radius);
     transition: all 0.2s ease-in-out;
     grid-template-columns: 130px 1fr;
     grid-column-gap: 20px;
-    padding-block: 15px;
-    grid-template-areas:
-        'product-card__image product-card__title'
-        'product-card__image product-card__description'
-        'product-card__image .'
-        'product-card__image product-card__price-block';
-
-    @include media.lg-up {
-        grid-template-columns: unset;
-        grid-template-rows: 180px repeat(3, min-content);
-        grid-template-areas:
-            'product-card__image'
-            'product-card__title'
-            'product-card__description'
-            'product-card__price-block'
-            'product-card__price-block';
-        padding: 15px;
-        align-items: center;
-    }
+    cursor: pointer;
+    padding: 8px 18px;
 
     @include media.xl-up {
         grid-template-rows: 218px auto;
@@ -92,10 +76,10 @@ const { openProductDialog } = useProductStore();
 .product-card__image {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: auto;
+    max-width: 100%;
     aspect-ratio: 1;
     overflow: hidden;
-    grid-area: product-card__image;
 
     img {
         width: 100%;
@@ -111,13 +95,12 @@ const { openProductDialog } = useProductStore();
 }
 
 .product-card__title {
-    color: var(--c-grey80);
+    color: var(--c-grey90);
     font-family: var(--f-base), serif;
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: normal;
     margin-bottom: 8px;
-    grid-area: product-card__title;
 
     @include media.lg-up {
         font-size: functions.rem(20);
@@ -128,17 +111,16 @@ const { openProductDialog } = useProductStore();
 }
 
 .product-card__description {
-    color: var(--c-grey50);
+    color: var(--c-grey60);
     font-family: var(--f-headings), serif;
     font-size: functions.rem(10);
     font-weight: 500;
     line-height: 1.35;
-    margin-bottom: 12px;
-    grid-area: product-card__description;
+    margin-bottom: auto;
 
     @include media.lg-up {
-        margin-bottom: 30px;
-        font-size: functions.rem(13);
+        margin-bottom: 20px;
+        font-size: functions.rem(14);
     }
 }
 
@@ -148,7 +130,6 @@ const { openProductDialog } = useProductStore();
     flex-direction: row;
     gap: 15px;
     align-items: center;
-    grid-area: product-card__price-block;
 
     @include media.lg-up {
         flex-direction: column-reverse;
@@ -167,6 +148,7 @@ const { openProductDialog } = useProductStore();
     font-weight: 600;
     font-style: italic;
     line-height: normal;
+    margin-top: 12px;
 
     @include media.lg-up {
         padding: 10px;

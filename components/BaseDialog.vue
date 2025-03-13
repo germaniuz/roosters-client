@@ -21,6 +21,9 @@ const closeDialog = () => {
     dialog.value?.close();
     emit('update:isActive', false);
     emit('close');
+    if (document) {
+        document.body.classList.remove('body--fixed');
+    }
 };
 
 const showDialog = () => {
@@ -36,10 +39,6 @@ watchEffect(() => {
         }
     } else {
         closeDialog();
-
-        if (document) {
-            document.body.classList.remove('body--fixed');
-        }
     }
 });
 
@@ -85,7 +84,7 @@ useClickOutside(dialogBody, closeDialog);
     padding: 40px;
 
     @include media.md-up {
-        padding: 65px;
+        padding: 45px;
     }
 
     .dialog--p-sm & {
