@@ -56,14 +56,21 @@ const { openProductDialog } = useProductStore();
     grid-template-columns: 130px 1fr;
     grid-column-gap: 20px;
     cursor: pointer;
-    padding: 8px 18px;
+    padding: 8px;
+    background: var(--c-grey00);
+
+    @include media.md-up {
+        padding: 8px 18px;
+    }
 
     @include media.xl-up {
         grid-template-rows: 218px auto;
     }
 
     &:hover {
-        background-color: var(--c-grey05);
+        @include media.lg-up {
+            background-color: var(--c-grey05);
+        }
     }
 }
 
@@ -80,6 +87,10 @@ const { openProductDialog } = useProductStore();
     max-width: 100%;
     aspect-ratio: 1;
     overflow: hidden;
+
+    @include media.sm-down {
+        margin-bottom: 8px;
+    }
 
     img {
         width: 100%;
@@ -149,6 +160,8 @@ const { openProductDialog } = useProductStore();
     font-style: italic;
     line-height: normal;
     margin-top: 12px;
+    border: 1px solid var(--c-primary);
+    background: var(--c-grey00);
 
     @include media.lg-up {
         padding: 10px;

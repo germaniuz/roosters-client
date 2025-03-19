@@ -59,11 +59,16 @@
   }
 
   &--product-test {
-    grid-template-rows: 1fr;
-    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+
+    @include media.md-down {
+      gap: 10px;
+      background: var(--c-grey10);
+    }
 
     @include media.md-up {
       grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
     }
 
     @include media.lg-up {
