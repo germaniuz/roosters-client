@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    modules: ['@nuxtjs/google-fonts', '@pinia/nuxt', '@nuxtjs/apollo', '@nuxt/eslint'],
+    modules: ['@nuxtjs/google-fonts', '@pinia/nuxt', '@nuxt/eslint'],
     typescript: {
         typeCheck: true,
         strict: true,
@@ -14,16 +14,16 @@ export default defineNuxtConfig({
     pinia: {
         storesDirs: ['./stores/**'],
     },
-    apollo: {
-        authType: 'Bearer',
-        authHeader: 'Authorization',
-        tokenStorage: 'cookie',
-        clients: {
-            default: {
-                httpEndpoint: process.env.BASE_URL!,
-            },
-        },
-    },
+    // apollo: {
+    //     authType: 'Bearer',
+    //     authHeader: 'Authorization',
+    //     tokenStorage: 'cookie',
+    //     clients: {
+    //         default: {
+    //             httpEndpoint: process.env.BASE_URL!,
+    //         },
+    //     },
+    // },
     devtools: { enabled: true },
     googleFonts: {
         families: {

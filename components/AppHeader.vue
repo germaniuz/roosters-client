@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useAppStore } from '~/stores/app';
 import { CLIENT_PROFILE } from '~/gql/queries/profile';
+import { useQuery } from 'villus';
 
 const { phone } = useAppStore();
 const { isGuest, isAuthenticated } = storeToRefs(useProfileStore());
@@ -21,13 +22,15 @@ const openCodeVerificationDialog = (phone: string) => {
 };
 
 const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Закуски', 'Напитки', 'Акции']);
-const { onLogin } = useApollo();
+const authToken = useCookie('villus:default.token');
 
-const logginUser = async (token: string) => {
+const loginUser = async (token: string) => {
     isCodeVerificationDialogActive.value = false;
-    onLogin(token, 'default');
+    authToken.value = token;
     nextTick(async () => {
-        const { data: profile } = await useAsyncQuery(CLIENT_PROFILE);
+        const { data: profile } = await useQuery({
+            query: CLIENT_PROFILE,
+        });
         console.log(profile.value);
     });
 };
@@ -108,7 +111,7 @@ const logginUser = async (token: string) => {
         <AuthCard @open-code-verification-dialog="openCodeVerificationDialog" />
     </BaseDialog>
     <BaseDialog v-model:is-active="isCodeVerificationDialogActive">
-        <CodeCard :phone="authPhone" @logging-in="logginUser" />
+        <CodeCard :phone="authPhone" @logging-in="loginUser" />
     </BaseDialog>
 </template>
 

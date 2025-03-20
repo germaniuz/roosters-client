@@ -6,6 +6,7 @@ import type { BtnModifier } from '~/types/Button';
 import { AuthFieldsSchema, type AuthFields } from '~/types/Auth';
 import useValidateFormData from '~/composables/useValidateFormData';
 import { flatten } from 'valibot';
+import { useMutation } from 'villus';
 
 const emit = defineEmits(['openCodeVerificationDialog']);
 
@@ -20,7 +21,7 @@ const authFields = computed<AuthFields>(() => {
 });
 
 const { validate, formErrors } = useValidateFormData<AuthFields>(authFields, AuthFieldsSchema);
-const { mutate } = useMutation(SEND_SMS_CODE);
+const { data, execute } = useMutation(SEND_SMS_CODE);
 
 const btnModifiers = computed(() => {
     const modifiers: Array<BtnModifier> = ['primary'];
@@ -34,7 +35,7 @@ const btnModifiers = computed(() => {
 const getCode = async () => {
     const result = validate();
     if (result.success) {
-        const smsResponse = await mutate({
+        const smsResponse = await execute({
             phone: authFields.value.phone,
         });
         if (smsResponse?.data?.sendClientSmsCode) {

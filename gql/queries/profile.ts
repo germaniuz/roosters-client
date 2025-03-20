@@ -1,3 +1,5 @@
+import { gql } from 'graphql-tag';
+
 export const CLIENT_PROFILE = gql`
     query clientProfile {
         clientProfile {

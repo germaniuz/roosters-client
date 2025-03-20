@@ -1,3 +1,5 @@
+import { gql } from 'graphql-tag';
+
 export const CREATE_CLIENT_CART = gql`
     mutation createClientCart(
         $preset: AppGraphQLv1ClientTypesPresetFieldInput

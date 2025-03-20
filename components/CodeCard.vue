@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { vMaska } from 'maska/vue';
 import { VERIFY_SMS_CODE } from '~/gql/mutations/auth';
+import { useMutation } from 'villus';
 
 type Props = {
     phone: string;
@@ -24,7 +25,7 @@ onBeforeUnmount(() => {
     codeCardInputs.value.removeEventListener('keydown', (e: KeyboardEvent) => handleBackspace(e));
 });
 
-const { mutate: verifySmsCode } = useMutation(VERIFY_SMS_CODE);
+const { execute: verifySmsCode } = useMutation(VERIFY_SMS_CODE);
 
 const handleInput = (e: InputEvent) => {
     const target = e.target as HTMLInputElement;

@@ -1,5 +1,4 @@
 # This file was generated. Do not edit manually.
-
 schema {
     query: Query
     mutation: Mutation
@@ -139,6 +138,24 @@ type CommonCategoryOptionList {
     items: [CommonCategoryOption]
 }
 
+"Расписание доставки"
+type CommonDeliverySchedule {
+    "День недели"
+    day: String
+    "Слаг дня недели"
+    day_slug: AppGraphQLv1CommonEnumsDeliveryScheduleEnum
+    "Геозона"
+    geozone: CommonGeozone
+    "Идентификатор"
+    id: Int
+    "Магазин"
+    shop: CommonShop
+    "Закрытие"
+    time_end: String
+    "Открытие"
+    time_start: String
+}
+
 "Файл"
 type CommonFile {
     "Дата создания"
@@ -155,6 +172,34 @@ type CommonFile {
     updated_at: String
     "Ссылка на скачивание файла"
     url: String
+}
+
+"Геозоны"
+type CommonGeozone {
+    "Цвет геозоны"
+    color: String
+    "Цена дневной доставки"
+    day_delivery_cost: Float
+    "Максимальное время доставки"
+    delivery_time: Int
+    "Идентификатор"
+    id: Int
+    "Активность"
+    isActive: Boolean
+    "Название"
+    name: String
+    "Цена ночной доставки"
+    night_delivery_cost: Float
+    "Координаты геозоны"
+    polygon: [[Float]]
+}
+
+"Cписок геозон"
+type CommonGeozoneList {
+    "Всего записей по фильтру"
+    count: Int
+    "Cписок геозон"
+    items: [CommonGeozone]
 }
 
 "Ингредиент"
@@ -197,6 +242,94 @@ type CommonOptionList {
     count: Int
     "Список вариантов"
     items: [CommonOption]
+}
+
+"Заказ"
+type CommonOrder {
+    "Общая сумма заказа"
+    amount: Float
+    "Время начала готовки"
+    cooking_start_time: String
+    "Комментарий от клиента"
+    customer_comment: String
+    "Адрес доставки"
+    delivery_address: String
+    "ID заказа"
+    id: Int
+    "Список ингредиентов в заказе"
+    order_ingredients: [CommonOrderIngredient]
+    "Список товаров в заказе"
+    order_products: [CommonOrderProduct]
+    "Дата и время оплаты"
+    payment_date: String
+    "Тип оплаты (в виде числового значения)"
+    payment_type: Int
+    "Описание типа оплаты"
+    payment_type_text: String
+    "Торговая точки, где был сделан заказ"
+    shop: CommonShop
+    "Статус заказа (в виде числового значения)"
+    status: Int
+    "Описание статуса заказа"
+    status_text: String
+    "Пользователь, который сделал заказ"
+    user: CommonUser
+}
+
+"Список ингредиентов в заказе"
+type CommonOrderIngredient {
+    "Вариант товаров в категории"
+    category_option_ingredient: CommonCategoryOptionIngredient
+    "ID заказа"
+    id: Int
+    "Заказ"
+    order: CommonOrder
+    "Цена"
+    price: Float
+    "Уникальные добавки для товара (ингридиенты которых нет в категории)"
+    product_unique_ingredient: CommonProductUniqueIngredient
+    "Количество"
+    quantity: Int
+}
+
+"Список заказов"
+type CommonOrderList {
+    "Всего записей по фильтру"
+    count: Int
+    "Список заказов"
+    items: [CommonOrder]
+}
+
+"Список товаров в заказе"
+type CommonOrderProduct {
+    "ID заказа"
+    id: Int
+    "Заказ"
+    order: CommonOrder
+    "Сет"
+    preset: CommonPreset
+    "Цена"
+    price: Float
+    "Вариант продукта"
+    product_category_option: CommonProductCategoryOption
+    "Количество"
+    quantity: Int
+}
+
+"Расписание самовывоза"
+type CommonPickupSchedule {
+    "День недели"
+    day: String
+    "Слаг дня недели"
+    day_slug: AppGraphQLv1CommonEnumsPickupScheduleEnum
+    "Идентификатор"
+    id: Int
+    "Магазин"
+    shop: CommonShop
+    "Закрытие"
+    time_end: String
+    "Открытие"
+    time_start: String
 }
 
 "Сет"
@@ -251,6 +384,8 @@ type CommonProduct {
     file: CommonFile
     "id"
     id: Int
+    "Активен/не активен"
+    is_active: Boolean
     "Название"
     name: String
     "Пищевая ценность продукта Углеводы"
@@ -339,6 +474,20 @@ type CommonProductUniqueIngredient {
     updated_at: String
 }
 
+"Заказ"
+type CommonShop {
+    "Цвет тороговой точки"
+    color: String
+    "Расписание доставки"
+    delivery_schedule: [CommonDeliverySchedule]
+    "Идентификатор"
+    id: Int
+    "Название"
+    name: String
+    "Расписание самовывоза"
+    pickup_schedule: [CommonPickupSchedule]
+}
+
 "Смс код"
 type CommonSmsCode {
     "Код"
@@ -369,51 +518,101 @@ type CommonUser {
 
 type Mutation {
     "Добавление в корзину"
-    createClientCart(
-        preset: AppGraphQLv1ClientTypesPresetFieldInput
-        product_category_option: AppGraphQLv1ClientTypesProductCategoryOptionFieldInput
-    ): ClientCart
+    createClientCart(preset: AppGraphQLv1ClientTypesPresetFieldInput, product_category_option: AppGraphQLv1ClientTypesProductCategoryOptionFieldInput): ClientCart
+    "Создание заказа"
+    createClientOrder(
+        "Комментарий клиента"
+        customer_comment: String,
+        "Адрес доставки"
+        delivery_address: String,
+        "Тип оплаты"
+        payment_type: Int,
+        "ID торговой точки"
+        shop_id: Int
+    ): CommonOrder
     "Удаление товара из корзины"
     deleteClientCart(preset_id: Int, product_category_option_id: Int): Boolean
     sendClientSmsCode(phone: String!): CommonSmsCode
     "Изменение корзины"
-    updateClientCart(
-        preset: AppGraphQLv1ClientTypesPresetFieldInput
-        product_category_option: AppGraphQLv1ClientTypesProductCategoryOptionFieldInput
-    ): ClientCart
+    updateClientCart(preset: AppGraphQLv1ClientTypesPresetFieldInput, product_category_option: AppGraphQLv1ClientTypesProductCategoryOptionFieldInput): ClientCart
     "Изменение пользователя"
-    updateClientUser(
-        avatar: Upload
-        birthday: String
-        email: String
-        gender: ClientEnumsGenderEnum
-        lastname: String
-        name: String
-    ): ClientProfile
+    updateClientUser(avatar: Upload, birthday: String, email: String, gender: ClientEnumsGenderEnum, lastname: String, name: String): ClientProfile
     verifyClientSmsCode(code: String!, phone: String!): CommonToken
 }
 
 type Query {
     "Корзина"
     clientCart: ClientCart
+    "Список заказов для клиента"
+    clientOrderList(
+        "Поиск с учетом регистра (по умолчанию: false)"
+        case_sensitive_search: Boolean = false,
+        "Max 50"
+        ids: [Int],
+        "Max 50"
+        limit: Int = 30,
+        offset: Int = 0,
+        orders: [ClientOrderListOrder],
+        search: String
+    ): CommonOrderList
     "Список продуктов для клиента"
     clientProductList(
+        "Поиск с учетом регистра (по умолчанию: false)"
+        case_sensitive_search: Boolean = false,
         "Max 50"
-        ids: [Int]
+        ids: [Int],
         "Max 50"
-        limit: Int = 10
-        offset: Int = 0
-        orders: [ClientProductListOrder]
+        limit: Int = 30,
+        offset: Int = 0,
+        orders: [ClientProductListOrder],
         search: String
     ): CommonProductList
     "Профиль клиента"
     clientProfile: ClientProfile
 }
 
+"Enumeration of days of the week"
+enum AppGraphQLv1CommonEnumsDeliveryScheduleEnum {
+    friday
+    monday
+    saturday
+    sunday
+    thursday
+    tuesday
+    wednesday
+}
+
+"Enumeration of days of the week"
+enum AppGraphQLv1CommonEnumsPickupScheduleEnum {
+    friday
+    monday
+    saturday
+    sunday
+    thursday
+    tuesday
+    wednesday
+}
+
 "Enumeration of gender "
 enum ClientEnumsGenderEnum {
     female
     male
+}
+
+enum ClientOrderListOrderField {
+    amount
+    cooking_start_time
+    delivery_address
+    id
+    order_ingredients
+    order_products
+    payment_date
+    payment_type
+    payment_type_text
+    shop
+    status
+    status_text
+    user
 }
 
 enum ClientProductListOrderField {
@@ -437,6 +636,7 @@ enum CommonOrderDirectionEnum {
 }
 
 """
+
 The `Upload` special type represents a file to be uploaded in the same HTTP request as specified by
 [graphql-multipart-request-spec](https://github.com/jaydenseric/graphql-multipart-request-spec).
 """
@@ -456,6 +656,11 @@ input AppGraphQLv1ClientTypesProductCategoryOptionFieldInput {
     product_category_option_id: Int!
     "Количество товара"
     quantity: Int!
+}
+
+input ClientOrderListOrder {
+    dir: CommonOrderDirectionEnum = asc
+    field: ClientOrderListOrderField!
 }
 
 input ClientProductListOrder {

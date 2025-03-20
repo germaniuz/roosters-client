@@ -5,6 +5,7 @@ import { type ProfileFields, ProfileFieldsSchema } from '~/types/Profile';
 import type { Story } from '~/types/Story';
 import { useProfileStore } from '~/stores/profile';
 import { UPDATE_CLIENT_USER } from '~/gql/mutations/clientUser';
+import { useMutation } from 'villus';
 
 // TODO: JS fix hydration
 
@@ -32,7 +33,7 @@ const stories = ref<Array<Story>>([
 const profileStore = useProfileStore();
 const isGuest = ref<boolean>(profileStore.isGuest);
 
-const { mutate: updateClientUser } = useMutation(UPDATE_CLIENT_USER);
+const { execute: updateClientUser } = useMutation(UPDATE_CLIENT_USER);
 
 const profileFields = ref<ProfileFields>({
     name: profileStore.profile?.name ?? '',

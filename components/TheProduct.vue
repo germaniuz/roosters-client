@@ -4,6 +4,7 @@ import { CREATE_CLIENT_CART } from '~/gql/mutations/clientCart';
 import { useProductStore } from '~/stores/product';
 import { useCartStore } from '~/stores/cartStore';
 import BaseBadge from '~/components/BaseBadge.vue';
+import { useMutation } from 'villus';
 
 type Props = {
     product: Product;
@@ -13,12 +14,12 @@ const ingredients = computed(() => props.product.product_ingredients.map((i) => 
 
 const activeProductCategoryOption = ref<ProductCategoryOption>(props.product.product_category_options[0]);
 
-const { mutate } = useMutation(CREATE_CLIENT_CART);
+const { execute } = useMutation(CREATE_CLIENT_CART);
 const { closeProductDialog } = useProductStore();
 const { updateCartQuery } = useCartStore();
 
 const addToCart = async () => {
-    await mutate({
+    await execute({
         product_category_option: {
             product_category_option_id: activeProductCategoryOption.value.id,
             quantity: 1,

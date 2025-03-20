@@ -1,15 +1,18 @@
 import { CLIENT_CART } from '~/gql/queries/clientCart';
 import type { CartProduct } from '~/types/Cart';
+import { useQuery } from 'villus';
 
 export const useCartStore = defineStore('cart', () => {
-    const { onResult, refetch } = useQuery(CLIENT_CART);
+    const { onData, execute } = useQuery({
+        query: CLIENT_CART,
+    });
 
     const cart = ref<CartProduct[]>([]);
     const cartPrice = ref<number>(0);
     const itemsQuantity = ref<number>(0);
 
     const updateCartQuery = () => {
-        onResult((r) => {
+        onData((r) => {
             if (r.data) {
                 cart.value = getItems<CartProduct>(r.data);
 
@@ -23,7 +26,7 @@ export const useCartStore = defineStore('cart', () => {
             }
         });
 
-        refetch();
+        execute();
     };
 
     updateCartQuery();

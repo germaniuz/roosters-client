@@ -2,6 +2,7 @@
 import { DELETE_CLIENT_CART, UPDATE_CLIENT_CART } from '~/gql/mutations/clientCart';
 import type { CartProduct } from '~/types/Cart';
 import { useCartStore } from '~/stores/cartStore';
+import { useMutation } from 'villus';
 
 type Props = {
     product: CartProduct;
@@ -10,8 +11,8 @@ type Props = {
 const props = defineProps<Props>();
 const { updateCartQuery } = useCartStore();
 
-const { mutate: updateCart } = useMutation(UPDATE_CLIENT_CART);
-const { mutate: removeItemFromCart } = useMutation(DELETE_CLIENT_CART);
+const { execute: updateCart } = useMutation(UPDATE_CLIENT_CART);
+const { execute: removeItemFromCart } = useMutation(DELETE_CLIENT_CART);
 
 const increaseQuantity = async () => {
     await updateCart({
