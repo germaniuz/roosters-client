@@ -1,5 +1,4 @@
 import { gql } from 'graphql-tag';
-
 export const SHOP_LIST = gql`
     query clientShopList(
         $ids: [Int]
@@ -42,6 +41,13 @@ export const SHOP_LIST = gql`
                     day_slug
                     time_end
                     time_start
+                }
+                product_stoplist {
+                    id
+                    product {
+                        id
+                        name
+                    }
                 }
             }
             count

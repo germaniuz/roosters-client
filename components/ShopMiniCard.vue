@@ -22,7 +22,7 @@ const workingHours = todaySchedules.map((schedule) => {
         <div class="shop-mini-card__title"><i class="icon-ya-maps color-primary"></i> {{ shop.name }}</div>
         <div class="shop-mini-card__address">Невская, 2</div>
         <div class="shop-mini-card__schedule">{{ workingHours.join(', ') }}</div>
-        <div class="shop-mini-card__icon" v-if="isActive"><i class="icon-check"></i></div>
+        <div v-if="isActive" class="shop-mini-card__icon"><i class="icon-check"></i></div>
     </div>
 </template>
 
@@ -32,8 +32,14 @@ const workingHours = todaySchedules.map((schedule) => {
 
 .shop-mini-card {
     border-radius: var(--b-radius-md);
+    border: 1px solid transparent;
     padding: 20px 60px 20px 20px;
     position: relative;
+    transition: all 0.3s ease;
+
+    &:hover {
+        cursor: pointer;
+    }
 
     &--active {
         border: 1px solid var(--c-secondary);

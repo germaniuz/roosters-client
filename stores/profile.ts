@@ -1,4 +1,4 @@
-import type { DeliveryMethod, Profile } from '~/types/Profile';
+import type { DeliveryType, Profile } from '~/types/Profile';
 import type { Shop } from '~/types/Shop';
 
 export const useProfileStore = defineStore('profile', () => {
@@ -6,7 +6,17 @@ export const useProfileStore = defineStore('profile', () => {
     const token = useCookie('apollo:default.token');
     const isAuthenticated = computed(() => !!profile.value);
     const isGuest = computed(() => !token.value);
-    const deliveryType = ref<DeliveryMethod>('pickup');
+    const deliveryTypes = ref<DeliveryType[]>([
+        {
+            key: 'delivery',
+            title: 'Доставка',
+        },
+        {
+            key: 'pickup',
+            title: 'Самовывоз',
+        },
+    ]);
+    const activeDeliveryType = ref<DeliveryType>(deliveryTypes.value[0]);
     const pickupShop = ref<null | Shop>(null);
     const deliveryAddresses = ref<Array<Record<string, unknown>>>([]); // TODO add user address type
     const activeDeliveryAddress = ref(null);
@@ -20,11 +30,12 @@ export const useProfileStore = defineStore('profile', () => {
         profile,
         isAuthenticated,
         isGuest,
-        setProfile,
-        deliveryType,
+        deliveryTypes,
+        activeDeliveryType,
         pickupShop,
         deliveryAddresses,
         activeDeliveryAddress,
         isDeliveryChooserOpen,
+        setProfile,
     };
 });

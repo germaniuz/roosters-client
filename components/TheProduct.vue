@@ -77,11 +77,19 @@ const isDataInfoShowed = ref(false);
 <template>
     <div class="product">
         <div class="product__image">
-            <BaseBadge v-if="product.badges" class="product__badge" :image="product.badges[0].file.url"
-                :alt="product.badges[0].file.name" />
+            <BaseBadge
+                v-if="product.badges"
+                class="product__badge"
+                :image="product.badges[0].file.url"
+                :alt="product.badges[0].file.name"
+            />
             <img :src="product.file.url" :alt="product.name" />
-            <div class="product__info" @mouseenter="isDataInfoShowed = true" @mouseleave="isDataInfoShowed = false"
-                @click="isDataInfoShowed = !isDataInfoShowed">
+            <div
+                class="product__info"
+                @mouseenter="isDataInfoShowed = true"
+                @mouseleave="isDataInfoShowed = false"
+                @click="isDataInfoShowed = !isDataInfoShowed"
+            >
                 <i class="icon-info"></i>
             </div>
             <div v-if="isDataInfoShowed" class="product__info-data">
@@ -114,8 +122,11 @@ const isDataInfoShowed = ref(false);
                 {{ product.description + ', ' + ingredients }}
             </div>
             <div>
-                <BaseTabsChooser v-model="activeProductCategoryOption" :tabs="product.product_category_options"
-                    item-key="id">
+                <BaseTabsChooser
+                    v-model="activeProductCategoryOption"
+                    :tabs="product.product_category_options"
+                    item-key="id"
+                >
                     <template #btn="{ item }">
                         <div class="option">
                             <span class="option__title">{{ item.category_option.option.name }}</span>
@@ -137,8 +148,8 @@ const isDataInfoShowed = ref(false);
                         <BaseButton :modifiers="['light']" class="adds-card__price">{{ item.price }} ₽</BaseButton>
                     </div>
                 </div>
-                <BaseButton :modifiers="['primary']" class="w-100 product__add-btn" @click="addToCart">В корзину за {{
-                    activeProductCategoryOption.price }}&nbsp;₽
+                <BaseButton :modifiers="['primary']" class="w-100 product__add-btn" @click="addToCart"
+                    >В корзину за {{ activeProductCategoryOption.price }}&nbsp;₽
                 </BaseButton>
             </div>
         </div>
@@ -166,7 +177,7 @@ const isDataInfoShowed = ref(false);
         grid-template-columns: 380px 480px;
     }
 
-    &>* {
+    & > * {
         min-width: 0;
         min-height: 0;
     }

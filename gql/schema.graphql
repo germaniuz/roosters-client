@@ -203,6 +203,8 @@ type CommonFile {
 type CommonGeozone {
     "Цвет геозоны"
     color: String
+    "Торговые точки"
+    current_shop: [CommonShop]
     "Цена дневной доставки"
     day_delivery_cost: Float
     "Максимальное время доставки"
@@ -479,6 +481,16 @@ type CommonProductList {
     items: [CommonProduct]
 }
 
+"Стоп-лист по продуктам"
+type CommonProductStopList {
+    "id"
+    id: Int
+    "Продукт"
+    product: CommonProduct
+    "Магазин"
+    shop: CommonShop
+}
+
 "Уникальные добавки для товара (ингридиенты которых нет в категории)"
 type CommonProductUniqueIngredient {
     "Дата создания"
@@ -513,6 +525,8 @@ type CommonShop {
     name: String
     "Расписание самовывоза"
     pickup_schedule: [CommonPickupSchedule]
+    "Стоп-лист по продуктам"
+    product_stoplist: [CommonProductStopList]
 }
 
 "Общий список продуктов"
@@ -569,6 +583,10 @@ type CommonUserAddress {
     id: Int
     "Код домофона"
     intercom_code: String
+    "Активен"
+    is_active: Boolean
+    "Текущий"
+    is_current: Boolean
 }
 
 type Mutation {
@@ -578,12 +596,12 @@ type Mutation {
     createClientOrder(
         "Комментарий клиента"
         customer_comment: String,
-        "Адрес доставки"
-        delivery_address: String,
         "Тип оплаты"
         payment_type: Int,
         "ID торговой точки"
-        shop_id: Int
+        shop_id: Int,
+        "Адрес доставки"
+        user_address: AppGraphQLv1CommonTypesUserAddressInput
     ): CommonOrder
     "Удаление товара из корзины"
     deleteClientCart(preset_id: Int, product_category_option_id: Int): Boolean
@@ -732,6 +750,36 @@ input AppGraphQLv1ClientTypesProductCategoryOptionFieldInput {
     product_category_option_id: Int!
     "Количество товара"
     quantity: Int!
+}
+
+"Поля создания и обновления координат адреса"
+input AppGraphQLv1CommonTypesAddressLocationInput {
+    "Широта"
+    latitude: Float!
+    "Долгота"
+    longitude: Float!
+}
+
+"Поля создания и обновления адреса пользователя"
+input AppGraphQLv1CommonTypesUserAddressInput {
+    "Квартира"
+    apartment: String
+    "Город"
+    city: String!
+    "Комментарий"
+    comment: String
+    "Подъезд"
+    entrance: String
+    "Дом"
+    house: String!
+    "Идентификатор"
+    id: Int
+    "Код домофона"
+    intercom_code: String
+    "Локация"
+    location: AppGraphQLv1CommonTypesAddressLocationInput!
+    "Улица"
+    street: String!
 }
 
 input ClientOrderListOrder {

@@ -34,18 +34,32 @@ const loginUser = async (token: string) => {
         console.log(profile.value);
     });
 };
+
+const { pickupShop, activeDeliveryAddress, isDeliveryChooserOpen } = storeToRefs(useProfileStore());
 </script>
 
 <template>
     <header class="header" :class="{ 'header--mobile-menu-active': menuIsActive }">
         <div class="container header__container">
             <BaseLogo class="header__logo" :has-text="true" />
-            <div class="header__delivery-banner">
+            <div v-if="!pickupShop && !activeDeliveryAddress" class="header__delivery-banner">
                 <i class="icon-f1"></i>
                 <span
                     >Круглосуточная доставка<br />
                     от 20 минут</span
                 >
+            </div>
+            <div v-if="activeDeliveryAddress" class="header__delivery"></div>
+            <div v-if="pickupShop && !activeDeliveryAddress" class="header__delivery">
+                <span class="header__delivery-type">Самовывоз</span>
+                <span class="header__delivery-place">{{ pickupShop.name }}</span>
+                <BaseButton
+                    class="header__delivery-edit-btn"
+                    :modifiers="['single-icon', 'light']"
+                    @click="isDeliveryChooserOpen = true"
+                >
+                    <i class="icon-pencil"></i>
+                </BaseButton>
             </div>
             <a :href="`tel:${phone}`" class="header__phone">
                 <img src="/images/icons/phone.svg" alt="Рустерс звонок" /> <span>{{ phone }}</span>
@@ -386,5 +400,33 @@ const loginUser = async (token: string) => {
     @include media.md-down {
         display: none;
     }
+}
+
+.header__delivery {
+    background: var(--c-grey10);
+    border-radius: var(--b-radius-md);
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: functions.rem(14);
+    position: relative;
+}
+
+.header__delivery-type {
+    color: var(--c-grey50);
+}
+
+.header__delivery-place {
+    color: var(--c-grey80);
+    font-weight: 700;
+}
+
+.header__delivery-edit-btn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    border-radius: 50%;
+    font-size: functions.rem(16);
 }
 </style>
