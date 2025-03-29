@@ -73,7 +73,7 @@ const cartStore = useCartStore();
     margin-right: auto;
     text-align: left;
     color: var(--c-grey10);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     font-weight: 400;
     line-height: functions.rem(14);

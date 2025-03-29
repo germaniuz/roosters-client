@@ -153,7 +153,7 @@ const handleNextBtnClick = () => {
 
 .order-card__orders-quantity-number {
     color: var(--c-grey70);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(32);
     font-style: italic;
     font-weight: 600;
@@ -219,7 +219,7 @@ const handleNextBtnClick = () => {
 .order-card__date-time {
     grid-area: order-date-time;
     color: var(--c-grey70);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
     font-weight: 400;
     line-height: normal;
@@ -238,7 +238,7 @@ const handleNextBtnClick = () => {
 .order-card__delivery {
     grid-area: order-delivery;
     color: var(--c-grey50);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     font-weight: 400;
     line-height: normal;
@@ -247,7 +247,7 @@ const handleNextBtnClick = () => {
 .order-card__order-number {
     grid-area: order-number;
     color: var(--c-secondary);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: normal;
@@ -264,7 +264,7 @@ const handleNextBtnClick = () => {
 .order-card__delivery-time {
     grid-area: order-delivery-time;
     color: var(--c-secondary-extra-dark);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
     font-weight: 400;
     line-height: normal;
@@ -302,7 +302,7 @@ const handleNextBtnClick = () => {
 .order-card__order-address {
     grid-area: order-address;
     color: var(--c-grey70);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: normal;
@@ -315,7 +315,7 @@ const handleNextBtnClick = () => {
 .order-card__order-price {
     grid-area: order-price;
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-style: italic;
     font-weight: 600;
@@ -328,7 +328,7 @@ const handleNextBtnClick = () => {
 
     span {
         color: var(--c-grey50);
-        font-family: var(--f-base);
+        font-family: var(--f-base), sans-serif;
         font-size: functions.rem(14);
         font-style: italic;
         font-weight: 500;
@@ -350,7 +350,7 @@ const handleNextBtnClick = () => {
 
 .order-card__no-active-orders-title {
     color: var(--c-grey70);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(24);
     font-weight: 400;
     line-height: normal;
@@ -426,7 +426,7 @@ const handleNextBtnClick = () => {
 
 .order-card__recommended-to-order-name {
     color: var(--c-grey50);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
     font-weight: 400;
     line-height: normal;
@@ -434,7 +434,7 @@ const handleNextBtnClick = () => {
 
 .order-card__recommended-to-order-plus {
     color: var(--c-secondary);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: normal;

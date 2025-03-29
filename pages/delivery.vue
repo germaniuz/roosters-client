@@ -1,5 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-    <h1 class="h1">Доставка</h1>
+    <div class="container">
+        <DeliveryTypeChooser />
+    </div>
 </template>

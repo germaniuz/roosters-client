@@ -39,7 +39,7 @@ defineProps<Props>();
 
 .contact__text {
     color: var(--c-grey70);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 600;
     line-height: normal;
@@ -52,7 +52,7 @@ defineProps<Props>();
 
 .contact__subtext {
     color: var(--c-grey40);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     font-weight: 400;
     line-height: normal;

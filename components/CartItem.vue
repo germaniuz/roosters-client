@@ -64,8 +64,8 @@ const price_old = ref<number>(1500);
                 <div class="cart-item__detail">
                     <div class="cart-item__detail-title">Ингредиенты</div>
                     <div
-                        class="cart-item__detail-text"
                         v-for="productIngredient in product.product.product.product_ingredients"
+                        class="cart-item__detail-text"
                     >
                         {{ productIngredient.ingredient.description }}
                     </div>
@@ -129,7 +129,7 @@ const price_old = ref<number>(1500);
 
     span {
         color: var(--c-grey70);
-        font-family: var(--f-base);
+        font-family: var(--f-base), sans-serif;
         font-size: functions.rem(16);
         line-height: functions.rem(19);
         font-weight: 600;
@@ -160,7 +160,7 @@ const price_old = ref<number>(1500);
 
 .cart-item__detail-title {
     color: var(--c-grey70);
-    font-family: var(--f-headings);
+    font-family: var(--f-headings), sans-serif;
     font-size: functions.rem(10);
     font-weight: 500;
     line-height: 1.3;
@@ -176,7 +176,7 @@ const price_old = ref<number>(1500);
 
 .cart-item__detail-text {
     color: var(--c-grey50);
-    font-family: var(--f-headings);
+    font-family: var(--f-headings), sans-serif;
     font-size: functions.rem(10);
     font-weight: 500;
     line-height: 1.3;
@@ -232,7 +232,7 @@ const price_old = ref<number>(1500);
     flex-direction: column;
     align-items: flex-end;
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 600;
     line-height: functions.rem(19);

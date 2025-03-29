@@ -100,7 +100,7 @@ const smOrderExpanded = ref<boolean>(false);
 
 .cart-summary__quantity {
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(20);
     font-weight: 400;
     line-height: functions.rem(24);
@@ -111,7 +111,7 @@ const smOrderExpanded = ref<boolean>(false);
     flex-direction: row;
     align-items: center;
     color: var(--c-grey40);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     font-weight: 400;
     line-height: functions.rem(14);
@@ -133,7 +133,7 @@ const smOrderExpanded = ref<boolean>(false);
     align-items: center;
     justify-content: space-between;
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     line-height: functions.rem(14);
     font-weight: 400;
@@ -236,7 +236,7 @@ const smOrderExpanded = ref<boolean>(false);
 }
 
 .cart-summary__item-price {
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
 }
 
 .cart-summary__item-detail {
@@ -257,7 +257,7 @@ const smOrderExpanded = ref<boolean>(false);
     align-items: center;
     justify-content: space-between;
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     line-height: functions.rem(14);
     font-weight: 400;
@@ -322,14 +322,14 @@ const smOrderExpanded = ref<boolean>(false);
     justify-content: space-between;
     margin-top: 20px;
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     line-height: functions.rem(19);
     font-weight: 400;
 
     span {
         color: var(--c-grey80);
-        font-family: var(--f-base);
+        font-family: var(--f-base), sans-serif;
         font-size: functions.rem(20);
         line-height: functions.rem(24);
         font-weight: 600;

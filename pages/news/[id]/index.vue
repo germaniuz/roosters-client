@@ -81,7 +81,7 @@ const newsItem = ref<NewsItem>({
 
 .news-single__subtitle {
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(24);
     font-weight: 400;
     line-height: normal;
@@ -94,7 +94,7 @@ const newsItem = ref<NewsItem>({
 
 .news-single__description {
     color: var(--c-grey70);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: 1.5;
@@ -107,7 +107,7 @@ const newsItem = ref<NewsItem>({
     gap: 10px;
     align-items: center;
     color: var(--c-grey70);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: 1.5;

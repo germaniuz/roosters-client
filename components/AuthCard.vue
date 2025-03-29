@@ -21,7 +21,7 @@ const authFields = computed<AuthFields>(() => {
 });
 
 const { validate, formErrors } = useValidateFormData<AuthFields>(authFields, AuthFieldsSchema);
-const { data, execute } = useMutation(SEND_SMS_CODE);
+const { execute } = useMutation(SEND_SMS_CODE);
 
 const btnModifiers = computed(() => {
     const modifiers: Array<BtnModifier> = ['primary'];
@@ -86,7 +86,7 @@ const getCode = async () => {
 
 .auth-card__title {
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(24);
     font-weight: 600;
     line-height: normal;
@@ -100,7 +100,7 @@ const getCode = async () => {
 
 .auth-card__description {
     color: var(--c-grey60);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
     font-weight: 400;
     line-height: normal;

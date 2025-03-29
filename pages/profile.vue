@@ -326,7 +326,7 @@ const saveProfile = async () => {
 }
 
 .profile__user-welcome-hello {
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(24);
     line-height: functions.rem(28);
     font-style: italic;
@@ -348,7 +348,7 @@ const saveProfile = async () => {
     align-items: center;
 
     span {
-        font-family: var(--f-base);
+        font-family: var(--f-base), sans-serif;
         font-size: functions.rem(24);
         line-height: functions.rem(28);
         font-weight: 300;
@@ -413,7 +413,7 @@ const saveProfile = async () => {
 
     span {
         display: block;
-        font-family: var(--f-base);
+        font-family: var(--f-base), sans-serif;
         font-weight: 400;
         font-size: functions.rem(20);
         line-height: functions.rem(24);
@@ -429,7 +429,7 @@ const saveProfile = async () => {
 }
 
 .profile__user-points-converting {
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-weight: 400;
     font-size: functions.rem(14);
     line-height: functions.rem(16);
@@ -438,7 +438,7 @@ const saveProfile = async () => {
 }
 
 .profile__user-points-balance {
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(28);
     line-height: functions.rem(34);
     font-weight: 800;
@@ -476,7 +476,7 @@ const saveProfile = async () => {
     }
 
     span {
-        font-family: var(--f-base);
+        font-family: var(--f-base), sans-serif;
         font-size: functions.rem(20);
         line-height: functions.rem(24);
         font-weight: 400;
@@ -529,7 +529,7 @@ const saveProfile = async () => {
 
 .profile__mailing-description {
     color: var(--c-grey60);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: normal;
@@ -647,7 +647,7 @@ const saveProfile = async () => {
 
 .profile__saved-address-name {
     color: var(--c-secondary);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 600;
     line-height: normal;
@@ -705,7 +705,7 @@ const saveProfile = async () => {
 
 .profile__personal-data-bonus-text {
     color: var(--c-grey70);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: normal;
@@ -716,7 +716,7 @@ const saveProfile = async () => {
         padding: 3px 10px;
         border-radius: var(--b-radius-2xl);
         color: var(--c-secondary);
-        font-family: var(--f-base);
+        font-family: var(--f-base), sans-serif;
         font-size: functions.rem(16);
         font-weight: 700;
         line-height: 1.5;
@@ -733,7 +733,7 @@ const saveProfile = async () => {
 
 .profile__personal-data-bonus-subtext {
     color: var(--c-grey50);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
     font-weight: 400;
     line-height: normal;
@@ -802,7 +802,7 @@ const saveProfile = async () => {
     border-radius: var(--b-radius-2xl);
     width: max-content;
     color: var(--c-secondary);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 700;
     line-height: normal;
@@ -834,7 +834,7 @@ const saveProfile = async () => {
 
 .profile__input-label {
     color: var(--c-grey70);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: normal;

@@ -63,7 +63,7 @@ onMounted(() => {
 
 .thanks-for-order___title {
     color: var(--c-secondary);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(20);
     line-height: functions.rem(24);
     font-weight: 600;
@@ -77,7 +77,7 @@ onMounted(() => {
 
 .thanks-for-order___number {
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: functions.rem(19);
@@ -86,7 +86,7 @@ onMounted(() => {
 
 .thanks-for-order___description {
     color: var(--c-grey60);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: functions.rem(19);
@@ -125,7 +125,7 @@ onMounted(() => {
 
 .thanks-for-order___info-number {
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     line-height: functions.rem(14);
     font-weight: 400;
@@ -134,7 +134,7 @@ onMounted(() => {
 
 .thanks-for-order___info-time {
     color: var(--c-grey60);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     line-height: functions.rem(14);
     font-weight: 400;
@@ -142,7 +142,7 @@ onMounted(() => {
 
 .thanks-for-order___info-processing {
     color: var(--c-secondary);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
     line-height: functions.rem(17);
     font-weight: 600;

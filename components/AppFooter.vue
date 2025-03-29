@@ -188,7 +188,7 @@ import BaseSocial from '~/components/BaseSocial.vue';
 .footer__nav-item-title {
     display: block;
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(18);
     font-weight: 600;
     line-height: normal;
@@ -379,7 +379,7 @@ import BaseSocial from '~/components/BaseSocial.vue';
 
 .footer__bottom-text {
     color: var(--c-grey00);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     font-weight: 300;
     line-height: normal;

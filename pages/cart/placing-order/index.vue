@@ -357,7 +357,7 @@ const handleOrder = () => {
     background-color: var(--c-grey10);
     border-radius: var(--b-radius-md);
     color: var(--c-grey60);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 400;
     line-height: functions.rem(19);
@@ -431,7 +431,7 @@ const handleOrder = () => {
 
     span {
         color: var(--c-secondary);
-        font-family: var(--f-base);
+        font-family: var(--f-base), sans-serif;
         font-size: functions.rem(16);
         font-weight: 600;
         line-height: functions.rem(19);
@@ -440,7 +440,7 @@ const handleOrder = () => {
 
 .placing-order__address-waiting-time {
     color: var(--c-grey60);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
     font-weight: 400;
     line-height: 1;
@@ -448,7 +448,7 @@ const handleOrder = () => {
 
 .placing-order__address-text {
     color: var(--c-grey40);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
     font-weight: 400;
     line-height: 1;
@@ -503,7 +503,7 @@ const handleOrder = () => {
     border: 1px solid var(--c-grey20);
     flex: 1;
     color: var(--c-grey50);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
     line-height: functions.rem(17);
     font-weight: 400;
@@ -529,7 +529,7 @@ const handleOrder = () => {
 .placing-order__date-time-option {
     padding: 15px;
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
     font-weight: 400;
     line-height: functions.rem(17);
@@ -558,7 +558,7 @@ const handleOrder = () => {
 
     span {
         color: var(--c-grey60);
-        font-family: var(--f-base);
+        font-family: var(--f-base), sans-serif;
         font-size: functions.rem(14);
         line-height: functions.rem(17);
         font-weight: 400;
@@ -634,7 +634,7 @@ const handleOrder = () => {
 
 .placing-order__user-agreement {
     color: var(--c-grey60);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     line-height: functions.rem(14);
     font-weight: 400;

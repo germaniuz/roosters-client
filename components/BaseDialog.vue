@@ -27,16 +27,15 @@ const closeDialog = () => {
 };
 
 const showDialog = () => {
+    if (document) {
+        document.body.classList.add('body--fixed');
+    }
     dialog.value?.showModal();
 };
 
 watchEffect(() => {
     if (props.isActive) {
         showDialog();
-
-        if (document) {
-            document.body.classList.add('body--fixed');
-        }
     } else {
         closeDialog();
     }
@@ -82,6 +81,8 @@ useClickOutside(dialogBody, closeDialog);
 
 .dialog__body {
     padding: 40px;
+    max-height: 900px;
+    overflow: auto;
 
     @include media.md-up {
         padding: 45px;

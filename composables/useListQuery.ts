@@ -7,7 +7,7 @@ import type { VariablesParameter } from '@vue/apollo-composable/dist/useQuery';
 import { useQuery } from 'villus';
 
 export const useListQuery = <TItem>(query: DocumentNode, params?: VariablesParameter<OperationVariables>) => {
-    const { data, error, execute } = useQuery({
+    const { data, error, execute, onData } = useQuery({
         query,
         variables: params,
     });
@@ -42,5 +42,6 @@ export const useListQuery = <TItem>(query: DocumentNode, params?: VariablesParam
         count,
         execute,
         error,
+        onData,
     };
 };

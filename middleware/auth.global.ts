@@ -7,17 +7,14 @@ export default defineNuxtRouteMiddleware(async () => {
     const { setProfile } = useProfileStore();
 
     if (token.value) {
-        const { data: profileData, execute: getProfile } = useQuery<{
+        const { data: profileData } = await useQuery<{
             clientProfile: Profile;
         }>({
             query: CLIENT_PROFILE,
         });
 
-        if (token.value) {
-            await getProfile();
-            if (profileData.value?.clientProfile) {
-                setProfile(profileData.value.clientProfile);
-            }
+        if (profileData.value?.clientProfile) {
+            setProfile(profileData.value.clientProfile);
         }
     }
 });

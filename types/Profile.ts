@@ -41,3 +41,9 @@ export type ClientProfile = {
 };
 
 export type UserGender = 'male' | 'female';
+
+export type DeliveryMethod = 'delivery' | 'pickup';
+export type DeliveryType = {
+    key: DeliveryMethod;
+    title: string;
+};

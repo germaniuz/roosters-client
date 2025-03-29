@@ -22,7 +22,7 @@ const promo = ref<string>('');
     font-size: functions.rem(14);
     line-height: functions.rem(17);
     font-weight: 400;
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
 
     span {
         display: block;

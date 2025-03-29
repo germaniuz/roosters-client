@@ -1,4 +1,5 @@
 # This file was generated. Do not edit manually.
+
 schema {
     query: Query
     mutation: Mutation
@@ -28,6 +29,8 @@ type ClientProfile {
     avatar: CommonFile
     "Дата рождения"
     birthday: String
+    "Количество бонусов"
+    cashback: Int
     "Email"
     email: String
     "Полное имя"
@@ -44,6 +47,28 @@ type ClientProfile {
     name: String
     "Телефон"
     phone: String
+}
+
+"Адрес"
+type CommonAddress {
+    "Город"
+    city: String
+    "Дом"
+    house: String
+    "Идентификатор"
+    id: Int
+    "Локация"
+    location: CommonAddressLocation
+    "Улица"
+    street: String
+}
+
+"Координаты"
+type CommonAddressLocation {
+    "Широта"
+    latitude: Float
+    "Долгота"
+    longitude: Float
 }
 
 "Бейдж/Тег"
@@ -252,8 +277,6 @@ type CommonOrder {
     cooking_start_time: String
     "Комментарий от клиента"
     customer_comment: String
-    "Адрес доставки"
-    delivery_address: String
     "ID заказа"
     id: Int
     "Список ингредиентов в заказе"
@@ -274,6 +297,8 @@ type CommonOrder {
     status_text: String
     "Пользователь, который сделал заказ"
     user: CommonUser
+    "Адрес доставки"
+    user_address: CommonUserAddress
 }
 
 "Список ингредиентов в заказе"
@@ -476,6 +501,8 @@ type CommonProductUniqueIngredient {
 
 "Заказ"
 type CommonShop {
+    "Адрес"
+    address: CommonAddress
     "Цвет тороговой точки"
     color: String
     "Расписание доставки"
@@ -486,6 +513,14 @@ type CommonShop {
     name: String
     "Расписание самовывоза"
     pickup_schedule: [CommonPickupSchedule]
+}
+
+"Общий список продуктов"
+type CommonShopList {
+    "Всего записей по фильтру"
+    count: Int
+    "Общий список продуктов"
+    items: [CommonShop]
 }
 
 "Смс код"
@@ -504,6 +539,8 @@ type CommonToken {
 
 "Пользователь"
 type CommonUser {
+    "Количество бонусов"
+    cashback: Int
     "Дата создания"
     created_at: String
     "Email"
@@ -512,8 +549,26 @@ type CommonUser {
     id: Int
     "Имя"
     name: String
+    "Адрес самовывоза"
+    shop: CommonShop
     "Дата последнего изменения пользователя"
     updated_at: String
+}
+
+"Адрес"
+type CommonUserAddress {
+    "Основной адрес"
+    address: CommonAddress
+    "Квартира"
+    apartment: String
+    "Комментарий"
+    comment: String
+    "Подъезд"
+    entrance: String
+    "Идентификатор"
+    id: Int
+    "Код домофона"
+    intercom_code: String
 }
 
 type Mutation {
@@ -545,8 +600,8 @@ type Query {
     clientCart: ClientCart
     "Список заказов для клиента"
     clientOrderList(
-        "Поиск с учетом регистра (по умолчанию: false)"
-        case_sensitive_search: Boolean = false,
+        "Поиск без учета регистра (по умолчанию: true)"
+        case_insensitive_search: Boolean = true,
         "Max 50"
         ids: [Int],
         "Max 50"
@@ -557,8 +612,8 @@ type Query {
     ): CommonOrderList
     "Список продуктов для клиента"
     clientProductList(
-        "Поиск с учетом регистра (по умолчанию: false)"
-        case_sensitive_search: Boolean = false,
+        "Поиск без учета регистра (по умолчанию: true)"
+        case_insensitive_search: Boolean = true,
         "Max 50"
         ids: [Int],
         "Max 50"
@@ -569,6 +624,18 @@ type Query {
     ): CommonProductList
     "Профиль клиента"
     clientProfile: ClientProfile
+    "Общий список торговых точек"
+    clientShopList(
+        "Поиск без учета регистра (по умолчанию: true)"
+        case_insensitive_search: Boolean = true,
+        "Max 50"
+        ids: [Int],
+        "Max 50"
+        limit: Int = 30,
+        offset: Int = 0,
+        orders: [ClientShopListOrder],
+        search: String
+    ): CommonShopList
 }
 
 "Enumeration of days of the week"
@@ -602,7 +669,6 @@ enum ClientEnumsGenderEnum {
 enum ClientOrderListOrderField {
     amount
     cooking_start_time
-    delivery_address
     id
     order_ingredients
     order_products
@@ -613,6 +679,7 @@ enum ClientOrderListOrderField {
     status
     status_text
     user
+    user_address
 }
 
 enum ClientProductListOrderField {
@@ -625,6 +692,15 @@ enum ClientProductListOrderField {
     nutritional_value_fats
     nutritional_value_proteins
     updated_at
+}
+
+enum ClientShopListOrderField {
+    address
+    color
+    delivery_schedule
+    id
+    name
+    pickup_schedule
 }
 
 "Направление сортировки"
@@ -666,4 +742,9 @@ input ClientOrderListOrder {
 input ClientProductListOrder {
     dir: CommonOrderDirectionEnum = asc
     field: ClientProductListOrderField!
+}
+
+input ClientShopListOrder {
+    dir: CommonOrderDirectionEnum = asc
+    field: ClientShopListOrderField!
 }

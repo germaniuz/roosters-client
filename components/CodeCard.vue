@@ -131,7 +131,7 @@ watchEffect(async () => {
 
 .code-card__title {
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(24);
     font-weight: 600;
     line-height: normal;
@@ -145,7 +145,7 @@ watchEffect(async () => {
 
 .code-card__description {
     color: var(--c-grey60);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
     font-weight: 400;
     line-height: normal;

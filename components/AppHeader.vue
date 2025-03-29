@@ -371,7 +371,7 @@ const loginUser = async (token: string) => {
 
 .header__mobile-menu-remark {
     color: var(--c-grey50);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     font-weight: 400;
     line-height: normal;

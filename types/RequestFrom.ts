@@ -18,7 +18,7 @@ export const RequestDistributorFieldsSchema = v.object({
     }, 'Введите корректный номер телефона'),
     email: v.union([v.pipe(v.string(), v.email()), v.literal('')]),
     offer: v.string('Введите предлагаемая продукцию или оборудование'),
-    text: v.nullish(v.string()),
+    text: v.string(),
 });
 
 export type RequestServiceFields = InferOutput<typeof RequestServiceFieldsSchema>;
