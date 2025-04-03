@@ -49,6 +49,15 @@ export const SHOP_LIST = gql`
                         name
                     }
                 }
+                address {
+                    city
+                    street
+                    house
+                    location {
+                        longitude
+                        latitude
+                    }
+                }
             }
             count
         }

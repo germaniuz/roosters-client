@@ -28,6 +28,11 @@ defineProps<Props>();
 @use '@/assets/styles/helpers/functions';
 @use '@/assets/styles/helpers/media';
 
+.form-control {
+    position: relative;
+    z-index: var(--z-middle);
+}
+
 .radio-button {
     position: relative;
     display: flex;
@@ -40,6 +45,7 @@ defineProps<Props>();
     -ms-user-select: none;
     user-select: none;
     height: 28px;
+    z-index: var(--z-middle);
 
     &:hover {
         input {

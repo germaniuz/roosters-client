@@ -20,7 +20,7 @@ const workingHours = todaySchedules.map((schedule) => {
 <template>
     <div class="shop-mini-card" :class="{ 'shop-mini-card--active': isActive }">
         <div class="shop-mini-card__title"><i class="icon-ya-maps color-primary"></i> {{ shop.name }}</div>
-        <div class="shop-mini-card__address">Невская, 2</div>
+        <div class="shop-mini-card__address">{{ shop.address.street }}, {{ shop.address.house }}</div>
         <div class="shop-mini-card__schedule">{{ workingHours.join(', ') }}</div>
         <div v-if="isActive" class="shop-mini-card__icon"><i class="icon-check"></i></div>
     </div>

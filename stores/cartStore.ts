@@ -1,40 +1,49 @@
+import { useMutation } from 'villus';
+import { CREATE_CLIENT_CART } from '~/gql/mutations/clientCart';
 import { CLIENT_CART } from '~/gql/queries/clientCart';
 import type { CartProduct } from '~/types/Cart';
-import { useQuery } from 'villus';
 
 export const useCartStore = defineStore('cart', () => {
-    const { onData, execute } = useQuery({
-        query: CLIENT_CART,
-    });
+    const items = ref<CartProduct[]>([]);
+    const cartCount = computed(() => items.value.length);
 
-    const cart = ref<CartProduct[]>([]);
-    const cartPrice = ref<number>(0);
-    const itemsQuantity = ref<number>(0);
+    const createCartItem = (product_category_option_id: number) => {
+        const { execute } = useMutation(CREATE_CLIENT_CART);
 
-    const updateCartQuery = () => {
-        onData((r) => {
-            if (r.data) {
-                cart.value = getItems<CartProduct>(r.data);
-
-                itemsQuantity.value = cart.value.reduce((acc, value) => {
-                    return acc + value.quantity;
-                }, 0);
-
-                cartPrice.value = cart.value.reduce((acc, value) => {
-                    return acc + value.product.price * value.quantity;
-                }, 0);
-            }
+        execute({
+            product_category_option: {
+                product_category_option_id: product_category_option_id,
+                quantity: 1,
+            },
+            quantity: 1,
         });
-
-        execute();
     };
 
-    updateCartQuery();
+    const updateCartItem = () => {
+        // TODO: Implement update cart item
+        return;
+    };
+
+    const cartPrice = computed(() => {
+        return items.value.reduce((total, item) => {
+            return total + item.product.price * item.quantity;
+        }, 0);
+    });
+
+    const fetchUserCart = async () => {
+        const { onData } = useListQuery<CartProduct>(CLIENT_CART, {});
+        onData((res) => {
+            console.log(res);
+        });
+        // items.value = cartProducts.value;
+    };
 
     return {
-        cart,
+        items,
+        cartCount,
         cartPrice,
-        itemsQuantity,
-        updateCartQuery,
+        createCartItem,
+        updateCartItem,
+        fetchUserCart,
     };
 });

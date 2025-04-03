@@ -9,7 +9,7 @@ type Props = {
 };
 
 const props = defineProps<Props>();
-const { updateCartQuery } = useCartStore();
+const { updateCartItem } = useCartStore();
 
 const { execute: updateCart } = useMutation(UPDATE_CLIENT_CART);
 const { execute: removeItemFromCart } = useMutation(DELETE_CLIENT_CART);
@@ -21,7 +21,7 @@ const increaseQuantity = async () => {
             quantity: 1,
         },
     }).then(() => {
-        updateCartQuery();
+        updateCartItem();
     });
 };
 
@@ -32,7 +32,7 @@ const decreaseQuantity = async () => {
             quantity: -1,
         },
     }).then(() => {
-        updateCartQuery();
+        updateCartItem();
     });
 };
 
@@ -40,7 +40,7 @@ const removeFromCart = async () => {
     await removeItemFromCart({
         product_category_option_id: props.product.product.id,
     }).then(() => {
-        updateCartQuery();
+        updateCartItem();
     });
 };
 
@@ -65,6 +65,7 @@ const price_old = ref<number>(1500);
                     <div class="cart-item__detail-title">Ингредиенты</div>
                     <div
                         v-for="productIngredient in product.product.product.product_ingredients"
+                        :key="productIngredient.id"
                         class="cart-item__detail-text"
                     >
                         {{ productIngredient.ingredient.description }}

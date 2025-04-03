@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import type { Product, ProductCategoryOption } from '~/types/Product';
-import { CREATE_CLIENT_CART } from '~/gql/mutations/clientCart';
 import { useProductStore } from '~/stores/product';
 import { useCartStore } from '~/stores/cartStore';
 import BaseBadge from '~/components/BaseBadge.vue';
-import { useMutation } from 'villus';
 
 type Props = {
     product: Product;
@@ -17,9 +15,10 @@ const ingredients = computed(() => props.product.product_ingredients.map((i) => 
 
 const activeProductCategoryOption = ref<ProductCategoryOption>(props.product.product_category_options[0]);
 
-const { execute } = useMutation(CREATE_CLIENT_CART);
+const { isAuthDialogActive } = storeToRefs(useProfileStore());
+
 const { closeProductDialog } = useProductStore();
-const { updateCartQuery } = useCartStore();
+const { createCartItem } = useCartStore();
 
 const addToCart = async () => {
     if (!pickupShop.value && !activeDeliveryAddress.value) {
@@ -29,20 +28,15 @@ const addToCart = async () => {
         return;
     }
 
-    if (!isGuest.value) {
+    if (isGuest.value) {
         closeProductDialog();
-        // TODO open auth modal
+        isAuthDialogActive.value = true;
+
         return;
     }
 
-    await execute({
-        product_category_option: {
-            product_category_option_id: activeProductCategoryOption.value.id,
-            quantity: 1,
-        },
-    });
+    createCartItem(activeProductCategoryOption.value.id);
     closeProductDialog();
-    updateCartQuery();
 };
 
 const adds = computed(() =>

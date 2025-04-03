@@ -1,13 +1,13 @@
 import { fetch, type ClientPluginContext, createClient } from 'villus';
 import { multipart } from '@villus/multipart';
 
-export default defineNuxtPlugin((nuxtApp) => {
+export default defineNuxtPlugin(async (nuxtApp) => {
     const { app } = useRuntimeConfig();
-    const token = useCookie('villus:default.token');
+    const authToken = useCookie('villus:default.token');
 
     function authPlugin({ opContext }: ClientPluginContext) {
-        if (token.value) {
-            opContext.headers.Authorization = `Bearer ${token.value}`;
+        if (authToken.value) {
+            opContext.headers.Authorization = `Bearer ${authToken.value}`;
         }
     }
     const client = createClient({

@@ -1,20 +1,24 @@
 <script lang="ts" setup>
 import { useAppStore } from '~/stores/app';
-import { CLIENT_PROFILE } from '~/gql/queries/profile';
-import { useQuery } from 'villus';
 
 const { phone } = useAppStore();
-const { isGuest, isAuthenticated } = storeToRefs(useProfileStore());
+const {
+    isGuest,
+    isAuthenticated,
+    isAuthDialogActive,
+    isCodeVerificationDialogActive,
+    pickupShop,
+    activeDeliveryAddress,
+    isDeliveryChooserOpen,
+} = storeToRefs(useProfileStore());
 const menuIsActive = ref<boolean>(false);
 
 const toggleMobileMenu = () => {
     menuIsActive.value = !menuIsActive.value;
     document.body.classList.toggle('body--fixed');
 };
-const isAuthDialogActive = ref(false);
 
 const authPhone = ref('');
-const isCodeVerificationDialogActive = ref(false);
 const openCodeVerificationDialog = (phone: string) => {
     authPhone.value = phone;
     isAuthDialogActive.value = false;
@@ -22,35 +26,23 @@ const openCodeVerificationDialog = (phone: string) => {
 };
 
 const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Закуски', 'Напитки', 'Акции']);
-const authToken = useCookie('villus:default.token');
-
-const loginUser = async (token: string) => {
-    isCodeVerificationDialogActive.value = false;
-    authToken.value = token;
-    nextTick(async () => {
-        const { data: profile } = await useQuery({
-            query: CLIENT_PROFILE,
-        });
-        console.log(profile.value);
-    });
-};
-
-const { pickupShop, activeDeliveryAddress, isDeliveryChooserOpen } = storeToRefs(useProfileStore());
 </script>
 
 <template>
     <header class="header" :class="{ 'header--mobile-menu-active': menuIsActive }">
         <div class="container header__container">
             <BaseLogo class="header__logo" :has-text="true" />
-            <div v-if="!pickupShop && !activeDeliveryAddress" class="header__delivery-banner">
+            <div class="header__delivery-banner">
                 <i class="icon-f1"></i>
                 <span
                     >Круглосуточная доставка<br />
                     от 20 минут</span
                 >
             </div>
-            <div v-if="activeDeliveryAddress" class="header__delivery"></div>
-            <div v-if="pickupShop && !activeDeliveryAddress" class="header__delivery">
+            <a :href="`tel:${phone}`" class="header__phone">
+                <img src="/images/icons/phone.svg" alt="Рустерс звонок" /> <span>{{ phone }}</span>
+            </a>
+            <div v-if="pickupShop" class="header__delivery">
                 <span class="header__delivery-type">Самовывоз</span>
                 <span class="header__delivery-place">{{ pickupShop.name }}</span>
                 <BaseButton
@@ -61,9 +53,20 @@ const { pickupShop, activeDeliveryAddress, isDeliveryChooserOpen } = storeToRefs
                     <i class="icon-pencil"></i>
                 </BaseButton>
             </div>
-            <a :href="`tel:${phone}`" class="header__phone">
-                <img src="/images/icons/phone.svg" alt="Рустерс звонок" /> <span>{{ phone }}</span>
-            </a>
+            <div v-else-if="activeDeliveryAddress?.address.house" class="header__delivery">
+                <span class="header__delivery-type">Доставка</span>
+                <span class="header__delivery-place"
+                    >{{ activeDeliveryAddress.address.street }}, {{ activeDeliveryAddress.address.house }}
+                    {{ activeDeliveryAddress.apartment ? ', кв.' + activeDeliveryAddress.apartment : '' }}</span
+                >
+                <BaseButton
+                    class="header__delivery-edit-btn"
+                    :modifiers="['single-icon', 'light']"
+                    @click="isDeliveryChooserOpen = true"
+                >
+                    <i class="icon-pencil"></i>
+                </BaseButton>
+            </div>
             <UserCard v-if="isAuthenticated" class="header__desktop-user-card" />
             <BaseButton
                 v-if="isGuest"
@@ -121,11 +124,12 @@ const { pickupShop, activeDeliveryAddress, isDeliveryChooserOpen } = storeToRefs
             <BaseSocial name="vk" link="#" />
         </div>
     </div>
+
     <BaseDialog v-model:is-active="isAuthDialogActive">
         <AuthCard @open-code-verification-dialog="openCodeVerificationDialog" />
     </BaseDialog>
     <BaseDialog v-model:is-active="isCodeVerificationDialogActive">
-        <CodeCard :phone="authPhone" @logging-in="loginUser" />
+        <CodeCard :phone="authPhone" />
     </BaseDialog>
 </template>
 
@@ -226,6 +230,7 @@ const { pickupShop, activeDeliveryAddress, isDeliveryChooserOpen } = storeToRefs
     gap: 10px;
     white-space: nowrap;
     transition: opacity 0.2s ease-in-out;
+    margin-right: auto;
 
     @include media.sm-down {
         margin-left: auto;
@@ -262,7 +267,6 @@ const { pickupShop, activeDeliveryAddress, isDeliveryChooserOpen } = storeToRefs
 }
 
 .header__login {
-    margin-left: auto;
     padding: 5px 35px 5px 5px;
 
     @include media.md-down {

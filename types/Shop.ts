@@ -17,6 +17,15 @@ export type Shop = {
         product: Product;
         shop: Shop;
     }[];
+    address: {
+        city: string;
+        street: string;
+        house: string;
+        location: {
+            longitude: number;
+            latitude: number;
+        };
+    };
 };
 
 export type PickupSchedule = {

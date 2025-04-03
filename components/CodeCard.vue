@@ -8,7 +8,9 @@ type Props = {
 };
 
 const props = defineProps<Props>();
-const emit = defineEmits(['loggingIn']);
+
+const { token, isCodeVerificationDialogActive } = storeToRefs(useProfileStore());
+
 const authCode = ref<Array<string>>(['', '', '', '']);
 const codeCardInputs = ref();
 
@@ -24,8 +26,6 @@ onBeforeUnmount(() => {
     codeCardInputs.value.removeEventListener('input', (e: InputEvent) => handleInput(e));
     codeCardInputs.value.removeEventListener('keydown', (e: KeyboardEvent) => handleBackspace(e));
 });
-
-const { execute: verifySmsCode } = useMutation(VERIFY_SMS_CODE);
 
 const handleInput = (e: InputEvent) => {
     const target = e.target as HTMLInputElement;
@@ -59,6 +59,8 @@ const handleBackspace = (e: KeyboardEvent) => {
     }
 };
 
+const { execute: verifySmsCode } = useMutation(VERIFY_SMS_CODE);
+
 watchEffect(async () => {
     if (codeCardInputs.value) {
         codeCardInputs.value.addEventListener('input', (e: InputEvent) => handleInput(e));
@@ -71,7 +73,8 @@ watchEffect(async () => {
                 code: authCode.value.join(''),
             });
             if (verifyResponse?.data?.verifyClientSmsCode.token) {
-                emit('loggingIn', verifyResponse.data.verifyClientSmsCode.token);
+                token.value = verifyResponse.data.verifyClientSmsCode.token;
+                isCodeVerificationDialogActive.value = false;
                 authCode.value = ['', '', '', ''];
             }
         } catch (error) {

@@ -3,7 +3,7 @@ import BaseOrderCard from '~/components/BaseOrderCard.vue';
 import RadioButton from '~/components/form/RadioButton.vue';
 import { type ProfileFields, ProfileFieldsSchema } from '~/types/Profile';
 import type { Story } from '~/types/Story';
-import { useProfileStore } from '~/stores/profile';
+import { useProfileStore } from '~/stores/profileStore';
 import { UPDATE_CLIENT_USER } from '~/gql/mutations/clientUser';
 import { useMutation } from 'villus';
 

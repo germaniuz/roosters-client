@@ -1,5 +1,6 @@
 import * as v from 'valibot';
 import type { InferOutput } from 'valibot';
+import { type Address, AddressFieldsSchema } from '~/types/Address';
 
 export const ProfileFieldsSchema = v.object({
     id: v.optional(v.number()),
@@ -21,8 +22,27 @@ export const ProfileFieldsSchema = v.object({
     gender: v.nullish(v.string()),
     is_active: v.boolean(),
 });
-
 export type ProfileFields = InferOutput<typeof ProfileFieldsSchema>;
+
+export const UserAddressFieldsSchema = v.object({
+    ...AddressFieldsSchema.entries,
+    apartment: v.nullish(v.string()),
+    floor: v.nullish(v.string()),
+    entrance: v.nullish(v.string()),
+    intercom_code: v.nullish(v.string()),
+    comment: v.nullish(v.string()),
+});
+export type UserAddressFields = v.InferOutput<typeof UserAddressFieldsSchema>;
+
+export type UserAddress = {
+    id?: number;
+    address: Address;
+    apartment: string;
+    entrance: string;
+    floor: string;
+    intercom_code: string;
+    comment: string;
+};
 
 export type Profile = {
     id: number;

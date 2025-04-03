@@ -1,6 +1,7 @@
 export type BtnModifier =
     | 'primary'
     | 'secondary'
+    | 'secondary-light'
     | 'outline'
     | 'outline-secondary'
     | 'third'

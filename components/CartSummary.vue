@@ -17,7 +17,7 @@ const smOrderExpanded = ref<boolean>(false);
 <template>
     <div class="cart-summary card card--grey card--p-md">
         <div class="cart-summary__top">
-            <div class="cart-summary__quantity">{{ cartStore.itemsQuantity }} товар</div>
+            <div class="cart-summary__quantity">{{ cartStore.cartCount }} товар</div>
             <div v-if="type === 'action'" class="cart-summary__clean-cart">
                 Очистить корзину <BaseIcon name="close" />
             </div>
@@ -27,23 +27,30 @@ const smOrderExpanded = ref<boolean>(false);
             <span>{{ cartStore.cartPrice }} ₽</span>
         </div>
         <div
-            v-if="type === 'view' && cartStore.cart"
+            v-if="type === 'view' && cartStore.items"
             class="cart-summary__items"
             :class="[!smOrderExpanded ? 'cart-summary__items--collapsed' : '']"
         >
             <button class="cart-summary__expand-btn" @click="smOrderExpanded = !smOrderExpanded">Состав заказа</button>
             <div class="cart-summary__items-inner">
                 <div>
-                    <div v-for="product in cartStore.cart" class="cart-summary__item">
+                    <div
+                        v-for="cartProduct in cartStore.items"
+                        :key="cartProduct.product.id"
+                        class="cart-summary__item"
+                    >
                         <div class="cart-summary__item-title">
-                            <span>{{ product.product.product.name }} x {{ product.quantity }}</span>
-                            <div class="cart-summary__item-price">{{ product.product.price * product.quantity }} ₽</div>
+                            <span>{{ cartProduct.product.product.name }} x {{ cartProduct.quantity }}</span>
+                            <div class="cart-summary__item-price">
+                                {{ cartProduct.product.price * cartProduct.quantity }} ₽
+                            </div>
                         </div>
                         <div class="cart-summary__item-detail">
                             <span>Ингредиенты</span>
                             <div
+                                v-for="productIngredient in cartProduct.product.product.product_ingredients"
+                                :key="productIngredient.ingredient.id"
                                 class="cart-summary__item-detail-text"
-                                v-for="productIngredient in product.product.product.product_ingredients"
                             >
                                 {{ productIngredient.ingredient.description }}
                             </div>
