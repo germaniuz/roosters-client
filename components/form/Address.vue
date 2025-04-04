@@ -20,9 +20,11 @@ const resultContainer = useTemplateRef('resultContainer');
 const setAddress = async (suggestion: DadataSuggestion) => {
     addressQuery.value = suggestion.value;
     address.value = {
+        fias_id: suggestion.data.fias_id,
         city: suggestion.data.city,
         street: suggestion.data.street,
         house: suggestion.data.house,
+        street_type: suggestion.data.street_type,
         location: {
             latitude: +suggestion.data.geo_lat,
             longitude: +suggestion.data.geo_lon,

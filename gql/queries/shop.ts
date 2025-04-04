@@ -1,4 +1,5 @@
 import { gql } from 'graphql-tag';
+import { ADDRESS_FRAGMENT } from '~/gql/fragments/address';
 export const SHOP_LIST = gql`
     query clientShopList(
         $ids: [Int]
@@ -50,16 +51,17 @@ export const SHOP_LIST = gql`
                     }
                 }
                 address {
-                    city
-                    street
-                    house
-                    location {
-                        longitude
-                        latitude
-                    }
+                    ...Address
                 }
             }
             count
         }
+    }
+    ${ADDRESS_FRAGMENT}
+`;
+
+export const IS_PICKUP_SHOP_OPEN = gql`
+    query isPickupShopOpen($shop_id: Float!) {
+        isPickupShopOpen(shop_id: $shop_id)
     }
 `;

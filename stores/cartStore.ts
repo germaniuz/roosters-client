@@ -1,13 +1,16 @@
 import { useMutation } from 'villus';
 import { CREATE_CLIENT_CART } from '~/gql/mutations/clientCart';
 import { CLIENT_CART } from '~/gql/queries/clientCart';
-import type { CartProduct } from '~/types/Cart';
+import type { CartCategoryOptionIngredientInput, CartProduct } from '~/types/Cart';
 
 export const useCartStore = defineStore('cart', () => {
     const items = ref<CartProduct[]>([]);
     const cartCount = computed(() => items.value.length);
 
-    const createCartItem = (product_category_option_id: number) => {
+    const createCartItem = (
+        product_category_option_id: number,
+        cart_category_option_ingredients: CartCategoryOptionIngredientInput[],
+    ) => {
         const { execute } = useMutation(CREATE_CLIENT_CART);
 
         execute({
@@ -16,6 +19,7 @@ export const useCartStore = defineStore('cart', () => {
                 quantity: 1,
             },
             quantity: 1,
+            cart_category_option_ingredients,
         });
     };
 
@@ -33,9 +37,8 @@ export const useCartStore = defineStore('cart', () => {
     const fetchUserCart = async () => {
         const { onData } = useListQuery<CartProduct>(CLIENT_CART, {});
         onData((res) => {
-            console.log(res);
+            items.value = res.clientCart.items;
         });
-        // items.value = cartProducts.value;
     };
 
     return {

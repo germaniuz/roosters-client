@@ -1,17 +1,32 @@
 <script setup lang="ts">
-import type { Product, ProductCategoryOption } from '~/types/Product';
+import type { CategoryOptionIngredient, Product, ProductCategoryOption } from '~/types/Product';
 import { useProductStore } from '~/stores/product';
 import { useCartStore } from '~/stores/cartStore';
 import BaseBadge from '~/components/BaseBadge.vue';
+import type { CartCategoryOptionIngredientInput } from '~/types/Cart';
+import { useDeliveryStore } from '~/stores/deliveryStore';
 
 type Props = {
     product: Product;
 };
 const props = defineProps<Props>();
 
-const { isGuest, pickupShop, activeDeliveryAddress, isDeliveryChooserOpen } = storeToRefs(useProfileStore());
+const { isGuest } = storeToRefs(useProfileStore());
+const { pickupLocalStorage, deliveryLocalStorage, isDeliveryChooserOpen } = storeToRefs(useDeliveryStore());
 
 const ingredients = computed(() => props.product.product_ingredients.map((i) => i.ingredient.name).join(', '));
+const activeIngredients = ref<CartCategoryOptionIngredientInput[]>([]);
+const addIngredient = (ingredient: CategoryOptionIngredient) => {
+    const ingredientIndex = activeIngredients.value.findIndex((i) => i.category_option_ingredient_id === ingredient.id);
+    if (ingredientIndex === -1) {
+        activeIngredients.value.push({
+            category_option_ingredient_id: ingredient.id,
+            quantity: 1,
+        });
+    } else {
+        activeIngredients.value[ingredientIndex].quantity++;
+    }
+};
 
 const activeProductCategoryOption = ref<ProductCategoryOption>(props.product.product_category_options[0]);
 
@@ -21,7 +36,7 @@ const { closeProductDialog } = useProductStore();
 const { createCartItem } = useCartStore();
 
 const addToCart = async () => {
-    if (!pickupShop.value && !activeDeliveryAddress.value) {
+    if (!pickupLocalStorage.value && !deliveryLocalStorage.value) {
         closeProductDialog();
         isDeliveryChooserOpen.value = true;
 
@@ -35,7 +50,7 @@ const addToCart = async () => {
         return;
     }
 
-    createCartItem(activeProductCategoryOption.value.id);
+    createCartItem(activeProductCategoryOption.value.id, activeIngredients.value);
     closeProductDialog();
 };
 
@@ -139,7 +154,9 @@ const isDataInfoShowed = ref(false);
                             <img :src="item.ingredient.file.url" :alt="item.ingredient.name" />
                         </div>
                         <div class="adds-card__title">{{ item.ingredient.name }}</div>
-                        <BaseButton :modifiers="['light']" class="adds-card__price">{{ item.price }} ₽</BaseButton>
+                        <BaseButton :modifiers="['light']" class="adds-card__price" @click="addIngredient"
+                            >{{ item.price }} ₽</BaseButton
+                        >
                     </div>
                 </div>
                 <BaseButton :modifiers="['primary']" class="w-100 product__add-btn" @click="addToCart"

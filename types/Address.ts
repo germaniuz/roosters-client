@@ -1,9 +1,11 @@
 import * as v from 'valibot';
 
 export const AddressFieldsSchema = v.object({
+    fias_id: v.pipe(v.string(), v.nonEmpty('Укажите FIAS ID')),
     city: v.pipe(v.string(), v.nonEmpty('Укажите город')),
     street: v.pipe(v.string(), v.nonEmpty('Укажите улицу')),
     house: v.nonNullable(v.pipe(v.string(), v.nonEmpty('Укажите дом')), 'Укажите дом'),
+    street_type: v.pipe(v.string(), v.nonEmpty('Укажите тип улицы')),
     location: v.object({
         latitude: v.nonNullable(v.number(), 'Укажите долготу'),
         longitude: v.nonNullable(v.number(), 'Укажите долготу'),
@@ -13,9 +15,11 @@ export const AddressFieldsSchema = v.object({
 export type AddressFields = v.InferOutput<typeof AddressFieldsSchema>;
 
 export type Address = {
+    fias_id: string;
     city: string;
     street: string;
     house: string;
+    street_type: string;
     location: {
         latitude: number;
         longitude: number;

@@ -10,6 +10,7 @@ type Props = {
 const props = defineProps<Props>();
 
 const { token, isCodeVerificationDialogActive } = storeToRefs(useProfileStore());
+const cookieToken = useCookie('villus:default.token');
 
 const authCode = ref<Array<string>>(['', '', '', '']);
 const codeCardInputs = ref();
@@ -73,6 +74,7 @@ watchEffect(async () => {
                 code: authCode.value.join(''),
             });
             if (verifyResponse?.data?.verifyClientSmsCode.token) {
+                cookieToken.value = verifyResponse.data.verifyClientSmsCode.token;
                 token.value = verifyResponse.data.verifyClientSmsCode.token;
                 isCodeVerificationDialogActive.value = false;
                 authCode.value = ['', '', '', ''];

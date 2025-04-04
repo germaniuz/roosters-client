@@ -1,16 +1,10 @@
 <script lang="ts" setup>
 import { useAppStore } from '~/stores/app';
+import { useDeliveryStore } from '~/stores/deliveryStore';
 
 const { phone } = useAppStore();
-const {
-    isGuest,
-    isAuthenticated,
-    isAuthDialogActive,
-    isCodeVerificationDialogActive,
-    pickupShop,
-    activeDeliveryAddress,
-    isDeliveryChooserOpen,
-} = storeToRefs(useProfileStore());
+const { isGuest, isAuthenticated, isAuthDialogActive, isCodeVerificationDialogActive } = storeToRefs(useProfileStore());
+const { pickupLocalStorage, deliveryLocalStorage, isDeliveryChooserOpen } = storeToRefs(useDeliveryStore());
 const menuIsActive = ref<boolean>(false);
 
 const toggleMobileMenu = () => {
@@ -42,41 +36,48 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
             <a :href="`tel:${phone}`" class="header__phone">
                 <img src="/images/icons/phone.svg" alt="Рустерс звонок" /> <span>{{ phone }}</span>
             </a>
-            <div v-if="pickupShop" class="header__delivery">
-                <span class="header__delivery-type">Самовывоз</span>
-                <span class="header__delivery-place">{{ pickupShop.name }}</span>
+            <ClientOnly>
+                <div v-if="pickupLocalStorage" class="header__delivery">
+                    <span class="header__delivery-type">Самовывоз</span>
+                    <span class="header__delivery-place">{{ pickupLocalStorage.name }}</span>
+                    <BaseButton
+                        class="header__delivery-edit-btn"
+                        :modifiers="['single-icon', 'light']"
+                        @click="isDeliveryChooserOpen = true"
+                    >
+                        <i class="icon-pencil"></i>
+                    </BaseButton>
+                </div>
+                <div v-else-if="deliveryLocalStorage" class="header__delivery">
+                    <span class="header__delivery-type">Доставка</span>
+                    <span class="header__delivery-place">
+                        {{ deliveryLocalStorage.address.street_type }}.{{ deliveryLocalStorage.address.street }},
+                        {{ deliveryLocalStorage.address.house }}
+                        {{ deliveryLocalStorage.apartment ? ', кв.' + deliveryLocalStorage.apartment : '' }}
+                    </span>
+                    <BaseButton
+                        class="header__delivery-edit-btn"
+                        :modifiers="['single-icon', 'light']"
+                        @click="isDeliveryChooserOpen = true"
+                    >
+                        <i class="icon-pencil"></i>
+                    </BaseButton>
+                </div>
+                <UserCard v-if="isAuthenticated" class="header__desktop-user-card" />
                 <BaseButton
-                    class="header__delivery-edit-btn"
-                    :modifiers="['single-icon', 'light']"
-                    @click="isDeliveryChooserOpen = true"
+                    v-if="isGuest"
+                    class="header__login"
+                    :modifiers="['grey', 'icon']"
+                    @click="isAuthDialogActive = true"
                 >
-                    <i class="icon-pencil"></i>
+                    <img src="/images/icons/avatar.svg" alt="Вход Рустерс" /> <span>Войти</span>
                 </BaseButton>
-            </div>
-            <div v-else-if="activeDeliveryAddress?.address.house" class="header__delivery">
-                <span class="header__delivery-type">Доставка</span>
-                <span class="header__delivery-place"
-                    >{{ activeDeliveryAddress.address.street }}, {{ activeDeliveryAddress.address.house }}
-                    {{ activeDeliveryAddress.apartment ? ', кв.' + activeDeliveryAddress.apartment : '' }}</span
-                >
-                <BaseButton
-                    class="header__delivery-edit-btn"
-                    :modifiers="['single-icon', 'light']"
-                    @click="isDeliveryChooserOpen = true"
-                >
-                    <i class="icon-pencil"></i>
-                </BaseButton>
-            </div>
-            <UserCard v-if="isAuthenticated" class="header__desktop-user-card" />
-            <BaseButton
-                v-if="isGuest"
-                class="header__login"
-                :modifiers="['grey', 'icon']"
-                @click="isAuthDialogActive = true"
-            >
-                <img src="/images/icons/avatar.svg" alt="Вход Рустерс" /> <span>Войти</span>
-            </BaseButton>
-            <button class="menu-btn" :class="{ 'menu-btn--active': menuIsActive }" @click="toggleMobileMenu()"></button>
+                <button
+                    class="menu-btn"
+                    :class="{ 'menu-btn--active': menuIsActive }"
+                    @click="toggleMobileMenu()"
+                ></button>
+            </ClientOnly>
         </div>
         <div class="container header__categories">
             <div v-for="headerCategory in headerCategories" :key="headerCategory" class="header__category">

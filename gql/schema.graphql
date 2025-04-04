@@ -9,12 +9,26 @@ schema {
 type ClientCart {
     "Вариант товаров в категории"
     items: [ClientCartItem]
+    "Примененный промокод"
+    promocode: CommonPromocode
     "Пользователь чья корзина"
     user: ClientProfile
 }
 
+"Ингредиенты в корзине"
+type ClientCartCategoryOptionIngredient {
+    "Ингредиенты"
+    category_option_ingredient: CommonCategoryOptionIngredient
+    "Количество"
+    quantity: Int
+}
+
 "Продукты в корзине"
 type ClientCartItem {
+    "Ингредиенты в корзине"
+    cart_category_option_ingredients: [ClientCartCategoryOptionIngredient]
+    "Идентификатор"
+    id: Int
     "Сет"
     preset: CommonPreset
     "Вариант товаров в категории"
@@ -25,6 +39,8 @@ type ClientCartItem {
 
 "Тип профиля"
 type ClientProfile {
+    "Адреса"
+    addresses: [CommonUserAddress]
     "Аватар"
     avatar: CommonFile
     "Дата рождения"
@@ -53,6 +69,8 @@ type ClientProfile {
 type CommonAddress {
     "Город"
     city: String
+    "Идентификатор ФИАС"
+    fias_id: String
     "Дом"
     house: String
     "Идентификатор"
@@ -61,6 +79,8 @@ type CommonAddress {
     location: CommonAddressLocation
     "Улица"
     street: String
+    "Тип улицы"
+    street_type: String
 }
 
 "Координаты"
@@ -511,6 +531,12 @@ type CommonProductUniqueIngredient {
     updated_at: String
 }
 
+"Промокод"
+type CommonPromocode {
+    "Код"
+    code: String
+}
+
 "Заказ"
 type CommonShop {
     "Адрес"
@@ -579,6 +605,8 @@ type CommonUserAddress {
     comment: String
     "Подъезд"
     entrance: String
+    "Этаж"
+    floor: Int
     "Идентификатор"
     id: Int
     "Код домофона"
@@ -590,8 +618,15 @@ type CommonUserAddress {
 }
 
 type Mutation {
+    "Применение промокода к корзине"
+    applyClientPromocode(
+        "Код промокода"
+        code: String!
+    ): ClientCart
+    "Изменение количества в корзине"
+    changeClientCartItemQuantity(cart_item_id: Int!, quantity: Int!): ClientCart
     "Добавление в корзину"
-    createClientCart(preset: AppGraphQLv1ClientTypesPresetFieldInput, product_category_option: AppGraphQLv1ClientTypesProductCategoryOptionFieldInput): ClientCart
+    createClientCart(cart_category_option_ingredients: [AppGraphQLv1ClientTypesCartCategoryOptionIngredientFieldInput], preset: AppGraphQLv1ClientTypesPresetFieldInput, product_category_option: AppGraphQLv1ClientTypesProductCategoryOptionFieldInput): ClientCart
     "Создание заказа"
     createClientOrder(
         "Комментарий клиента"
@@ -604,10 +639,10 @@ type Mutation {
         user_address: AppGraphQLv1CommonTypesUserAddressInput
     ): CommonOrder
     "Удаление товара из корзины"
-    deleteClientCart(preset_id: Int, product_category_option_id: Int): Boolean
+    deleteClientCart(cart_item_id: Int!): Boolean
     sendClientSmsCode(phone: String!): CommonSmsCode
     "Изменение корзины"
-    updateClientCart(preset: AppGraphQLv1ClientTypesPresetFieldInput, product_category_option: AppGraphQLv1ClientTypesProductCategoryOptionFieldInput): ClientCart
+    updateClientCart(cart_category_option_ingredients: [AppGraphQLv1ClientTypesCartCategoryOptionIngredientFieldInput], cart_item_id: Int!, preset: AppGraphQLv1ClientTypesPresetFieldInput, product_category_option: AppGraphQLv1ClientTypesProductCategoryOptionFieldInput): ClientCart
     "Изменение пользователя"
     updateClientUser(avatar: Upload, birthday: String, email: String, gender: ClientEnumsGenderEnum, lastname: String, name: String): ClientProfile
     verifyClientSmsCode(code: String!, phone: String!): CommonToken
@@ -654,6 +689,18 @@ type Query {
         orders: [ClientShopListOrder],
         search: String
     ): CommonShopList
+    "Текущая торговая точка относительно геозон и времени работы"
+    currentGeozoneDeliveryShop(
+        "Широта"
+        latitude: Float!,
+        "Долгота"
+        longitude: Float!
+    ): CommonShop
+    "Работает ли сейчас торговая точка самовывозом"
+    isPickupShopOpen(
+        "Торговая точка"
+        shop_id: Float!
+    ): Boolean
 }
 
 "Enumeration of days of the week"
@@ -736,6 +783,14 @@ The `Upload` special type represents a file to be uploaded in the same HTTP requ
 """
 scalar Upload
 
+"Данные по ингредиентам в корзине"
+input AppGraphQLv1ClientTypesCartCategoryOptionIngredientFieldInput {
+    "Идентификатор ингредиента"
+    category_option_ingredient_id: Int!
+    "Количество ингредиентов"
+    quantity: Int!
+}
+
 "Данные по сетам"
 input AppGraphQLv1ClientTypesPresetFieldInput {
     "Идентификатор сетам"
@@ -770,16 +825,20 @@ input AppGraphQLv1CommonTypesUserAddressInput {
     comment: String
     "Подъезд"
     entrance: String
+    "Идентификатор ФИАС"
+    fias_id: String!
+    "Этаж"
+    floor: Int
     "Дом"
     house: String!
-    "Идентификатор"
-    id: Int
     "Код домофона"
     intercom_code: String
     "Локация"
     location: AppGraphQLv1CommonTypesAddressLocationInput!
     "Улица"
     street: String!
+    "Тип улицы"
+    street_type: String!
 }
 
 input ClientOrderListOrder {

@@ -2,16 +2,19 @@
 import type { Shop } from '~/types/Shop';
 import { SHOP_LIST } from '~/gql/queries/shop';
 import { type UserAddressFields, UserAddressFieldsSchema } from '~/types/Profile';
-import { useStorage } from '@vueuse/core';
+import { useDeliveryStore } from '~/stores/deliveryStore';
 
-const { pickupShop, deliveryTypes, activeDeliveryType, activeDeliveryAddress, isDeliveryChooserOpen } =
-    storeToRefs(useProfileStore());
+const { deliveryTypes, activeDeliveryType, deliveryLocalStorage, pickupLocalStorage, activeShop } =
+    storeToRefs(useDeliveryStore());
 
 const { items: shops } = useListQuery<Shop>(SHOP_LIST);
 
+const isCottage = ref(false);
 const userAddressFields = ref<UserAddressFields>({
+    fias_id: '',
     city: '',
     street: '',
+    street_type: '',
     house: '',
     location: {
         longitude: 0,
@@ -25,7 +28,6 @@ const userAddressFields = ref<UserAddressFields>({
 });
 const { validate, formErrors } = useValidateFormData<UserAddressFields>(userAddressFields, UserAddressFieldsSchema);
 
-const isCottage = ref(false);
 watch(isCottage, (newValue) => {
     if (newValue) {
         userAddressFields.value.apartment = '';
@@ -40,20 +42,17 @@ const coordinates = ref<[number, number] | null>(null);
 const getSuggestionsByCoords = (coords: [number, number]) => {
     coordinates.value = coords;
 };
-const deliveryLocalStorage = useStorage('delivery-data', { ...userAddressFields.value }, localStorage);
-const pickupLocalStorage = useStorage('pickup-data', { ...pickupShop.value }, localStorage);
 
 const saveDeliveryTypeData = () => {
-    const _result = validate();
+    validate();
     if (Object.keys(formErrors.value).length === 0) {
-        deliveryLocalStorage.value = userAddressFields.value;
-        pickupLocalStorage.value = null;
-        pickupShop.value = null;
-        activeDeliveryAddress.value = {
+        deliveryLocalStorage.value = {
             address: {
+                fias_id: userAddressFields.value.fias_id,
                 city: userAddressFields.value.city,
                 street: userAddressFields.value.street,
                 house: userAddressFields.value.house,
+                street_type: userAddressFields.value.street_type,
                 location: {
                     latitude: userAddressFields.value.location.latitude,
                     longitude: userAddressFields.value.location.longitude,
@@ -64,8 +63,10 @@ const saveDeliveryTypeData = () => {
             floor: userAddressFields.value.floor ?? '',
             intercom_code: userAddressFields.value.intercom_code ?? '',
             comment: userAddressFields.value.comment ?? '',
+            is_current: true,
+            is_active: true,
         };
-        isDeliveryChooserOpen.value = false;
+        pickupLocalStorage.value = null;
     } else {
         console.log(formErrors.value);
     }
@@ -73,8 +74,8 @@ const saveDeliveryTypeData = () => {
 
 const isShopMapActive = ref(false);
 const setPickupShop = (shop: Shop) => {
-    pickupShop.value = shop;
     pickupLocalStorage.value = shop;
+    activeShop.value = shop;
 };
 </script>
 
@@ -147,13 +148,13 @@ const setPickupShop = (shop: Shop) => {
                         v-for="shop in shops"
                         :key="shop.id"
                         :shop="shop"
-                        :is-active="shop.id === pickupShop?.id"
+                        :is-active="shop.id === pickupLocalStorage?.id"
                         @click="setPickupShop(shop)"
                     />
                 </div>
             </div>
             <div v-if="isShopMapActive" class="pickup__map">
-                <ShopsMap :active-shop="pickupShop" @set-shop="setPickupShop" />
+                <ShopsMap :active-shop="pickupLocalStorage" @set-shop="setPickupShop" />
             </div>
         </div>
     </div>

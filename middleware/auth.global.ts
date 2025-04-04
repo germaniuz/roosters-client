@@ -3,10 +3,11 @@ import type { Profile } from '~/types/Profile';
 import { useQuery } from 'villus';
 
 export default defineNuxtRouteMiddleware(async () => {
-    const token = useCookie('villus:default.token');
+    const cookieToken = useCookie('villus:default.token');
     const { setProfile } = useProfileStore();
+    const { fetchUserCart } = useCartStore();
 
-    if (token.value) {
+    if (cookieToken.value) {
         const { data: profileData } = await useQuery<{
             clientProfile: Profile;
         }>({
@@ -15,6 +16,7 @@ export default defineNuxtRouteMiddleware(async () => {
 
         if (profileData.value?.clientProfile) {
             setProfile(profileData.value.clientProfile);
+            await fetchUserCart();
         }
     }
 });

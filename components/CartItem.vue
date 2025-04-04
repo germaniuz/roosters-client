@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DELETE_CLIENT_CART, UPDATE_CLIENT_CART } from '~/gql/mutations/clientCart';
+import { CHANGE_CART_PRODUCT_QUANTITY, DELETE_CLIENT_CART } from '~/gql/mutations/clientCart';
 import type { CartProduct } from '~/types/Cart';
 import { useCartStore } from '~/stores/cartStore';
 import { useMutation } from 'villus';
@@ -11,11 +11,11 @@ type Props = {
 const props = defineProps<Props>();
 const { updateCartItem } = useCartStore();
 
-const { execute: updateCart } = useMutation(UPDATE_CLIENT_CART);
+const { execute: changeCartQuantity } = useMutation(CHANGE_CART_PRODUCT_QUANTITY);
 const { execute: removeItemFromCart } = useMutation(DELETE_CLIENT_CART);
 
 const increaseQuantity = async () => {
-    await updateCart({
+    await changeCartQuantity({
         product_category_option: {
             product_category_option_id: props.product.product.id,
             quantity: 1,
@@ -26,7 +26,7 @@ const increaseQuantity = async () => {
 };
 
 const decreaseQuantity = async () => {
-    await updateCart({
+    await changeCartQuantity({
         product_category_option: {
             product_category_option_id: props.product.product.id,
             quantity: -1,

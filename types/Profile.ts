@@ -42,6 +42,8 @@ export type UserAddress = {
     floor: string;
     intercom_code: string;
     comment: string;
+    is_current: boolean;
+    is_active: boolean;
 };
 
 export type Profile = {
@@ -54,6 +56,7 @@ export type Profile = {
     birthday: string | null;
     gender: string | null;
     is_active: boolean;
+    addresses: UserAddress[];
 };
 
 export type ClientProfile = {

@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { useProductStore } from '~/stores/product';
+import { useDeliveryStore } from '~/stores/deliveryStore';
 
 const productStore = useProductStore();
 const { closeProductDialog } = productStore;
 const { isProductDialogShown, modalProduct } = storeToRefs(productStore);
-const { isDeliveryChooserOpen } = storeToRefs(useProfileStore());
+const { isDeliveryChooserOpen } = storeToRefs(useDeliveryStore());
 </script>
 
 <template>
