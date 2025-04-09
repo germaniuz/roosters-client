@@ -35,6 +35,10 @@ export const useCartStore = defineStore('cart', () => {
         return;
     };
 
+    const dropCart = () => {
+        console.log('drop cart'); // TODO implement cleaning cart with request
+    };
+
     const createLocalCartItem = (
         productCategoryOption: ProductCategoryOption,
         quantity: number,
@@ -60,6 +64,11 @@ export const useCartStore = defineStore('cart', () => {
         }, 0);
     });
 
+    const dropLocalCart = () => {
+        items.value = [];
+        localCart.value = items.value;
+    };
+
     const fetchUserCart = async () => {
         const { onData } = useListQuery<CartProduct>(CLIENT_CART, {});
         onData((res) => {
@@ -74,8 +83,10 @@ export const useCartStore = defineStore('cart', () => {
         localCart: skipHydrate(localCart),
         createCartItem,
         updateCartItem,
+        dropCart,
         createLocalCartItem,
         removeLocalCartItem,
+        dropLocalCart,
         fetchUserCart,
     };
 });

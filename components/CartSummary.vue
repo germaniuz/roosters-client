@@ -22,13 +22,21 @@ const checkoutCart = () => {
         return;
     }
 };
+
+const dropCart = () => {
+    if (isGuest) {
+        cartStore.dropLocalCart();
+    } else {
+        cartStore.dropCart();
+    }
+};
 </script>
 
 <template>
     <div class="cart-summary card card--grey card--p-md">
         <div class="cart-summary__top">
             <div class="cart-summary__quantity">{{ cartStore.cartCount }} товар</div>
-            <div v-if="type === 'action'" class="cart-summary__clean-cart">
+            <div v-if="type === 'action' && cartStore.items.length" class="cart-summary__clean-cart" @click="dropCart">
                 Очистить корзину <BaseIcon name="close" />
             </div>
         </div>
