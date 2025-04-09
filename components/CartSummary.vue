@@ -9,9 +9,19 @@ withDefaults(defineProps<Props>(), {
     type: 'action',
 });
 
+const { isGuest, isAuthDialogActive } = storeToRefs(useProfileStore());
+
 const cartStore = useCartStore();
 
 const smOrderExpanded = ref<boolean>(false);
+
+const checkoutCart = () => {
+    if (isGuest.value) {
+        isAuthDialogActive.value = true;
+
+        return;
+    }
+};
 </script>
 
 <template>
@@ -79,9 +89,15 @@ const smOrderExpanded = ref<boolean>(false);
             Итого
             <span>{{ cartStore.cartPrice }} ₽</span>
         </div>
-        <NuxtLink v-if="type === 'action'" class="btn btn--primary cart-summary__btn" to="/cart/placing-order">
-            Перейти коформлению
-        </NuxtLink>
+        <BaseButton
+            v-if="type === 'action'"
+            :modifiers="['primary']"
+            class="cart-summary__btn"
+            :disabled="!cartStore.items.length"
+            @click="checkoutCart"
+        >
+            Перейти к оформлению
+        </BaseButton>
     </div>
 </template>
 

@@ -3,7 +3,7 @@ import type { CategoryOptionIngredient, Product, ProductCategoryOption } from '~
 import { useProductStore } from '~/stores/product';
 import { useCartStore } from '~/stores/cartStore';
 import BaseBadge from '~/components/BaseBadge.vue';
-import type { CartCategoryOptionIngredientInput } from '~/types/Cart';
+import type { CartCategoryOptionIngredient } from '~/types/Cart';
 import { useDeliveryStore } from '~/stores/deliveryStore';
 
 type Props = {
@@ -15,12 +15,14 @@ const { isGuest } = storeToRefs(useProfileStore());
 const { pickupLocalStorage, deliveryLocalStorage, isDeliveryChooserOpen } = storeToRefs(useDeliveryStore());
 
 const ingredients = computed(() => props.product.product_ingredients.map((i) => i.ingredient.name).join(', '));
-const activeIngredients = ref<CartCategoryOptionIngredientInput[]>([]);
+const activeIngredients = ref<CartCategoryOptionIngredient[]>([]);
 const addIngredient = (ingredient: CategoryOptionIngredient) => {
-    const ingredientIndex = activeIngredients.value.findIndex((i) => i.category_option_ingredient_id === ingredient.id);
+    const ingredientIndex = activeIngredients.value.findIndex(
+        (activeIngredient) => activeIngredient.category_option_ingredient.id === ingredient.id,
+    );
     if (ingredientIndex === -1) {
         activeIngredients.value.push({
-            category_option_ingredient_id: ingredient.id,
+            category_option_ingredient: ingredient,
             quantity: 1,
         });
     } else {
@@ -30,10 +32,8 @@ const addIngredient = (ingredient: CategoryOptionIngredient) => {
 
 const activeProductCategoryOption = ref<ProductCategoryOption>(props.product.product_category_options[0]);
 
-const { isAuthDialogActive } = storeToRefs(useProfileStore());
-
 const { closeProductDialog } = useProductStore();
-const { createCartItem } = useCartStore();
+const { createCartItem, createLocalCartItem } = useCartStore();
 
 const addToCart = async () => {
     if (!pickupLocalStorage.value && !deliveryLocalStorage.value) {
@@ -44,13 +44,26 @@ const addToCart = async () => {
     }
 
     if (isGuest.value) {
+        createLocalCartItem(
+            {
+                ...activeProductCategoryOption.value,
+                product: props.product,
+            },
+            1,
+            activeIngredients.value,
+        );
         closeProductDialog();
-        isAuthDialogActive.value = true;
 
         return;
     }
 
-    createCartItem(activeProductCategoryOption.value.id, activeIngredients.value);
+    createCartItem(
+        activeProductCategoryOption.value.id,
+        activeIngredients.value.map((ingredient) => ({
+            category_option_ingredient_id: ingredient.category_option_ingredient.id,
+            quantity: ingredient.quantity,
+        })),
+    );
     closeProductDialog();
 };
 

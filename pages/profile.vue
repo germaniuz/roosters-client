@@ -786,7 +786,8 @@ const saveProfile = async () => {
         max-width: 540px;
     }
 
-    button {
+    button,
+    a {
         padding: 20px;
         font-size: functions.rem(18);
         width: 100%;

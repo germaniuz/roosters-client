@@ -7,10 +7,12 @@ type Props = {
     size?: 'sm' | 'lg';
     errors?: string[] | undefined;
     type?: 'text' | 'date';
+    disabled?: boolean;
 };
 
 withDefaults(defineProps<Props>(), {
     type: 'text',
+    disabled: false,
 });
 const emit = defineEmits(['update:modelValue']);
 </script>
@@ -32,6 +34,7 @@ const emit = defineEmits(['update:modelValue']);
             :placeholder="placeholder"
             :value="modelValue"
             @input="emit('update:modelValue', ($event.currentTarget as HTMLInputElement).value)"
+            :disabled="disabled"
         />
         <span v-if="errors?.length" class="form-control__error">{{ errors[0] }}</span>
     </div>
