@@ -2,7 +2,7 @@
 
 .link {
   color: var(--c-primary);
-  font-family: var(--f-base);
+  font-family: var(--f-base), sans-serif;
   text-decoration: underline;
   background: none;
   font-size: functions.rem(14);
@@ -45,7 +45,7 @@ p {
 }
 
 .text14 {
-  font-family: var(--f-base);
+  font-family: var(--f-base), sans-serif;
   font-size: functions.rem(14);
   line-height: functions.rem(16);
   font-weight: 400;

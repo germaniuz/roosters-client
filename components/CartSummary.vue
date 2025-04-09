@@ -9,16 +9,34 @@ withDefaults(defineProps<Props>(), {
     type: 'action',
 });
 
+const { isGuest, isAuthDialogActive } = storeToRefs(useProfileStore());
+
 const cartStore = useCartStore();
 
 const smOrderExpanded = ref<boolean>(false);
+
+const checkoutCart = () => {
+    if (isGuest.value) {
+        isAuthDialogActive.value = true;
+
+        return;
+    }
+};
+
+const dropCart = () => {
+    if (isGuest) {
+        cartStore.dropLocalCart();
+    } else {
+        cartStore.dropCart();
+    }
+};
 </script>
 
 <template>
     <div class="cart-summary card card--grey card--p-md">
         <div class="cart-summary__top">
-            <div class="cart-summary__quantity">{{ cartStore.itemsQuantity }} товар</div>
-            <div v-if="type === 'action'" class="cart-summary__clean-cart">
+            <div class="cart-summary__quantity">{{ cartStore.cartCount }} товар</div>
+            <div v-if="type === 'action' && cartStore.items.length" class="cart-summary__clean-cart" @click="dropCart">
                 Очистить корзину <BaseIcon name="close" />
             </div>
         </div>
@@ -27,23 +45,30 @@ const smOrderExpanded = ref<boolean>(false);
             <span>{{ cartStore.cartPrice }} ₽</span>
         </div>
         <div
-            v-if="type === 'view' && cartStore.cart"
+            v-if="type === 'view' && cartStore.items"
             class="cart-summary__items"
             :class="[!smOrderExpanded ? 'cart-summary__items--collapsed' : '']"
         >
             <button class="cart-summary__expand-btn" @click="smOrderExpanded = !smOrderExpanded">Состав заказа</button>
             <div class="cart-summary__items-inner">
                 <div>
-                    <div v-for="product in cartStore.cart" class="cart-summary__item">
+                    <div
+                        v-for="cartProduct in cartStore.items"
+                        :key="cartProduct.product.id"
+                        class="cart-summary__item"
+                    >
                         <div class="cart-summary__item-title">
-                            <span>{{ product.product.product.name }} x {{ product.quantity }}</span>
-                            <div class="cart-summary__item-price">{{ product.product.price * product.quantity }} ₽</div>
+                            <span>{{ cartProduct.product.product.name }} x {{ cartProduct.quantity }}</span>
+                            <div class="cart-summary__item-price">
+                                {{ cartProduct.product.price * cartProduct.quantity }} ₽
+                            </div>
                         </div>
                         <div class="cart-summary__item-detail">
                             <span>Ингредиенты</span>
                             <div
+                                v-for="productIngredient in cartProduct.product.product.product_ingredients"
+                                :key="productIngredient.ingredient.id"
                                 class="cart-summary__item-detail-text"
-                                v-for="productIngredient in product.product.product.product_ingredients"
                             >
                                 {{ productIngredient.ingredient.description }}
                             </div>
@@ -72,9 +97,15 @@ const smOrderExpanded = ref<boolean>(false);
             Итого
             <span>{{ cartStore.cartPrice }} ₽</span>
         </div>
-        <NuxtLink v-if="type === 'action'" class="btn btn--primary cart-summary__btn" to="/cart/placing-order">
-            Перейти коформлению
-        </NuxtLink>
+        <BaseButton
+            v-if="type === 'action'"
+            :modifiers="['primary']"
+            class="cart-summary__btn"
+            :disabled="!cartStore.items.length"
+            @click="checkoutCart"
+        >
+            Перейти к оформлению
+        </BaseButton>
     </div>
 </template>
 
@@ -100,7 +131,7 @@ const smOrderExpanded = ref<boolean>(false);
 
 .cart-summary__quantity {
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(20);
     font-weight: 400;
     line-height: functions.rem(24);
@@ -111,7 +142,7 @@ const smOrderExpanded = ref<boolean>(false);
     flex-direction: row;
     align-items: center;
     color: var(--c-grey40);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     font-weight: 400;
     line-height: functions.rem(14);
@@ -133,7 +164,7 @@ const smOrderExpanded = ref<boolean>(false);
     align-items: center;
     justify-content: space-between;
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     line-height: functions.rem(14);
     font-weight: 400;
@@ -236,7 +267,7 @@ const smOrderExpanded = ref<boolean>(false);
 }
 
 .cart-summary__item-price {
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
 }
 
 .cart-summary__item-detail {
@@ -257,7 +288,7 @@ const smOrderExpanded = ref<boolean>(false);
     align-items: center;
     justify-content: space-between;
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     line-height: functions.rem(14);
     font-weight: 400;
@@ -322,14 +353,14 @@ const smOrderExpanded = ref<boolean>(false);
     justify-content: space-between;
     margin-top: 20px;
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     line-height: functions.rem(19);
     font-weight: 400;
 
     span {
         color: var(--c-grey80);
-        font-family: var(--f-base);
+        font-family: var(--f-base), sans-serif;
         font-size: functions.rem(20);
         line-height: functions.rem(24);
         font-weight: 600;

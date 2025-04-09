@@ -1,13 +1,20 @@
 <script setup lang="ts">
 import { vMaska } from 'maska/vue';
 import { VERIFY_SMS_CODE } from '~/gql/mutations/auth';
+import { useMutation } from 'villus';
 
 type Props = {
     phone: string;
 };
 
+const router = useRouter();
+
 const props = defineProps<Props>();
-const emit = defineEmits(['loggingIn']);
+
+const profileStore = useProfileStore();
+const { isCodeVerificationDialogActive } = storeToRefs(profileStore);
+const cookieToken = useCookie('villus:default.token');
+
 const authCode = ref<Array<string>>(['', '', '', '']);
 const codeCardInputs = ref();
 
@@ -23,8 +30,6 @@ onBeforeUnmount(() => {
     codeCardInputs.value.removeEventListener('input', (e: InputEvent) => handleInput(e));
     codeCardInputs.value.removeEventListener('keydown', (e: KeyboardEvent) => handleBackspace(e));
 });
-
-const { mutate: verifySmsCode } = useMutation(VERIFY_SMS_CODE);
 
 const handleInput = (e: InputEvent) => {
     const target = e.target as HTMLInputElement;
@@ -58,6 +63,8 @@ const handleBackspace = (e: KeyboardEvent) => {
     }
 };
 
+const { execute: verifySmsCode } = useMutation(VERIFY_SMS_CODE);
+
 watchEffect(async () => {
     if (codeCardInputs.value) {
         codeCardInputs.value.addEventListener('input', (e: InputEvent) => handleInput(e));
@@ -70,8 +77,10 @@ watchEffect(async () => {
                 code: authCode.value.join(''),
             });
             if (verifyResponse?.data?.verifyClientSmsCode.token) {
-                emit('loggingIn', verifyResponse.data.verifyClientSmsCode.token);
+                cookieToken.value = verifyResponse.data.verifyClientSmsCode.token;
+                isCodeVerificationDialogActive.value = false;
                 authCode.value = ['', '', '', ''];
+                router.go(0);
             }
         } catch (error) {
             console.error(error);
@@ -130,7 +139,7 @@ watchEffect(async () => {
 
 .code-card__title {
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(24);
     font-weight: 600;
     line-height: normal;
@@ -144,7 +153,7 @@ watchEffect(async () => {
 
 .code-card__description {
     color: var(--c-grey60);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
     font-weight: 400;
     line-height: normal;

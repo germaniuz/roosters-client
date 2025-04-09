@@ -53,7 +53,7 @@ defineProps<Props>();
 .popular-item-card__title {
     grid-area: title;
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
     font-weight: 400;
     line-height: functions.rem(17);

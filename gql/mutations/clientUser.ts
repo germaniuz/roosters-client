@@ -1,3 +1,5 @@
+import { gql } from 'graphql-tag';
+
 export const UPDATE_CLIENT_USER = gql`
     mutation updateClientUser(
         $name: String

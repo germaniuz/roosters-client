@@ -1,3 +1,5 @@
+import { gql } from 'graphql-tag';
+
 export const SEND_SMS_CODE = gql`
     mutation SendClientSmsCode($phone: String!) {
         sendClientSmsCode(phone: $phone) {

@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    modules: ['@nuxtjs/google-fonts', '@pinia/nuxt', '@nuxtjs/apollo', '@nuxt/eslint'],
+    modules: ['@nuxtjs/google-fonts', '@pinia/nuxt', '@nuxt/eslint', 'vue-yandex-maps/nuxt'],
     typescript: {
         typeCheck: true,
         strict: true,
@@ -9,21 +9,26 @@ export default defineNuxtConfig({
     runtimeConfig: {
         app: {
             BASE_URL: process.env.BASE_URL!,
+            DADATA_API_TOKEN: process.env.DADATA_API_TOKEN!,
         },
     },
     pinia: {
         storesDirs: ['./stores/**'],
     },
-    apollo: {
-        authType: 'Bearer',
-        authHeader: 'Authorization',
-        tokenStorage: 'cookie',
-        clients: {
-            default: {
-                httpEndpoint: process.env.BASE_URL!,
-            },
-        },
+    yandexMaps: {
+        apikey: process.env.YANDEX_MAPS_API_KEY!,
+        strictMode: true,
     },
+    // apollo: {
+    //     authType: 'Bearer',
+    //     authHeader: 'Authorization',
+    //     tokenStorage: 'cookie',
+    //     clients: {
+    //         default: {
+    //             httpEndpoint: process.env.BASE_URL!,
+    //         },
+    //     },
+    // },
     devtools: { enabled: true },
     googleFonts: {
         families: {

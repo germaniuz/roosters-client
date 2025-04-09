@@ -1,31 +1,70 @@
 <script setup lang="ts">
-import type { Product, ProductCategoryOption } from '~/types/Product';
-import { CREATE_CLIENT_CART } from '~/gql/mutations/clientCart';
+import type { CategoryOptionIngredient, Product, ProductCategoryOption } from '~/types/Product';
 import { useProductStore } from '~/stores/product';
 import { useCartStore } from '~/stores/cartStore';
 import BaseBadge from '~/components/BaseBadge.vue';
+import type { CartCategoryOptionIngredient } from '~/types/Cart';
+import { useDeliveryStore } from '~/stores/deliveryStore';
 
 type Props = {
     product: Product;
 };
 const props = defineProps<Props>();
+
+const { isGuest } = storeToRefs(useProfileStore());
+const { pickupLocalStorage, deliveryLocalStorage, isDeliveryChooserOpen } = storeToRefs(useDeliveryStore());
+
 const ingredients = computed(() => props.product.product_ingredients.map((i) => i.ingredient.name).join(', '));
+const activeIngredients = ref<CartCategoryOptionIngredient[]>([]);
+const addIngredient = (ingredient: CategoryOptionIngredient) => {
+    const ingredientIndex = activeIngredients.value.findIndex(
+        (activeIngredient) => activeIngredient.category_option_ingredient.id === ingredient.id,
+    );
+    if (ingredientIndex === -1) {
+        activeIngredients.value.push({
+            category_option_ingredient: ingredient,
+            quantity: 1,
+        });
+    } else {
+        activeIngredients.value[ingredientIndex].quantity++;
+    }
+};
 
 const activeProductCategoryOption = ref<ProductCategoryOption>(props.product.product_category_options[0]);
 
-const { mutate } = useMutation(CREATE_CLIENT_CART);
 const { closeProductDialog } = useProductStore();
-const { updateCartQuery } = useCartStore();
+const { createCartItem, createLocalCartItem } = useCartStore();
 
 const addToCart = async () => {
-    await mutate({
-        product_category_option: {
-            product_category_option_id: activeProductCategoryOption.value.id,
-            quantity: 1,
-        },
-    });
+    if (!pickupLocalStorage.value && !deliveryLocalStorage.value) {
+        closeProductDialog();
+        isDeliveryChooserOpen.value = true;
+
+        return;
+    }
+
+    if (isGuest.value) {
+        createLocalCartItem(
+            {
+                ...activeProductCategoryOption.value,
+                product: props.product,
+            },
+            1,
+            activeIngredients.value,
+        );
+        closeProductDialog();
+
+        return;
+    }
+
+    createCartItem(
+        activeProductCategoryOption.value.id,
+        activeIngredients.value.map((ingredient) => ({
+            category_option_ingredient_id: ingredient.category_option_ingredient.id,
+            quantity: ingredient.quantity,
+        })),
+    );
     closeProductDialog();
-    updateCartQuery();
 };
 
 const adds = computed(() =>
@@ -78,22 +117,24 @@ const isDataInfoShowed = ref(false);
             <div v-if="isDataInfoShowed" class="product__info-data">
                 <div class="product__info-title">Пищевая ценность на 100г:</div>
                 <table>
-                    <tr>
-                        <td>Энергетическая ценность</td>
-                        <td>{{ product.energy_value }}&nbsp;ккал</td>
-                    </tr>
-                    <tr>
-                        <td>Белки</td>
-                        <td>{{ product.nutritional_value_proteins }}&nbsp;г</td>
-                    </tr>
-                    <tr>
-                        <td>Жиры</td>
-                        <td>{{ product.nutritional_value_fats }}&nbsp;г</td>
-                    </tr>
-                    <tr>
-                        <td>Углеводы</td>
-                        <td>{{ product.nutritional_value_carbs }}&nbsp;г</td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <td>Энергетическая ценность</td>
+                            <td>{{ product.energy_value }}&nbsp;ккал</td>
+                        </tr>
+                        <tr>
+                            <td>Белки</td>
+                            <td>{{ product.nutritional_value_proteins }}&nbsp;г</td>
+                        </tr>
+                        <tr>
+                            <td>Жиры</td>
+                            <td>{{ product.nutritional_value_fats }}&nbsp;г</td>
+                        </tr>
+                        <tr>
+                            <td>Углеводы</td>
+                            <td>{{ product.nutritional_value_carbs }}&nbsp;г</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -126,7 +167,9 @@ const isDataInfoShowed = ref(false);
                             <img :src="item.ingredient.file.url" :alt="item.ingredient.name" />
                         </div>
                         <div class="adds-card__title">{{ item.ingredient.name }}</div>
-                        <BaseButton :modifiers="['light']" class="adds-card__price">{{ item.price }} ₽</BaseButton>
+                        <BaseButton :modifiers="['light']" class="adds-card__price" @click="addIngredient"
+                            >{{ item.price }} ₽</BaseButton
+                        >
                     </div>
                 </div>
                 <BaseButton :modifiers="['primary']" class="w-100 product__add-btn" @click="addToCart"
@@ -187,7 +230,7 @@ const isDataInfoShowed = ref(false);
         }
 
         &:hover {
-            scale: 2;
+            scale: 1.8;
             left: 250px;
         }
     }

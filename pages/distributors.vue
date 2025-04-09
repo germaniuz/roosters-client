@@ -50,7 +50,7 @@ const formFields = ref<RequestDistributorFields>({
                 name="offer"
                 placeholder="Предлагаемая продукция / тип оборудования"
             />
-            <FormTextarea v-model="formFields.text" />
+            <FormTextarea v-model="formFields.text" placeholder="Комментарий" name="distributor-comment" />
             <BaseButton :modifiers="['primary']" class="service-form__btn">Отправить</BaseButton>
             <p class="text-center text-small form__notice">
                 Продолжая, вы соглашаетесь со сбором и обработкой персональных данных, пользовательским соглашением, а

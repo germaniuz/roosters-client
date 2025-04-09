@@ -67,7 +67,7 @@ defineProps<Props>();
 
 .news-card__title {
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 600;
     line-height: normal;
@@ -79,7 +79,7 @@ defineProps<Props>();
 
 .news-card__description {
     color: var(--c-grey60);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
     font-weight: 400;
     line-height: 1.35;

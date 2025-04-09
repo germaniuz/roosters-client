@@ -1,19 +1,18 @@
 <script lang="ts" setup>
 import { useAppStore } from '~/stores/app';
-import { CLIENT_PROFILE } from '~/gql/queries/profile';
+import { useDeliveryStore } from '~/stores/deliveryStore';
 
 const { phone } = useAppStore();
-const { isGuest, isAuthenticated } = storeToRefs(useProfileStore());
+const { isGuest, isAuthenticated, isAuthDialogActive, isCodeVerificationDialogActive } = storeToRefs(useProfileStore());
+const { pickupLocalStorage, deliveryLocalStorage, isDeliveryChooserOpen } = storeToRefs(useDeliveryStore());
 const menuIsActive = ref<boolean>(false);
 
 const toggleMobileMenu = () => {
     menuIsActive.value = !menuIsActive.value;
     document.body.classList.toggle('body--fixed');
 };
-const isAuthDialogActive = ref(false);
 
 const authPhone = ref('');
-const isCodeVerificationDialogActive = ref(false);
 const openCodeVerificationDialog = (phone: string) => {
     authPhone.value = phone;
     isAuthDialogActive.value = false;
@@ -21,16 +20,6 @@ const openCodeVerificationDialog = (phone: string) => {
 };
 
 const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Закуски', 'Напитки', 'Акции']);
-const { onLogin } = useApollo();
-
-const logginUser = async (token: string) => {
-    isCodeVerificationDialogActive.value = false;
-    onLogin(token, 'default');
-    nextTick(async () => {
-        const { data: profile } = await useAsyncQuery(CLIENT_PROFILE);
-        console.log(profile.value);
-    });
-};
 </script>
 
 <template>
@@ -47,16 +36,48 @@ const logginUser = async (token: string) => {
             <a :href="`tel:${phone}`" class="header__phone">
                 <img src="/images/icons/phone.svg" alt="Рустерс звонок" /> <span>{{ phone }}</span>
             </a>
-            <UserCard v-if="isAuthenticated" class="header__desktop-user-card" />
-            <BaseButton
-                v-if="isGuest"
-                class="header__login"
-                :modifiers="['grey', 'icon']"
-                @click="isAuthDialogActive = true"
-            >
-                <img src="/images/icons/avatar.svg" alt="Вход Рустерс" /> <span>Войти</span>
-            </BaseButton>
-            <button class="menu-btn" :class="{ 'menu-btn--active': menuIsActive }" @click="toggleMobileMenu()"></button>
+            <ClientOnly>
+                <div v-if="pickupLocalStorage" class="header__delivery">
+                    <span class="header__delivery-type">Самовывоз</span>
+                    <span class="header__delivery-place">{{ pickupLocalStorage.name }}</span>
+                    <BaseButton
+                        class="header__delivery-edit-btn"
+                        :modifiers="['single-icon', 'light']"
+                        @click="isDeliveryChooserOpen = true"
+                    >
+                        <i class="icon-pencil"></i>
+                    </BaseButton>
+                </div>
+                <div v-else-if="deliveryLocalStorage" class="header__delivery">
+                    <span class="header__delivery-type">Доставка</span>
+                    <span class="header__delivery-place">
+                        {{ deliveryLocalStorage.address.street_type }}.{{ deliveryLocalStorage.address.street }},
+                        {{ deliveryLocalStorage.address.house }}
+                        {{ deliveryLocalStorage.apartment ? ', кв.' + deliveryLocalStorage.apartment : '' }}
+                    </span>
+                    <BaseButton
+                        class="header__delivery-edit-btn"
+                        :modifiers="['single-icon', 'light']"
+                        @click="isDeliveryChooserOpen = true"
+                    >
+                        <i class="icon-pencil"></i>
+                    </BaseButton>
+                </div>
+                <UserCard v-if="isAuthenticated" class="header__desktop-user-card" />
+                <BaseButton
+                    v-if="isGuest"
+                    class="header__login"
+                    :modifiers="['grey', 'icon']"
+                    @click="isAuthDialogActive = true"
+                >
+                    <img src="/images/icons/avatar.svg" alt="Вход Рустерс" /> <span>Войти</span>
+                </BaseButton>
+                <button
+                    class="menu-btn"
+                    :class="{ 'menu-btn--active': menuIsActive }"
+                    @click="toggleMobileMenu()"
+                ></button>
+            </ClientOnly>
         </div>
         <div class="container header__categories">
             <div v-for="headerCategory in headerCategories" :key="headerCategory" class="header__category">
@@ -104,11 +125,12 @@ const logginUser = async (token: string) => {
             <BaseSocial name="vk" link="#" />
         </div>
     </div>
+
     <BaseDialog v-model:is-active="isAuthDialogActive">
         <AuthCard @open-code-verification-dialog="openCodeVerificationDialog" />
     </BaseDialog>
     <BaseDialog v-model:is-active="isCodeVerificationDialogActive">
-        <CodeCard :phone="authPhone" @logging-in="logginUser" />
+        <CodeCard :phone="authPhone" />
     </BaseDialog>
 </template>
 
@@ -209,6 +231,7 @@ const logginUser = async (token: string) => {
     gap: 10px;
     white-space: nowrap;
     transition: opacity 0.2s ease-in-out;
+    margin-right: auto;
 
     @include media.sm-down {
         margin-left: auto;
@@ -245,7 +268,6 @@ const logginUser = async (token: string) => {
 }
 
 .header__login {
-    margin-left: auto;
     padding: 5px 35px 5px 5px;
 
     @include media.md-down {
@@ -368,7 +390,7 @@ const logginUser = async (token: string) => {
 
 .header__mobile-menu-remark {
     color: var(--c-grey50);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     font-weight: 400;
     line-height: normal;
@@ -383,5 +405,33 @@ const logginUser = async (token: string) => {
     @include media.md-down {
         display: none;
     }
+}
+
+.header__delivery {
+    background: var(--c-grey10);
+    border-radius: var(--b-radius-md);
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: functions.rem(14);
+    position: relative;
+}
+
+.header__delivery-type {
+    color: var(--c-grey50);
+}
+
+.header__delivery-place {
+    color: var(--c-grey80);
+    font-weight: 700;
+}
+
+.header__delivery-edit-btn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    border-radius: 50%;
+    font-size: functions.rem(16);
 }
 </style>

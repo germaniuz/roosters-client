@@ -1,46 +1,52 @@
 <script setup lang="ts">
-import { DELETE_CLIENT_CART, UPDATE_CLIENT_CART } from '~/gql/mutations/clientCart';
+import { CHANGE_CART_PRODUCT_QUANTITY, DELETE_CLIENT_CART } from '~/gql/mutations/clientCart';
 import type { CartProduct } from '~/types/Cart';
 import { useCartStore } from '~/stores/cartStore';
+import { useMutation } from 'villus';
 
 type Props = {
-    product: CartProduct;
+    cartProduct: CartProduct;
 };
 
 const props = defineProps<Props>();
-const { updateCartQuery } = useCartStore();
+const { updateCartItem, removeLocalCartItem } = useCartStore();
+const { isGuest } = storeToRefs(useProfileStore());
 
-const { mutate: updateCart } = useMutation(UPDATE_CLIENT_CART);
-const { mutate: removeItemFromCart } = useMutation(DELETE_CLIENT_CART);
+const { execute: changeCartQuantity } = useMutation(CHANGE_CART_PRODUCT_QUANTITY);
+const { execute: removeItemFromCart } = useMutation(DELETE_CLIENT_CART);
 
 const increaseQuantity = async () => {
-    await updateCart({
+    await changeCartQuantity({
         product_category_option: {
-            product_category_option_id: props.product.product.id,
+            product_category_option_id: props.cartProduct.product.id,
             quantity: 1,
         },
     }).then(() => {
-        updateCartQuery();
+        updateCartItem();
     });
 };
 
 const decreaseQuantity = async () => {
-    await updateCart({
+    await changeCartQuantity({
         product_category_option: {
-            product_category_option_id: props.product.product.id,
+            product_category_option_id: props.cartProduct.product.id,
             quantity: -1,
         },
     }).then(() => {
-        updateCartQuery();
+        updateCartItem();
     });
 };
 
 const removeFromCart = async () => {
-    await removeItemFromCart({
-        product_category_option_id: props.product.product.id,
-    }).then(() => {
-        updateCartQuery();
-    });
+    if (isGuest.value) {
+        removeLocalCartItem(props.cartProduct.id);
+    } else {
+        await removeItemFromCart({
+            product_category_option_id: props.cartProduct.product.id,
+        }).then(() => {
+            updateCartItem();
+        });
+    }
 };
 
 const price_old = ref<number>(1500);
@@ -49,13 +55,12 @@ const price_old = ref<number>(1500);
 <template>
     <div class="cart-item">
         <div class="cart-item__img">
-            <img :src="product.product.product.file?.url" alt="" />
+            <img :src="cartProduct.product.product.file?.url" alt="" />
         </div>
         <div class="cart-item__content">
             <div class="cart-item__title">
-                <span>{{ product.product.product.name }}</span>
+                <span>{{ cartProduct.product.product.name }}</span>
                 <div class="cart-item__action-btns">
-                    <BaseIcon class="cart-item__edit-btn" name="pencil" />
                     <BaseIcon class="cart-item__remove-btn" name="close" @click="removeFromCart" />
                 </div>
             </div>
@@ -63,8 +68,9 @@ const price_old = ref<number>(1500);
                 <div class="cart-item__detail">
                     <div class="cart-item__detail-title">Ингредиенты</div>
                     <div
+                        v-for="productIngredient in cartProduct.product.product.product_ingredients"
+                        :key="productIngredient.id"
                         class="cart-item__detail-text"
-                        v-for="productIngredient in product.product.product.product_ingredients"
                     >
                         {{ productIngredient.ingredient.description }}
                     </div>
@@ -73,12 +79,12 @@ const price_old = ref<number>(1500);
             <div class="cart-item__quantity-price">
                 <div class="cart-item__quantity">
                     <div class="cart-item__quantity-btn" @click="decreaseQuantity">-</div>
-                    {{ product.quantity }}
+                    {{ cartProduct.quantity }}
                     <div class="cart-item__quantity-btn" @click="increaseQuantity">+</div>
                 </div>
                 <div class="cart-item__price">
                     <span v-if="price_old" class="cart-item__price-old">{{ price_old }} ₽</span>
-                    {{ product.product.price }} ₽
+                    {{ cartProduct.product.price }} ₽
                 </div>
             </div>
         </div>
@@ -128,7 +134,7 @@ const price_old = ref<number>(1500);
 
     span {
         color: var(--c-grey70);
-        font-family: var(--f-base);
+        font-family: var(--f-base), sans-serif;
         font-size: functions.rem(16);
         line-height: functions.rem(19);
         font-weight: 600;
@@ -159,7 +165,7 @@ const price_old = ref<number>(1500);
 
 .cart-item__detail-title {
     color: var(--c-grey70);
-    font-family: var(--f-headings);
+    font-family: var(--f-headings), sans-serif;
     font-size: functions.rem(10);
     font-weight: 500;
     line-height: 1.3;
@@ -175,7 +181,7 @@ const price_old = ref<number>(1500);
 
 .cart-item__detail-text {
     color: var(--c-grey50);
-    font-family: var(--f-headings);
+    font-family: var(--f-headings), sans-serif;
     font-size: functions.rem(10);
     font-weight: 500;
     line-height: 1.3;
@@ -231,7 +237,7 @@ const price_old = ref<number>(1500);
     flex-direction: column;
     align-items: flex-end;
     color: var(--c-grey80);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 600;
     line-height: functions.rem(19);

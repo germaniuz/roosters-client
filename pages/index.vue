@@ -1,101 +1,19 @@
 <script lang="ts" setup>
-import type { Product } from '~/types/Product';
-import type { Story } from '~/types/Story';
-import { PRODUCT_LIST } from '~/gql/queries/product';
-import { useListQuery } from '~/composables/useListQuery';
 import BaseCartButton from '~/components/BaseCartButton.vue';
+import { PRODUCT_LIST } from '~/gql/queries/product';
+import type { Product } from '~/types/Product';
 
 const { items } = useListQuery<Product>(PRODUCT_LIST);
-
-const _radio = ref(false);
-
-const stories = ref<Array<Story>>([
-    // TODO: JS add stories
-    {
-        image: '/images/stories/story.webp',
-        link: '#',
-    },
-    {
-        image: '/images/stories/story2.webp',
-        link: '#',
-    },
-    {
-        image: '/images/stories/story3.webp',
-        link: '#',
-    },
-    {
-        image: '/images/stories/story.webp',
-        link: '#',
-    },
-    {
-        image: '/images/stories/story2.webp',
-        link: '#',
-    },
-    {
-        image: '/images/stories/story3.webp',
-        link: '#',
-    },
-    {
-        image: '/images/stories/story.webp',
-        link: '#',
-    },
-    {
-        image: '/images/stories/story.webp',
-        link: '#',
-    },
-    {
-        image: '/images/stories/story.webp',
-        link: '#',
-    },
-    {
-        image: '/images/stories/story.webp',
-        link: '#',
-    },
-]);
-
-const storiesRef = ref();
-
-const scrollStoriesRight = () => {
-    storiesRef.value.scrollLeft += 300;
-    if (storiesRef.value.scrollWidth <= storiesRef.value.scrollLeft + storiesRef.value.clientWidth + 20) {
-        storiesRef.value.scrollLeft = 0;
-    }
-};
-
-const scrollStoriesLeft = () => {
-    storiesRef.value.scrollLeft -= 300;
-    if (storiesRef.value.scrollLeft === 0) {
-        storiesRef.value.scrollLeft = storiesRef.value.scrollWidth;
-    }
-};
 </script>
+
 <template>
     <div class="container front-page">
         <BaseCartButton />
-        <div class="front-page__stories">
-            <div ref="storiesRef" class="front-page__stories-grid">
-                <div v-for="story in stories" :key="story.link" class="front-page__story">
-                    <img :src="story.image" alt="" />
-                </div>
-            </div>
-            <BaseIconButton
-                icon="angle-left"
-                class="front-page__stories-scroll-btn front-page__stories-scroll-left-btn"
-                :modifiers="['icon', 'single-icon']"
-                @click="scrollStoriesLeft"
-            />
-            <BaseIconButton
-                icon="angle-right"
-                class="front-page__stories-scroll-btn front-page__stories-scroll-right-btn"
-                :modifiers="['icon', 'single-icon']"
-                @click="scrollStoriesRight"
-            />
-        </div>
-        <div v-if="items.length" class="grid grid--product-test">
-            <ClientOnly>
+        <ClientOnly>
+            <div v-if="items" class="grid grid--product-test">
                 <ProductCard v-for="product in items" :key="product.id" :product="product" />
-            </ClientOnly>
-        </div>
+            </div>
+        </ClientOnly>
         <PopularItems />
     </div>
 </template>

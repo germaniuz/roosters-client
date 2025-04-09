@@ -23,11 +23,12 @@
 
 .body {
   background-color: var(--c-body-bg);
-  font-family: var(--f-base);
+  font-family: var(--f-base), sans-serif;
   font-size: functions.rem(16);
   line-height: functions.rem(22);
-  transition: color,
-  background 0.15s ease;
+  transition:
+    color,
+    background 0.15s ease;
   overflow-x: hidden;
 
   &--fixed {
@@ -117,4 +118,16 @@
 
 .w-100 {
   width: 100%;
+}
+
+.gap-10 {
+  gap: 10px;
+}
+
+.gap-20 {
+  gap: 20px;
+}
+
+.gap-30 {
+  gap: 30px;
 }

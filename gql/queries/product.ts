@@ -1,3 +1,5 @@
+import { gql } from 'graphql-tag';
+
 export const PRODUCT_LIST = gql`
     query clientProductList($ids: [Int], $search: String, $limit: Int, $offset: Int) {
         clientProductList(ids: $ids, search: $search, limit: $limit, offset: $offset) {

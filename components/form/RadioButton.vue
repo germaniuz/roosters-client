@@ -19,6 +19,7 @@ defineProps<Props>();
                 @change="modelValue = ($event.currentTarget as HTMLInputElement).checked"
             />
             <span class="radio-button__checkmark"></span>
+            <span v-sane-html="label" class="checkbox-label" name="delivery-comment"></span>
         </label>
     </div>
 </template>
@@ -27,9 +28,16 @@ defineProps<Props>();
 @use '@/assets/styles/helpers/functions';
 @use '@/assets/styles/helpers/media';
 
-.radio-button {
-    display: block;
+.form-control {
     position: relative;
+    z-index: var(--z-middle);
+}
+
+.radio-button {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    align-items: center;
     padding-left: 50px;
     cursor: pointer;
     -webkit-user-select: none;
@@ -37,6 +45,7 @@ defineProps<Props>();
     -ms-user-select: none;
     user-select: none;
     height: 28px;
+    z-index: var(--z-middle);
 
     &:hover {
         input {
@@ -95,5 +104,11 @@ defineProps<Props>();
         border-radius: 50%;
         transition: left 0.2s ease;
     }
+}
+
+.checkbox-label {
+    color: var(--c-grey80);
+    font-size: functions.rem(15);
+    line-height: functions.rem(22);
 }
 </style>

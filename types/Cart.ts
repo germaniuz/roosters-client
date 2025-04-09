@@ -1,14 +1,24 @@
-import type { Product } from '~/types/Product';
+import type { CategoryOptionIngredient, Product, ProductCategoryOption } from '~/types/Product';
+import * as v from 'valibot';
+
+export const CartCategoryOptionIngredientInputSchema = v.object({
+    category_option_ingredient_id: v.nonNullable(v.number(), 'Укажите category_option_ingredient_id'),
+    quantity: v.nonNullable(v.number(), 'Укажите quantity'),
+});
+
+export type CartCategoryOptionIngredientInput = v.InferOutput<typeof CartCategoryOptionIngredientInputSchema>;
+
+export type CartCategoryOptionIngredient = {
+    category_option_ingredient: CategoryOptionIngredient;
+    quantity: number;
+};
 
 export type CartProduct = {
+    id: number;
     quantity: number;
     preset?: string;
-    product: {
-        id: number;
-        product_id: number;
-        price: number;
-        product: Product;
-    };
+    product: ProductCategoryOption;
+    cart_category_option_ingredients: CartCategoryOptionIngredient[];
 };
 
 export type DeliveryTimeOption = {

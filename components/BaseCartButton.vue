@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { useCartStore } from '~/stores/cartStore';
 
-const cartStore = useCartStore();
+const { cartCount, cartPrice } = storeToRefs(useCartStore());
 </script>
 
 <template>
-    <div class="cart-btn" v-if="cartStore.cartPrice">
+    <div v-if="cartCount" class="cart-btn">
         <NuxtLink class="btn btn--primary cart-btn__btn" to="/cart">
             <div class="cart-btn__icon"><img src="/images/cart.svg" alt="" /></div>
             <div class="cart-btn__text">
-                В корзине<span>{{ cartStore.cartPrice }}₽</span>
+                В корзине<span>{{ cartPrice }}₽</span>
             </div>
             <BaseIcon name="arrow-right" />
         </NuxtLink>
@@ -73,7 +73,7 @@ const cartStore = useCartStore();
     margin-right: auto;
     text-align: left;
     color: var(--c-grey10);
-    font-family: var(--f-base);
+    font-family: var(--f-base), sans-serif;
     font-size: functions.rem(12);
     font-weight: 400;
     line-height: functions.rem(14);

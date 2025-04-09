@@ -9,9 +9,14 @@ const cartStore = useCartStore();
     <div class="container container--sm cart">
         <h1 class="h1">Корзина <span class="h1--grey h1--md-hidden">- Оформление - Заказ принят</span></h1>
         <div class="cart__grid">
-            <div class="cart__items" v-if="cartStore.cart">
-                <CartItem v-for="product in cartStore.cart" :product="product" />
+            <div v-if="cartStore.items.length" class="cart__items">
+                <CartItem
+                    v-for="cartProduct in cartStore.items"
+                    :key="cartProduct.product.id"
+                    :cart-product="cartProduct"
+                />
             </div>
+            <BaseEmptyMessage v-else message="Ваша корзина пуста" />
             <PopularItems title="Рекомендуем добавить" class="cart__recommended" />
             <CartSummary class="cart__summary" />
             <ThePromocode class="cart__promocode" />
