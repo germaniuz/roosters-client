@@ -1,5 +1,5 @@
 import { gql } from 'graphql-tag';
-import { ADDRESS_FRAGMENT } from '~/gql/fragments/address';
+import { SHOP_FULL_FRAGMENT } from '~/gql/fragments/shop';
 export const SHOP_LIST = gql`
     query clientShopList(
         $ids: [Int]
@@ -16,52 +16,25 @@ export const SHOP_LIST = gql`
             case_insensitive_search: $case_insensitive_search
         ) {
             items {
-                id
-                name
-                color
-                delivery_schedule {
-                    id
-                    day
-                    day_slug
-                    time_start
-                    time_end
-                    geozone {
-                        id
-                        name
-                        polygon
-                        isActive
-                        delivery_time
-                        color
-                        day_delivery_cost
-                        night_delivery_cost
-                    }
-                }
-                pickup_schedule {
-                    id
-                    day
-                    day_slug
-                    time_end
-                    time_start
-                }
-                product_stoplist {
-                    id
-                    product {
-                        id
-                        name
-                    }
-                }
-                address {
-                    ...Address
-                }
+                ...ShopFull
             }
             count
         }
     }
-    ${ADDRESS_FRAGMENT}
+    ${SHOP_FULL_FRAGMENT}
 `;
 
 export const IS_PICKUP_SHOP_OPEN = gql`
     query isPickupShopOpen($shop_id: Float!) {
         isPickupShopOpen(shop_id: $shop_id)
     }
+`;
+
+export const CURRENT_GEOZONE_SHOP = gql`
+    query currentGeozoneDeliveryShop($latitude: Float!, $longitude: Float!) {
+        currentGeozoneDeliveryShop(latitude: $latitude, longitude: $longitude) {
+            ...ShopFull
+        }
+    }
+    ${SHOP_FULL_FRAGMENT}
 `;

@@ -2,8 +2,6 @@ import type { DeliveryType, UserAddress } from '~/types/Profile';
 import { StorageSerializers, useStorage } from '@vueuse/core';
 import type { Shop } from '~/types/Shop';
 import { skipHydrate } from 'pinia';
-import { IS_PICKUP_SHOP_OPEN } from '~/gql/queries/shop';
-import { useQuery } from 'villus';
 
 export const useDeliveryStore = defineStore('delivery', () => {
     const isDeliveryChooserOpen = ref(false);
@@ -17,6 +15,7 @@ export const useDeliveryStore = defineStore('delivery', () => {
             title: 'Самовывоз',
         },
     ]);
+    // WARNING не полагаться на activeDeliveryType - используется для переключателя в компоненте выбора доставки и не отражает фактический выбор пользователя
     const activeDeliveryType = ref<DeliveryType>(deliveryTypes.value[0]);
 
     const deliveryLocalStorage = useStorage<UserAddress | null>('delivery-data', null, undefined, {
@@ -28,25 +27,6 @@ export const useDeliveryStore = defineStore('delivery', () => {
     });
     const activeShop = ref<Shop | null>(null);
     const isActiveShopWorking = ref<boolean | null>(null);
-
-    // check if shop is active
-    watch(
-        activeShop,
-        async () => {
-            if (activeShop.value) {
-                const { data: isWorking } = await useQuery({
-                    query: IS_PICKUP_SHOP_OPEN,
-                    variables: {
-                        shop_id: activeShop.value.id,
-                    },
-                });
-                isActiveShopWorking.value = isWorking.value;
-            }
-        },
-        {
-            deep: true,
-        },
-    );
 
     return {
         isDeliveryChooserOpen,

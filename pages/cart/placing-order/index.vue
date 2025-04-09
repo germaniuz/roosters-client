@@ -167,9 +167,9 @@ const handleOrder = () => {
                     </div>
                     <div class="placing-order__addresses">
                         <div
+                            v-for="address in addresses"
                             class="placing-order__address"
                             :class="address.id === activeAddress.id ? 'placing-order__address--active' : ''"
-                            v-for="address in addresses"
                             @click="activeAddress = address"
                         >
                             <div class="placing-order__address-name">
@@ -187,8 +187,8 @@ const handleOrder = () => {
                     <h2 class="h2">Время доставки</h2>
                     <div class="placing-order__delivery-options">
                         <div
-                            class="placing-order__delivery-option"
                             v-for="deliveryTime in deliveryTimeOptions"
+                            class="placing-order__delivery-option"
                             :class="
                                 deliveryTime.id === activeDeliveryTimeOption.id
                                     ? 'placing-order__delivery-option--active'
@@ -231,9 +231,9 @@ const handleOrder = () => {
             <div class="placing-order__date-time-options">
                 <div class="placing-order__date-time-option-group">
                     <div
+                        v-for="date in dateOptions"
                         class="placing-order__date-time-option"
                         :class="date.id === activeDateOption.id ? 'placing-order__date-time-option--active' : ''"
-                        v-for="date in dateOptions"
                         @click="activeDateOption = date"
                     >
                         {{ date.title }}
@@ -241,8 +241,8 @@ const handleOrder = () => {
                 </div>
                 <div class="placing-order__date-time-option-group">
                     <div
-                        class="placing-order__date-time-option"
                         v-for="time in timeOptions"
+                        class="placing-order__date-time-option"
                         :class="time.id === activeTimeOption.id ? 'placing-order__date-time-option--active' : ''"
                         @click="activeTimeOption = time"
                     >

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { AddressFields, DadataSuggestion, DadataSuggestionResponse } from '~/types/Address';
 import { watchDebounced } from '@vueuse/core';
+import { useDeliveryStore } from '~/stores/deliveryStore';
 
 type Props = {
     coordinates: [number, number] | null;
@@ -8,11 +9,17 @@ type Props = {
 };
 const props = defineProps<Props>();
 
+const { deliveryLocalStorage } = storeToRefs(useDeliveryStore());
+
 const { app } = useRuntimeConfig();
 const address = defineModel<AddressFields>({
     required: true,
 });
-const addressQuery = ref('');
+const addressQuery = ref(
+    deliveryLocalStorage.value?.address.house
+        ? `г ${deliveryLocalStorage.value?.address.city} ${deliveryLocalStorage.value.address.street_type}. ${deliveryLocalStorage.value?.address.street}, ${deliveryLocalStorage.value?.address.house}`
+        : '',
+);
 const suggestions = ref<DadataSuggestion[]>([]);
 const isResultActive = ref(true);
 const resultContainer = useTemplateRef('resultContainer');

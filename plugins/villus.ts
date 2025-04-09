@@ -4,7 +4,6 @@ import { multipart } from '@villus/multipart';
 export default defineNuxtPlugin(async (nuxtApp) => {
     const { app } = useRuntimeConfig();
     const authToken = useCookie('villus:default.token');
-    console.log(authToken.value);
 
     function authPlugin({ opContext }: ClientPluginContext) {
         if (authToken.value) {

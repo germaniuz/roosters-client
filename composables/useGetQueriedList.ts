@@ -6,7 +6,7 @@ export const useGetQueriedList = <T, U>(data: Ref<T | null>) => {
     const list = computed(() => {
         let queriedList = null;
         if (data.value) {
-            let fieldName = getFieldName(data.value) as keyof typeof data.value;
+            const fieldName = getFieldName(data.value) as keyof typeof data.value;
             queriedList = data.value[fieldName] as QueryList<U>;
         }
 

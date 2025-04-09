@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import type { Shop } from '~/types/Shop';
-import { SHOP_LIST } from '~/gql/queries/shop';
+import { CURRENT_GEOZONE_SHOP, IS_PICKUP_SHOP_OPEN, SHOP_LIST } from '~/gql/queries/shop';
 import { type UserAddressFields, UserAddressFieldsSchema } from '~/types/Profile';
 import { useDeliveryStore } from '~/stores/deliveryStore';
+import { useQuery } from 'villus';
 
-const { deliveryTypes, activeDeliveryType, deliveryLocalStorage, pickupLocalStorage, activeShop } =
-    storeToRefs(useDeliveryStore());
+const {
+    deliveryTypes,
+    activeDeliveryType,
+    deliveryLocalStorage,
+    pickupLocalStorage,
+    activeShop,
+    isActiveShopWorking,
+    isDeliveryChooserOpen,
+} = storeToRefs(useDeliveryStore());
 
 const { items: shops } = useListQuery<Shop>(SHOP_LIST);
 
@@ -38,12 +46,14 @@ watch(isCottage, (newValue) => {
 });
 
 const isDeliveryMapActive = ref(false);
+const isShopMapActive = ref(false);
+
 const coordinates = ref<[number, number] | null>(null);
 const getSuggestionsByCoords = (coords: [number, number]) => {
     coordinates.value = coords;
 };
 
-const saveDeliveryTypeData = () => {
+const saveDeliveryTypeData = async () => {
     validate();
     if (Object.keys(formErrors.value).length === 0) {
         deliveryLocalStorage.value = {
@@ -66,16 +76,38 @@ const saveDeliveryTypeData = () => {
             is_current: true,
             is_active: true,
         };
+        isDeliveryChooserOpen.value = false;
         pickupLocalStorage.value = null;
+        activeShop.value = null;
+        const { data: shopResponse } = await useQuery<{ currentGeozoneDeliveryShop: Shop | null }>({
+            query: CURRENT_GEOZONE_SHOP,
+            variables: {
+                longitude: userAddressFields.value.location.longitude,
+                latitude: userAddressFields.value.location.latitude,
+            },
+        });
+        if (shopResponse.value?.currentGeozoneDeliveryShop) {
+            activeShop.value = shopResponse.value.currentGeozoneDeliveryShop;
+            isActiveShopWorking.value = !!shopResponse.value.currentGeozoneDeliveryShop;
+        } else {
+            isActiveShopWorking.value = false;
+        }
     } else {
-        console.log(formErrors.value);
+        console.error(formErrors.value);
     }
 };
 
-const isShopMapActive = ref(false);
-const setPickupShop = (shop: Shop) => {
+const setPickupShop = async (shop: Shop) => {
     pickupLocalStorage.value = shop;
     activeShop.value = shop;
+    const { data: isWorking } = await useQuery<{ isPickupShopOpen: boolean }>({
+        query: IS_PICKUP_SHOP_OPEN,
+        variables: {
+            shop_id: shop.id,
+        },
+    });
+    isActiveShopWorking.value = isWorking?.value?.isPickupShopOpen ?? null;
+    isDeliveryChooserOpen.value = false;
 };
 </script>
 
@@ -135,7 +167,7 @@ const setPickupShop = (shop: Shop) => {
                 <UserAddressMap v-model="userAddressFields" @set-coordinates="getSuggestionsByCoords" />
             </div>
         </div>
-        <div class="pickup" v-if="activeDeliveryType.key === 'pickup'">
+        <div v-if="activeDeliveryType.key === 'pickup'" class="pickup">
             <div class="pickup__form">
                 <BaseButton
                     :modifiers="[isShopMapActive ? 'secondary-light' : 'grey', 'icon']"

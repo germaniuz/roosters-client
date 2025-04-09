@@ -6,6 +6,7 @@ import type { Story } from '~/types/Story';
 import { useProfileStore } from '~/stores/profileStore';
 import { UPDATE_CLIENT_USER } from '~/gql/mutations/clientUser';
 import { useMutation } from 'villus';
+import { LOGOUT_PATH } from '~/constants/routing';
 
 // TODO: JS fix hydration
 
@@ -215,7 +216,7 @@ const saveProfile = async () => {
             </div>
             <div class="profile__personal-data-btns">
                 <BaseButton :modifiers="['primary']" @click="saveProfile">Сохранить</BaseButton>
-                <BaseButton :modifiers="['outline']">Выйти</BaseButton>
+                <BaseButtonLink :link-to="LOGOUT_PATH" :modifiers="['outline']">Выйти</BaseButtonLink>
             </div>
         </div>
     </div>
