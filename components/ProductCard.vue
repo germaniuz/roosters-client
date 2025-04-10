@@ -4,8 +4,11 @@ import { useProductStore } from '~/stores/product';
 
 type Props = {
     product: Product;
+    disabled?: boolean;
 };
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+    disabled: false,
+});
 
 const price = computed(() =>
     props.product.product_category_options.reduce((min, option) => {
@@ -21,7 +24,7 @@ const { openProductDialog } = useProductStore();
 </script>
 
 <template>
-    <div class="product-card" @click="openProductDialog(product)">
+    <div class="product-card" :class="{ 'product-card--disabled': disabled }" @click="openProductDialog(product)">
         <div class="product-card__image">
             <img :src="product.file.url" :alt="product.name" />
             <BaseBadge
@@ -36,8 +39,9 @@ const { openProductDialog } = useProductStore();
             {{ ingredients }}
         </div>
         <div class="product-card__price-block">
-            <BaseButton :modifiers="['item']" class="product-card__price-btn" @click="openProductDialog(product)"
-                >от {{ price }} ₽
+            <BaseButton :modifiers="['item']" class="product-card__price-btn" @click="openProductDialog(product)">
+                <span v-if="disabled">нет в наличии</span>
+                <span v-else>от {{ price }} ₽</span>
             </BaseButton>
         </div>
     </div>
@@ -71,6 +75,11 @@ const { openProductDialog } = useProductStore();
         @include media.lg-up {
             background-color: var(--c-grey05);
         }
+    }
+
+    &--disabled {
+        opacity: 0.5;
+        pointer-events: none;
     }
 }
 

@@ -4,6 +4,33 @@ import { PRODUCT_LIST } from '~/gql/queries/product';
 import type { Product } from '~/types/Product';
 
 const { items } = useListQuery<Product>(PRODUCT_LIST);
+const { activeShop } = storeToRefs(useDeliveryStore());
+
+const products = computed(() => {
+    const productList: {
+        inStock: Product[];
+        outStock: Product[];
+    } = {
+        inStock: [],
+        outStock: [],
+    };
+    if (!activeShop.value) {
+        productList.inStock = [...items.value];
+    } else {
+        items.value.forEach((product) => {
+            const stopIndex = activeShop.value?.product_stoplist.findIndex((stopProduct) => {
+                return stopProduct.product.id === product.id;
+            });
+            if (stopIndex !== -1) {
+                productList.outStock.push(product);
+            } else {
+                productList.inStock.push(product);
+            }
+        });
+    }
+
+    return productList;
+});
 </script>
 
 <template>
@@ -11,7 +38,13 @@ const { items } = useListQuery<Product>(PRODUCT_LIST);
         <BaseCartButton />
         <ClientOnly>
             <div v-if="items" class="grid grid--product-test">
-                <ProductCard v-for="product in items" :key="product.id" :product="product" />
+                <ProductCard v-for="product in products.inStock" :key="product.id" :product="product" />
+                <ProductCard
+                    v-for="product in products.outStock"
+                    :key="product.id"
+                    :product="product"
+                    :disabled="true"
+                />
             </div>
         </ClientOnly>
         <PopularItems />
