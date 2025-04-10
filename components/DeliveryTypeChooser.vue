@@ -15,7 +15,7 @@ const {
     isDeliveryChooserOpen,
 } = storeToRefs(useDeliveryStore());
 
-const { items: shops } = useListQuery<Shop>(SHOP_LIST);
+const { items: shops } = await useAsyncListQuery<Shop>(SHOP_LIST);
 
 const isCottage = ref(false);
 const userAddressFields = ref<UserAddressFields>({
@@ -110,12 +110,31 @@ const setPickupShop = async (shop: Shop) => {
     isDeliveryChooserOpen.value = false;
 };
 
-onMounted(() => {
-    if (activeDeliveryType.value.key === 'pickup' && pickupLocalStorage.value) {
-        setPickupShop(pickupLocalStorage.value);
+onMounted(async () => {
+    // set shop from localStorage
+    if (pickupLocalStorage?.value?.id && activeDeliveryType.value.key === 'pickup') {
+        // get shop from requested shopList for having up-to-date stopList
+        // @ts-expect-error pickupLocalStorage.value, but we check it in if statement
+        const shopIndex = shops.value.findIndex((shop) => shop.id === pickupLocalStorage.value.id);
+        if (shopIndex !== -1) {
+            await setPickupShop(shops.value[shopIndex]);
+        }
     }
+    // set address from localStorage
     if (activeDeliveryType.value.key === 'delivery' && deliveryLocalStorage.value) {
-        // TODO set activeAddress
+        const { data: shopResponse } = await useQuery<{ currentGeozoneDeliveryShop: Shop | null }>({
+            query: CURRENT_GEOZONE_SHOP,
+            variables: {
+                longitude: userAddressFields.value.location.longitude,
+                latitude: userAddressFields.value.location.latitude,
+            },
+        });
+        if (shopResponse.value?.currentGeozoneDeliveryShop) {
+            activeShop.value = shopResponse.value.currentGeozoneDeliveryShop;
+            isActiveShopWorking.value = !!shopResponse.value.currentGeozoneDeliveryShop;
+        } else {
+            isActiveShopWorking.value = false;
+        }
     }
 });
 </script>

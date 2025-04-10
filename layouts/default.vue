@@ -29,9 +29,11 @@ const { isDeliveryChooserOpen } = storeToRefs(useDeliveryStore());
             </BaseDialog>
         </transition>
         <transition name="fade-n-pop">
-            <BaseDialog v-show="isDeliveryChooserOpen" v-model:is-active="isDeliveryChooserOpen">
-                <DeliveryTypeChooser />
-            </BaseDialog>
+            <ClientOnly>
+                <BaseDialog v-show="isDeliveryChooserOpen" v-model:is-active="isDeliveryChooserOpen">
+                    <DeliveryTypeChooser />
+                </BaseDialog>
+            </ClientOnly>
         </transition>
     </div>
 </template>

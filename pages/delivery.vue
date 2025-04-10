@@ -2,6 +2,8 @@
 
 <template>
     <div class="container">
-        <DeliveryTypeChooser />
+        <ClientOnly>
+            <DeliveryTypeChooser />
+        </ClientOnly>
     </div>
 </template>

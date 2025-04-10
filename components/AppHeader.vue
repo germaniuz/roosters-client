@@ -127,10 +127,10 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
         </div>
     </div>
     <div class="container">
-        <div v-if="isActiveShopWorking === false && activeShop" class="notice">
-            "{{ activeShop?.name }}" в данный момент не работает. Вы можете оформить заказ через колл-центр по телефону
+        <BaseNotice v-if="isActiveShopWorking === false && activeShop"
+            >"{{ activeShop?.name }}" в данный момент не работает. Вы можете оформить заказ через колл-центр по телефону
             <a href="tel:88442466552">8 (8442) 46-65-52</a>
-        </div>
+        </BaseNotice>
     </div>
     <BaseDialog v-model:is-active="isAuthDialogActive">
         <AuthCard @open-code-verification-dialog="openCodeVerificationDialog" />
@@ -439,15 +439,5 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     top: 5px;
     border-radius: 50%;
     font-size: functions.rem(16);
-}
-
-.notice {
-    text-align: center;
-    border: 1px dashed var(--c-secondary);
-    padding: 5px 10px;
-    margin-block: -10px 40px;
-    border-radius: var(--b-radius-md);
-    font-weight: 300;
-    color: var(--c-grey70);
 }
 </style>
