@@ -15,8 +15,7 @@ export const useDeliveryStore = defineStore('delivery', () => {
             title: 'Самовывоз',
         },
     ]);
-    // WARNING не полагаться на activeDeliveryType - используется для переключателя в компоненте выбора доставки и не отражает фактический выбор пользователя
-    const activeDeliveryType = ref<DeliveryType>(deliveryTypes.value[0]);
+    const activeDeliveryType = useStorage<DeliveryType>('activeDeliveryType', { key: 'delivery', title: 'Доставка' });
 
     const deliveryLocalStorage = useStorage<UserAddress | null>('delivery-data', null, undefined, {
         serializer: StorageSerializers.object,
@@ -31,7 +30,7 @@ export const useDeliveryStore = defineStore('delivery', () => {
     return {
         isDeliveryChooserOpen,
         deliveryTypes,
-        activeDeliveryType,
+        activeDeliveryType: skipHydrate(activeDeliveryType),
         activeShop,
         isActiveShopWorking,
         deliveryLocalStorage: skipHydrate(deliveryLocalStorage),

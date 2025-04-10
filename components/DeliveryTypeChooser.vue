@@ -109,6 +109,15 @@ const setPickupShop = async (shop: Shop) => {
     isActiveShopWorking.value = isWorking?.value?.isPickupShopOpen ?? null;
     isDeliveryChooserOpen.value = false;
 };
+
+onMounted(() => {
+    if (activeDeliveryType.value.key === 'pickup' && pickupLocalStorage.value) {
+        setPickupShop(pickupLocalStorage.value);
+    }
+    if (activeDeliveryType.value.key === 'delivery' && deliveryLocalStorage.value) {
+        // TODO set activeAddress
+    }
+});
 </script>
 
 <template>
