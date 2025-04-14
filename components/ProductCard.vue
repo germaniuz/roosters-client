@@ -40,8 +40,7 @@ const { openProductDialog } = useProductStore();
         </div>
         <div class="product-card__price-block">
             <BaseButton :modifiers="['item']" class="product-card__price-btn" @click="openProductDialog(product)">
-                <span v-if="disabled">нет в наличии</span>
-                <span v-else>от {{ price }} ₽</span>
+                от {{ price }} ₽
             </BaseButton>
         </div>
     </div>

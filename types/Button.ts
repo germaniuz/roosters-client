@@ -16,4 +16,5 @@ export type BtnModifier =
     | 'disabled'
     | 'icon'
     | 'single-icon'
+    | 'link'
     | 'light';

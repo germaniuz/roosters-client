@@ -39,6 +39,14 @@
     padding: 20px 40px;
   }
 
+  &--link {
+    padding: 0;
+    color: var(--c-secondary);
+    text-decoration: underline;
+    display: inline-block;
+    font-size: inherit;
+  }
+
   &--primary {
     color: var(--c-grey00);
     background-color: var(--c-primary);

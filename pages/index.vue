@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import BaseCartButton from '~/components/BaseCartButton.vue';
-import { PRODUCT_LIST } from '~/gql/queries/product';
+import { PRODUCT_FULL_LIST } from '~/gql/queries/product';
 import type { Product } from '~/types/Product';
 
-const { items } = useListQuery<Product>(PRODUCT_LIST);
-const { activeShop } = storeToRefs(useDeliveryStore());
+const { items } = useListQuery<Product>(PRODUCT_FULL_LIST);
+const { activeShop, isActiveShopWorking } = storeToRefs(useDeliveryStore());
 
 const products = computed(() => {
     const productList: {
@@ -38,7 +38,12 @@ const products = computed(() => {
         <BaseCartButton />
         <ClientOnly>
             <div v-if="items" class="grid grid--product-test">
-                <ProductCard v-for="product in products.inStock" :key="product.id" :product="product" />
+                <ProductCard
+                    v-for="product in products.inStock"
+                    :key="product.id"
+                    :product="product"
+                    :disabled="!isActiveShopWorking"
+                />
                 <ProductCard
                     v-for="product in products.outStock"
                     :key="product.id"

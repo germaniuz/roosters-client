@@ -4,8 +4,14 @@ import { useDeliveryStore } from '~/stores/deliveryStore';
 
 const { phone } = useAppStore();
 const { isGuest, isAuthenticated, isAuthDialogActive, isCodeVerificationDialogActive } = storeToRefs(useProfileStore());
-const { pickupLocalStorage, deliveryLocalStorage, isDeliveryChooserOpen, isActiveShopWorking, activeShop } =
-    storeToRefs(useDeliveryStore());
+const {
+    pickupLocalStorage,
+    activeDeliveryType,
+    deliveryLocalStorage,
+    isDeliveryChooserOpen,
+    isActiveShopWorking,
+    activeShop,
+} = storeToRefs(useDeliveryStore());
 const menuIsActive = ref<boolean>(false);
 
 const toggleMobileMenu = () => {
@@ -127,9 +133,13 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
         </div>
     </div>
     <div class="container">
-        <BaseNotice v-if="isActiveShopWorking === false && activeShop"
-            >"{{ activeShop?.name }}" в данный момент не работает. Вы можете оформить заказ через колл-центр по телефону
+        <BaseNotice v-if="isActiveShopWorking === false && activeShop && activeDeliveryType.key === 'pickup'"
+            >"{{ activeShop?.name }}" в данный момент не работает. Вы можете
+            <BaseButton :modifiers="['link']" @click="isDeliveryChooserOpen = true">выбрать другую пиццерию</BaseButton>
+            или оформить заказ через колл-центр по телефону
             <a href="tel:88442466552">8 (8442) 46-65-52</a>
+        </BaseNotice>
+        <BaseNotice v-if="isActiveShopWorking === false && activeShop && activeDeliveryType.key === 'delivery'">
         </BaseNotice>
     </div>
     <BaseDialog v-model:is-active="isAuthDialogActive">
