@@ -28,12 +28,12 @@ const { isDeliveryChooserOpen } = storeToRefs(useDeliveryStore());
                 <TheProduct :product="modalProduct" />
             </BaseDialog>
         </transition>
-        <transition name="fade-n-pop">
-            <ClientOnly>
+        <ClientOnly>
+            <transition name="fade-n-pop">
                 <BaseDialog v-show="isDeliveryChooserOpen" v-model:is-active="isDeliveryChooserOpen">
                     <DeliveryTypeChooser />
                 </BaseDialog>
-            </ClientOnly>
-        </transition>
+            </transition>
+        </ClientOnly>
     </div>
 </template>
