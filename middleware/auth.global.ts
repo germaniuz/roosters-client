@@ -2,10 +2,12 @@ export default defineNuxtRouteMiddleware(async () => {
     const profileStore = useProfileStore();
     const { setProfile } = profileStore;
     const { cookieToken, isAuthenticated } = storeToRefs(profileStore);
+    const { fetchUserCart } = useCartStore();
 
     if (cookieToken.value && !isAuthenticated.value) {
-        console.log('auth middleware');
-
-        await setProfile();
+        if (import.meta.client) {
+            await setProfile();
+            await fetchUserCart();
+        }
     }
 });

@@ -6,6 +6,7 @@ const productStore = useProductStore();
 const { closeProductDialog } = productStore;
 const { isProductDialogShown, modalProduct } = storeToRefs(productStore);
 const { isDeliveryChooserOpen } = storeToRefs(useDeliveryStore());
+const { cartCount } = storeToRefs(useCartStore());
 </script>
 
 <template>
@@ -19,6 +20,9 @@ const { isDeliveryChooserOpen } = storeToRefs(useDeliveryStore());
             </main>
         </div>
         <AppFooter />
+        <ClientOnly>
+            <CartButton v-if="cartCount" />
+        </ClientOnly>
         <transition name="fade-n-pop">
             <BaseDialog
                 v-if="modalProduct && isProductDialogShown"

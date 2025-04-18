@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { CART_PATH } from '~/constants/routing';
 
-const { cartCount, cartPrice } = storeToRefs(useCartStore());
+const { cartPrice } = storeToRefs(useCartStore());
 </script>
 
 <template>
-    <div v-if="cartCount" class="cart-btn">
+    <div class="cart-btn">
         <NuxtLink class="btn btn--primary cart-btn__btn" :to="CART_PATH">
             <div class="cart-btn__icon"><img src="/images/cart.svg" alt="" /></div>
             <div class="cart-btn__text">

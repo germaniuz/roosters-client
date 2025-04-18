@@ -44,27 +44,29 @@ const addToCart = async () => {
     }
 
     if (isGuest.value) {
-        createLocalCartItem(
-            {
+        createLocalCartItem({
+            quantity: 1,
+            product: {
                 ...activeProductCategoryOption.value,
                 product: props.product,
             },
-            1,
-            activeIngredients.value,
-        );
+            cart_category_option_ingredients: activeIngredients.value,
+        });
         closeProductDialog();
 
         return;
     }
 
-    createCartItem(
-        activeProductCategoryOption.value.id,
-        1,
-        activeIngredients.value.map((ingredient) => ({
+    createCartItem({
+        product_category_option: {
+            product_category_option_id: activeProductCategoryOption.value.id,
+            quantity: 1,
+        },
+        cart_category_option_ingredients: activeIngredients.value.map((ingredient) => ({
             category_option_ingredient_id: ingredient.category_option_ingredient.id,
             quantity: ingredient.quantity,
         })),
-    );
+    });
     closeProductDialog();
 };
 

@@ -35,7 +35,6 @@ const products = computed(() => {
 <template>
     <div class="container front-page">
         <ClientOnly>
-            <CartButton />
             <div v-if="items" class="grid grid--product-test">
                 <ProductCard
                     v-for="product in products.inStock"

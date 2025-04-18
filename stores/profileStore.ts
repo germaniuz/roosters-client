@@ -3,7 +3,7 @@ import { useQuery } from 'villus';
 import { CLIENT_PROFILE } from '~/gql/queries/profile';
 
 export const useProfileStore = defineStore('profile', () => {
-    const { fetchUserCart } = useCartStore();
+    const { setLocalCartToUser } = useCartStore();
 
     const profile = ref<Profile | null>(null);
 
@@ -20,30 +20,42 @@ export const useProfileStore = defineStore('profile', () => {
         cookieToken.value = token;
         isCodeVerificationDialogActive.value = false;
         await setProfile();
+        setLocalCartToUser();
     };
 
     const setProfile = async () => {
-        const { data, error, execute } = useQuery<{
-            clientProfile: Profile;
-        }>({
-            query: CLIENT_PROFILE,
-        });
-        watch(error, (err) => {
-            if (err) {
-                if (err.message.includes('Unauthorized')) {
-                    console.warn('setProfile: Unauthorized, token may be invalid or not applied');
-                    if (cookieToken.value) {
-                        console.log('setProfile: Retrying query...');
-                        execute();
+        return new Promise<void>((resolve, reject) => {
+            const { data, error, execute } = useQuery<{
+                clientProfile: Profile;
+            }>({
+                query: CLIENT_PROFILE,
+            });
+
+            const errorUnwatch = watch(error, async (err) => {
+                if (err) {
+                    if (err.message.includes('Unauthorized')) {
+                        console.warn('setProfile: Unauthorized, token may be invalid or not applied');
+                        if (cookieToken.value) {
+                            console.log('setProfile: Retrying query...');
+                            await execute();
+                        }
+                    } else {
+                        errorUnwatch();
+                        dataUnwatch();
+                        reject(err);
                     }
                 }
-            }
-        });
-        watch(data, async (data) => {
-            if (data?.clientProfile) {
-                profile.value = data.clientProfile;
-                await fetchUserCart(); // TODO: think to move it to middleware
-            }
+            });
+
+            const dataUnwatch = watch(data, async (data) => {
+                if (data?.clientProfile) {
+                    console.log('setProfile: Data received', data.clientProfile);
+                    profile.value = data.clientProfile;
+                    errorUnwatch();
+                    dataUnwatch();
+                    resolve();
+                }
+            });
         });
     };
 

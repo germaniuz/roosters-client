@@ -15,6 +15,7 @@ export const CREATE_CLIENT_CART = gql`
                 id
                 quantity
                 product {
+                    id
                     price
                     product {
                         name

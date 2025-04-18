@@ -1,33 +1,57 @@
+import type { CreateLocalCartProductInput } from './../types/Cart';
 import { useMutation } from 'villus';
-import { CREATE_CLIENT_CART } from '~/gql/mutations/clientCart';
+import { CREATE_CLIENT_CART, DELETE_CLIENT_CART, DROP_CLIENT_CART } from '~/gql/mutations/clientCart';
 import { CLIENT_CART } from '~/gql/queries/clientCart';
-import type { CartCategoryOptionIngredient, CartCategoryOptionIngredientInput, CartProduct } from '~/types/Cart';
+import type { CartProduct, CreateCartProductInput } from '~/types/Cart';
 import { StorageSerializers, useStorage } from '@vueuse/core';
 import { skipHydrate } from 'pinia';
-import type { ProductCategoryOption } from '~/types/Product';
 
 export const useCartStore = defineStore('cart', () => {
-    const localCart = useStorage<CartProduct[]>('cart', [], undefined, {
+    const { execute: createClientCart } = useMutation(CREATE_CLIENT_CART);
+    const { execute: deleteClientCart } = useMutation(DELETE_CLIENT_CART);
+    const { execute: dropClientCart } = useMutation(DROP_CLIENT_CART);
+
+    const items = useStorage<CartProduct[]>('cart', [], undefined, {
         serializer: StorageSerializers.object,
     });
 
-    const items = ref<CartProduct[]>([]);
     const cartCount = computed(() => items.value.length);
 
-    const createCartItem = (
-        product_category_option_id: number,
-        cart_category_option_ingredients: CartCategoryOptionIngredientInput[],
-    ) => {
-        const { execute } = useMutation(CREATE_CLIENT_CART);
-
-        execute({
-            product_category_option: {
-                product_category_option_id: product_category_option_id,
-                quantity: 1,
-            },
-            quantity: 1,
-            cart_category_option_ingredients,
+    const fetchUserCart = async () => {
+        const { onData } = useListQuery<CartProduct>(CLIENT_CART);
+        onData((res) => {
+            items.value = res?.clientCart?.items || [];
         });
+    };
+
+    const setLocalCartToUser = async () => {
+        // if local cart is empty, fetch user cart from api and return
+        if (items.value.length === 0) {
+            fetchUserCart();
+
+            return;
+        }
+
+        await dropClientCart();
+        for (const item of items.value) {
+            await createCartItem({
+                product_category_option: {
+                    product_category_option_id: item.product.id,
+                    quantity: item.quantity,
+                },
+                cart_category_option_ingredients: item.cart_category_option_ingredients.map((ingredient) => ({
+                    category_option_ingredient_id: ingredient.category_option_ingredient.id,
+                    quantity: ingredient.quantity,
+                })),
+            });
+        }
+    };
+
+    const createCartItem = async (cartProductInput: CreateCartProductInput) => {
+        const res = await createClientCart(cartProductInput);
+        if (res?.data?.createClientCart.items) {
+            items.value = res.data.createClientCart.items;
+        }
     };
 
     const updateCartItem = () => {
@@ -35,27 +59,36 @@ export const useCartStore = defineStore('cart', () => {
         return;
     };
 
-    const dropCart = () => {
-        console.log('drop cart'); // TODO implement cleaning cart with request
+    const removeCartItem = async (cart_item_id: number) => {
+        console.log(cart_item_id);
+        const res = await deleteClientCart({
+            cart_item_id,
+        });
+        if (res?.data.deleteClientCart) {
+            items.value = items.value.filter((item) => item.id !== cart_item_id);
+        }
     };
 
-    const createLocalCartItem = (
-        productCategoryOption: ProductCategoryOption,
-        quantity: number,
-        cartCategoryOptionIngredients: CartCategoryOptionIngredient[],
-    ) => {
+    const dropCart = async () => {
+        items.value = [];
+        await dropClientCart();
+    };
+
+    const createLocalCartItem = (cartProductInput: CreateLocalCartProductInput) => {
         items.value.push({
             id: Math.floor(Math.random() * 9999) + 1,
-            quantity,
-            product: productCategoryOption,
-            cart_category_option_ingredients: cartCategoryOptionIngredients,
+            quantity: cartProductInput.quantity,
+            product: cartProductInput.product,
+            cart_category_option_ingredients: cartProductInput.cart_category_option_ingredients,
         });
-        localCart.value = items.value;
     };
 
     const removeLocalCartItem = (cartProductId: number) => {
         items.value = items.value.filter((item) => item.id !== cartProductId);
-        localCart.value = items.value;
+    };
+
+    const dropLocalCart = () => {
+        items.value = [];
     };
 
     const cartPrice = computed(() => {
@@ -64,29 +97,18 @@ export const useCartStore = defineStore('cart', () => {
         }, 0);
     });
 
-    const dropLocalCart = () => {
-        items.value = [];
-        localCart.value = items.value;
-    };
-
-    const fetchUserCart = async () => {
-        const { onData } = useListQuery<CartProduct>(CLIENT_CART, {});
-        onData((res) => {
-            items.value = res.clientCart.items;
-        });
-    };
-
     return {
-        items,
+        items: skipHydrate(items),
         cartCount,
         cartPrice,
-        localCart: skipHydrate(localCart),
         createCartItem,
         updateCartItem,
+        removeCartItem,
         dropCart,
         createLocalCartItem,
         removeLocalCartItem,
         dropLocalCart,
         fetchUserCart,
+        setLocalCartToUser,
     };
 });
