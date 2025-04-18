@@ -59,6 +59,7 @@ const addToCart = async () => {
 
     createCartItem(
         activeProductCategoryOption.value.id,
+        1,
         activeIngredients.value.map((ingredient) => ({
             category_option_ingredient_id: ingredient.category_option_ingredient.id,
             quantity: ingredient.quantity,

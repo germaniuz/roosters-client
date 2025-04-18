@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import BaseCartButton from '~/components/BaseCartButton.vue';
 import { PRODUCT_FULL_LIST } from '~/gql/queries/product';
 import type { Product } from '~/types/Product';
 
@@ -35,14 +34,14 @@ const products = computed(() => {
 
 <template>
     <div class="container front-page">
-        <BaseCartButton />
         <ClientOnly>
+            <CartButton />
             <div v-if="items" class="grid grid--product-test">
                 <ProductCard
                     v-for="product in products.inStock"
                     :key="product.id"
                     :product="product"
-                    :disabled="!isActiveShopWorking"
+                    :disabled="!isActiveShopWorking && !!activeShop"
                 />
                 <ProductCard
                     v-for="product in products.outStock"

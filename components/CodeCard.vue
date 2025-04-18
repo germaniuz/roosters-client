@@ -7,13 +7,9 @@ type Props = {
     phone: string;
 };
 
-const router = useRouter();
-
 const props = defineProps<Props>();
 
-const profileStore = useProfileStore();
-const { isCodeVerificationDialogActive } = storeToRefs(profileStore);
-const cookieToken = useCookie('villus:default.token');
+const { authenticateUser } = useProfileStore();
 
 const authCode = ref<Array<string>>(['', '', '', '']);
 const codeCardInputs = ref();
@@ -77,10 +73,8 @@ watchEffect(async () => {
                 code: authCode.value.join(''),
             });
             if (verifyResponse?.data?.verifyClientSmsCode.token) {
-                cookieToken.value = verifyResponse.data.verifyClientSmsCode.token;
-                isCodeVerificationDialogActive.value = false;
+                await authenticateUser(verifyResponse.data.verifyClientSmsCode.token);
                 authCode.value = ['', '', '', ''];
-                router.go(0);
             }
         } catch (error) {
             console.error(error);

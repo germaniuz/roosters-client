@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useCartStore } from '~/stores/cartStore';
+import { CART_PATH } from '~/constants/routing';
 
 const { cartCount, cartPrice } = storeToRefs(useCartStore());
 </script>
 
 <template>
     <div v-if="cartCount" class="cart-btn">
-        <NuxtLink class="btn btn--primary cart-btn__btn" to="/cart">
+        <NuxtLink class="btn btn--primary cart-btn__btn" :to="CART_PATH">
             <div class="cart-btn__icon"><img src="/images/cart.svg" alt="" /></div>
             <div class="cart-btn__text">
                 В корзине<span>{{ cartPrice }}₽</span>

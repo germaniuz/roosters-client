@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CHANGE_CART_PRODUCT_QUANTITY, DELETE_CLIENT_CART } from '~/gql/mutations/clientCart';
+import { CHANGE_CART_PRODUCT_QUANTITY } from '~/gql/mutations/clientCart';
 import type { CartProduct } from '~/types/Cart';
 import { useCartStore } from '~/stores/cartStore';
 import { useMutation } from 'villus';
@@ -9,11 +9,10 @@ type Props = {
 };
 
 const props = defineProps<Props>();
-const { updateCartItem, removeLocalCartItem } = useCartStore();
+const { removeCartItem, removeLocalCartItem } = useCartStore();
 const { isGuest } = storeToRefs(useProfileStore());
 
 const { execute: changeCartQuantity } = useMutation(CHANGE_CART_PRODUCT_QUANTITY);
-const { execute: removeItemFromCart } = useMutation(DELETE_CLIENT_CART);
 
 const increaseQuantity = async () => {
     await changeCartQuantity({
@@ -21,8 +20,6 @@ const increaseQuantity = async () => {
             product_category_option_id: props.cartProduct.product.id,
             quantity: 1,
         },
-    }).then(() => {
-        updateCartItem();
     });
 };
 
@@ -32,8 +29,6 @@ const decreaseQuantity = async () => {
             product_category_option_id: props.cartProduct.product.id,
             quantity: -1,
         },
-    }).then(() => {
-        updateCartItem();
     });
 };
 
@@ -41,11 +36,7 @@ const removeFromCart = async () => {
     if (isGuest.value) {
         removeLocalCartItem(props.cartProduct.id);
     } else {
-        await removeItemFromCart({
-            product_category_option_id: props.cartProduct.product.id,
-        }).then(() => {
-            updateCartItem();
-        });
+        await removeCartItem(props.cartProduct.id);
     }
 };
 

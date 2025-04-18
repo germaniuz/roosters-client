@@ -1,8 +1,11 @@
 export default defineNuxtRouteMiddleware(async () => {
-    const cookieToken = useCookie('villus:default.token');
-    const { setProfile } = useProfileStore();
+    const profileStore = useProfileStore();
+    const { setProfile } = profileStore;
+    const { cookieToken, isAuthenticated } = storeToRefs(profileStore);
 
-    if (cookieToken.value) {
-        await setProfile(cookieToken.value);
+    if (cookieToken.value && !isAuthenticated.value) {
+        console.log('auth middleware');
+
+        await setProfile();
     }
 });

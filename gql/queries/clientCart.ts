@@ -24,6 +24,7 @@ export const CLIENT_CART = gql`
                 fullname
             }
             items {
+                id
                 quantity
                 preset {
                     id

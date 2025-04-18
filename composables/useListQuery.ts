@@ -16,7 +16,7 @@ export const useListQuery = <TItem>(query: DocumentNode, params?: VariablesParam
         const fieldName = getFieldName(data.value) as keyof typeof data.value;
         const queriedList = data.value[fieldName] as QueryList<TItem>;
 
-        items.value = queriedList.items;
+        items.value = queriedList?.items ?? [];
     }
     const count = computed(() => {
         if (data.value) {
@@ -33,7 +33,7 @@ export const useListQuery = <TItem>(query: DocumentNode, params?: VariablesParam
         if (data.value) {
             const fieldName = getFieldName(data.value) as keyof typeof data.value;
             const queriedList = data.value[fieldName] as QueryList<TItem>;
-            items.value = queriedList.items;
+            items.value = queriedList?.items ?? [];
         }
     });
 

@@ -142,12 +142,14 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
         <BaseNotice v-if="isActiveShopWorking === false && activeShop && activeDeliveryType.key === 'delivery'">
         </BaseNotice>
     </div>
-    <BaseDialog v-model:is-active="isAuthDialogActive">
-        <AuthCard @open-code-verification-dialog="openCodeVerificationDialog" />
-    </BaseDialog>
-    <BaseDialog v-model:is-active="isCodeVerificationDialogActive">
-        <CodeCard :phone="authPhone" />
-    </BaseDialog>
+    <ClientOnly>
+        <BaseDialog v-model:is-active="isAuthDialogActive">
+            <AuthCard @open-code-verification-dialog="openCodeVerificationDialog" />
+        </BaseDialog>
+        <BaseDialog v-model:is-active="isCodeVerificationDialogActive">
+            <CodeCard :phone="authPhone" />
+        </BaseDialog>
+    </ClientOnly>
 </template>
 
 <style scoped lang="scss">

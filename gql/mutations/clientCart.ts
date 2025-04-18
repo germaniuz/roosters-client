@@ -12,6 +12,7 @@ export const CREATE_CLIENT_CART = gql`
             cart_category_option_ingredients: $cart_category_option_ingredients
         ) {
             items {
+                id
                 quantity
                 product {
                     price
@@ -77,7 +78,13 @@ export const CHANGE_CART_PRODUCT_QUANTITY = gql`
 `;
 
 export const DELETE_CLIENT_CART = gql`
-    mutation deleteClientCart($preset_id: Int, $product_category_option_id: Int) {
-        deleteClientCart(preset_id: $preset_id, product_category_option_id: $product_category_option_id)
+    mutation deleteClientCart($cart_item_id: Int!) {
+        deleteClientCart(cart_item_id: $cart_item_id)
+    }
+`;
+
+export const DROP_CLIENT_CART = gql`
+    mutation dropCart {
+        dropClientCart
     }
 `;

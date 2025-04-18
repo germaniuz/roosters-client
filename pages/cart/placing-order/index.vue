@@ -168,6 +168,7 @@ const handleOrder = () => {
                     <div class="placing-order__addresses">
                         <div
                             v-for="address in addresses"
+                            :key="address.id"
                             class="placing-order__address"
                             :class="address.id === activeAddress.id ? 'placing-order__address--active' : ''"
                             @click="activeAddress = address"
@@ -188,6 +189,7 @@ const handleOrder = () => {
                     <div class="placing-order__delivery-options">
                         <div
                             v-for="deliveryTime in deliveryTimeOptions"
+                            :key="deliveryTime.id"
                             class="placing-order__delivery-option"
                             :class="
                                 deliveryTime.id === activeDeliveryTimeOption.id
@@ -232,6 +234,7 @@ const handleOrder = () => {
                 <div class="placing-order__date-time-option-group">
                     <div
                         v-for="date in dateOptions"
+                        :key="date.id"
                         class="placing-order__date-time-option"
                         :class="date.id === activeDateOption.id ? 'placing-order__date-time-option--active' : ''"
                         @click="activeDateOption = date"
@@ -242,6 +245,7 @@ const handleOrder = () => {
                 <div class="placing-order__date-time-option-group">
                     <div
                         v-for="time in timeOptions"
+                        :key="time.id"
                         class="placing-order__date-time-option"
                         :class="time.id === activeTimeOption.id ? 'placing-order__date-time-option--active' : ''"
                         @click="activeTimeOption = time"

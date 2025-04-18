@@ -1,4 +1,4 @@
-import type { CategoryOptionIngredient, Product, ProductCategoryOption } from '~/types/Product';
+import type { CategoryOptionIngredient, ProductCategoryOption } from '~/types/Product';
 import * as v from 'valibot';
 
 export const CartCategoryOptionIngredientInputSchema = v.object({

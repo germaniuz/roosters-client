@@ -33,8 +33,8 @@ const emit = defineEmits(['update:modelValue']);
             :type="type"
             :placeholder="placeholder"
             :value="modelValue"
-            @input="emit('update:modelValue', ($event.currentTarget as HTMLInputElement).value)"
             :disabled="disabled"
+            @input="emit('update:modelValue', ($event.currentTarget as HTMLInputElement).value)"
         />
         <span v-if="errors?.length" class="form-control__error">{{ errors[0] }}</span>
     </div>

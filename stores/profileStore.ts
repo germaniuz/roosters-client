@@ -8,42 +8,58 @@ export const useProfileStore = defineStore('profile', () => {
     const profile = ref<Profile | null>(null);
 
     const cookieToken = useCookie('villus:default.token');
-    const token = ref<string | null>(cookieToken.value ?? null);
 
     const isAuthenticated = computed(() => !!profile.value);
-    const isGuest = computed(() => !token.value);
+    const isGuest = computed(() => !cookieToken.value);
 
     // dialog states
     const isAuthDialogActive = ref(false);
     const isCodeVerificationDialogActive = ref(false);
 
-    const setProfile = async (newToken: string) => {
-        const { data: profileData } = await useQuery<{
+    const authenticateUser = async (token: string) => {
+        cookieToken.value = token;
+        isCodeVerificationDialogActive.value = false;
+        await setProfile();
+    };
+
+    const setProfile = async () => {
+        const { data, error, execute } = useQuery<{
             clientProfile: Profile;
         }>({
             query: CLIENT_PROFILE,
         });
-        if (profileData.value?.clientProfile) {
-            profile.value = profileData.value.clientProfile;
-            token.value = newToken;
-
-            await fetchUserCart();
-        }
+        watch(error, (err) => {
+            if (err) {
+                if (err.message.includes('Unauthorized')) {
+                    console.warn('setProfile: Unauthorized, token may be invalid or not applied');
+                    if (cookieToken.value) {
+                        console.log('setProfile: Retrying query...');
+                        execute();
+                    }
+                }
+            }
+        });
+        watch(data, async (data) => {
+            if (data?.clientProfile) {
+                profile.value = data.clientProfile;
+                await fetchUserCart(); // TODO: think to move it to middleware
+            }
+        });
     };
 
     const logout = () => {
         cookieToken.value = null;
-        token.value = null;
         profile.value = null;
     };
 
     return {
-        token,
+        cookieToken,
         profile,
         isAuthenticated,
         isGuest,
         isAuthDialogActive,
         isCodeVerificationDialogActive,
+        authenticateUser,
         setProfile,
         logout,
     };

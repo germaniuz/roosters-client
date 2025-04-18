@@ -24,7 +24,7 @@ const checkoutCart = () => {
 };
 
 const dropCart = () => {
-    if (isGuest) {
+    if (isGuest.value) {
         cartStore.dropLocalCart();
     } else {
         cartStore.dropCart();
