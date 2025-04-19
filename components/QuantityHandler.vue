@@ -4,14 +4,16 @@ type Props = {
     increaseHandler: () => void | Promise<void>;
     decreaseHandler: () => void | Promise<void>;
     size?: 'sm' | 'md' | 'lg';
+    theme?: 'default' | 'primary';
 };
 withDefaults(defineProps<Props>(), {
     size: 'md',
+    theme: 'default',
 });
 </script>
 
 <template>
-    <div class="quantity-handler" :class="`quantity-handler--${size}`">
+    <div class="quantity-handler" :class="`quantity-handler--${size} quantity-handler--theme-${theme}`">
         <button class="quantity-handler__quantity-btn" @click="decreaseHandler">-</button>
         <span class="quantity-handler__number">{{ quantity }}</span>
         <button class="quantity-handler__quantity-btn" @click="increaseHandler">+</button>
@@ -30,10 +32,17 @@ withDefaults(defineProps<Props>(), {
     color: var(--c-grey80);
     font-size: functions.rem(14);
     line-height: functions.rem(17);
+    justify-content: space-between;
 
     @include media.lg-up {
         font-size: functions.rem(16);
         line-height: functions.rem(19);
+    }
+
+    &--theme-primary {
+        background: var(--c-primary);
+        color: var(--c-grey00);
+        border-radius: var(--b-radius);
     }
 }
 
@@ -52,6 +61,11 @@ withDefaults(defineProps<Props>(), {
     &:hover {
         border-color: var(--c-secondary);
         color: var(--c-secondary);
+    }
+
+    .quantity-handler--theme-primary & {
+        color: var(--c-grey00);
+        border: none;
     }
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CategoryOptionIngredient, Product, ProductCategoryOption } from '~/types/Product';
+import type { Product, ProductCategoryOption } from '~/types/Product';
 import { useProductStore } from '~/stores/product';
 import { useCartStore } from '~/stores/cartStore';
 import BaseBadge from '~/components/BaseBadge.vue';
@@ -11,29 +11,29 @@ type Props = {
 };
 const props = defineProps<Props>();
 
+const { closeProductDialog } = useProductStore();
+const { createCartItem, createLocalCartItem } = useCartStore();
 const { isGuest } = storeToRefs(useProfileStore());
 const { pickupLocalStorage, deliveryLocalStorage, isDeliveryChooserOpen } = storeToRefs(useDeliveryStore());
 
+const activeProductCategoryOption = ref<ProductCategoryOption>(props.product.product_category_options[0]);
+watch(
+    activeProductCategoryOption,
+    () => {
+        activeIngredients.value = [];
+    },
+    {
+        deep: true,
+    },
+);
+
 const ingredients = computed(() => props.product.product_ingredients.map((i) => i.ingredient.name).join(', '));
 const activeIngredients = ref<CartCategoryOptionIngredient[]>([]);
-const addIngredient = (ingredient: CategoryOptionIngredient) => {
-    const ingredientIndex = activeIngredients.value.findIndex(
-        (activeIngredient) => activeIngredient.category_option_ingredient.id === ingredient.id,
-    );
-    if (ingredientIndex === -1) {
-        activeIngredients.value.push({
-            category_option_ingredient: ingredient,
-            quantity: 1,
-        });
-    } else {
-        activeIngredients.value[ingredientIndex].quantity++;
-    }
-};
-
-const activeProductCategoryOption = ref<ProductCategoryOption>(props.product.product_category_options[0]);
-
-const { closeProductDialog } = useProductStore();
-const { createCartItem, createLocalCartItem } = useCartStore();
+const adds = computed(() =>
+    props.product.category.category_options_ingredient.filter(
+        (item) => item.category_options.id === activeProductCategoryOption.value.category_option.id,
+    ),
+);
 
 const addToCart = async () => {
     if (!pickupLocalStorage.value && !deliveryLocalStorage.value) {
@@ -70,12 +70,6 @@ const addToCart = async () => {
     closeProductDialog();
 };
 
-const adds = computed(() =>
-    props.product.category.category_options_ingredient.filter(
-        (item) => item.category_options.id === activeProductCategoryOption.value.category_option.id,
-    ),
-);
-
 const sauces = ref([
     {
         id: 1,
@@ -97,6 +91,13 @@ const sauces = ref([
 const activeSauce = ref(sauces.value[0]);
 
 const isDataInfoShowed = ref(false);
+
+const totalPrice = computed(() => {
+    return (
+        activeProductCategoryOption.value.price +
+        activeIngredients.value.reduce((acc, item) => acc + item.quantity * item.category_option_ingredient.price, 0)
+    );
+});
 </script>
 
 <template>
@@ -165,26 +166,10 @@ const isDataInfoShowed = ref(false);
                 </BaseTabsChooser>
                 <div class="product__subtitle">Хочу добавить в пиццу</div>
                 <div class="grid grid--adds">
-                    <div v-for="item in adds" :key="item.id" class="adds-card">
-                        <div class="adds-card__image">
-                            <img :src="item.ingredient.file.url" :alt="item.ingredient.name" />
-                        </div>
-                        <div class="adds-card__title">{{ item.ingredient.name }}</div>
-                        <BaseButton
-                            v-if="
-                                !activeIngredients.find(
-                                    (ingredient) => item.id === ingredient.category_option_ingredient.id,
-                                )
-                            "
-                            :modifiers="['light']"
-                            class="adds-card__price"
-                            @click="addIngredient(item)"
-                            >{{ item.price }} ₽</BaseButton
-                        >
-                    </div>
+                    <AddsCard v-for="item in adds" :key="item.id" v-model="activeIngredients" :item="item" />
                 </div>
                 <BaseButton :modifiers="['primary']" class="w-100 product__add-btn" @click="addToCart"
-                    >В корзину за {{ activeProductCategoryOption.price }}&nbsp;₽
+                    >В корзину за {{ totalPrice }}&nbsp;₽
                 </BaseButton>
             </div>
         </div>
@@ -192,8 +177,8 @@ const isDataInfoShowed = ref(false);
 </template>
 
 <style scoped lang="scss">
-@use '../assets/styles/helpers/media';
-@use '../assets/styles/helpers/functions';
+@use '@/assets/styles/helpers/media';
+@use '@/assets/styles/helpers/functions';
 
 .product {
     --product-height: 730px;
@@ -319,43 +304,6 @@ const isDataInfoShowed = ref(false);
     flex-direction: column;
     align-items: center;
     line-height: 1;
-}
-
-.adds-card {
-    background: var(--c-grey10);
-    border-radius: var(--b-radius);
-    position: relative;
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding: 5px;
-    align-items: stretch;
-}
-
-.adds-card__image {
-    width: 82px;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    translate: -50% -50%;
-
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-}
-
-.adds-card__title {
-    padding-top: 30px;
-    font-size: functions.rem(14);
-    color: var(--c-grey70);
-    text-align: center;
-}
-
-.adds-card__price {
-    margin-top: auto;
 }
 
 .option {
