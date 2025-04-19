@@ -1,6 +1,11 @@
-import type { CreateLocalCartProductInput } from './../types/Cart';
+import type { ChangeProductQuantityInput, CreateLocalCartProductInput } from './../types/Cart';
 import { useMutation } from 'villus';
-import { CREATE_CLIENT_CART, DELETE_CLIENT_CART, DROP_CLIENT_CART } from '~/gql/mutations/clientCart';
+import {
+    CHANGE_CART_PRODUCT_QUANTITY,
+    CREATE_CLIENT_CART,
+    DELETE_CLIENT_CART,
+    DROP_CLIENT_CART,
+} from '~/gql/mutations/clientCart';
 import { CLIENT_CART } from '~/gql/queries/clientCart';
 import type { CartProduct, CreateCartProductInput } from '~/types/Cart';
 import { StorageSerializers, useStorage } from '@vueuse/core';
@@ -8,6 +13,7 @@ import { skipHydrate } from 'pinia';
 
 export const useCartStore = defineStore('cart', () => {
     const { execute: createClientCart } = useMutation(CREATE_CLIENT_CART);
+    const { execute: changeProductQuantity } = useMutation(CHANGE_CART_PRODUCT_QUANTITY);
     const { execute: deleteClientCart } = useMutation(DELETE_CLIENT_CART);
     const { execute: dropClientCart } = useMutation(DROP_CLIENT_CART);
 
@@ -54,9 +60,30 @@ export const useCartStore = defineStore('cart', () => {
         }
     };
 
-    const updateCartItem = () => {
-        // TODO: Implement update cart item
-        return;
+    const changeCartProductQuantity = async (changeProductQuantityInput: ChangeProductQuantityInput) => {
+        const itemIndex = items.value.findIndex((item) => item.id === changeProductQuantityInput.cart_item_id);
+        if (itemIndex === -1) {
+            throw new Error('Item not found');
+        }
+
+        const prevQuantity = items.value[itemIndex].quantity;
+        items.value[itemIndex].quantity = changeProductQuantityInput.quantity;
+        const res = await changeProductQuantity(changeProductQuantityInput);
+        console.log(res);
+
+        if (res.data?.changeClientCartProductQuantity?.items) {
+            items.value = res.data.changeClientCartProductQuantity.items;
+        } else {
+            items.value[itemIndex].quantity = prevQuantity;
+        }
+    };
+
+    const changeLocalCartProductQuantity = (changeProductQuantityInput: ChangeProductQuantityInput) => {
+        const itemIndex = items.value.findIndex((item) => item.id === changeProductQuantityInput.cart_item_id);
+        if (itemIndex === -1) {
+            throw new Error('Item not found');
+        }
+        items.value[itemIndex].quantity = changeProductQuantityInput.quantity;
     };
 
     const removeCartItem = async (cart_item_id: number) => {
@@ -102,10 +129,11 @@ export const useCartStore = defineStore('cart', () => {
         cartCount,
         cartPrice,
         createCartItem,
-        updateCartItem,
+        changeCartProductQuantity,
         removeCartItem,
         dropCart,
         createLocalCartItem,
+        changeLocalCartProductQuantity,
         removeLocalCartItem,
         dropLocalCart,
         fetchUserCart,

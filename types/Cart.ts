@@ -14,8 +14,26 @@ export const CreateCartProductInputSchema = v.object({
     }),
     cart_category_option_ingredients: v.array(CartCategoryOptionIngredientInputSchema),
 });
+export const UpdateCartProductInputSchema = v.object({
+    cart_item_id: v.nonNullable(v.number(), 'Укажите cart_item_id'),
+    ...CreateCartProductInputSchema.entries,
+});
+export const ChangeProductQuantityInputSchema = v.object({
+    cart_item_id: v.nonNullable(v.number(), 'Укажите cart_item_id'),
+    quantity: v.nonNullable(v.number(), 'Укажите quantity'),
+});
+
 export type CreateCartProductInput = v.InferOutput<typeof CreateCartProductInputSchema>;
+export type UpdateCartProductInput = v.InferOutput<typeof UpdateCartProductInputSchema>;
+export type ChangeProductQuantityInput = v.InferOutput<typeof ChangeProductQuantityInputSchema>;
+
 export type CreateLocalCartProductInput = {
+    quantity: number;
+    product: ProductCategoryOption;
+    cart_category_option_ingredients: CartCategoryOptionIngredient[];
+};
+export type UpdateLocalCartProductInput = {
+    id: number;
     quantity: number;
     product: ProductCategoryOption;
     cart_category_option_ingredients: CartCategoryOptionIngredient[];

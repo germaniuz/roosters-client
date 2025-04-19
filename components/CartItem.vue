@@ -1,35 +1,52 @@
 <script setup lang="ts">
-import { CHANGE_CART_PRODUCT_QUANTITY } from '~/gql/mutations/clientCart';
 import type { CartProduct } from '~/types/Cart';
-import { useCartStore } from '~/stores/cartStore';
-import { useMutation } from 'villus';
 
 type Props = {
     cartProduct: CartProduct;
 };
 
 const props = defineProps<Props>();
-const { removeCartItem, removeLocalCartItem } = useCartStore();
+const { changeCartProductQuantity, removeCartItem, changeLocalCartProductQuantity, removeLocalCartItem } =
+    useCartStore();
 const { isGuest } = storeToRefs(useProfileStore());
 
-const { execute: changeCartQuantity } = useMutation(CHANGE_CART_PRODUCT_QUANTITY);
-
 const increaseQuantity = async () => {
-    await changeCartQuantity({
-        product_category_option: {
-            product_category_option_id: props.cartProduct.product.id,
-            quantity: 1,
-        },
-    });
+    if (isGuest.value) {
+        changeLocalCartProductQuantity({
+            cart_item_id: props.cartProduct.id,
+            quantity: props.cartProduct.quantity + 1,
+        });
+    } else {
+        changeCartProductQuantity({
+            cart_item_id: props.cartProduct.id,
+            quantity: props.cartProduct.quantity + 1,
+        });
+    }
 };
 
 const decreaseQuantity = async () => {
-    await changeCartQuantity({
-        product_category_option: {
-            product_category_option_id: props.cartProduct.product.id,
-            quantity: -1,
-        },
-    });
+    if (isGuest.value) {
+        if (props.cartProduct.quantity === 1) {
+            removeLocalCartItem(props.cartProduct.id);
+
+            return;
+        }
+
+        changeLocalCartProductQuantity({
+            cart_item_id: props.cartProduct.id,
+            quantity: props.cartProduct.quantity - 1,
+        });
+    } else {
+        if (props.cartProduct.quantity === 1) {
+            await removeCartItem(props.cartProduct.id);
+
+            return;
+        }
+        changeCartProductQuantity({
+            cart_item_id: props.cartProduct.id,
+            quantity: props.cartProduct.quantity - 1,
+        });
+    }
 };
 
 const removeFromCart = async () => {
@@ -56,23 +73,23 @@ const price_old = ref<number>(1500);
                 </div>
             </div>
             <div class="cart-item__details">
-                <div class="cart-item__detail">
-                    <div class="cart-item__detail-title">Ингредиенты</div>
+                <div v-if="cartProduct.cart_category_option_ingredients.length" class="cart-item__detail">
+                    <div class="cart-item__detail-title">Добавки</div>
                     <div
-                        v-for="productIngredient in cartProduct.product.product.product_ingredients"
-                        :key="productIngredient.id"
+                        v-for="productIngredient in cartProduct.cart_category_option_ingredients"
+                        :key="productIngredient.category_option_ingredient.id"
                         class="cart-item__detail-text"
                     >
-                        {{ productIngredient.ingredient.description }}
+                        {{ productIngredient.category_option_ingredient.ingredient.name }}
                     </div>
                 </div>
             </div>
             <div class="cart-item__quantity-price">
-                <div class="cart-item__quantity">
-                    <div class="cart-item__quantity-btn" @click="decreaseQuantity">-</div>
-                    {{ cartProduct.quantity }}
-                    <div class="cart-item__quantity-btn" @click="increaseQuantity">+</div>
-                </div>
+                <QuantityHandler
+                    :quantity="cartProduct.quantity"
+                    :increase-handler="increaseQuantity"
+                    :decrease-handler="decreaseQuantity"
+                />
                 <div class="cart-item__price">
                     <span v-if="price_old" class="cart-item__price-old">{{ price_old }} ₽</span>
                     {{ cartProduct.product.price }} ₽
@@ -183,38 +200,6 @@ const price_old = ref<number>(1500);
 
     @include media.lg-up {
         font-size: functions.rem(14);
-    }
-}
-
-.cart-item__quantity {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 15px;
-    color: var(--c-grey80);
-    font-size: functions.rem(14);
-    line-height: functions.rem(17);
-
-    @include media.lg-up {
-        font-size: functions.rem(16);
-        line-height: functions.rem(19);
-    }
-}
-
-.cart-item__quantity-btn {
-    width: 32px;
-    aspect-ratio: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--c-grey30);
-    border-radius: var(--b-radius-round);
-    cursor: pointer;
-    transition: all 0.1s ease-in;
-
-    &:hover {
-        border-color: var(--c-secondary);
-        color: var(--c-secondary);
     }
 }
 

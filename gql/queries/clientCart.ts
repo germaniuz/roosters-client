@@ -118,6 +118,19 @@ export const CLIENT_CART = gql`
                     weight
                     price
                 }
+                cart_category_option_ingredients {
+                    quantity
+                    category_option_ingredient {
+                        id
+                        price
+                        ingredient {
+                            name
+                            file {
+                                url
+                            }
+                        }
+                    }
+                }
             }
         }
     }

@@ -170,7 +170,15 @@ const isDataInfoShowed = ref(false);
                             <img :src="item.ingredient.file.url" :alt="item.ingredient.name" />
                         </div>
                         <div class="adds-card__title">{{ item.ingredient.name }}</div>
-                        <BaseButton :modifiers="['light']" class="adds-card__price" @click="addIngredient"
+                        <BaseButton
+                            v-if="
+                                !activeIngredients.find(
+                                    (ingredient) => item.id === ingredient.category_option_ingredient.id,
+                                )
+                            "
+                            :modifiers="['light']"
+                            class="adds-card__price"
+                            @click="addIngredient(item)"
                             >{{ item.price }} ₽</BaseButton
                         >
                     </div>
@@ -235,6 +243,7 @@ const isDataInfoShowed = ref(false);
         &:hover {
             scale: 1.8;
             left: 250px;
+            cursor: pointer;
         }
     }
 }
