@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { CartProduct } from '~/types/Cart';
+const { activeShop, isActiveShopWorking, isDeliveryChooserOpen } = storeToRefs(useDeliveryStore());
 
 type Props = {
     cartProduct: CartProduct;
@@ -9,6 +10,12 @@ const props = defineProps<Props>();
 const { changeCartProductQuantity, removeCartItem, changeLocalCartProductQuantity, removeLocalCartItem } =
     useCartStore();
 const { isGuest } = storeToRefs(useProfileStore());
+
+const itemInStopList = computed(() => {
+    return !!activeShop.value?.product_stoplist.find((stopProduct) => {
+        return stopProduct.product.id === props.cartProduct.product.product.id;
+    });
+});
 
 const increaseQuantity = async () => {
     if (isGuest.value) {
@@ -96,6 +103,17 @@ const price_old = ref<number>(1500);
                 </div>
             </div>
         </div>
+        <div v-if="!isActiveShopWorking || itemInStopList" class="cart-item__stop-item">
+            <span
+                >Данный товар в настоящие момент не доступен,
+                <BaseButton :modifiers="['link-primary']" @click="isDeliveryChooserOpen = true">
+                    выберите другой адрес
+                </BaseButton>
+                или
+                <BaseButton :modifiers="['link-primary']" @click="removeFromCart">удалите товар</BaseButton>
+                чтобы продолжить</span
+            >
+        </div>
     </div>
 </template>
 
@@ -108,6 +126,8 @@ const price_old = ref<number>(1500);
     flex-direction: row;
     align-items: flex-start;
     gap: 20px;
+    position: relative;
+    padding: 5px;
 
     @include media.lg-up {
         gap: 30px;
@@ -272,5 +292,23 @@ const price_old = ref<number>(1500);
     &:hover {
         color: var(--c-secondary);
     }
+}
+
+.cart-item__stop-item {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: color(from var(--c-secondary-extra-light) srgb r g b / 0.5);
+    //background-color: rgba(255, 255, 255, 0.5); TODO: обсудить - какой лучше вариант
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: var(--f-base), sans-serif;
+    font-size: functions.rem(14);
+    font-weight: 600;
+    padding: 40px;
+    backdrop-filter: blur(2px);
 }
 </style>
