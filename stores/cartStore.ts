@@ -13,7 +13,8 @@ import { skipHydrate } from 'pinia';
 
 export const useCartStore = defineStore('cart', () => {
     const { execute: createClientCart } = useMutation(CREATE_CLIENT_CART);
-    const { execute: changeProductQuantity } = useMutation(CHANGE_CART_PRODUCT_QUANTITY);
+    const { execute: changeProductQuantity, data: changeProductQuantityData } =
+        useMutation(CHANGE_CART_PRODUCT_QUANTITY);
     const { execute: deleteClientCart } = useMutation(DELETE_CLIENT_CART);
     const { execute: dropClientCart } = useMutation(DROP_CLIENT_CART);
 
@@ -68,13 +69,15 @@ export const useCartStore = defineStore('cart', () => {
 
         const prevQuantity = items.value[itemIndex].quantity;
         items.value[itemIndex].quantity = changeProductQuantityInput.quantity;
-        const res = await changeProductQuantity(changeProductQuantityInput);
-        console.log(res);
-
-        if (res.data?.changeClientCartProductQuantity?.items) {
-            items.value = res.data.changeClientCartProductQuantity.items;
-        } else {
-            items.value[itemIndex].quantity = prevQuantity;
+        try {
+            await changeProductQuantity(changeProductQuantityInput);
+            if (changeProductQuantityData.value?.changeClientCartProductQuantity?.items) {
+                items.value = changeProductQuantityData.value.changeClientCartProductQuantity.items;
+            } else {
+                items.value[itemIndex].quantity = prevQuantity;
+            }
+        } catch (e) {
+            console.log(e);
         }
     };
 

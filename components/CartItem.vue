@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { CartProduct } from '~/types/Cart';
+import { useDebounceFn } from '@vueuse/core';
+
 const { activeShop, isActiveShopWorking, isDeliveryChooserOpen } = storeToRefs(useDeliveryStore());
 
 type Props = {
@@ -9,7 +11,7 @@ type Props = {
 const props = defineProps<Props>();
 const { changeCartProductQuantity, removeCartItem, changeLocalCartProductQuantity, removeLocalCartItem } =
     useCartStore();
-const { isGuest } = storeToRefs(useProfileStore());
+const { isAuthenticated, isGuest } = storeToRefs(useProfileStore());
 
 const itemInStopList = computed(() => {
     return !!activeShop.value?.product_stoplist.find((stopProduct) => {
@@ -18,41 +20,40 @@ const itemInStopList = computed(() => {
 });
 
 const increaseQuantity = async () => {
-    if (isGuest.value) {
-        changeLocalCartProductQuantity({
-            cart_item_id: props.cartProduct.id,
-            quantity: props.cartProduct.quantity + 1,
-        });
-    } else {
-        changeCartProductQuantity({
-            cart_item_id: props.cartProduct.id,
-            quantity: props.cartProduct.quantity + 1,
-        });
+    changeLocalCartProductQuantity({
+        cart_item_id: props.cartProduct.id,
+        quantity: props.cartProduct.quantity + 1,
+    });
+    if (isAuthenticated.value) {
+        await updateCartProductQuantity();
     }
 };
 
-const decreaseQuantity = async () => {
-    if (isGuest.value) {
-        if (props.cartProduct.quantity === 1) {
-            removeLocalCartItem(props.cartProduct.id);
-
-            return;
-        }
-
-        changeLocalCartProductQuantity({
-            cart_item_id: props.cartProduct.id,
-            quantity: props.cartProduct.quantity - 1,
-        });
-    } else {
-        if (props.cartProduct.quantity === 1) {
-            await removeCartItem(props.cartProduct.id);
-
-            return;
-        }
+const updateCartProductQuantity = useDebounceFn(
+    () => {
         changeCartProductQuantity({
             cart_item_id: props.cartProduct.id,
-            quantity: props.cartProduct.quantity - 1,
+            quantity: props.cartProduct.quantity,
         });
+    },
+    1000,
+    { maxWait: 10000 },
+);
+
+const decreaseQuantity = async () => {
+    if (props.cartProduct.quantity === 1) {
+        removeLocalCartItem(props.cartProduct.id);
+
+        return;
+    }
+
+    changeLocalCartProductQuantity({
+        cart_item_id: props.cartProduct.id,
+        quantity: props.cartProduct.quantity - 1,
+    });
+
+    if (isAuthenticated.value) {
+        await updateCartProductQuantity();
     }
 };
 
