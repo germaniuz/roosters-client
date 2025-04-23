@@ -12,7 +12,10 @@ const { items } = storeToRefs(useCartStore());
                 <div v-if="items.length" class="cart__items">
                     <CartItem v-for="cartProduct in items" :key="cartProduct.product.id" :cart-product="cartProduct" />
                 </div>
-                <BaseEmptyMessage v-else message="Ваша корзина пуста" />
+                <BaseEmptyMessage
+                    v-else
+                    message="Тут пока пусто, добавьте что-нибудь из меню, а мы приготовим ваш заказ."
+                />
                 <PopularItems title="Рекомендуем добавить" class="cart__recommended" />
                 <CartSummary class="cart__summary" />
                 <ThePromocode class="cart__promocode" />

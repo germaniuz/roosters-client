@@ -39,8 +39,9 @@ const { openProductDialog } = useProductStore();
             {{ ingredients }}
         </div>
         <div class="product-card__price-block">
+            <span class="product-card__price"> от {{ price }} ₽</span>
             <BaseButton :modifiers="['item']" class="product-card__price-btn" @click="openProductDialog(product)">
-                от {{ price }} ₽
+                выбрать
             </BaseButton>
         </div>
     </div>
@@ -149,11 +150,7 @@ const { openProductDialog } = useProductStore();
     flex-direction: row;
     gap: 15px;
     align-items: center;
-
-    @include media.lg-up {
-        flex-direction: column-reverse;
-        gap: 10px;
-    }
+    justify-content: space-between;
 }
 
 .product-card__price-btn {
@@ -167,9 +164,7 @@ const { openProductDialog } = useProductStore();
     font-weight: 600;
     font-style: italic;
     line-height: normal;
-    margin-top: 12px;
-    border: 1px solid var(--c-primary);
-    background: var(--c-grey00);
+    background: var(--c-primary-light);
 
     @include media.lg-up {
         padding: 10px;
@@ -182,10 +177,6 @@ const { openProductDialog } = useProductStore();
 
     .product-card:hover & {
         @extend .btn--primary;
-
-        @include media.lg-up {
-            max-width: 100%;
-        }
     }
 }
 
