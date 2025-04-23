@@ -48,10 +48,10 @@ const removeIngredient = () => {
 
 <template>
     <div class="adds-card">
-        <div class="adds-card__image">
+        <div class="adds-card__image" @click="addIngredient">
             <img :src="item.ingredient.file.url" :alt="item.ingredient.name" />
         </div>
-        <div class="adds-card__title">{{ item.ingredient.name }}</div>
+        <div class="adds-card__title" @click="addIngredient">{{ item.ingredient.name }}</div>
         <QuantityHandler
             v-if="activeIngredient"
             class="adds-card__quantity"
@@ -88,6 +88,7 @@ const removeIngredient = () => {
     top: 0;
     left: 50%;
     translate: -50% -50%;
+    cursor: pointer;
 
     img {
         width: 100%;
@@ -101,6 +102,7 @@ const removeIngredient = () => {
     font-size: functions.rem(14);
     color: var(--c-grey70);
     text-align: center;
+    cursor: pointer;
 }
 
 .adds-card__price {
