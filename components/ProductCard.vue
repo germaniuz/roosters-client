@@ -126,7 +126,6 @@ const { openProductDialog } = useProductStore();
         font-size: functions.rem(20);
         margin-bottom: 10px;
         margin-top: 20px;
-        text-align: center;
     }
 }
 
@@ -151,6 +150,15 @@ const { openProductDialog } = useProductStore();
     gap: 15px;
     align-items: center;
     justify-content: space-between;
+}
+
+.product-card__price {
+    font-size: functions.rem(16);
+    color: var(--c-grey100);
+
+    @include media.lg-up {
+        font-size: functions.rem(20);
+    }
 }
 
 .product-card__price-btn {
