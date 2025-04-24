@@ -182,7 +182,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     }
 
     @include media.lg-up {
-        padding-block: 20px;
+        padding-block: 20px 10px;
     }
 
     @include media.xl-up {
@@ -295,9 +295,9 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 .header__categories {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 20px;
     overflow-x: auto;
-    padding-block: 5px;
+    padding-block: 0 5px;
     transform: scaleY(1);
     transform-origin: top;
     transition: transform 0.2s ease-in-out;
@@ -320,7 +320,6 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 }
 
 .header__category {
-    padding: 8px 20px;
     color: var(--c-grey90);
     cursor: pointer;
     position: relative;
