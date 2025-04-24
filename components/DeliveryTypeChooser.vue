@@ -15,6 +15,7 @@ const {
     isDeliveryChooserOpen,
 } = storeToRefs(useDeliveryStore());
 
+// have to be an await, because in onMounted we need a shopList to set active Shop
 const { items: shops } = await useAsyncListQuery<Shop>(SHOP_LIST);
 
 const isCottage = ref(false);
