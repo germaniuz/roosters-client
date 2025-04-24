@@ -35,9 +35,6 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@use 'media';
-@use 'functions';
-
 .thanks-for-order {
     > * {
         display: flex;
