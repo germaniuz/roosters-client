@@ -330,7 +330,6 @@ const totalPrice = computed(() => {
     position: sticky;
     bottom: 0;
     border: 6px solid var(--c-grey00);
-    border-radius: var(--b-radius);
     font-size: functions.rem(16);
 }
 

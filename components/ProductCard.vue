@@ -41,7 +41,7 @@ const { openProductDialog } = useProductStore();
         <div class="product-card__price-block">
             <span class="product-card__price"> от {{ price }} ₽</span>
             <BaseButton :modifiers="['item']" class="product-card__price-btn" @click="openProductDialog(product)">
-                выбрать
+                Выбрать
             </BaseButton>
         </div>
     </div>
@@ -115,7 +115,7 @@ const { openProductDialog } = useProductStore();
 }
 
 .product-card__title {
-    color: var(--c-grey90);
+    color: var(--c-grey100);
     font-family: var(--f-base), serif;
     font-size: functions.rem(16);
     font-weight: 400;

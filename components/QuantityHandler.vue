@@ -33,6 +33,7 @@ withDefaults(defineProps<Props>(), {
     font-size: functions.rem(14);
     line-height: functions.rem(17);
     justify-content: space-between;
+    border-radius: var(--b-radius);
 
     @include media.lg-up {
         font-size: functions.rem(16);
@@ -42,7 +43,6 @@ withDefaults(defineProps<Props>(), {
     &--theme-primary {
         background: var(--c-primary);
         color: var(--c-grey00);
-        border-radius: var(--b-radius);
     }
 }
 
@@ -54,7 +54,7 @@ withDefaults(defineProps<Props>(), {
     align-items: center;
     justify-content: center;
     border: 1px solid var(--c-grey30);
-    border-radius: var(--b-radius-round);
+    border-radius: var(--b-radius);
     cursor: pointer;
     transition: all 0.1s ease-in;
 
