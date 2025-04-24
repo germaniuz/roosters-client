@@ -118,12 +118,12 @@ const { openProductDialog } = useProductStore();
     color: var(--c-grey100);
     font-family: var(--f-base), serif;
     font-size: functions.rem(16);
-    font-weight: 400;
+    font-weight: 500;
     line-height: normal;
     margin-bottom: 8px;
 
     @include media.lg-up {
-        font-size: functions.rem(20);
+        font-size: functions.rem(18);
         margin-bottom: 10px;
         margin-top: 20px;
     }
@@ -155,9 +155,10 @@ const { openProductDialog } = useProductStore();
 .product-card__price {
     font-size: functions.rem(16);
     color: var(--c-grey100);
+    font-weight: 500;
 
     @include media.lg-up {
-        font-size: functions.rem(20);
+        font-size: functions.rem(18);
     }
 }
 
