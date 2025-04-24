@@ -13,6 +13,16 @@ const { changeCartProductQuantity, removeCartItem, changeLocalCartProductQuantit
     useCartStore();
 const { isAuthenticated, isGuest } = storeToRefs(useProfileStore());
 
+const totalPrice = computed(() => {
+    return (
+        props.cartProduct.product.price * props.cartProduct.quantity +
+        props.cartProduct.cart_category_option_ingredients.reduce(
+            (acc, item) => acc + item.category_option_ingredient.price * item.quantity,
+            0,
+        )
+    );
+});
+
 const itemInStopList = computed(() => {
     return !!activeShop.value?.product_stoplist.find((stopProduct) => {
         return stopProduct.product.id === props.cartProduct.product.product.id;
@@ -88,7 +98,8 @@ const price_old = ref<number>(1500);
                         :key="productIngredient.category_option_ingredient.id"
                         class="cart-item__detail-text"
                     >
-                        {{ productIngredient.category_option_ingredient.ingredient.name }}
+                        {{ productIngredient.category_option_ingredient.ingredient.name }} <i class="icon-close"></i>
+                        {{ productIngredient.quantity }}
                     </div>
                 </div>
             </div>
@@ -100,7 +111,7 @@ const price_old = ref<number>(1500);
                 />
                 <div class="cart-item__price">
                     <span v-if="price_old" class="cart-item__price-old">{{ price_old }} ₽</span>
-                    {{ cartProduct.product.price }} ₽
+                    {{ totalPrice }} ₽
                 </div>
             </div>
         </div>

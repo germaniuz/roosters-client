@@ -123,7 +123,14 @@ export const useCartStore = defineStore('cart', () => {
 
     const cartPrice = computed(() => {
         return items.value.reduce((total, item) => {
-            return total + item.product.price * item.quantity;
+            return (
+                total +
+                item.product.price * item.quantity +
+                item.cart_category_option_ingredients.reduce(
+                    (acc, item) => acc + item.quantity * item.category_option_ingredient.price,
+                    0,
+                )
+            );
         }, 0);
     });
 

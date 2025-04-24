@@ -51,8 +51,3 @@ export type CartProduct = {
     product: ProductCategoryOption;
     cart_category_option_ingredients: CartCategoryOptionIngredient[];
 };
-
-export type DeliveryTimeOption = {
-    id: number;
-    title: string;
-};

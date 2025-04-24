@@ -37,6 +37,11 @@ type ClientCartItem {
     quantity: Int
 }
 
+"Url для оплаты"
+type ClientPaymentUrl {
+    url: String
+}
+
 "Тип профиля"
 type ClientProfile {
     "Адреса"
@@ -688,6 +693,11 @@ type Mutation {
         "Адрес доставки"
         user_address: AppGraphQLv1CommonTypesUserAddressInput
     ): CommonOrder
+    "Создание ссылки для оплаты"
+    createClientOrderPaymentUrl(
+        "ID заказа"
+        order_id: Int
+    ): ClientPaymentUrl
     "Удаление товара из корзины"
     deleteClientCart(cart_item_id: Int!): Boolean
     "Очистка корзины"
@@ -739,10 +749,12 @@ type Query {
     clientShopList(
         "Поиск без учета регистра (по умолчанию: true)"
         case_insensitive_search: Boolean = true,
+        "Показ неактивной информации"
+        get_inactive: Boolean = false,
         "Max 50"
         ids: [Int],
         "Max 50"
-        limit: Int = 30,
+        limit: Int = 10,
         offset: Int = 0,
         orders: [ClientShopListOrder],
         search: String

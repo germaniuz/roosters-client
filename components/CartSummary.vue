@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { useCartStore } from '~/stores/cartStore';
+import { CREATE_ORDER_PATH } from '~/constants/routing';
 
 type Props = {
     type?: 'action' | 'view';
 };
-
 withDefaults(defineProps<Props>(), {
     type: 'action',
 });
+
+const router = useRouter();
 
 const { isGuest, isAuthDialogActive } = storeToRefs(useProfileStore());
 
@@ -21,6 +23,8 @@ const checkoutCart = () => {
 
         return;
     }
+
+    router.push(CREATE_ORDER_PATH);
 };
 
 const dropCart = () => {
@@ -60,17 +64,25 @@ const dropCart = () => {
                         <div class="cart-summary__item-title">
                             <span>{{ cartProduct.product.product.name }} x {{ cartProduct.quantity }}</span>
                             <div class="cart-summary__item-price">
-                                {{ cartProduct.product.price * cartProduct.quantity }} ₽
+                                {{
+                                    cartProduct.product.price * cartProduct.quantity +
+                                    cartProduct.cart_category_option_ingredients.reduce(
+                                        (acc, item) => acc + item.category_option_ingredient.price * item.quantity,
+                                        0,
+                                    )
+                                }}
+                                ₽
                             </div>
                         </div>
                         <div class="cart-summary__item-detail">
-                            <span>Ингредиенты</span>
                             <div
-                                v-for="productIngredient in cartProduct.product.product.product_ingredients"
-                                :key="productIngredient.ingredient.id"
+                                v-for="cartIngredient in cartProduct.cart_category_option_ingredients"
+                                :key="cartIngredient.category_option_ingredient.id"
                                 class="cart-summary__item-detail-text"
                             >
-                                {{ productIngredient.ingredient.description }}
+                                {{ cartIngredient.category_option_ingredient.ingredient.name }}
+                                <i class="icon-close"></i> {{ cartIngredient.quantity }} =
+                                {{ cartIngredient.category_option_ingredient.price * cartIngredient.quantity }} ₽
                             </div>
                         </div>
                     </div>
@@ -243,7 +255,7 @@ const dropCart = () => {
 .cart-summary__item {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 4px;
 }
 
 .cart-summary__item-title {

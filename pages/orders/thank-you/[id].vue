@@ -4,7 +4,7 @@ const router = useRouter();
 const dialogIsActive = ref(false);
 
 onMounted(() => {
-    if (route.query.from === 'placing-order') {
+    if (route.query.from === 'order') {
         dialogIsActive.value = true;
         router.replace({ path: route.path });
     }
@@ -20,7 +20,7 @@ onMounted(() => {
             Мы уведомим вас, когда он будет готов к доставке. Статус вашего заказа вы можете отслеживать
             <NuxtLink to="/profile">в личном кабинете</NuxtLink>
             или
-            <NuxtLink to="/">на главной странице</NuxtLink>.
+            <NuxtLink to="/public">на главной странице</NuxtLink>.
         </div>
         <div class="thanks-for-order___info">
             <div>
@@ -30,13 +30,13 @@ onMounted(() => {
             <div class="thanks-for-order___info-processing">Обрабатывается</div>
             <BaseIcon name="menu-bars" />
         </div>
-        <NuxtLink class="btn btn--primary thanks-for-order___btn" to="/">На главную</NuxtLink>
+        <NuxtLink class="btn btn--primary thanks-for-order___btn" to="/public">На главную</NuxtLink>
     </BaseDialog>
 </template>
 
 <style scoped lang="scss">
-@use '@/assets/styles/helpers/media';
-@use '@/assets/styles/helpers/functions';
+@use 'media';
+@use 'functions';
 
 .thanks-for-order {
     > * {

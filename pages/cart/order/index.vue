@@ -1,147 +1,73 @@
 <script lang="ts" setup>
-import CartSummary from '~/components/CartSummary.vue';
-import RadioButton from '~/components/form/RadioButton.vue';
-import type { DeliveryTimeOption } from '~/types/Cart';
+import { useMutation } from 'villus';
+import { CREATE_ORDER, CREATE_PAYMENT_URL } from '~/gql/mutations/order';
+import { PAYMENT_TYPE } from '~/constants/order';
 
 const router = useRouter();
+const { profile, isGuest } = storeToRefs(useProfileStore());
+const { activeShop } = storeToRefs(useDeliveryStore());
+const { dropLocalCart } = useCartStore();
 
-const deliveryOptions = ref([
+const paymentOptions = [
     {
-        id: 1,
-        title: 'Самовывоз',
-    },
-    {
-        id: 2,
-        title: 'Доставка',
-    },
-]);
-const activeDeliveryOption = ref(deliveryOptions.value[0]);
-
-const deliveryTimeOptions = ref<DeliveryTimeOption[]>([
-    {
-        id: 1,
-        title: 'Как можно скорее',
-    },
-    {
-        id: 2,
-        title: 'Другое время',
-    },
-]);
-const activeDeliveryTimeOption = ref(deliveryTimeOptions.value[0]);
-
-const paymentOptions = ref([
-    {
-        id: 1,
+        id: PAYMENT_TYPE.ONLINE,
         title: 'Онлайн',
     },
     {
-        id: 2,
-        title: 'При получении',
+        id: PAYMENT_TYPE.CARD,
+        title: 'Картой при получении',
     },
-]);
-const activePaymentOption = ref(paymentOptions.value[0]);
+    {
+        id: PAYMENT_TYPE.CASH,
+        title: 'Наличными при получении',
+    },
+];
+const activePaymentOption = ref(paymentOptions[0]);
+const userComment = ref('');
 
-const addresses = ref([
-    {
-        id: 1,
-        title: 'На Невской',
-    },
-    {
-        id: 2,
-        title: 'На Елецкой',
-    },
-    {
-        id: 3,
-        title: 'На Невской',
-    },
-    {
-        id: 4,
-        title: 'На Елецкой',
-    },
-]);
-const activeAddress = ref(addresses.value[0]);
+const { execute: createOrder } = useMutation(CREATE_ORDER);
+const { execute: createPaymentUrl } = useMutation(CREATE_PAYMENT_URL);
 
-const dateOptions = ref([
-    {
-        id: 1,
-        title: 'Сегодня, 28.01',
-    },
-    {
-        id: 2,
-        title: '29.01',
-    },
-    {
-        id: 3,
-        title: '30.01',
-    },
-    {
-        id: 4,
-        title: '31.01',
-    },
-    {
-        id: 5,
-        title: '01.02',
-    },
-    {
-        id: 6,
-        title: '02.02',
-    },
-]);
-const activeDateOption = ref(dateOptions.value[0]);
+const handleOrder = async () => {
+    if (activeShop.value) {
+        const res = await createOrder({
+            shop_id: activeShop.value.id,
+            customer_comment: userComment.value,
+            payment_type: activePaymentOption.value.id,
+            user_address: null,
+        });
 
-const timeOptions = ref([
-    {
-        id: 1,
-        title: '~16:30',
-    },
-    {
-        id: 2,
-        title: '~17:00',
-    },
-    {
-        id: 3,
-        title: '~18:00',
-    },
-    {
-        id: 4,
-        title: '~19:00',
-    },
-    {
-        id: 5,
-        title: '~20:00',
-    },
-    {
-        id: 6,
-        title: '~21:00',
-    },
-]);
-const activeTimeOption = ref(timeOptions.value[0]);
+        if (!res.data?.createClientOrder) {
+            throw new Error('Ошибка создания заказа');
+        }
 
-const dateTimeDialogActive = ref<boolean>(false);
+        dropLocalCart();
 
-const name = ref<string>('');
-const phone = ref<string>('');
+        if (activePaymentOption.value.id === PAYMENT_TYPE.ONLINE) {
+            const paymentUrlRes = await createPaymentUrl({
+                order_id: res.data.createClientOrder.id,
+            });
 
-const handleDateTimeClick = (option: DeliveryTimeOption) => {
-    activeDeliveryTimeOption.value = option;
+            if (!paymentUrlRes.data?.createClientOrderPaymentUrl) {
+                throw new Error('Ошибка создания ссылки на оплату');
+            }
 
-    if (option.id === 1) {
-        activeDateOption.value = dateOptions.value[0];
-        activeTimeOption.value = timeOptions.value[0];
-    }
-
-    if (option.id === 2) {
-        dateTimeDialogActive.value = true;
+            window.location.href = paymentUrlRes.data.createClientOrderPaymentUrl.url;
+        }
     }
 };
 
-const handleOrder = () => {
-    router.push({ path: '/orders', query: { from: 'placing-order' } });
-};
+onMounted(async () => {
+    if (isGuest.value) {
+        router.push('/');
+
+        return;
+    }
+});
 </script>
 
 <template>
-    <div class="container container--sm placing-order">
+    <div class="container container--sm placing-order" v-if="profile">
         <h1 class="h1">
             <span class="h1--md-hidden">Корзина -</span> Оформление
             <span class="h1--grey h1--md-hidden"> - Заказ принят</span>
@@ -151,56 +77,9 @@ const handleOrder = () => {
                 <div class="placing-order__contacts">
                     <div class="placing-order__contacts-header">
                         <h2 class="h2">Контакты</h2>
-                        <button class="btn btn--outline">Action</button>
                     </div>
-                    <FormInput v-model="name" placeholder="Имя" name="name" />
-                    <FormInput v-model="phone" placeholder="Телефон" name="phone" />
-                </div>
-                <div class="placing-order__delivery">
-                    <h2 class="h2">Доставка</h2>
-                    <BaseTabsChooser v-model="activeDeliveryOption" :tabs="deliveryOptions" item-key="id">
-                        <template #btn="{ item }">{{ item.title }}</template>
-                    </BaseTabsChooser>
-                    <div class="placing-order__delivery-map-btn">
-                        <BaseIcon name="ya-maps" />
-                        На карте
-                    </div>
-                    <div class="placing-order__addresses">
-                        <div
-                            v-for="address in addresses"
-                            :key="address.id"
-                            class="placing-order__address"
-                            :class="address.id === activeAddress.id ? 'placing-order__address--active' : ''"
-                            @click="activeAddress = address"
-                        >
-                            <div class="placing-order__address-name">
-                                <BaseIcon name="ya-maps" />
-                                <span>{{ address.title }}</span>
-                                <div class="placing-order__address-waiting-time">~ 60 мин</div>
-                            </div>
-                            <div class="placing-order__address-text">Невская, 2, Центральный район</div>
-                            <div class="placing-order__address-text">10:00 - 23:00</div>
-                            <BaseIcon class="placing-order__address-checked" name="check" />
-                        </div>
-                    </div>
-                </div>
-                <div class="placing-order__delivery">
-                    <h2 class="h2">Время доставки</h2>
-                    <div class="placing-order__delivery-options">
-                        <div
-                            v-for="deliveryTime in deliveryTimeOptions"
-                            :key="deliveryTime.id"
-                            class="placing-order__delivery-option"
-                            :class="
-                                deliveryTime.id === activeDeliveryTimeOption.id
-                                    ? 'placing-order__delivery-option--active'
-                                    : ''
-                            "
-                            @click="handleDateTimeClick(deliveryTime)"
-                        >
-                            {{ deliveryTime.title }}
-                        </div>
-                    </div>
+                    <div v-if="profile?.name">{{ profile.name }}</div>
+                    <div>Телефон: {{ profile.phone }}</div>
                 </div>
                 <div class="placing-order__we-are-here">
                     <div class="placing-order__we-are-here-title">
@@ -229,33 +108,6 @@ const handleOrder = () => {
             </div>
             <CartSummary class="placing-order__summary" type="view" />
         </div>
-        <BaseDialog v-model:is-active="dateTimeDialogActive" class="placing-order__dialog" :sm="true">
-            <div class="placing-order__date-time-options">
-                <div class="placing-order__date-time-option-group">
-                    <div
-                        v-for="date in dateOptions"
-                        :key="date.id"
-                        class="placing-order__date-time-option"
-                        :class="date.id === activeDateOption.id ? 'placing-order__date-time-option--active' : ''"
-                        @click="activeDateOption = date"
-                    >
-                        {{ date.title }}
-                    </div>
-                </div>
-                <div class="placing-order__date-time-option-group">
-                    <div
-                        v-for="time in timeOptions"
-                        :key="time.id"
-                        class="placing-order__date-time-option"
-                        :class="time.id === activeTimeOption.id ? 'placing-order__date-time-option--active' : ''"
-                        @click="activeTimeOption = time"
-                    >
-                        {{ time.title }}
-                    </div>
-                </div>
-            </div>
-            <BaseButton :modifiers="['primary']" @click="dateTimeDialogActive = false">Action</BaseButton>
-        </BaseDialog>
     </div>
 </template>
 
