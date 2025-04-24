@@ -164,7 +164,8 @@ const { openProductDialog } = useProductStore();
     font-weight: 600;
     font-style: italic;
     line-height: normal;
-    background: var(--c-primary-light);
+    background: var(--c-grey00);
+    border: 1px solid var(--c-primary);
 
     @include media.lg-up {
         padding: 10px;
