@@ -74,7 +74,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
                 <BaseButton
                     v-if="isGuest"
                     class="header__login"
-                    :modifiers="['grey', 'icon']"
+                    :modifiers="['light', 'icon']"
                     @click="isAuthDialogActive = true"
                 >
                     <img src="/images/icons/avatar.svg" alt="Вход Рустерс" /> <span>Войти</span>
@@ -205,7 +205,6 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 }
 
 .header__delivery-banner {
-    background-color: var(--c-grey05);
     padding: 10px 15px;
     border-radius: var(--b-radius-md);
     display: flex;
@@ -280,7 +279,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 
     span {
         font-weight: 600;
-        color: var(--c-grey70);
+        color: var(--c-grey90);
         transition: all 0.2s ease-in-out;
     }
 }
@@ -322,16 +321,12 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 
 .header__category {
     padding: 8px 20px;
-    background-color: var(--c-grey10);
-    border-radius: var(--b-radius-round);
-    color: var(--c-grey80);
+    color: var(--c-grey90);
     cursor: pointer;
     position: relative;
 
     &:hover {
-        &::after {
-            background-color: var(--c-primary);
-        }
+        color: var(--c-primary);
     }
 
     &::after {
@@ -437,11 +432,11 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 }
 
 .header__delivery-type {
-    color: var(--c-grey50);
+    color: var(--c-grey80);
 }
 
 .header__delivery-place {
-    color: var(--c-grey80);
+    color: var(--c-grey90);
     font-weight: 700;
 }
 

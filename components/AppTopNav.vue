@@ -49,7 +49,7 @@
 }
 
 .top-nav__link {
-    color: var(--c-grey50);
+    color: var(--c-grey80);
     font-size: functions.rem(14);
     line-height: 1;
     transition: all 0.2s ease-in-out;
