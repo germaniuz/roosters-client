@@ -45,11 +45,20 @@
     text-decoration: underline;
     display: inline-block;
     font-size: inherit;
+    font-weight: 400;
   }
 
   &--link {
     padding: 0;
     color: var(--c-secondary);
+    text-decoration: underline;
+    display: inline-block;
+    font-size: inherit;
+  }
+
+  &--link-grey {
+    padding: 0;
+    color: var(--c-grey80);
     text-decoration: underline;
     display: inline-block;
     font-size: inherit;
