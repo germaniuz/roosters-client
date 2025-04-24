@@ -158,7 +158,7 @@ const { openProductDialog } = useProductStore();
     position: relative;
     font-family: var(--f-base), serif;
     font-size: functions.rem(14);
-    padding: 6px 25px;
+    padding: 6px 10px;
     width: 100%;
     max-width: 150px;
     font-weight: 600;
@@ -173,7 +173,7 @@ const { openProductDialog } = useProductStore();
 
     @include media.xl-up {
         font-size: functions.rem(16);
-        max-width: 170px;
+        max-width: 120px;
     }
 
     .product-card:hover & {
