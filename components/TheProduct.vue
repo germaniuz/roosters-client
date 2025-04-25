@@ -226,8 +226,7 @@ const totalPrice = computed(() => {
         }
 
         &:hover {
-            scale: 1.8;
-            left: 250px;
+            scale: 1.1;
             cursor: pointer;
         }
     }
@@ -317,8 +316,6 @@ const totalPrice = computed(() => {
 .option__title {
     font-size: functions.rem(14);
     line-height: 1.2;
-    font-weight: 700;
-    font-family: var(--f-base), serif;
 }
 
 .option__price {

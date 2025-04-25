@@ -51,11 +51,11 @@ const activeTab = defineModel<TItem>({ required: true });
 
 .tabs-chooser__btn {
     padding: 4px 20px;
-    font-family: var(--f-headings), serif;
+    font-family: var(--f-base), serif;
     font-size: functions.rem(14);
-    font-weight: 700;
+    font-weight: 500;
     border-radius: var(--b-radius-md);
-    color: var(--c-grey60);
+    color: var(--c-grey80);
     flex: 1;
     text-align: center;
     transition: all 0.1s ease-in;

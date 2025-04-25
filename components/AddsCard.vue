@@ -16,11 +16,10 @@ const activeIngredient = computed<CartCategoryOptionIngredient | null>(() => {
     );
 });
 
-const addIngredient = () => {
+const toogleIngredient = () => {
     const ingredientIndex = activeIngredients.value.findIndex(
         (activeIngredient) => activeIngredient.category_option_ingredient.id === props.item.id,
     );
-    console.log(ingredientIndex);
 
     if (ingredientIndex === -1) {
         activeIngredients.value.push({
@@ -28,41 +27,23 @@ const addIngredient = () => {
             quantity: 1,
         });
     } else {
-        activeIngredients.value[ingredientIndex].quantity = activeIngredients.value[ingredientIndex].quantity + 1;
-    }
-};
-const removeIngredient = () => {
-    const ingredientIndex = activeIngredients.value.findIndex(
-        (activeIngredient) => activeIngredient.category_option_ingredient.id === props.item.id,
-    );
-    if (ingredientIndex === -1) {
-        return;
-    }
-    if (activeIngredients.value[ingredientIndex].quantity === 1) {
         activeIngredients.value.splice(ingredientIndex, 1);
-    } else {
-        activeIngredients.value[ingredientIndex].quantity--;
     }
 };
 </script>
 
 <template>
-    <div class="adds-card">
-        <div class="adds-card__image" @click="addIngredient">
-            <img :src="item.ingredient.file.url" :alt="item.ingredient.name" />
+    <div class="adds-card" :class="{ 'adds-card--active': activeIngredient }" @click="toogleIngredient">
+        <div class="adds-card__image">
+            <!--            <img :src="item.ingredient.file.url" :alt="item.ingredient.name" />-->
+            <img
+                src="https://api.roosters-dev.ru/downloads/dd9/dd907a1313cf5d96c3f98732adaf190f.png"
+                :alt="item.ingredient.name"
+            />
         </div>
-        <div class="adds-card__title" @click="addIngredient">{{ item.ingredient.name }}</div>
-        <QuantityHandler
-            v-if="activeIngredient"
-            class="adds-card__quantity"
-            :quantity="activeIngredient.quantity"
-            :increase-handler="addIngredient"
-            :decrease-handler="removeIngredient"
-            theme="primary"
-        />
-        <BaseButton v-else :modifiers="['light']" class="adds-card__price" @click="addIngredient">
-            {{ item.price }} ₽
-        </BaseButton>
+        <div class="adds-card__title">{{ item.ingredient.name }}</div>
+        <div class="adds-card__price">{{ item.price }} ₽</div>
+        <div v-if="activeIngredient" class="adds-card__check"><i class="icon-check"></i></div>
     </div>
 </template>
 
@@ -73,22 +54,36 @@ const removeIngredient = () => {
 .adds-card {
     background: var(--c-grey10);
     border-radius: var(--b-radius);
+    text-align: center;
     position: relative;
-    margin-top: 30px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    padding: 5px;
+    gap: 8px;
+    padding: 8px;
     align-items: stretch;
+    border: 2px solid transparent;
+    transition: all 0.35s ease-in;
+
+    &:hover {
+        cursor: pointer;
+        background: var(--c-grey00);
+        border-color: var(--c-grey20);
+    }
+
+    &--active {
+        border-color: var(--c-secondary);
+        background: var(--c-grey00);
+
+        &:hover {
+            border-color: var(--c-secondary);
+        }
+    }
 }
 
 .adds-card__image {
-    width: 82px;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    translate: -50% -50%;
     cursor: pointer;
+    width: 80%;
+    margin-inline: auto;
 
     img {
         width: 100%;
@@ -98,15 +93,18 @@ const removeIngredient = () => {
 }
 
 .adds-card__title {
-    padding-top: 30px;
-    font-size: functions.rem(14);
-    color: var(--c-grey70);
+    font-size: functions.rem(12);
+    color: var(--c-grey80);
     text-align: center;
     cursor: pointer;
+    line-height: 1.1;
 }
 
 .adds-card__price {
     margin-top: auto;
+    font-size: functions.rem(14);
+    line-height: 1;
+    color: var(--c-grey80);
 }
 
 .adds-card__quantity {
@@ -115,5 +113,16 @@ const removeIngredient = () => {
     height: 44px;
     width: 95%;
     padding-inline: 10px;
+}
+
+.adds-card__check {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    color: var(--c-primary);
+
+    i::before {
+        font-weight: 700;
+    }
 }
 </style>
