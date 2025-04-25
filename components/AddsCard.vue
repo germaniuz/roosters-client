@@ -89,7 +89,7 @@ const toogleIngredient = () => {
 }
 
 .adds-card__title {
-    font-size: functions.rem(12);
+    font-size: functions.rem(11);
     color: var(--c-grey90);
     text-align: center;
     cursor: pointer;
@@ -98,7 +98,7 @@ const toogleIngredient = () => {
 
 .adds-card__price {
     margin-top: auto;
-    font-size: functions.rem(12);
+    font-size: functions.rem(13);
     line-height: 1;
     color: var(--c-grey90);
 }
