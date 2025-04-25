@@ -190,11 +190,11 @@ const totalPrice = computed(() => {
     max-height: var(--product-height);
 
     @include media.md-up {
-        grid-template-columns: 245px 400px;
+        grid-template-columns: 225px 480px;
     }
 
     @include media.xl-up {
-        grid-template-columns: 380px 400px;
+        grid-template-columns: 320px 480px;
     }
 
     & > * {
@@ -283,7 +283,7 @@ const totalPrice = computed(() => {
 
 .product__subtitle {
     font-size: functions.rem(18);
-    color: var(--c-grey90);
+    color: var(--c-grey100);
     margin-bottom: 12px;
 }
 
