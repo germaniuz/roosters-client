@@ -81,7 +81,7 @@ useClickOutside(dialogBody, closeDialog);
 
 .dialog__body {
     padding: 40px;
-    max-height: 900px;
+    max-height: 580px;
     overflow: auto;
 
     @include media.md-up {
