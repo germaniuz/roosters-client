@@ -133,7 +133,7 @@ const { openProductDialog } = useProductStore();
     color: var(--c-grey60);
     font-family: var(--f-headings), serif;
     font-size: functions.rem(10);
-    font-weight: 500;
+    font-weight: 300;
     line-height: 1.35;
     margin-bottom: auto;
 
