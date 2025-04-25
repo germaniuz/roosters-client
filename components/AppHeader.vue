@@ -44,16 +44,14 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
                 <img src="/images/icons/phone.svg" alt="Рустерс звонок" /> <span>{{ phone }}</span>
             </a>
             <ClientOnly>
-                <div v-if="pickupLocalStorage" class="header__delivery">
-                    <span class="header__delivery-type">Самовывоз</span>
-                    <span class="header__delivery-place">{{ pickupLocalStorage.name }}</span>
-                    <BaseButton
-                        class="header__delivery-edit-btn"
-                        :modifiers="['single-icon', 'light']"
-                        @click="isDeliveryChooserOpen = true"
-                    >
-                        <i class="icon-pencil"></i>
-                    </BaseButton>
+                <div v-if="pickupLocalStorage" class="header__delivery" @click="isDeliveryChooserOpen = true">
+                    <div class="header__delivery-icon">
+                        <i class="icon-pin-scheme"></i>
+                    </div>
+                    <div class="header__delivery-data">
+                        <span class="header__delivery-type">Самовывоз</span>
+                        <span class="header__delivery-place">{{ pickupLocalStorage.name }}</span>
+                    </div>
                 </div>
                 <div v-else-if="deliveryLocalStorage" class="header__delivery">
                     <span class="header__delivery-type">Доставка</span>
@@ -420,18 +418,41 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 }
 
 .header__delivery {
-    background: var(--c-grey10);
     border-radius: var(--b-radius-md);
     padding: 10px 15px;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
     font-size: functions.rem(14);
     position: relative;
+    gap: 5px;
+    align-items: center;
+    transition: all 0.35s ease-in;
+
+    &:hover {
+        background: var(--c-grey10);
+        cursor: pointer;
+    }
+}
+
+.header__delivery-icon {
+    font-size: functions.rem(32);
+    color: var(--c-secondary);
+
+    i {
+        &::before {
+            margin-inline: 0;
+        }
+    }
+}
+
+.header__delivery-data {
+    display: flex;
+    flex-direction: column;
 }
 
 .header__delivery-type {
     color: var(--c-grey80);
+    line-height: 1;
 }
 
 .header__delivery-place {

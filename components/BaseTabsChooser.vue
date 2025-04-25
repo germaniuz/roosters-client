@@ -40,7 +40,7 @@ const activeTab = defineModel<TItem>({ required: true });
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     width: 100%;
     border-radius: var(--b-radius);
 
@@ -50,7 +50,7 @@ const activeTab = defineModel<TItem>({ required: true });
 }
 
 .tabs-chooser__btn {
-    padding: 12px 25px;
+    padding: 4px 20px;
     font-family: var(--f-headings), serif;
     font-size: functions.rem(14);
     font-weight: 700;

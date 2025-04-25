@@ -283,7 +283,7 @@ const totalPrice = computed(() => {
 }
 
 .product__subtitle {
-    font-size: functions.rem(20);
+    font-size: functions.rem(18);
     color: var(--c-grey90);
     margin-bottom: 12px;
 }
