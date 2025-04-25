@@ -293,7 +293,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 .header__categories {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 32px;
     overflow-x: auto;
     padding-block: 0 5px;
     transform: scaleY(1);
@@ -319,6 +319,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 
 .header__category {
     color: var(--c-grey90);
+    font-size: functions.rem(18);
     cursor: pointer;
     position: relative;
 
