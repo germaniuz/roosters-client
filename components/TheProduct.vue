@@ -282,8 +282,8 @@ const totalPrice = computed(() => {
 }
 
 .product__subtitle {
-    font-size: functions.rem(18);
-    color: var(--c-grey100);
+    font-size: functions.rem(16);
+    color: var(--c-grey90);
     margin-bottom: 12px;
 }
 
