@@ -62,7 +62,7 @@ useClickOutside(dialogBody, closeDialog);
     top: 50%;
     left: 50%;
     translate: -50% -50%;
-    border-radius: var(--b-radius);
+    border-radius: var(--b-radius-2xl);
     background: var(--c-grey00);
     box-shadow: var(--shadow);
 
