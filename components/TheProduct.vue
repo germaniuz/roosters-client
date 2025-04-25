@@ -289,7 +289,7 @@ const totalPrice = computed(() => {
 
 .product__description {
     font-size: functions.rem(12);
-    color: var(--c-grey60);
+    color: var(--c-grey70);
     margin-bottom: 12px;
     font-weight: 300;
 

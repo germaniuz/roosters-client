@@ -35,11 +35,7 @@ const toogleIngredient = () => {
 <template>
     <div class="adds-card" :class="{ 'adds-card--active': activeIngredient }" @click="toogleIngredient">
         <div class="adds-card__image">
-            <!--            <img :src="item.ingredient.file.url" :alt="item.ingredient.name" />-->
-            <img
-                src="https://api.roosters-dev.ru/downloads/dd9/dd907a1313cf5d96c3f98732adaf190f.png"
-                :alt="item.ingredient.name"
-            />
+            <img :src="item.ingredient.file.url" :alt="item.ingredient.name" />
         </div>
         <div class="adds-card__title">{{ item.ingredient.name }}</div>
         <div class="adds-card__price">{{ item.price }} ₽</div>
@@ -58,7 +54,7 @@ const toogleIngredient = () => {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
     padding: 8px;
     align-items: stretch;
     border: 2px solid transparent;
@@ -94,7 +90,7 @@ const toogleIngredient = () => {
 
 .adds-card__title {
     font-size: functions.rem(12);
-    color: var(--c-grey80);
+    color: var(--c-grey90);
     text-align: center;
     cursor: pointer;
     line-height: 1.1;
@@ -102,9 +98,9 @@ const toogleIngredient = () => {
 
 .adds-card__price {
     margin-top: auto;
-    font-size: functions.rem(14);
+    font-size: functions.rem(12);
     line-height: 1;
-    color: var(--c-grey80);
+    color: var(--c-grey90);
 }
 
 .adds-card__quantity {
