@@ -86,9 +86,17 @@
   }
 
   &--adds {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
     margin-block: 10px 20px;
+
+    @include media.md-up {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    @include media.lg-up {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
   }
 }
 

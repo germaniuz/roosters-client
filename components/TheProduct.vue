@@ -109,7 +109,11 @@ const totalPrice = computed(() => {
                 :image="product.badges[0].file.url"
                 :alt="product.badges[0].file.name"
             />
-            <img :src="product.file.url" :alt="product.name" />
+            <img
+                src="https://api.roosters-dev.ru/downloads/df8/df8372c7403f15a75b045bdf578f3ecf.png"
+                :alt="product.name"
+            />
+            <!--            <img :src="product.file.url" :alt="product.name" />-->
             <div
                 class="product__info"
                 @mouseenter="isDataInfoShowed = true"
@@ -181,7 +185,7 @@ const totalPrice = computed(() => {
 @use '@/assets/styles/helpers/functions';
 
 .product {
-    --product-height: 520px;
+    --product-height: 80svh;
 
     display: grid;
     gap: 40px;
@@ -189,12 +193,22 @@ const totalPrice = computed(() => {
     height: 100%;
     max-height: var(--product-height);
 
-    @include media.md-up {
-        grid-template-columns: 225px 420px;
+    @include media.md-down {
+        width: 70vw;
+    }
+
+    @include media.lg-only {
+        width: 80vw;
+        max-width: 760px;
+    }
+
+    @include media.lg-up {
+        --product-height: 564px;
+        grid-template-columns: 33fr 67fr;
     }
 
     @include media.xl-up {
-        grid-template-columns: 320px 420px;
+        grid-template-columns: 380px 440px;
     }
 
     & > * {
@@ -213,7 +227,7 @@ const totalPrice = computed(() => {
     max-height: var(--product-height);
 
     img {
-        width: 245px;
+        width: 100%;
         object-fit: contain;
         transition: all 0.75s ease-in-out;
         z-index: var(--z-top-10);
@@ -260,8 +274,11 @@ const totalPrice = computed(() => {
 .product__data {
     height: 100%;
     overflow-y: auto;
-    max-height: var(--product-height);
     scrollbar-width: none;
+
+    @include media.lg-up {
+        max-height: var(--product-height);
+    }
 
     &::-webkit-scrollbar {
         display: none;
@@ -326,8 +343,12 @@ const totalPrice = computed(() => {
 .product__add-btn {
     position: sticky;
     bottom: 0;
-    border: 6px solid var(--c-grey00);
+    border: 4px solid var(--c-grey00);
     font-size: functions.rem(16);
+
+    @include media.lg-up {
+        translate: 0 2px;
+    }
 }
 
 .product__info-data {

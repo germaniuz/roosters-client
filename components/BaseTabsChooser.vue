@@ -46,6 +46,7 @@ const activeTab = defineModel<TItem>({ required: true });
 
     @include media.md-down {
         flex-wrap: wrap;
+        gap: 4px;
     }
 }
 

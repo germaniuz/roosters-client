@@ -265,13 +265,14 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     }
 
     img {
-        flex: 0 0 30px;
-        width: 30px;
+        flex: 0 0 20px;
+        width: 20px;
         height: auto;
         position: relative;
 
-        @include media.sm-down {
-            display: none;
+        @include media.md-up {
+            flex: 0 0 26px;
+            width: 26px;
         }
     }
 
@@ -279,6 +280,10 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
         font-weight: 600;
         color: var(--c-grey90);
         transition: all 0.2s ease-in-out;
+
+        @include media.sm-down {
+            display: none;
+        }
     }
 }
 
@@ -421,7 +426,6 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 
 .header__delivery {
     border-radius: var(--b-radius-md);
-    padding: 10px 15px;
     display: flex;
     justify-content: space-between;
     font-size: functions.rem(14);
@@ -429,6 +433,10 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     gap: 5px;
     align-items: center;
     transition: all 0.35s ease-in;
+
+    @include media.md-up {
+        padding: 10px 15px;
+    }
 
     &:hover {
         background: var(--c-grey10);
@@ -460,6 +468,10 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 .header__delivery-place {
     color: var(--c-grey90);
     font-weight: 700;
+
+    @include media.sm-down {
+        display: none;
+    }
 }
 
 .header__delivery-edit-btn {
