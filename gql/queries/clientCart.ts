@@ -3,26 +3,6 @@ import { gql } from 'graphql-tag';
 export const CLIENT_CART = gql`
     query clientCart {
         clientCart {
-            user {
-                id
-                name
-                lastname
-                email
-                phone
-                birthday
-                gender
-                is_active
-                avatar {
-                    id
-                    created_at
-                    updated_at
-                    name
-                    ext
-                    url
-                    size
-                }
-                fullname
-            }
             items {
                 id
                 quantity
@@ -129,6 +109,13 @@ export const CLIENT_CART = gql`
                                 url
                             }
                         }
+                    }
+                }
+                exclude_product_ingredients {
+                    id
+                    ingredient {
+                        id
+                        name
                     }
                 }
             }

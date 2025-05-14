@@ -50,14 +50,15 @@ export const useCartStore = defineStore('cart', () => {
                     category_option_ingredient_id: ingredient.category_option_ingredient.id,
                     quantity: ingredient.quantity,
                 })),
+                exclude_product_ingredient_ids: item.exclude_product_ingredients?.map((ingredient) => ingredient.id),
             });
         }
     };
 
     const createCartItem = async (cartProductInput: CreateCartProductInput) => {
         const res = await createClientCart(cartProductInput);
-        if (res?.data?.createClientCart.items) {
-            items.value = res.data.createClientCart.items;
+        if (res?.data?.createClientCart) {
+            items.value = res.data.createClientCart;
         }
     };
 
@@ -110,6 +111,7 @@ export const useCartStore = defineStore('cart', () => {
             quantity: cartProductInput.quantity,
             product: cartProductInput.product,
             cart_category_option_ingredients: cartProductInput.cart_category_option_ingredients,
+            exclude_product_ingredients: cartProductInput.exclude_product_ingredients,
         });
     };
 

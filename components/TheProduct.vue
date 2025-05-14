@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Product, ProductCategoryOption } from '~/types/Product';
+import type { Product, ProductCategoryOption, ProductIngredient } from '~/types/Product';
 import { useProductStore } from '~/stores/product';
 import { useCartStore } from '~/stores/cartStore';
 import BaseBadge from '~/components/BaseBadge.vue';
@@ -27,13 +27,21 @@ watch(
     },
 );
 
-const ingredients = computed(() => props.product.product_ingredients.map((i) => i.ingredient.name).join(', '));
 const activeIngredients = ref<CartCategoryOptionIngredient[]>([]);
 const adds = computed(() =>
     props.product.category.category_options_ingredient.filter(
         (item) => item.category_options.id === activeProductCategoryOption.value.category_option.id,
     ),
 );
+
+const excludeIngredients = ref<ProductIngredient[]>([]);
+const toggleIngredient = (ingredient: ProductIngredient) => {
+    if (excludeIngredients.value.findIndex((item) => item.id === ingredient.id) > -1) {
+        excludeIngredients.value = [...excludeIngredients.value.filter((item) => item.id !== ingredient.id)];
+    } else {
+        excludeIngredients.value.push(ingredient);
+    }
+};
 
 const addToCart = async () => {
     if (!pickupLocalStorage.value && !deliveryLocalStorage.value) {
@@ -51,13 +59,14 @@ const addToCart = async () => {
                 product: props.product,
             },
             cart_category_option_ingredients: activeIngredients.value,
+            exclude_product_ingredients: excludeIngredients.value,
         });
         closeProductDialog();
 
         return;
     }
 
-    createCartItem({
+    await createCartItem({
         product_category_option: {
             product_category_option_id: activeProductCategoryOption.value.id,
             quantity: 1,
@@ -66,6 +75,7 @@ const addToCart = async () => {
             category_option_ingredient_id: ingredient.category_option_ingredient.id,
             quantity: ingredient.quantity,
         })),
+        exclude_product_ingredient_ids: excludeIngredients.value.map((item) => item.id),
     });
     closeProductDialog();
 };
@@ -149,7 +159,18 @@ const totalPrice = computed(() => {
         <div class="product__data">
             <div class="product__title">{{ product.name }}</div>
             <div class="product__description">
-                {{ product.description + ', ' + ingredients }}
+                {{ product.description }},
+                <span
+                    v-for="ingredient in props.product.product_ingredients"
+                    :key="ingredient.id"
+                    class="product__editable-ingredient"
+                    :class="{
+                        'product__editable-ingredient--exclude':
+                            excludeIngredients.findIndex((item) => item.id === ingredient.id) > -1,
+                    }"
+                    @click="toggleIngredient(ingredient)"
+                    >{{ ingredient.ingredient.name.toLowerCase() }}</span
+                >
             </div>
             <div>
                 <BaseTabsChooser
@@ -312,6 +333,19 @@ const totalPrice = computed(() => {
 
     @include media.xl-up {
         font-size: functions.rem(14);
+    }
+}
+
+.product__editable-ingredient {
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+
+    &:hover {
+        text-decoration: line-through;
+    }
+
+    &--exclude {
+        text-decoration: line-through;
     }
 }
 

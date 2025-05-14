@@ -1,4 +1,4 @@
-import type { CategoryOptionIngredient, ProductCategoryOption } from '~/types/Product';
+import type { CategoryOptionIngredient, ProductCategoryOption, ProductIngredient } from '~/types/Product';
 import * as v from 'valibot';
 
 export const CartCategoryOptionIngredientInputSchema = v.object({
@@ -13,6 +13,7 @@ export const CreateCartProductInputSchema = v.object({
         quantity: v.nonNullable(v.number(), 'Укажите quantity'),
     }),
     cart_category_option_ingredients: v.array(CartCategoryOptionIngredientInputSchema),
+    exclude_product_ingredient_ids: v.array(v.number()),
 });
 export const UpdateCartProductInputSchema = v.object({
     cart_item_id: v.nonNullable(v.number(), 'Укажите cart_item_id'),
@@ -31,6 +32,7 @@ export type CreateLocalCartProductInput = {
     quantity: number;
     product: ProductCategoryOption;
     cart_category_option_ingredients: CartCategoryOptionIngredient[];
+    exclude_product_ingredients: ProductIngredient[];
 };
 export type UpdateLocalCartProductInput = {
     id: number;
@@ -50,4 +52,5 @@ export type CartProduct = {
     preset?: string;
     product: ProductCategoryOption;
     cart_category_option_ingredients: CartCategoryOptionIngredient[];
+    exclude_product_ingredients: ProductIngredient[];
 };

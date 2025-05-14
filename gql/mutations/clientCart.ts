@@ -2,36 +2,46 @@ import { gql } from 'graphql-tag';
 
 export const CREATE_CLIENT_CART = gql`
     mutation createClientCart(
-        $preset: AppGraphQLv1ClientTypesPresetFieldInput
-        $product_category_option: AppGraphQLv1ClientTypesProductCategoryOptionFieldInput
-        $cart_category_option_ingredients: [AppGraphQLv1ClientTypesCartCategoryOptionIngredientFieldInput]
+        $preset: ClientPresetFieldInput
+        $product_category_option: ClientProductCategoryOptionFieldInput
+        $cart_category_option_ingredients: [ClientCartCategoryOptionIngredientFieldInput]
+        $exclude_product_ingredient_ids: [Int]
     ) {
         createClientCart(
             preset: $preset
             product_category_option: $product_category_option
             cart_category_option_ingredients: $cart_category_option_ingredients
+            exclude_product_ingredient_ids: $exclude_product_ingredient_ids
         ) {
-            items {
+            id
+            quantity
+            product {
                 id
-                quantity
+                price
                 product {
+                    name
+                }
+            }
+            cart_category_option_ingredients {
+                quantity
+                category_option_ingredient {
                     id
                     price
-                    product {
+                    ingredient {
                         name
+                        file {
+                            url
+                        }
                     }
                 }
-                cart_category_option_ingredients {
-                    quantity
-                    category_option_ingredient {
-                        id
-                        price
-                        ingredient {
-                            name
-                            file {
-                                url
-                            }
-                        }
+            }
+            exclude_product_ingredients {
+                id
+                ingredient {
+                    id
+                    name
+                    file {
+                        url
                     }
                 }
             }

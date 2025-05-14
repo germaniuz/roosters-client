@@ -14,11 +14,11 @@ const paymentOptions = [
         title: 'Онлайн',
     },
     {
-        id: PAYMENT_TYPE.CARD,
+        id: PAYMENT_TYPE.RECEIPT_CARD,
         title: 'Картой при получении',
     },
     {
-        id: PAYMENT_TYPE.CASH,
+        id: PAYMENT_TYPE.RECEIPT_CASH,
         title: 'Наличными при получении',
     },
 ];

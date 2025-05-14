@@ -5,8 +5,8 @@ export const CREATE_ORDER = gql`
     mutation createClientOrder(
         $shop_id: Int!
         $customer_comment: String
-        $payment_type: Int!
-        $user_address: AppGraphQLv1CommonTypesUserAddressInput
+        $payment_type: CommonEnumsPaymentTypeEnum!
+        $user_address: CommonUserAddressInput
     ) {
         createClientOrder(
             shop_id: $shop_id

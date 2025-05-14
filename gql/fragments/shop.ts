@@ -9,7 +9,7 @@ export const SHOP_FULL_FRAGMENT = gql`
         delivery_schedule {
             id
             day
-            day_slug
+            day_text
             time_start
             time_end
             geozone {
@@ -26,7 +26,7 @@ export const SHOP_FULL_FRAGMENT = gql`
         pickup_schedule {
             id
             day
-            day_slug
+            day_text
             time_end
             time_start
         }

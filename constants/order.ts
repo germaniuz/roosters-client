@@ -1,5 +1,5 @@
 export const PAYMENT_TYPE = {
-    ONLINE: 1,
-    CASH: 2,
-    CARD: 3,
+    ONLINE: 'ONLINE',
+    RECEIPT_CASH: 'RECEIPT_CASH',
+    RECEIPT_CARD: 'RECEIPT_CARD',
 };
