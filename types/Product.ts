@@ -107,3 +107,8 @@ export type Badge = {
     description: string;
     file: CommonFile;
 };
+
+export type Preset = {
+    id: number;
+    // TODO: add Preset type
+};
