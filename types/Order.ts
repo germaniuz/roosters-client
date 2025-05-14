@@ -4,6 +4,7 @@ import { type UserAddress, UserAddressFieldsSchema } from '~/types/Profile';
 import type { CategoryOptionIngredient, ProductCategoryOption, ProductIngredient } from '~/types/Product';
 import type { Preset } from 'unenv';
 import { PAYMENT_TYPE } from '~/constants/order';
+import type { InferOutput } from 'valibot';
 
 export const OrderInputSchema = v.object({
     shop_id: v.number(),
@@ -11,6 +12,8 @@ export const OrderInputSchema = v.object({
     payment_type: v.picklist(Object.values(PAYMENT_TYPE), 'Укажите валидный тип оплаты'),
     user_address: UserAddressFieldsSchema,
 });
+
+export type OrderInput = InferOutput<typeof OrderInputSchema>;
 
 export type Order = {
     id: number;
