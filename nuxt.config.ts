@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    modules: ['@nuxtjs/google-fonts', '@pinia/nuxt', '@nuxt/eslint', 'vue-yandex-maps/nuxt'],
+    modules: ['@nuxtjs/google-fonts', '@pinia/nuxt', '@nuxt/eslint', 'vue-yandex-maps/nuxt', '@nuxtjs/i18n'],
     typescript: {
         typeCheck: true,
         strict: true,
@@ -18,6 +18,11 @@ export default defineNuxtConfig({
     yandexMaps: {
         apikey: process.env.YANDEX_MAPS_API_KEY!,
         strictMode: true,
+    },
+    i18n: {
+        strategy: 'no_prefix',
+        defaultLocale: 'ru',
+        locales: [{ code: 'ru', name: 'Russian', file: 'ru.json' }],
     },
     // apollo: {
     //     authType: 'Bearer',

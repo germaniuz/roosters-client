@@ -3,3 +3,17 @@ export const PAYMENT_TYPE = {
     RECEIPT_CASH: 'RECEIPT_CASH',
     RECEIPT_CARD: 'RECEIPT_CARD',
 };
+
+export const DELIVERY_TYPE = {
+    DELIVERY: 'DELIVERY',
+    PICKUP: 'PICKUP',
+};
+
+export const ORDER_STATUS = {
+    NEW: 'NEW',
+    PENDING: 'PENDING',
+    IN_PROGRESS: 'IN_PROGRESS',
+    REFUND: 'REFUND',
+    CANCELLED: 'CANCELLED',
+    COMPLETED: 'COMPLETED',
+};

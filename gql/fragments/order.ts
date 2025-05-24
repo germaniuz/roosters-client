@@ -13,6 +13,12 @@ export const ORDER_PRODUCT_SHORT_FRAGMENT = gql`
         product_category_option {
             id
             price
+            product {
+                name
+                file {
+                    url
+                }
+            }
         }
         quantity
         price
@@ -75,6 +81,8 @@ export const ORDER_FRAGMENT = gql`
         order_ingredients {
             ...OrderIngredient
         }
+        created_at
+        updated_at
     }
     ${USER_FRAGMENT}
     ${SHOP_FULL_FRAGMENT}

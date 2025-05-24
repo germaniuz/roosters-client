@@ -1,0 +1,39 @@
+{
+  "status": {
+    "NEUTRAL": "Нейтральный",
+    "POSITIVE": "Положительный",
+    "NEGATIVE": "Негативный"
+  },
+  "order_status": {
+    "NEW": "Новый",
+    "PENDING": "В обработке",
+    "CONFIRMED": "Оформлен"
+  },
+  "gender": {
+    "MALE": "Мужчина",
+    "FEMALE": "Женщина"
+  },
+  "days": {
+    "MONDAY": "Понедельник",
+    "TUESDAY": "Вторник",
+    "WEDNESDAY": "Среда",
+    "THURSDAY": "Четверг",
+    "FRIDAY": "Пятница",
+    "SATURDAY": "Суббота",
+    "SUNDAY": "Воскресенье"
+  },
+  "days_short": {
+    "MONDAY": "Пн",
+    "TUESDAY": "Вт",
+    "WEDNESDAY": "Ср",
+    "THURSDAY": "Чт",
+    "FRIDAY": "Пт",
+    "SATURDAY": "Сб",
+    "SUNDAY": "Вс"
+  },
+  "day_parts": {
+    "MORNING": "утро",
+    "AFTERNOON": "день",
+    "EVENING": "вечер"
+  }
+}

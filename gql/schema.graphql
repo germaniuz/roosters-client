@@ -356,6 +356,10 @@ type CommonOrder {
     created_at: String
     "Комментарий от клиента"
     customer_comment: String
+    "Тип доставки (slug)"
+    delivery_type: CommonEnumsDeliveryTypeEnum
+    "Тип доставки"
+    delivery_type_text: CommonEnumsDeliveryTypeEnum
     "ID заказа"
     id: Int
     "Список ингредиентов в заказе"
@@ -720,10 +724,12 @@ type Mutation {
         "Комментарий клиента"
         customer_comment: String,
         "Тип оплаты"
+        delivery_type: CommonEnumsDeliveryTypeEnum!,
+        "Тип оплаты"
         payment_type: CommonEnumsPaymentTypeEnum!,
         "ID торговой точки"
         shop_id: Int!,
-        "Адрес доставки"
+        "Тип доставки"
         user_address: CommonUserAddressInput
     ): CommonOrder
     "Создание ссылки для оплаты"
@@ -887,6 +893,14 @@ enum CommonEnumsDayEnum {
     TUESDAY
     "Среда"
     WEDNESDAY
+}
+
+"Тип доставки"
+enum CommonEnumsDeliveryTypeEnum {
+    "Доставка курьером"
+    DELIVERY
+    "Самовывоз"
+    PICKUP
 }
 
 "Enumeration of gender "

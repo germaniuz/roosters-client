@@ -116,16 +116,17 @@ const price_old = ref<number>(1500);
             </div>
         </div>
         <div v-if="!isActiveShopWorking || itemInStopList" class="cart-item__stop-item">
-            <span
-                >Извините, данный товар временно недоступен в этой пиццерии.<br />
+            <span>
+                <br /><br />
                 <NuxtLink class="btn btn--link-primary" to="/">Выберите другой товар </NuxtLink> или
                 <BaseButton :modifiers="['link-primary']" @click="isDeliveryChooserOpen = true">
                     выберите другой адрес.
                 </BaseButton>
-                <br /><br />
-                <BaseButton :modifiers="['link-grey']" @click="removeFromCart">Удалите этот товар</BaseButton>
+                и
+                <BaseButton :modifiers="['link-primary']" @click="removeFromCart">Удалите этот товар</BaseButton>
                 чтобы продолжить</span
             >
+            <span class="cart-item__stop-text">Извините, данный товар временно недоступен в этой пиццерии.</span>
         </div>
     </div>
 </template>
@@ -320,7 +321,6 @@ const price_old = ref<number>(1500);
     align-items: center;
     font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
-    font-weight: 600;
     padding: 40px;
     backdrop-filter: blur(2px);
 }

@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import BaseIconButton from '~/components/BaseIconButton.vue';
+import type { Order } from '~/types/Order';
 
-const activeOrder = ref(1);
+type Props = {
+    orders: Order[];
+};
+const props = defineProps<Props>();
+const { t } = useI18n();
+
 const orderNumber = ref(1);
-const ordersQuantity = 3;
+const ordersQuantity = computed(() => props.orders.length);
+
+const activeOrder = computed<Order>(() => props.orders[orderNumber.value - 1]);
 
 type RecommendedItem = {
     name: string;
@@ -26,11 +34,12 @@ const recommendedItems = ref<Array<RecommendedItem>>([
 ]);
 
 const handlePrevBtnClick = () => {
-    orderNumber.value = orderNumber.value > 1 ? orderNumber.value - 1 : ordersQuantity;
+    orderNumber.value = orderNumber.value > 1 ? orderNumber.value - 1 : ordersQuantity.value;
 };
 
 const handleNextBtnClick = () => {
-    orderNumber.value = orderNumber.value < ordersQuantity ? orderNumber.value + 1 : 1;
+    console.log(orderNumber.value, ordersQuantity.value);
+    orderNumber.value = orderNumber.value < ordersQuantity.value ? orderNumber.value + 1 : 1;
 };
 </script>
 
@@ -50,20 +59,28 @@ const handleNextBtnClick = () => {
             </div>
             <div class="order-card__actual-order-info">
                 <div class="card card--p-md card--outline order-card__actual-order-info-inner">
-                    <div class="order-card__date-time">25.07.24, в 18:42</div>
-                    <div class="order-card__delivery-time">~60 мин</div>
-                    <div class="order-card__delivery">Доставка</div>
-                    <div class="order-card__order-number">Заказ № 12345</div>
-                    <div class="order-card__order-address">Ул. Рабоче-крестьянская, 31</div>
-                    <div class="order-card__order-price"><span>1200₽</span> 1900₽</div>
+                    <div class="order-card__date-time">{{ getDateTimeString(activeOrder.created_at) }}</div>
+                    <div class="order-card__delivery">{{ t(`order_status.${activeOrder.status}`) }}</div>
+                    <div class="order-card__order-number">Заказ № {{ activeOrder.id }}</div>
+                    <div class="order-card__order-address">
+                        {{ activeOrder?.user_address?.address.street ?? activeOrder.shop.name }}
+                    </div>
+                    <div class="order-card__order-price">{{ activeOrder.amount }}&nbsp;₽</div>
                     <div class="order-card__more-info">
                         <BaseIconButton
                             icon="three-dots-horizontal"
                             :modifiers="['outline']"
                             class="order-card__more-info-btn"
                         ></BaseIconButton>
-                        <div class="order-card__more-info-img">
-                            <img src="/images/test-pizza.webp" alt="image" />
+                        <div
+                            v-for="product in activeOrder.order_products"
+                            :key="product.id"
+                            class="order-card__more-info-img"
+                        >
+                            <img
+                                :src="product.product_category_option.product.file.url"
+                                :alt="product.product_category_option.product.name"
+                            />
                         </div>
                     </div>
                 </div>

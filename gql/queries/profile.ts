@@ -11,10 +11,11 @@ export const CLIENT_PROFILE = gql`
             phone
             birthday
             gender
-            is_active
+            cashback
             addresses {
                 ...UserAddress
             }
+            is_active
         }
     }
     ${USER_ADDRESS_FRAGMENT}

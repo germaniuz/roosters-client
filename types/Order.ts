@@ -3,13 +3,15 @@ import type { Shop } from '~/types/Shop';
 import { type UserAddress, UserAddressFieldsSchema } from '~/types/Profile';
 import type { CategoryOptionIngredient, ProductCategoryOption, ProductIngredient } from '~/types/Product';
 import type { Preset } from 'unenv';
-import { PAYMENT_TYPE } from '~/constants/order';
+import { DELIVERY_TYPE, PAYMENT_TYPE } from '~/constants/order';
 import type { InferOutput } from 'valibot';
+import type { Values } from '~/utils/data';
 
 export const OrderInputSchema = v.object({
     shop_id: v.number(),
     customer_comment: v.string(),
     payment_type: v.picklist(Object.values(PAYMENT_TYPE), 'Укажите валидный тип оплаты'),
+    delivery_type: v.picklist(Object.values(DELIVERY_TYPE), 'Укажите валидный тип доставки'),
     user_address: UserAddressFieldsSchema,
 });
 
@@ -19,8 +21,12 @@ export type Order = {
     id: number;
     shop: Shop;
     status_text: string;
+    status: string;
     amount: number;
+    payment_type: Values<typeof PAYMENT_TYPE>;
     payment_type_text: string;
+    delivery_type: Values<typeof DELIVERY_TYPE>;
+    delivery_type_text: string;
     customer_comment: string;
     user_address: UserAddress;
     payment_date: string;

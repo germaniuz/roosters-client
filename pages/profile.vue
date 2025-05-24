@@ -1,14 +1,11 @@
 <script lang="ts" setup>
-import BaseOrderCard from '~/components/BaseOrderCard.vue';
-import RadioButton from '~/components/form/RadioButton.vue';
 import { type ProfileFields, ProfileFieldsSchema } from '~/types/Profile';
 import type { Story } from '~/types/Story';
-import { useProfileStore } from '~/stores/profileStore';
 import { UPDATE_CLIENT_USER } from '~/gql/mutations/clientUser';
 import { useMutation } from 'villus';
 import { LOGOUT_PATH } from '~/constants/routing';
 
-// TODO: JS fix hydration
+const { t } = useI18n();
 
 const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьянская 31', 'Улица Клавы Нечаевой, 4']); // TODO: JS add addresses
 const stories = ref<Array<Story>>([
@@ -31,23 +28,19 @@ const stories = ref<Array<Story>>([
     },
 ]);
 
-const profileStore = useProfileStore();
-const isGuest = ref<boolean>(profileStore.isGuest);
+const { isGuest, profile } = storeToRefs(useProfileStore());
 
 const { execute: updateClientUser } = useMutation(UPDATE_CLIENT_USER);
 
 const profileFields = ref<ProfileFields>({
-    name: profileStore.profile?.name ?? '',
-    lastname: profileStore.profile?.lastname ?? '',
-    phone: profileStore.profile?.phone ?? '',
-    email: profileStore.profile?.email ?? '',
+    name: profile.value?.name ?? '',
+    lastname: profile.value?.lastname ?? '',
+    phone: profile.value?.phone ?? '',
+    email: profile.value?.email ?? '',
     avatar: null,
-    birthday: profileStore.profile?.birthday ?? '1900-01-01',
-    gender:
-        profileStore.profile?.gender == 'male' || profileStore.profile?.gender == 'female'
-            ? profileStore.profile?.gender
-            : 'male',
-    is_active: profileStore.profile?.is_active ?? false,
+    birthday: profile.value?.birthday ?? '1900-01-01',
+    gender: profile.value?.gender == 'male' || profile.value?.gender == 'female' ? profile.value?.gender : 'male',
+    is_active: profile.value?.is_active ?? false,
 });
 
 const { validate, formErrors } = useValidateFormData<ProfileFields>(profileFields, ProfileFieldsSchema);
@@ -90,35 +83,28 @@ const saveProfile = async () => {
 };
 </script>
 <template>
-    <div class="profile container container--sm">
+    <div v-if="profile" class="profile container container--sm">
         <h1 class="h1">Личный кабинет</h1>
         <div class="profile__user-grid">
             <div class="profile__user-welcome">
-                <div class="profile__user-welcome-hello">Добрый день,</div>
+                <div class="profile__user-welcome-hello">Добрый {{ t(`day_parts.${getNameOfDayPart()}`) }},</div>
                 <div class="profile__user-welcome-name">
                     <div class="profile__user-welcome-icon">
                         <img src="/images/icons/avatar-dark.svg" alt="Profile" />
                     </div>
-                    <client-only>
-                        <span>{{ profileStore.profile?.name ? profileStore.profile.name : 'Гость' }}</span>
-                    </client-only>
+                    <span>{{ profile?.name ? profile.name : 'Гость' }}</span>
                 </div>
             </div>
-            <div v-if="!isGuest" class="card card--p-md profile__user-points">
+            <div class="card card--p-md profile__user-points">
                 <div class="profile__user-points-converting">1 балл Рустерс = 1 ₽</div>
                 <span>Сейчас у вас</span>
                 <div class="profile__user-points-balance">
-                    150
+                    {{ profile?.cashback ?? 0 }}
                     <BaseIcon name="pizza-slice-filled" />
                 </div>
                 <a class="link link--secondary" href="#">Как их использовать?</a>
             </div>
-            <div v-if="!isGuest" class="card card--p-md card--grey profile__user-orders-history">
-                <div class="text14 g50">Все заказы и начисления баллов</div>
-                <span>История заказов</span>
-                <BaseButton :modifiers="['secondary']">Посмотреть все</BaseButton>
-            </div>
-            <BaseOrderCard v-if="!isGuest" class="profile__user-order" />
+            <UserOrders />
         </div>
         <div v-if="!isGuest" class="profile__mailing">
             <div class="profile__mailing-radio-btn">
@@ -135,7 +121,7 @@ const saveProfile = async () => {
                 />
                 <div v-if="!mailingEmail" class="profile__bonus">+50</div>
                 <BaseButton
-                    v-if="mailingEmail && mailingEmail !== profileStore.profile?.email"
+                    v-if="mailingEmail && mailingEmail !== profile?.email"
                     class="profile__mailing-save-btn"
                     :modifiers="['primary']"
                     @click="saveProfile"
@@ -162,7 +148,7 @@ const saveProfile = async () => {
             </div>
         </div>
         <div v-if="!isGuest" class="h2">Персональные данные</div>
-        <div v-if="profileStore.profile" class="profile__personal-data">
+        <div v-if="profile" class="profile__personal-data">
             <div class="profile__personal-data-bonus">
                 <div class="profile__personal-data-bonus-img">
                     <img src="/images/exclamation.webp" alt="" />
@@ -462,50 +448,6 @@ const saveProfile = async () => {
         &::before {
             margin: 0;
         }
-    }
-}
-
-.profile__user-orders-history {
-    grid-area: user-orders-history;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-height: 163px;
-
-    @include media.md-up {
-        min-height: unset;
-    }
-
-    span {
-        font-family: var(--f-base), sans-serif;
-        font-size: functions.rem(20);
-        line-height: functions.rem(24);
-        font-weight: 400;
-        color: var(--c-grey70);
-        margin-bottom: 15px;
-
-        @include media.lg-up {
-            font-size: functions.rem(24);
-            line-height: functions.rem(28);
-        }
-
-        @include media.xl-up {
-            font-size: functions.rem(32);
-            line-height: functions.rem(38);
-        }
-    }
-
-    button {
-        margin-top: auto;
-    }
-}
-
-.profile__user-order {
-    grid-area: user-order;
-    min-height: 190px;
-
-    @include media.lg-up {
-        min-height: 206px;
     }
 }
 

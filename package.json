@@ -30,6 +30,7 @@
     "vue-tsc": "^2.0.29"
   },
   "dependencies": {
+    "@nuxtjs/i18n": "9.5.4",
     "@pinia/nuxt": "^0.5.2",
     "@villus/multipart": "^3.5.2",
     "dompurify": "^3.2.3",

@@ -5,7 +5,7 @@ import { PAYMENT_TYPE } from '~/constants/order';
 
 const router = useRouter();
 const { profile, isGuest } = storeToRefs(useProfileStore());
-const { activeShop } = storeToRefs(useDeliveryStore());
+const { activeShop, activeDeliveryType } = storeToRefs(useDeliveryStore());
 const { dropLocalCart } = useCartStore();
 
 const paymentOptions = [
@@ -34,6 +34,7 @@ const handleOrder = async () => {
             shop_id: activeShop.value.id,
             customer_comment: userComment.value,
             payment_type: activePaymentOption.value.id,
+            delivery_type: activeDeliveryType.value.key,
             user_address: null,
         });
 
@@ -67,7 +68,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="container container--sm placing-order" v-if="profile">
+    <div v-if="profile" class="container container--sm placing-order">
         <h1 class="h1">
             <span class="h1--md-hidden">Корзина -</span> Оформление
             <span class="h1--grey h1--md-hidden"> - Заказ принят</span>

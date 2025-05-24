@@ -1,5 +1,6 @@
 import * as v from 'valibot';
 import type { InferOutput } from 'valibot';
+import type { DELIVERY_TYPE } from '~/constants/order';
 import { type Address, AddressFieldsSchema } from '~/types/Address';
 
 export const ProfileFieldsSchema = v.object({
@@ -57,6 +58,7 @@ export type Profile = {
     gender: string | null;
     is_active: boolean;
     addresses: UserAddress[];
+    cashback: number;
 };
 
 export type ClientProfile = {
@@ -67,6 +69,6 @@ export type UserGender = 'male' | 'female';
 
 export type DeliveryMethod = 'delivery' | 'pickup';
 export type DeliveryType = {
-    key: DeliveryMethod;
+    key: Values<typeof DELIVERY_TYPE>;
     title: string;
 };
