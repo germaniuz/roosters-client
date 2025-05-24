@@ -12,15 +12,22 @@ const currentOrders = computed<Array<Order>>(() => {
             order.status !== ORDER_STATUS.COMPLETED,
     );
 });
+
+const isOrdersDialogShowed = ref(false);
 </script>
 
 <template>
     <div class="card card--p-md card--grey profile__user-orders-history">
         <div class="text14 g50">История заказов</div>
         <span>Всего заказов: {{ ordersCount }}</span>
-        <BaseButton :modifiers="['secondary']">Посмотреть все</BaseButton>
+        <BaseButton :modifiers="['secondary']" @click="isOrdersDialogShowed = true">Посмотреть все</BaseButton>
     </div>
     <OrdersCurrent :orders="currentOrders" class="profile__user-order" />
+    <BaseDialog v-model:is-active="isOrdersDialogShowed" @close="isOrdersDialogShowed = false">
+        <div class="order-list">
+            <OrderCard v-for="order in orders" :key="order.id" :order="order" :show-actions="false" />
+        </div>
+    </BaseDialog>
 </template>
 
 <style lang="scss" scoped>
@@ -69,5 +76,12 @@ const currentOrders = computed<Array<Order>>(() => {
     @include media.lg-up {
         min-height: 206px;
     }
+}
+
+.order-list {
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 </style>

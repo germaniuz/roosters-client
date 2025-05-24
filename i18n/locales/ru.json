@@ -9,6 +9,10 @@
     "PENDING": "В обработке",
     "CONFIRMED": "Оформлен"
   },
+  "delivery_type": {
+    "PICKUP": "Самовывоз",
+    "DELIVERY": "Доставка"
+  },
   "gender": {
     "MALE": "Мужчина",
     "FEMALE": "Женщина"

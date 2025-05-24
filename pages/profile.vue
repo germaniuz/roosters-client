@@ -84,7 +84,6 @@ const saveProfile = async () => {
 </script>
 <template>
     <div v-if="profile" class="profile container container--sm">
-        <h1 class="h1">Личный кабинет</h1>
         <div class="profile__user-grid">
             <div class="profile__user-welcome">
                 <div class="profile__user-welcome-hello">Добрый {{ t(`day_parts.${getNameOfDayPart()}`) }},</div>
@@ -139,11 +138,11 @@ const saveProfile = async () => {
             </div>
             <BaseButton class="profile__all-promo-btn" :modifiers="['outline-secondary']">Посмотреть все</BaseButton>
         </div>
-        <div v-if="!isGuest" class="h2">Ваши адреса</div>
-        <div v-if="!isGuest" class="profile__saved-addresses">
-            <div v-for="savedAddress in savedAddresses" :key="savedAddress" class="profile__saved-address">
+        <div v-if="profile.addresses?.length" class="h2">Ваши адреса</div>
+        <div v-if="profile.addresses?.length" class="profile__saved-addresses">
+            <div v-for="address in profile.addresses" :key="address.id" class="profile__saved-address">
                 <BaseIcon class="profile__saved-address-icon" name="location" />
-                <div class="profile__saved-address-name">{{ savedAddress }}</div>
+                <div class="profile__saved-address-name">{{ address.address }}</div>
                 <BaseIcon class="profile__saved-address-remove" name="close" />
             </div>
         </div>
@@ -156,7 +155,7 @@ const saveProfile = async () => {
                 <div>
                     <div class="profile__personal-data-bonus-text">
                         Получите
-                        <span>до 450 <BaseIcon name="pizza-slice-filled" /></span>
+                        <span>до 150 <BaseIcon name="pizza-slice-filled" /></span>
                         за заполнение профиля!
                     </div>
                     <div class="profile__personal-data-bonus-subtext">Бонусами можно оплачивать заказы</div>
@@ -168,14 +167,17 @@ const saveProfile = async () => {
                 </div>
                 <BaseButton :modifiers="['outline']">Изменить изображение</BaseButton>
             </div>
+            <div class="profile__input-label">Имя</div>
             <div class="profile__input">
                 <FormInput v-model="profileFields.name" name="name" placeholder="Имя" />
                 <div v-if="!profileFields.name" class="profile__bonus">+50</div>
             </div>
+            <div class="profile__input-label">Дата рождения (укажите дату рождения, чтобы получать скидки)</div>
             <div class="profile__input">
-                <FormInput v-model="profileFields.phone" name="phone" placeholder="Телефон" />
-                <div v-if="!profileFields.phone" class="profile__bonus">+50</div>
+                <FormInput v-model="profileFields.birthday" name="birthday" type="date" placeholder="День рождения" />
+                <div v-if="!profileFields.birthday" class="profile__bonus">+50</div>
             </div>
+            <div class="profile__input-label">Email</div>
             <div class="profile__input">
                 <FormInput v-model="profileFields.email" name="email" :errors="formErrors?.email" placeholder="Email" />
                 <div v-if="!profileFields.email" class="profile__bonus">+50</div>
@@ -194,11 +196,6 @@ const saveProfile = async () => {
                     name="userIsFemale"
                     @change="handleFemaleCheckboxClick()"
                 />
-            </div>
-            <div class="profile__input-label">Дата рождения</div>
-            <div class="profile__input">
-                <FormInput v-model="profileFields.birthday" name="birthday" type="date" placeholder="День рождения" />
-                <div v-if="!profileFields.birthday" class="profile__bonus">+50</div>
             </div>
             <div class="profile__personal-data-btns">
                 <BaseButton :modifiers="['primary']" @click="saveProfile">Сохранить</BaseButton>
