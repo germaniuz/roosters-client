@@ -87,6 +87,10 @@ const order = computed(() => {
     margin-bottom: 4px;
 }
 
+.order__products {
+    margin-bottom: 32px;
+}
+
 .order__product {
     display: flex;
     gap: 12px;
@@ -95,7 +99,7 @@ const order = computed(() => {
     margin-top: 32px;
 
     & + & {
-        border-bottom: 1px solid var(--c-grey20);
+        border-top: 1px solid var(--c-grey20);
     }
 }
 
