@@ -11,7 +11,6 @@ const { cartPrice } = storeToRefs(useCartStore());
             <div class="cart-btn__text">
                 В корзине<span>{{ cartPrice }}₽</span>
             </div>
-            <BaseIcon name="arrow-right" />
         </NuxtLink>
     </div>
 </template>
@@ -46,11 +45,12 @@ const { cartPrice } = storeToRefs(useCartStore());
     bottom: 20px;
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 16px;
     align-items: center;
     border-radius: var(--b-radius-round);
     padding: 12px 20px;
-    width: 100%;
+    width: fit-content;
+    margin-left: auto;
 
     @include media.md-up {
         box-shadow: 0px 0px 42px 1px rgba(255, 255, 255, 0.6);
