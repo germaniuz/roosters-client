@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-type Modifier = 'p-sm' | 'bg-grey';
+type Modifier = 'p-sm' | 'bg-grey' | 'full-screen';
 type Props = {
     isActive: boolean;
     modifiers?: Modifier[];

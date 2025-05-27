@@ -93,10 +93,6 @@ const sauces = ref([
         id: 3,
         title: '50/50',
     },
-    {
-        id: 4,
-        title: 'Альфредо',
-    },
 ]);
 const activeSauce = ref(sauces.value[0]);
 
@@ -215,7 +211,7 @@ const totalPrice = computed(() => {
     max-height: var(--product-height);
 
     @include media.md-down {
-        width: 70vw;
+        width: 80vw;
     }
 
     @include media.lg-only {
@@ -309,7 +305,7 @@ const totalPrice = computed(() => {
 .product__title {
     font-size: functions.rem(24);
     line-height: functions.rem(36);
-    font-weight: 700;
+    font-weight: 600;
     font-family: var(--f-headings), serif;
     color: var(--c-grey90);
     margin-bottom: 5px;
@@ -326,8 +322,8 @@ const totalPrice = computed(() => {
 }
 
 .product__description {
-    font-size: functions.rem(12);
-    color: var(--c-grey70);
+    font-size: functions.rem(14);
+    color: var(--c-grey90);
     margin-bottom: 12px;
     font-weight: 300;
 

@@ -28,6 +28,7 @@ const { cartCount } = storeToRefs(useCartStore());
                 v-if="modalProduct && isProductDialogShown"
                 v-model:is-active="isProductDialogShown"
                 @close="closeProductDialog"
+                :sm="true"
             >
                 <TheProduct :product="modalProduct" />
             </BaseDialog>
