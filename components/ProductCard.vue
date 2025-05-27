@@ -39,7 +39,7 @@ const { openProductDialog } = useProductStore();
             {{ ingredients }}
         </div>
         <div class="product-card__price-block">
-            <span class="product-card__price"> <span>от</span> {{ price }}&nbsp;₽</span>
+            <span class="product-card__price"> <span>от</span>&nbsp;{{ price }}&nbsp;₽</span>
             <BaseButton :modifiers="['item']" class="product-card__price-btn" @click="openProductDialog(product)">
                 Выбрать
             </BaseButton>
@@ -183,10 +183,13 @@ const { openProductDialog } = useProductStore();
     line-height: normal;
     background: var(--c-grey00);
     border: 1px solid var(--c-primary);
-    max-width: 120px;
+    max-width: 80px;
+    padding-inline: 4px;
+    font-size: functions.rem(12);
 
     @include media.lg-up {
         padding: 10px;
+        max-width: 120px;
     }
 
     @include media.xl-up {
