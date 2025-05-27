@@ -35,11 +35,7 @@ const toogleIngredient = () => {
 <template>
     <div class="adds-card" :class="{ 'adds-card--active': activeIngredient }" @click="toogleIngredient">
         <div class="adds-card__image">
-            <img
-                src="https://api.roosters-dev.ru/downloads/dd9/dd907a1313cf5d96c3f98732adaf190f.png"
-                :alt="item.ingredient.name"
-            />
-            <!--            <img :src="item.ingredient.file.url" :alt="item.ingredient.name" />-->
+            <img :src="item.ingredient.file.url" :alt="item.ingredient.name" />
         </div>
         <div class="adds-card__title">{{ item.ingredient.name }}</div>
         <div class="adds-card__price">{{ item.price }} ₽</div>
