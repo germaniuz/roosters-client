@@ -4,12 +4,12 @@ import { ORDER_LIST } from '~/gql/queries/order';
 import type { Order } from '~/types/Order';
 
 const { items: orders, count: ordersCount } = useListQuery<Order>(ORDER_LIST);
-const currentOrders = computed<Array<Order>>(() => {
+const currentOrders = computed<Order[]>(() => {
     return orders.value.filter(
         (order) =>
             order.status !== ORDER_STATUS.CANCELLED ||
-            order.status !== ORDER_STATUS.REFUND ||
-            order.status !== ORDER_STATUS.COMPLETED,
+            order.status !== ORDER_STATUS.COMPLETED ||
+            order.status !== ORDER_STATUS.REFUND,
     );
 });
 

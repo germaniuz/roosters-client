@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ORDER_LIST } from '~/gql/queries/order';
 import type { Order } from '~/types/Order';
-import { DELIVERY_TYPE } from '~/constants/order';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -16,6 +15,8 @@ const { items: orders } = useListQuery<Order>(ORDER_LIST, {
 const order = computed(() => {
     return orders.value[0];
 });
+
+const isThanksDialogShowed = ref(true);
 </script>
 
 <template>
@@ -46,8 +47,19 @@ const order = computed(() => {
                 <div class="order__product-price">{{ product.price }}&nbsp;₽</div>
             </div>
         </div>
+        <div class="order__comment" v-if="order.customer_comment">{{ order.customer_comment }}</div>
         <BaseButton :modifiers="['primary']">Повторить заказ</BaseButton>
     </div>
+    <BaseDialog v-model:is-active="isThanksDialogShowed">
+        <div class="card thanks">
+            <div class="thanks__image">
+                <img src="/images/like.svg" alt="Спасибо за заказ" />
+            </div>
+            <div class="thanks__title">Спасибо за заказ!</div>
+            <p class="thanks__text">Мы ценим вашу обратную связь, она помогает нам становиться лучше</p>
+            <BaseButton :modifiers="['primary']" @click="isThanksDialogShowed = false">Продолжить</BaseButton>
+        </div>
+    </BaseDialog>
 </template>
 
 <style lang="scss" scoped>
@@ -132,5 +144,35 @@ const order = computed(() => {
     font-size: functions.rem(18);
     color: var(--c-grey90);
     font-weight: 300;
+}
+
+.order__comment {
+    padding: 24px;
+    background: var(--c-grey10);
+    color: var(--c-grey80);
+    font-size: functions.rem(14);
+    border-radius: var(--b-radius);
+    margin-block: 20px;
+}
+
+.thanks {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 450px;
+}
+
+.thanks__title {
+    font-size: functions.rem(18);
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--c-secondary);
+}
+
+.thanks__text {
+    font-size: functions.rem(14);
+    color: var(--c-grey70);
+    text-align: center;
 }
 </style>

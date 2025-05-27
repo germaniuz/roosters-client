@@ -61,6 +61,10 @@
 
   &--product-test {
     grid-template-columns: 1fr 1fr;
+    max-width: var(--w-container);
+    margin-inline: auto;
+    padding-inline: 12px;
+    padding-block: 12px;
 
     @include media.md-down {
       gap: 10px;

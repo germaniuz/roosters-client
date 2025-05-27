@@ -4,6 +4,7 @@ import { CURRENT_GEOZONE_SHOP, IS_PICKUP_SHOP_OPEN, SHOP_LIST } from '~/gql/quer
 import { type UserAddressFields, UserAddressFieldsSchema } from '~/types/Profile';
 import { useDeliveryStore } from '~/stores/deliveryStore';
 import { useQuery } from 'villus';
+import { DELIVERY_TYPE } from '~/constants/order';
 
 const {
     deliveryTypes,
@@ -113,7 +114,7 @@ const setPickupShop = async (shop: Shop) => {
 
 onMounted(async () => {
     // set shop from localStorage
-    if (pickupLocalStorage?.value?.id && activeDeliveryType.value.key === 'pickup') {
+    if (pickupLocalStorage?.value?.id && activeDeliveryType.value.key === DELIVERY_TYPE.PICKUP) {
         // get shop from requested shopList for having up-to-date stopList
         // @ts-expect-error pickupLocalStorage.value, but we check it in if statement
         const shopIndex = shops.value.findIndex((shop) => shop.id === pickupLocalStorage.value.id);
@@ -122,7 +123,7 @@ onMounted(async () => {
         }
     }
     // set address from localStorage
-    if (activeDeliveryType.value.key === 'delivery' && deliveryLocalStorage.value) {
+    if (activeDeliveryType.value.key === DELIVERY_TYPE.DELIVERY && deliveryLocalStorage.value) {
         const { data: shopResponse } = await useQuery<{ currentGeozoneDeliveryShop: Shop | null }>({
             query: CURRENT_GEOZONE_SHOP,
             variables: {
@@ -150,7 +151,7 @@ onMounted(async () => {
                 </div>
             </template>
         </BaseTabsChooser>
-        <div v-if="activeDeliveryType.key === 'delivery'" class="delivery">
+        <div v-if="activeDeliveryType.key === DELIVERY_TYPE.DELIVERY" class="delivery">
             <div class="delivery__form">
                 <BaseButton
                     :modifiers="[isDeliveryMapActive ? 'secondary-light' : 'grey', 'icon']"
@@ -196,7 +197,7 @@ onMounted(async () => {
                 <UserAddressMap v-model="userAddressFields" @set-coordinates="getSuggestionsByCoords" />
             </div>
         </div>
-        <div v-if="activeDeliveryType.key === 'pickup'" class="pickup">
+        <div v-if="activeDeliveryType.key === DELIVERY_TYPE.PICKUP" class="pickup">
             <div class="pickup__form">
                 <BaseButton
                     :modifiers="[isShopMapActive ? 'secondary-light' : 'grey', 'icon']"

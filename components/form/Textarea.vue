@@ -89,4 +89,9 @@ textarea {
         border-color: var(--c-success);
     }
 }
+
+.label {
+    display: inline-block;
+    margin-bottom: 8px;
+}
 </style>

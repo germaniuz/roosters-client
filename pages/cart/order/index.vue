@@ -96,6 +96,12 @@ onMounted(async () => {
                         <template #btn="{ item }">{{ item.title }}</template>
                     </BaseTabsChooser>
                 </div>
+                <FormTextarea
+                    v-model="userComment"
+                    name="comment"
+                    placeholder="Оставьте свой комментарий"
+                    label="Комментарий к заказу"
+                />
                 <div class="placing-order__bottom">
                     <div class="placing-order__action-btns">
                         <NuxtLink class="btn btn--outline" to="./">Назад в корзину</NuxtLink>

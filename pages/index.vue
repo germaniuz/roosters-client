@@ -5,6 +5,8 @@ import type { Product } from '~/types/Product';
 const { items } = useListQuery<Product>(PRODUCT_FULL_LIST);
 const { activeShop, isActiveShopWorking } = storeToRefs(useDeliveryStore());
 
+const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Закуски', 'Напитки', 'Акции']);
+
 const products = computed(() => {
     const productList: {
         inStock: Product[];
@@ -34,24 +36,25 @@ const products = computed(() => {
 
 <template>
     <div class="container front-page">
-        <ClientOnly>
-            <div v-if="items" class="grid grid--product-test">
-                <ProductCard
-                    v-for="product in products.inStock"
-                    :key="product.id"
-                    :product="product"
-                    :disabled="!isActiveShopWorking && !!activeShop"
-                />
-                <ProductCard
-                    v-for="product in products.outStock"
-                    :key="product.id"
-                    :product="product"
-                    :disabled="true"
-                />
-            </div>
-        </ClientOnly>
+        <AppStories />
         <PopularItems />
+        <div class="header__categories">
+            <div v-for="headerCategory in headerCategories" :key="headerCategory" class="header__category">
+                {{ headerCategory }}
+            </div>
+        </div>
     </div>
+    <ClientOnly>
+        <div v-if="items" class="grid grid--product-test">
+            <ProductCard
+                v-for="product in products.inStock"
+                :key="product.id"
+                :product="product"
+                :disabled="!isActiveShopWorking && !!activeShop"
+            />
+            <ProductCard v-for="product in products.outStock" :key="product.id" :product="product" :disabled="true" />
+        </div>
+    </ClientOnly>
 </template>
 
 <style scoped lang="scss">
@@ -176,5 +179,65 @@ const products = computed(() => {
     bottom: 30px;
     right: 50px;
     z-index: var(--z-top-20);
+}
+
+.header__categories {
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
+    overflow-x: auto;
+    padding-block: 0 5px;
+    transform: scaleY(1);
+    transform-origin: top;
+    transition: transform 0.2s ease-in-out;
+    margin-bottom: 12px;
+    margin-top: 8px;
+
+    @include media.md-down {
+        .header--mobile-menu-active & {
+            transform: scaleY(0);
+            position: absolute;
+        }
+    }
+
+    @include media.lg-up {
+        padding-block: 10px;
+        gap: 32px;
+    }
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.header__category {
+    color: var(--c-grey90);
+    font-size: functions.rem(16);
+    cursor: pointer;
+    position: relative;
+    font-weight: 500;
+
+    &:hover {
+        color: var(--c-primary);
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        translate: -50%;
+        width: 50%;
+        height: 2px;
+        background-color: transparent;
+        border-radius: var(--b-radius-round);
+        transition: all 0.2s ease-in-out;
+    }
+
+    @include media.lg-up {
+        &::after {
+            height: 4px;
+        }
+    }
 }
 </style>

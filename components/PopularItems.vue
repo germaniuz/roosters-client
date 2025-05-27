@@ -4,37 +4,37 @@ import type { PopularItem } from '~/types/PopularItem';
 const popularItems: Array<PopularItem> = [
     {
         title: 'Пышная Дружная семейка',
-        price: 1200,
+        price: 350,
         img: '/images/test-pizza.webp',
     },
     {
         title: 'Пышная',
-        price: 1200,
+        price: 350,
         img: '/images/test-pizza.webp',
     },
     {
         title: 'Пышная Дружная семейка',
-        price: 1200,
+        price: 350,
         img: '/images/test-pizza.webp',
     },
     {
         title: 'Пышная Дружная семейка',
-        price: 1200,
+        price: 350,
         img: '/images/test-pizza.webp',
     },
     {
         title: 'Пышная Дружная семейка',
-        price: 1200,
+        price: 350,
         img: '/images/test-pizza.webp',
     },
     {
         title: 'Пышная Дружная семейка',
-        price: 1200,
+        price: 350,
         img: '/images/test-pizza.webp',
     },
     {
         title: 'Пышная Дружная семейка',
-        price: 1200,
+        price: 350,
         img: '/images/test-pizza.webp',
     },
 ];
@@ -75,7 +75,7 @@ const scrollLeft = () => {
 </script>
 
 <template>
-    <div class="popular-items section">
+    <div class="popular-items">
         <h2 class="h2 h2--icon">
             <BaseIcon :name="icon" />
             {{ title }}
@@ -112,6 +112,12 @@ const scrollLeft = () => {
 @use '@/assets/styles/helpers/functions';
 
 .popular-items {
+    margin-block: 24px 12px;
+
+    .h2 {
+        font-size: functions.rem(18);
+        margin-bottom: 12px;
+    }
 }
 
 .popular-items__grid-wrapper {
@@ -162,10 +168,11 @@ const scrollLeft = () => {
     overflow: auto;
     margin-inline: calc(var(--pi-container-xs) * -1);
     padding-inline: var(--pi-container-xs);
-    gap: 20px;
+    gap: 12px;
     padding-bottom: 10px;
     transition: all 0.2s ease-in;
     scroll-behavior: smooth;
+    scrollbar-width: none;
 
     @include media.md-up {
         margin-inline: calc(var(--pi-container-md) * -1);

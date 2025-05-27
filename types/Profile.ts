@@ -1,7 +1,8 @@
 import * as v from 'valibot';
 import type { InferOutput } from 'valibot';
-import type { DELIVERY_TYPE } from '~/constants/order';
+import { type DELIVERY_TYPE } from '~/constants/order';
 import { type Address, AddressFieldsSchema } from '~/types/Address';
+import { GENDER } from '~/constants/user';
 
 export const ProfileFieldsSchema = v.object({
     id: v.optional(v.number()),
@@ -20,7 +21,7 @@ export const ProfileFieldsSchema = v.object({
         ),
     ),
     birthday: v.nullish(v.string()),
-    gender: v.nullish(v.string()),
+    gender: v.nullish(v.picklist(Object.values(GENDER))),
     is_active: v.boolean(),
 });
 export type ProfileFields = InferOutput<typeof ProfileFieldsSchema>;
@@ -55,7 +56,7 @@ export type Profile = {
     email: string | null;
     avatar: string | null;
     birthday: string | null;
-    gender: string | null;
+    gender: Gender | null;
     is_active: boolean;
     addresses: UserAddress[];
     cashback: number;
@@ -65,9 +66,8 @@ export type ClientProfile = {
     clientProfile: Profile;
 };
 
-export type UserGender = 'male' | 'female';
+export type Gender = Values<typeof GENDER>;
 
-export type DeliveryMethod = 'delivery' | 'pickup';
 export type DeliveryType = {
     key: Values<typeof DELIVERY_TYPE>;
     title: string;

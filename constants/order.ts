@@ -2,12 +2,12 @@ export const PAYMENT_TYPE = {
     ONLINE: 'ONLINE',
     RECEIPT_CASH: 'RECEIPT_CASH',
     RECEIPT_CARD: 'RECEIPT_CARD',
-};
+} as const;
 
 export const DELIVERY_TYPE = {
     DELIVERY: 'DELIVERY',
     PICKUP: 'PICKUP',
-};
+} as const;
 
 export const ORDER_STATUS = {
     NEW: 'NEW',

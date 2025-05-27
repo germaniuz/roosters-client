@@ -14,6 +14,12 @@ const router = useRouter();
 const { isGuest, isAuthDialogActive } = storeToRefs(useProfileStore());
 
 const cartStore = useCartStore();
+const { items, cartPrice, cartCount } = storeToRefs(cartStore);
+const { dropLocalCart, dropCart } = cartStore;
+
+const { activeShop } = storeToRefs(useDeliveryStore());
+const stoplistIds = computed(() => new Set(activeShop.value?.product_stoplist.map((item) => item.id)));
+console.log(stoplistIds.value);
 
 const smOrderExpanded = ref<boolean>(false);
 
@@ -27,11 +33,11 @@ const checkoutCart = () => {
     router.push(CREATE_ORDER_PATH);
 };
 
-const dropCart = () => {
+const drop = () => {
     if (isGuest.value) {
-        cartStore.dropLocalCart();
+        dropLocalCart();
     } else {
-        cartStore.dropCart();
+        dropCart();
     }
 };
 </script>
@@ -39,28 +45,24 @@ const dropCart = () => {
 <template>
     <div class="cart-summary card card--grey card--p-md">
         <div class="cart-summary__top">
-            <div class="cart-summary__quantity">{{ cartStore.cartCount }} товар</div>
-            <div v-if="type === 'action' && cartStore.items.length" class="cart-summary__clean-cart" @click="dropCart">
+            <div class="cart-summary__quantity">{{ cartCount }} товар</div>
+            <div v-if="type === 'action' && items.length" class="cart-summary__clean-cart" @click="drop">
                 Очистить корзину <BaseIcon name="close" />
             </div>
         </div>
         <div class="cart-summary__price">
             <span>Сумма заказа</span>
-            <span>{{ cartStore.cartPrice }} ₽</span>
+            <span>{{ cartPrice }} ₽</span>
         </div>
         <div
-            v-if="type === 'view' && cartStore.items"
+            v-if="type === 'view' && items"
             class="cart-summary__items"
             :class="[!smOrderExpanded ? 'cart-summary__items--collapsed' : '']"
         >
             <button class="cart-summary__expand-btn" @click="smOrderExpanded = !smOrderExpanded">Состав заказа</button>
             <div class="cart-summary__items-inner">
                 <div>
-                    <div
-                        v-for="cartProduct in cartStore.items"
-                        :key="cartProduct.product.id"
-                        class="cart-summary__item"
-                    >
+                    <div v-for="cartProduct in items" :key="cartProduct.product.id" class="cart-summary__item">
                         <div class="cart-summary__item-title">
                             <span>{{ cartProduct.product.product.name }} x {{ cartProduct.quantity }}</span>
                             <div class="cart-summary__item-price">
@@ -107,13 +109,13 @@ const dropCart = () => {
         </div>
         <div class="cart-summary__final-price">
             Итого
-            <span>{{ cartStore.cartPrice }} ₽</span>
+            <span>{{ cartPrice }} ₽</span>
         </div>
         <BaseButton
             v-if="type === 'action'"
             :modifiers="['primary']"
             class="cart-summary__btn"
-            :disabled="!cartStore.items.length"
+            :disabled="!items.length"
             @click="checkoutCart"
         >
             Перейти к оформлению

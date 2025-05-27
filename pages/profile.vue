@@ -4,6 +4,7 @@ import type { Story } from '~/types/Story';
 import { UPDATE_CLIENT_USER } from '~/gql/mutations/clientUser';
 import { useMutation } from 'villus';
 import { LOGOUT_PATH } from '~/constants/routing';
+import { GENDER } from '~/constants/user';
 
 const { t } = useI18n();
 
@@ -39,7 +40,10 @@ const profileFields = ref<ProfileFields>({
     email: profile.value?.email ?? '',
     avatar: null,
     birthday: profile.value?.birthday ?? '1900-01-01',
-    gender: profile.value?.gender == 'male' || profile.value?.gender == 'female' ? profile.value?.gender : 'male',
+    gender:
+        profile.value?.gender == GENDER.MALE || profile.value?.gender == GENDER.FEMALE
+            ? profile.value?.gender
+            : GENDER.MALE,
     is_active: profile.value?.is_active ?? false,
 });
 
@@ -48,19 +52,19 @@ const { validate, formErrors } = useValidateFormData<ProfileFields>(profileField
 const mailingEmail = ref<string>(profileFields.value.email);
 const subscribeMailing = ref<boolean>(mailingEmail.value !== '');
 
-const userIsMale = ref<boolean>(profileFields.value.gender === 'male');
-const userIsFemale = ref<boolean>(profileFields.value.gender === 'female');
+const userIsMale = ref<boolean>(profileFields.value.gender === GENDER.MALE);
+const userIsFemale = ref<boolean>(profileFields.value.gender === GENDER.FEMALE);
 
 const handleMaleCheckboxClick = () => {
     userIsMale.value = true;
     userIsFemale.value = false;
-    profileFields.value.gender = 'male';
+    profileFields.value.gender = GENDER.MALE;
 };
 
 const handleFemaleCheckboxClick = () => {
     userIsFemale.value = true;
     userIsMale.value = false;
-    profileFields.value.gender = 'female';
+    profileFields.value.gender = GENDER.FEMALE;
 };
 
 const _handleFile = (file: File): void => {

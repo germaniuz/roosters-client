@@ -3,9 +3,9 @@ import type { Shop } from '~/types/Shop';
 import { type UserAddress, UserAddressFieldsSchema } from '~/types/Profile';
 import type { CategoryOptionIngredient, ProductCategoryOption, ProductIngredient } from '~/types/Product';
 import type { Preset } from 'unenv';
-import { DELIVERY_TYPE, PAYMENT_TYPE } from '~/constants/order';
 import type { InferOutput } from 'valibot';
 import type { Values } from '~/utils/data';
+import { DELIVERY_TYPE, PAYMENT_TYPE, type ORDER_STATUS } from '~/constants/order';
 
 export const OrderInputSchema = v.object({
     shop_id: v.number(),
@@ -21,7 +21,7 @@ export type Order = {
     id: number;
     shop: Shop;
     status_text: string;
-    status: string;
+    status: Values<typeof ORDER_STATUS>;
     amount: number;
     payment_type: Values<typeof PAYMENT_TYPE>;
     payment_type_text: string;
