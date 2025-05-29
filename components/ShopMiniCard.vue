@@ -37,6 +37,10 @@ const workingHours = todaySchedules.map((schedule) => {
     position: relative;
     transition: all 0.3s ease;
 
+    @include media.md-down {
+        border: 1px solid var(--c-grey30);
+    }
+
     &:hover {
         cursor: pointer;
     }
@@ -58,7 +62,7 @@ const workingHours = todaySchedules.map((schedule) => {
 
 .shop-mini-card__address {
     font-size: functions.rem(14);
-    color: var(--c-grey50);
+    color: var(--c-grey80);
     margin-bottom: 5px;
 }
 
@@ -78,7 +82,8 @@ const workingHours = todaySchedules.map((schedule) => {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: var(--c-primary);
-    color: var(--c-grey00);
+    color: var(--c-primary);
+    font-weight: 900;
+    font-size: functions.rem(28);
 }
 </style>

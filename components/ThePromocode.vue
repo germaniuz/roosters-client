@@ -27,14 +27,14 @@ const { items: cartItems } = storeToRefs(useCartStore());
 
 .promocode {
     max-width: 350px;
-    font-size: functions.rem(14);
+    font-size: functions.rem(16);
     line-height: functions.rem(17);
     font-weight: 400;
     font-family: var(--f-base), sans-serif;
 
     & > span {
         display: block;
-        color: var(--c-grey80);
+        color: var(--c-grey90);
 
         @include media.lg-up {
             font-size: functions.rem(16);
@@ -45,10 +45,12 @@ const { items: cartItems } = storeToRefs(useCartStore());
 
 .promocode__login {
     color: var(--c-grey60);
-    margin-bottom: 60px;
+    margin-bottom: 36px;
+    font-size: functions.rem(14);
 
     @include media.md-up {
         margin-bottom: 30px;
+        font-size: functions.rem(16);
     }
 }
 

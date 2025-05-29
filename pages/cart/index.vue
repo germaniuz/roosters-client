@@ -1,13 +1,17 @@
 <script lang="ts" setup>
 import CartSummary from '~/components/CartSummary.vue';
 
-const { items } = storeToRefs(useCartStore());
+const { items, cartPrice, cartCount } = storeToRefs(useCartStore());
 </script>
 
 <template>
     <ClientOnly>
         <div class="container container--sm cart">
             <h1 class="h1">Корзина <span class="h1--grey h1--md-hidden">- Оформление - Заказ принят</span></h1>
+            <div class="cart__top-summary">
+                <span><img src="/images/cart-primary.svg" alt="Корзина" /></span> {{ cartCount }} товаров на сумму
+                {{ cartPrice }}&nbsp;₽
+            </div>
             <div class="cart__grid">
                 <div v-if="items.length" class="cart__items">
                     <CartItem v-for="cartProduct in items" :key="cartProduct.product.id" :cart-product="cartProduct" />
@@ -17,8 +21,8 @@ const { items } = storeToRefs(useCartStore());
                     v-else
                     message="Тут пока пусто, добавьте что-нибудь из меню, а мы приготовим ваш заказ."
                 />
-                <CartSummary class="cart__summary" />
                 <ThePromocode class="cart__promocode" />
+                <CartSummary class="cart__summary" />
             </div>
         </div>
     </ClientOnly>
@@ -27,6 +31,40 @@ const { items } = storeToRefs(useCartStore());
 <style scoped lang="scss">
 @use '@/assets/styles/helpers/media';
 @use '@/assets/styles/helpers/functions';
+
+.cart .h1 {
+    @include media.md-down {
+        display: none;
+    }
+}
+
+.cart__top-summary {
+    font-size: functions.rem(18);
+    color: var(--c-grey90);
+    font-weight: 500;
+    margin-bottom: 20px;
+    font-family: var(--f-headings), sans-serif;
+    align-items: center;
+    display: flex;
+
+    span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        margin-right: 12px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: relative;
+            top: -2px;
+        }
+    }
+}
 
 .cart__grid {
     width: 100%;
@@ -75,7 +113,7 @@ const { items } = storeToRefs(useCartStore());
 
 .cart__recommended {
     grid-area: recommended;
-    margin-block: 40px;
+    margin-block: 0;
 
     @include media.md-up {
         margin-block: 20px;

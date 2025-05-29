@@ -118,7 +118,7 @@ const drop = () => {
             :disabled="!items.length"
             @click="checkoutCart"
         >
-            Перейти к оформлению
+            Оформить
         </BaseButton>
     </div>
 </template>
@@ -144,9 +144,9 @@ const drop = () => {
 }
 
 .cart-summary__quantity {
-    color: var(--c-grey80);
+    color: var(--c-grey90);
     font-family: var(--f-base), sans-serif;
-    font-size: functions.rem(20);
+    font-size: functions.rem(18);
     font-weight: 400;
     line-height: functions.rem(24);
 }
@@ -366,7 +366,7 @@ const drop = () => {
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
-    color: var(--c-grey80);
+    color: var(--c-grey90);
     font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     line-height: functions.rem(19);
@@ -375,7 +375,7 @@ const drop = () => {
     span {
         color: var(--c-grey80);
         font-family: var(--f-base), sans-serif;
-        font-size: functions.rem(20);
+        font-size: functions.rem(18);
         line-height: functions.rem(24);
         font-weight: 600;
         font-style: italic;
@@ -385,5 +385,6 @@ const drop = () => {
 .cart-summary__btn {
     width: 100%;
     margin-top: 20px;
+    font-size: functions.rem(16);
 }
 </style>

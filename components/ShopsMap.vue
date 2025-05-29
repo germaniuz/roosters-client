@@ -83,6 +83,7 @@ const LOCATION: YMapLocationRequest = {
 <style scoped lang="scss">
 .shop-map {
     width: 500px;
+    min-height: 400px;
     height: 100%;
     border-radius: var(--b-radius-lg);
     overflow: clip;

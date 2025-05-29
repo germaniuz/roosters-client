@@ -57,6 +57,7 @@ withDefaults(defineProps<Props>(), {
     border-radius: var(--b-radius);
     cursor: pointer;
     transition: all 0.1s ease-in;
+    color: var(--c-grey80);
 
     &:hover {
         border-color: var(--c-secondary);

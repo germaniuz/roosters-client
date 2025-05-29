@@ -81,7 +81,11 @@ const price_old = ref<number>(1500);
 <template>
     <div class="cart-item">
         <div class="cart-item__img">
-            <img :src="cartProduct.product.product.file?.url" alt="" />
+            <img
+                src="https://api.roosters-dev.ru/downloads/df8/df8372c7403f15a75b045bdf578f3ecf.png"
+                :alt="cartProduct.product.product.file?.url"
+            />
+            <!--            <img :src="cartProduct.product.product.file?.url" alt="" />-->
         </div>
         <div class="cart-item__content">
             <div class="cart-item__title">
@@ -175,11 +179,11 @@ const price_old = ref<number>(1500);
     margin-bottom: 8px;
 
     span {
-        color: var(--c-grey70);
+        color: var(--c-grey90);
         font-family: var(--f-base), sans-serif;
         font-size: functions.rem(16);
         line-height: functions.rem(19);
-        font-weight: 600;
+        font-weight: 500;
     }
 }
 

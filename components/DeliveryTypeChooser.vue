@@ -223,18 +223,27 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
+.delivery-options {
+    --delivery-block-min-width: 300px;
+    width: 100%;
+}
+
 .delivery {
-    min-width: 350px;
+    min-width: var(--delivery-block-min-width);
     display: flex;
     gap: 20px;
+    width: 100%;
 }
 
 .delivery__form {
-    min-width: 350px;
+    min-width: var(--delivery-block-min-width);
+    width: 100%;
 }
 
 .pickup {
     display: flex;
     gap: 20px;
+    min-width: var(--delivery-block-min-width);
+    width: 100%;
 }
 </style>

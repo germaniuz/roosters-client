@@ -115,11 +115,7 @@ const totalPrice = computed(() => {
                 :image="product.badges[0].file.url"
                 :alt="product.badges[0].file.name"
             />
-            <img
-                src="https://api.roosters-dev.ru/downloads/df8/df8372c7403f15a75b045bdf578f3ecf.png"
-                :alt="product.name"
-            />
-            <!--            <img :src="product.file.url" :alt="product.name" />-->
+            <img :src="product.file.url" :alt="product.name" />
             <div
                 class="product__info"
                 @mouseenter="isDataInfoShowed = true"
@@ -257,8 +253,10 @@ const totalPrice = computed(() => {
         }
 
         &:hover {
-            scale: 1.1;
-            cursor: pointer;
+            @include media.lg-up {
+                scale: 1.1;
+                cursor: pointer;
+            }
         }
     }
 }

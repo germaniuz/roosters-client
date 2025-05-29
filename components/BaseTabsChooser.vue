@@ -51,7 +51,7 @@ const activeTab = defineModel<TItem>({ required: true });
 }
 
 .tabs-chooser__btn {
-    padding: 4px 20px;
+    padding: 12px 20px;
     font-family: var(--f-base), serif;
     font-size: functions.rem(14);
     font-weight: 400;
@@ -62,6 +62,10 @@ const activeTab = defineModel<TItem>({ required: true });
     transition: all 0.1s ease-in;
     line-height: 1.2;
     align-content: center;
+
+    @include media.lg-up {
+        padding: 4px 20px;
+    }
 
     @include media.md-down {
         flex: 1;

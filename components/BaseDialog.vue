@@ -30,7 +30,11 @@ const showDialog = () => {
     if (document) {
         document.body.classList.add('body--fixed');
     }
-    dialog.value?.showModal();
+    if (dialog.value) {
+        dialog.value.inert = true;
+        dialog.value?.showModal();
+        dialog.value.inert = false;
+    }
 };
 
 watchEffect(() => {
@@ -82,7 +86,7 @@ useClickOutside(dialogBody, closeDialog);
 .dialog__body {
     padding: 30px;
     overflow: auto;
-    max-height: 90svh;
+    max-height: 98svh;
 
     .dialog--p-sm & {
         padding-block: 50px 20px;
