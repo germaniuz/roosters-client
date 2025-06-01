@@ -1,11 +1,14 @@
 <script lang="ts" setup>
 import { ORDER_LIST } from '~/gql/queries/order';
 import type { Order } from '~/types/Order';
+import { REPEAT_ORDER } from '~/gql/mutations/order';
+import { useMutation } from 'villus';
 
 const { t } = useI18n();
 const route = useRoute();
 const orderId = +route.params.id;
 
+const { dropLocalCart, fetchUserCart } = useCartStore();
 const { items: orders } = useListQuery<Order>(ORDER_LIST, {
     variables: {
         ids: [orderId],
@@ -17,6 +20,17 @@ const order = computed(() => {
 });
 
 const isThanksDialogShowed = ref(true);
+
+const { execute: repeatOrderMutation } = useMutation(REPEAT_ORDER);
+async function repeatOrder() {
+    const res = await repeatOrderMutation({
+        order_id: orderId,
+    });
+    if (res.data) {
+        dropLocalCart();
+        await fetchUserCart();
+    }
+}
 </script>
 
 <template>
@@ -48,7 +62,7 @@ const isThanksDialogShowed = ref(true);
             </div>
         </div>
         <div class="order__comment" v-if="order.customer_comment">{{ order.customer_comment }}</div>
-        <BaseButton :modifiers="['primary']">Повторить заказ</BaseButton>
+        <BaseButton :modifiers="['primary']" @click="repeatOrder">Повторить заказ</BaseButton>
     </div>
     <BaseDialog v-model:is-active="isThanksDialogShowed">
         <div class="card thanks">

@@ -37,6 +37,14 @@ type ClientCartItemList {
     items: [ClientCartItem]
 }
 
+"Тип оплаты"
+type ClientPaymentType {
+    "Описание оплаты"
+    text: String
+    "Тип оплаты"
+    type: CommonEnumsPaymentTypeEnum
+}
+
 "Url для оплаты"
 type ClientPaymentUrl {
     url: String
@@ -57,7 +65,7 @@ type ClientProfile {
     "Полное имя"
     fullname: String
     "Пол"
-    gender: String
+    gender: CommonEnumsGenderEnum
     "id"
     id: Int
     "Статус профиля"
@@ -172,6 +180,8 @@ type CommonCategoryOption {
     order: Int
     "Дата последнего изменения пользователя"
     updated_at: String
+    "Уникальный идентификатор (UUID)"
+    uuid: String
 }
 
 "Вариант товаров в категории"
@@ -359,11 +369,9 @@ type CommonOrder {
     "Тип доставки (slug)"
     delivery_type: CommonEnumsDeliveryTypeEnum
     "Тип доставки"
-    delivery_type_text: CommonEnumsDeliveryTypeEnum
+    delivery_type_text: String
     "ID заказа"
     id: Int
-    "Список ингредиентов в заказе"
-    order_ingredients: [CommonOrderIngredient]
     "Список товаров в заказе"
     order_products: [CommonOrderProduct]
     "Дата и время оплаты"
@@ -386,22 +394,6 @@ type CommonOrder {
     user_address: CommonUserAddress
 }
 
-"Список ингредиентов в заказе"
-type CommonOrderIngredient {
-    "Вариант товаров в категории"
-    category_option_ingredient: CommonCategoryOptionIngredient
-    "ID заказа"
-    id: Int
-    "Заказ"
-    order: CommonOrder
-    "Цена"
-    price: Float
-    "Уникальные добавки для товара (ингридиенты которых нет в категории)"
-    product_unique_ingredient: CommonProductUniqueIngredient
-    "Количество"
-    quantity: Int
-}
-
 "Список заказов"
 type CommonOrderList {
     "Всего записей по фильтру"
@@ -418,12 +410,26 @@ type CommonOrderProduct {
     id: Int
     "Заказ"
     order: CommonOrder
+    "Список ингредиентов в заказе"
+    order_product_ingredients: [CommonOrderProductIngredient]
     "Сет"
     preset: CommonPreset
     "Цена"
     price: Float
     "Вариант продукта"
     product_category_option: CommonProductCategoryOption
+    "Количество"
+    quantity: Int
+}
+
+"Список ингредиентов в заказе"
+type CommonOrderProductIngredient {
+    "ID заказа"
+    id: Int
+    "Ингредиент"
+    ingredient: CommonIngredient
+    "Цена"
+    price: Float
     "Количество"
     quantity: Int
 }
@@ -514,6 +520,8 @@ type CommonProduct {
     product_unique_ingredients: [CommonProductUniqueIngredient]
     "Дата последнего изменения пользователя"
     updated_at: String
+    "Уникальный идентификатор (UUID)"
+    uuid: String
 }
 
 "Вариант товара"
@@ -741,6 +749,11 @@ type Mutation {
     deleteClientCart(cart_item_id: Int!): Boolean
     "Очистка корзины"
     dropClientCart: Boolean
+    "Повторение заказа"
+    repeatClientOrder(
+        "ID заказа"
+        order_id: Int!
+    ): [ClientCartItem]
     sendClientSmsCode(phone: String!): CommonSmsCode
     "Вращение колеса фортуны"
     spinClientFortuneWheelSpin(order_id: Int!): CommonFortuneWheelSlot
@@ -777,6 +790,8 @@ type Query {
         orders: [ClientOrderListOrder],
         search: String
     ): CommonOrderList
+    "Список способов оплаты"
+    clientPaymentTypes: [ClientPaymentType]
     "Список продуктов для клиента"
     clientProductList(
         "Поиск без учета регистра (по умолчанию: true)"
@@ -866,6 +881,7 @@ enum ClientProductListOrderField {
     nutritional_value_fats
     nutritional_value_proteins
     updated_at
+    uuid
 }
 
 enum ClientShopListOrderField {

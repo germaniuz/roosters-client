@@ -95,7 +95,8 @@ const price_old = ref<number>(1500);
                 </div>
             </div>
             <div class="cart-item__details">
-                <div v-if="cartProduct.cart_category_option_ingredients.length" class="cart-item__detail">
+                <span>{{ cartProduct.product.category_option?.option.description }}</span>
+                <div v-if="cartProduct.cart_category_option_ingredients.length">
                     <div class="cart-item__detail-title">Добавки</div>
                     <div
                         v-for="productIngredient in cartProduct.cart_category_option_ingredients"
@@ -153,7 +154,7 @@ const price_old = ref<number>(1500);
 }
 
 .cart-item__img {
-    width: 70px;
+    width: 124px;
     aspect-ratio: 1;
 
     @include media.lg-up {
@@ -176,7 +177,6 @@ const price_old = ref<number>(1500);
     flex-direction: row;
     justify-content: space-between;
     gap: 20px;
-    margin-bottom: 8px;
 
     span {
         color: var(--c-grey90);
@@ -191,7 +191,7 @@ const price_old = ref<number>(1500);
     display: flex;
     flex-direction: column;
     gap: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
 
     @include media.md-up {
         gap: 8px;
@@ -200,6 +200,11 @@ const price_old = ref<number>(1500);
     @include media.lg-up {
         gap: 20px;
         margin-bottom: 30px;
+    }
+
+    span {
+        font-size: functions.rem(12);
+        color: var(--c-grey80);
     }
 }
 

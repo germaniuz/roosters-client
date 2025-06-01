@@ -14,7 +14,7 @@ defineProps<Props>();
             <img :src="item.img" :alt="item.title" />
         </div>
         <div class="popular-item-card__title">{{ item.title }}</div>
-        <BaseButton :modifiers="['link-grey']" class="popular-item-card__price">от {{ item.price }} ₽</BaseButton>
+        <BaseButton :modifiers="['link-grey']" class="popular-item-card__price">от {{ item.price }}&nbsp;₽</BaseButton>
     </div>
 </template>
 
@@ -63,6 +63,7 @@ defineProps<Props>();
     width: max-content;
     margin-top: auto;
     grid-area: price;
-    color: var(--c-grey100);
+    color: var(--c-grey90);
+    font-style: italic;
 }
 </style>

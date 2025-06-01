@@ -25,32 +25,21 @@ export const ORDER_PRODUCT_SHORT_FRAGMENT = gql`
         order {
             id
         }
-    }
-`;
-
-export const ORDER_INGREDIENT_FRAGMENT = gql`
-    fragment OrderIngredient on CommonOrderIngredient {
-        id
-        quantity
-        price
-        category_option_ingredient {
+        order_product_ingredients {
             id
             ingredient {
+                id
                 name
             }
-            category_options {
-                category {
-                    id
-                    name
-                }
-                option {
-                    id
-                    name
-                }
-            }
+            price
+            quantity
         }
-        order {
+        exclude_product_ingredients {
             id
+            ingredient {
+                id
+                name
+            }
         }
     }
 `;
@@ -78,9 +67,6 @@ export const ORDER_FRAGMENT = gql`
         order_products {
             ...OrderProductShort
         }
-        order_ingredients {
-            ...OrderIngredient
-        }
         created_at
         updated_at
     }
@@ -88,5 +74,4 @@ export const ORDER_FRAGMENT = gql`
     ${SHOP_FULL_FRAGMENT}
     ${USER_ADDRESS_FRAGMENT}
     ${ORDER_PRODUCT_SHORT_FRAGMENT}
-    ${ORDER_INGREDIENT_FRAGMENT}
 `;

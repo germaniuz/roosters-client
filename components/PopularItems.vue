@@ -113,6 +113,7 @@ const scrollLeft = () => {
 
 .popular-items {
     margin-block: 24px 12px;
+    padding-top: 10px;
 
     .h2 {
         font-size: functions.rem(18);

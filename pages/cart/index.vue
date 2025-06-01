@@ -9,8 +9,9 @@ const { items, cartPrice, cartCount } = storeToRefs(useCartStore());
         <div class="container container--sm cart">
             <h1 class="h1">Корзина <span class="h1--grey h1--md-hidden">- Оформление - Заказ принят</span></h1>
             <div class="cart__top-summary">
-                <span><img src="/images/cart-primary.svg" alt="Корзина" /></span> {{ cartCount }} товаров на сумму
-                {{ cartPrice }}&nbsp;₽
+                <img src="/images/cart-primary.svg" alt="Корзина" /> {{ cartCount }} товаров на сумму
+                <span>&nbsp;{{ cartPrice }}</span
+                >&nbsp;₽
             </div>
             <div class="cart__grid">
                 <div v-if="items.length" class="cart__items">
@@ -48,6 +49,10 @@ const { items, cartPrice, cartCount } = storeToRefs(useCartStore());
     display: flex;
 
     span {
+        font-style: italic;
+    }
+
+    img {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -55,14 +60,6 @@ const { items, cartPrice, cartCount } = storeToRefs(useCartStore());
         width: 28px;
         height: 28px;
         margin-right: 12px;
-
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            position: relative;
-            top: -2px;
-        }
     }
 }
 
@@ -87,7 +84,7 @@ const { items, cartPrice, cartCount } = storeToRefs(useCartStore());
     border-top: 1px solid var(--c-grey30);
     border-bottom: 1px solid var(--c-grey30);
     padding-block: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 
     @include media.md-up {
         margin-bottom: 0;

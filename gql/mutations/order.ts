@@ -1,5 +1,6 @@
 import { ORDER_FRAGMENT } from '~/gql/fragments/order';
 import { gql } from 'graphql-tag';
+import { CART_ITEM_FRAGMENT } from '~/gql/fragments/cart';
 
 export const CREATE_ORDER = gql`
     mutation createClientOrder(
@@ -28,4 +29,13 @@ export const CREATE_PAYMENT_URL = gql`
             url
         }
     }
+`;
+
+export const REPEAT_ORDER = gql`
+    mutation repeatClientOrder($order_id: Int!) {
+        repeatClientOrder(order_id: $order_id) {
+            ...CartItem
+        }
+    }
+    ${CART_ITEM_FRAGMENT}
 `;
