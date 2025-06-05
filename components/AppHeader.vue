@@ -2,6 +2,7 @@
 import { useAppStore } from '~/stores/app';
 import { useDeliveryStore } from '~/stores/deliveryStore';
 import { DELIVERY_TYPE } from '~/constants/order';
+import { PROFILE_PATH } from '~/constants/routing';
 
 const { phone } = useAppStore();
 const { isGuest, isAuthenticated, isAuthDialogActive, isCodeVerificationDialogActive } = storeToRefs(useProfileStore());
@@ -26,8 +27,6 @@ const openCodeVerificationDialog = (phone: string) => {
     isAuthDialogActive.value = false;
     isCodeVerificationDialogActive.value = true;
 };
-
-const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Закуски', 'Напитки', 'Акции']);
 </script>
 
 <template>
@@ -87,14 +86,28 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
         </div>
     </header>
     <div class="mobile-menu header__mobile-menu" :class="{ 'mobile-menu--active': menuIsActive }">
-        <BaseButton
-            v-if="isGuest"
-            class="header__mobile-menu-login-btn"
-            :modifiers="['third', 'icon']"
-            @click="isAuthDialogActive = true"
-        >
+        <div v-if="isGuest" class="mobile-menu__login" @click="isAuthDialogActive = true">
             <i class="icon-avatar"></i> Войти
-        </BaseButton>
+        </div>
+        <BaseButtonLink
+            v-else
+            :link-to="PROFILE_PATH"
+            :modifiers="['light', 'no-padding']"
+            class="mobile-menu__login"
+            @click="isAuthDialogActive = false"
+        >
+            <i class="icon-avatar"></i> Мой профиль
+        </BaseButtonLink>
+        <div class="header__mobile-menu-divider" />
+        <div class="header__mobile-menu-nav">
+            <NuxtLink class="header__mobile-menu-nav-link" to="/">Меню</NuxtLink>
+            <NuxtLink class="header__mobile-menu-nav-link" to="/discount">Акции</NuxtLink>
+            <NuxtLink class="header__mobile-menu-nav-link" to="/delivery">Доставка</NuxtLink>
+            <NuxtLink class="header__mobile-menu-nav-link" to="/job-offers">Работа в Рустерс</NuxtLink>
+            <NuxtLink class="header__mobile-menu-nav-link" to="/about">О нас</NuxtLink>
+            <NuxtLink class="header__mobile-menu-nav-link" to="/news">Новости</NuxtLink>
+            <NuxtLink class="header__mobile-menu-nav-link" to="/reviews">Отзывы</NuxtLink>
+        </div>
         <div class="header__mobile-menu-divider" />
         <BaseContact
             image="/images/icons/phone.svg"
@@ -102,20 +115,6 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
             link="tel:8 (8442) 33-77-77"
             subtext="Бесплатный звонок"
         />
-        <div class="header__mobile-menu-divider" />
-        <div class="header__mobile-menu-categories">
-            <div v-for="headerCategory in headerCategories" :key="headerCategory" class="header__category">
-                {{ headerCategory }}
-            </div>
-        </div>
-        <div class="header__mobile-menu-divider" />
-        <div class="header__mobile-menu-nav">
-            <NuxtLink class="header__mobile-menu-nav-link" to="/delivery">Доставка</NuxtLink>
-            <NuxtLink class="header__mobile-menu-nav-link" to="/about">О нас</NuxtLink>
-            <NuxtLink class="header__mobile-menu-nav-link" to="/job-offers">Вакансии</NuxtLink>
-            <NuxtLink class="header__mobile-menu-nav-link" to="/news">Новости</NuxtLink>
-            <NuxtLink class="header__mobile-menu-nav-link" to="/reviews">Отзывы</NuxtLink>
-        </div>
         <div class="header__mobile-menu-divider" />
         <div class="header__mobile-menu-apps">
             <BaseAppStoreButton icon="playmarket" download-text="Скачать из" store-name="Google Play" />
@@ -246,7 +245,7 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     gap: 10px;
     white-space: nowrap;
     transition: opacity 0.2s ease-in-out;
-    margin-right: auto;
+    margin-left: auto;
 
     @include media.sm-down {
         margin-left: auto;
@@ -377,8 +376,9 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
 }
 
 .header__mobile-menu-nav-link {
-    color: var(--c-grey50);
+    color: var(--c-grey90);
     max-width: max-content;
+    font-size: functions.rem(18);
 
     &:hover {
         color: var(--c-secondary);
@@ -482,5 +482,32 @@ const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Зак�
     top: 5px;
     border-radius: 50%;
     font-size: functions.rem(16);
+}
+
+.mobile-menu__login {
+    font-size: functions.rem(18);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    color: var(--c-grey90);
+
+    i {
+        color: var(--c-primary);
+        font-size: functions.rem(32);
+        background: var(--c-secondary-light);
+        border-radius: 50%;
+        display: flex;
+        width: 29px;
+        height: 29px;
+        align-items: center;
+        justify-content: center;
+
+        &::before {
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+    }
 }
 </style>

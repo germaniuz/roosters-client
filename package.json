@@ -32,6 +32,7 @@
   "dependencies": {
     "@nuxtjs/i18n": "9.5.4",
     "@pinia/nuxt": "^0.5.2",
+    "@vuepic/vue-datepicker": "^10.0.0",
     "@villus/multipart": "^3.5.2",
     "dompurify": "^3.2.3",
     "graphql": "^16.10.0",

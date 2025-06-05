@@ -23,7 +23,7 @@
   }
 
   &--sm {
-    font-size: functions.rem(14);
+    font-size: functions.rem(12);
     line-height: 1;
     padding: 10px 20px;
   }
@@ -53,7 +53,6 @@
     color: var(--c-secondary);
     text-decoration: underline;
     display: inline-block;
-    font-size: inherit;
   }
 
   &--link-grey {
@@ -162,7 +161,7 @@
 
   &--grey {
     background: var(--c-grey10);
-    color: var(--c-grey80);
+    color: var(--c-grey90);
 
     &:hover {
       background: var(--c-secondary-light);
@@ -184,5 +183,9 @@
   &--light {
     background: var(--c-grey00);
     color: var(--c-primary);
+  }
+
+  &--no-padding {
+    padding: 0;
   }
 }

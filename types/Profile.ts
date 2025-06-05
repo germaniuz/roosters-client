@@ -1,6 +1,6 @@
 import * as v from 'valibot';
 import type { InferOutput } from 'valibot';
-import { type DELIVERY_TYPE } from '~/constants/order';
+import type { DELIVERY_TYPE } from '~/constants/order';
 import { type Address, AddressFieldsSchema } from '~/types/Address';
 import { GENDER } from '~/constants/user';
 
@@ -20,9 +20,8 @@ export const ProfileFieldsSchema = v.object({
             v.maxSize(1024 * 1024 * 10, 'Размер файла превышает 10МБ'),
         ),
     ),
-    birthday: v.nullish(v.string()),
+    birthday: v.nullish(v.date()),
     gender: v.nullish(v.picklist(Object.values(GENDER))),
-    is_active: v.boolean(),
 });
 export type ProfileFields = InferOutput<typeof ProfileFieldsSchema>;
 

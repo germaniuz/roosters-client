@@ -32,8 +32,8 @@
 .h2 {
   color: var(--c-grey90);
   font-family: var(--f-base), serif;
-  font-size: functions.rem(24);
-  line-height: functions.rem(28);
+  font-size: functions.rem(22);
+  line-height: functions.rem(26);
   font-weight: 600;
   margin-bottom: 30px;
 
@@ -70,13 +70,13 @@
 
 .h3 {
   color: var(--c-grey90);
-  font-size: functions.rem(24);
+  font-size: functions.rem(22);
   margin-bottom: 30px;
 }
 
 .h4 {
-  font-size: functions.rem(24);
-  line-height: functions.rem(38);
+  font-size: functions.rem(22);
+  line-height: functions.rem(26);
   margin-bottom: 12px;
   color: var(--c-text-primary);
 }

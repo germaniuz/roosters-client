@@ -5,7 +5,7 @@ export const UPDATE_CLIENT_USER = gql`
         $name: String
         $lastname: String
         $email: String
-        $gender: ClientEnumsGenderEnum!
+        $gender: CommonEnumsGenderEnum!
         $birthday: String
         $avatar: Upload
     ) {

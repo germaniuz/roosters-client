@@ -17,7 +17,7 @@ const isOrdersDialogShowed = ref(false);
 </script>
 
 <template>
-    <div class="card card--p-md card--grey profile__user-orders-history">
+    <div class="card card--p-md card--grey profile__user-orders-history" v-if="orders.length > 0">
         <div class="text14 g50">История заказов</div>
         <span>Всего заказов: {{ ordersCount }}</span>
         <BaseButton :modifiers="['secondary']" @click="isOrdersDialogShowed = true">Посмотреть все</BaseButton>
@@ -40,6 +40,8 @@ const isOrdersDialogShowed = ref(false);
     flex-direction: column;
     gap: 10px;
     min-height: 163px;
+    background: var(--c-grey15);
+    margin-top: 20px;
 
     @include media.md-up {
         min-height: unset;
@@ -50,7 +52,7 @@ const isOrdersDialogShowed = ref(false);
         font-size: functions.rem(20);
         line-height: functions.rem(24);
         font-weight: 400;
-        color: var(--c-grey70);
+        color: var(--c-grey90);
         margin-bottom: 15px;
 
         @include media.lg-up {
@@ -72,6 +74,10 @@ const isOrdersDialogShowed = ref(false);
 .profile__user-order {
     grid-area: user-order;
     min-height: 190px;
+
+    @include media.md-down {
+        display: none;
+    }
 
     @include media.lg-up {
         min-height: 206px;

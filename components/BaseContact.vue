@@ -38,7 +38,7 @@ defineProps<Props>();
 }
 
 .contact__text {
-    color: var(--c-grey70);
+    color: var(--c-grey90);
     font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 600;

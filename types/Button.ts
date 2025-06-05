@@ -18,5 +18,6 @@ export type BtnModifier =
     | 'single-icon'
     | 'link-primary'
     | 'link'
+    | 'no-padding'
     | 'link-grey'
     | 'light';

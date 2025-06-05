@@ -53,4 +53,7 @@ export default defineNuxtConfig({
         },
     },
     compatibilityDate: '2024-08-29',
+    build: {
+        transpile: ['@vuepic/vue-datepicker'],
+    },
 });

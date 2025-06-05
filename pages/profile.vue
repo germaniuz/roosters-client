@@ -5,6 +5,7 @@ import { UPDATE_CLIENT_USER } from '~/gql/mutations/clientUser';
 import { useMutation } from 'villus';
 import { LOGOUT_PATH } from '~/constants/routing';
 import { GENDER } from '~/constants/user';
+import VueDatePicker from '@vuepic/vue-datepicker';
 
 const { t } = useI18n();
 
@@ -39,12 +40,11 @@ const profileFields = ref<ProfileFields>({
     phone: profile.value?.phone ?? '',
     email: profile.value?.email ?? '',
     avatar: null,
-    birthday: profile.value?.birthday ?? '1900-01-01',
+    birthday: profile.value?.birthday ? new Date(profile.value.birthday) : null,
     gender:
         profile.value?.gender == GENDER.MALE || profile.value?.gender == GENDER.FEMALE
             ? profile.value?.gender
             : GENDER.MALE,
-    is_active: profile.value?.is_active ?? false,
 });
 
 const { validate, formErrors } = useValidateFormData<ProfileFields>(profileFields, ProfileFieldsSchema);
@@ -73,6 +73,7 @@ const _handleFile = (file: File): void => {
 
 const saveProfile = async () => {
     const validationResult = validate();
+    console.log(validationResult);
 
     if (validationResult.success) {
         try {
@@ -84,6 +85,14 @@ const saveProfile = async () => {
             console.error(e);
         }
     }
+};
+
+const dateFormat = (date: Date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
 };
 </script>
 <template>
@@ -98,7 +107,7 @@ const saveProfile = async () => {
                     <span>{{ profile?.name ? profile.name : 'Гость' }}</span>
                 </div>
             </div>
-            <div class="card card--p-md profile__user-points">
+            <div class="card card--secondary-light card--p-md profile__user-points">
                 <div class="profile__user-points-converting">1 балл Рустерс = 1 ₽</div>
                 <span>Сейчас у вас</span>
                 <div class="profile__user-points-balance">
@@ -109,38 +118,19 @@ const saveProfile = async () => {
             </div>
             <UserOrders />
         </div>
-        <div v-if="!isGuest" class="profile__mailing">
-            <div class="profile__mailing-radio-btn">
-                <RadioButton v-model="subscribeMailing" name="profile-mailing" label="" />
-                <span class="h2 h2--no-mb">Подписаться на рассылку</span>
-            </div>
-            <div class="profile__mailing-description">Получать персональные предложения, акции и новости.</div>
-            <div v-if="subscribeMailing" class="profile__input">
-                <FormInput
-                    v-model="mailingEmail"
-                    class="profile__mailing-mail"
-                    name="mailing-email"
-                    placeholder="Введите адрес"
-                />
-                <div v-if="!mailingEmail" class="profile__bonus">+50</div>
-                <BaseButton
-                    v-if="mailingEmail && mailingEmail !== profile?.email"
-                    class="profile__mailing-save-btn"
-                    :modifiers="['primary']"
-                    @click="saveProfile"
-                    >Сохранить
-                </BaseButton>
-            </div>
-        </div>
         <div v-if="!isGuest" class="profile__promo">
-            <div class="h2 h2--no-mb profile__promo-title">Персональные акции</div>
+            <div class="h2 h2--no-mb profile__promo-title d-flex jc-between ai-center">
+                Наши акции
+                <BaseButton class="profile__all-promo-btn" :modifiers="['outline-secondary']"
+                    >Посмотреть все</BaseButton
+                >
+            </div>
             <div class="profile__promo-carousel">
                 <div v-for="story in stories" :key="story.link" class="profile__promo-image">
                     <a :href="story.link"></a>
                     <img :src="story.image" alt="story" />
                 </div>
             </div>
-            <BaseButton class="profile__all-promo-btn" :modifiers="['outline-secondary']">Посмотреть все</BaseButton>
         </div>
         <div v-if="profile.addresses?.length" class="h2">Ваши адреса</div>
         <div v-if="profile.addresses?.length" class="profile__saved-addresses">
@@ -150,13 +140,12 @@ const saveProfile = async () => {
                 <BaseIcon class="profile__saved-address-remove" name="close" />
             </div>
         </div>
-        <div v-if="!isGuest" class="h2">Персональные данные</div>
         <div v-if="profile" class="profile__personal-data">
             <div class="profile__personal-data-bonus">
                 <div class="profile__personal-data-bonus-img">
                     <img src="/images/exclamation.webp" alt="" />
                 </div>
-                <div>
+                <div class="card card--secondary-light card--grey">
                     <div class="profile__personal-data-bonus-text">
                         Получите
                         <span>до 150 <BaseIcon name="pizza-slice-filled" /></span>
@@ -169,22 +158,38 @@ const saveProfile = async () => {
                 <div class="profile__personal-data-image">
                     <img src="/images/icons/avatar-dark.svg" alt="Profile" />
                 </div>
-                <BaseButton :modifiers="['outline']">Изменить изображение</BaseButton>
+                <BaseButton :modifiers="['link', 'sm']">Изменить изображение</BaseButton>
+            </div>
+            <div v-if="profile.birthday" class="profile__input-label">
+                Дата Рождения: {{ getDateString(profile.birthday) }}
             </div>
             <div class="profile__input-label">Имя</div>
             <div class="profile__input">
                 <FormInput v-model="profileFields.name" name="name" placeholder="Имя" />
                 <div v-if="!profileFields.name" class="profile__bonus">+50</div>
             </div>
-            <div class="profile__input-label">Дата рождения (укажите дату рождения, чтобы получать скидки)</div>
-            <div class="profile__input">
-                <FormInput v-model="profileFields.birthday" name="birthday" type="date" placeholder="День рождения" />
-                <div v-if="!profileFields.birthday" class="profile__bonus">+50</div>
+            <div v-if="!profile.birthday" class="profile__input-label">
+                Дата рождения (укажите дату рождения, чтобы получать скидки)
+            </div>
+            <div v-if="!profile.birthday" class="profile__input">
+                <VueDatePicker
+                    v-model="profileFields.birthday"
+                    name="time-end"
+                    label="День Рождения"
+                    placeholder="День Рождения"
+                    :auto-apply="true"
+                    locale="ru-RU"
+                    :format="dateFormat"
+                />
+                <div class="profile__bonus">+50</div>
             </div>
             <div class="profile__input-label">Email</div>
             <div class="profile__input">
                 <FormInput v-model="profileFields.email" name="email" :errors="formErrors?.email" placeholder="Email" />
                 <div v-if="!profileFields.email" class="profile__bonus">+50</div>
+            </div>
+            <div class="profile__input">
+                <FormRadioButton v-model="subscribeMailing" name="profile-mailing" label="Подписаться на рассылку" />
             </div>
             <div class="profile__input-label">Пол</div>
             <div class="profile__personal-data-gender">
@@ -217,7 +222,7 @@ const saveProfile = async () => {
     display: grid;
     grid-template-columns: 1fr;
     grid-row-gap: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     grid-template-areas:
         'user-welcome'
         'user-points'
@@ -315,7 +320,7 @@ const saveProfile = async () => {
 
 .profile__user-welcome-hello {
     font-family: var(--f-base), sans-serif;
-    font-size: functions.rem(24);
+    font-size: functions.rem(22);
     line-height: functions.rem(28);
     font-style: italic;
     font-weight: 600;
@@ -339,7 +344,7 @@ const saveProfile = async () => {
         font-family: var(--f-base), sans-serif;
         font-size: functions.rem(24);
         line-height: functions.rem(28);
-        font-weight: 300;
+        font-weight: 500;
         color: var(--c-secondary);
 
         @include media.lg-up {
@@ -369,7 +374,6 @@ const saveProfile = async () => {
 
 .profile__user-points {
     grid-area: user-points;
-    background-color: var(--c-secondary-extra-light);
     position: relative;
 
     @include media.xl-up {
@@ -405,8 +409,8 @@ const saveProfile = async () => {
         font-weight: 400;
         font-size: functions.rem(20);
         line-height: functions.rem(24);
-        color: var(--c-secondary-extra-dark);
-        margin-bottom: 5px;
+        color: var(--c-grey90);
+        margin-bottom: 8px;
 
         @include media.lg-up {
             font-size: functions.rem(32);
@@ -421,15 +425,15 @@ const saveProfile = async () => {
     font-weight: 400;
     font-size: functions.rem(14);
     line-height: functions.rem(16);
-    color: var(--c-secondary-dark);
+    color: var(--c-secondary-extra-dark);
     margin-bottom: 10px;
 }
 
 .profile__user-points-balance {
     font-family: var(--f-base), sans-serif;
-    font-size: functions.rem(28);
+    font-size: functions.rem(32);
     line-height: functions.rem(34);
-    font-weight: 800;
+    font-weight: 600;
     color: var(--c-secondary);
     margin-bottom: 25px;
 
@@ -497,7 +501,7 @@ const saveProfile = async () => {
 .profile__promo {
     display: grid;
     grid-row-gap: 30px;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     grid-template-areas:
         'promo-title'
         'promo-carousel'
@@ -526,6 +530,7 @@ const saveProfile = async () => {
     gap: 20px;
     margin-inline: calc(var(--pi-container-xs) * -1);
     padding-inline: var(--pi-container-xs);
+    scrollbar-width: none;
 
     @include media.md-only {
         margin-inline: calc(var(--pi-container-xl) * -1);
@@ -648,7 +653,7 @@ const saveProfile = async () => {
 }
 
 .profile__personal-data-bonus-text {
-    color: var(--c-grey70);
+    color: var(--c-grey90);
     font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 400;
@@ -676,7 +681,7 @@ const saveProfile = async () => {
 }
 
 .profile__personal-data-bonus-subtext {
-    color: var(--c-grey50);
+    color: var(--c-secondary-extra-dark);
     font-family: var(--f-base), sans-serif;
     font-size: functions.rem(14);
     font-weight: 400;
@@ -685,11 +690,10 @@ const saveProfile = async () => {
 
 .profile__personal-data-image-block {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 20px;
     align-items: center;
     margin-bottom: 20px;
-    max-width: 312px;
 
     @include media.md-up {
         margin-bottom: 30px;
@@ -701,8 +705,9 @@ const saveProfile = async () => {
 }
 
 .profile__personal-data-image {
-    width: 58px;
-    height: 58px;
+    margin-top: 20px;
+    width: 160px;
+    height: 160px;
 
     img {
         height: 100%;
@@ -775,10 +780,16 @@ const saveProfile = async () => {
             max-width: 312px;
         }
     }
+
+    .dp__main {
+        @include media.md-up {
+            max-width: 312px;
+        }
+    }
 }
 
 .profile__input-label {
-    color: var(--c-grey70);
+    color: var(--c-grey90);
     font-family: var(--f-base), sans-serif;
     font-size: functions.rem(16);
     font-weight: 400;

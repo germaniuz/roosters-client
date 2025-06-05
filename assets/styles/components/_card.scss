@@ -10,7 +10,11 @@
   }
 
   &--grey {
-    background: var(--c-grey10);
+    background: var(--c-grey15);
+  }
+
+  &--secondary-light {
+    background: var(--c-secondary-extra-light);
   }
 
   &--outline {
