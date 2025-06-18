@@ -3,7 +3,7 @@ import { PRODUCT_FULL_LIST } from '~/gql/queries/product';
 import type { Category, Product } from '~/types/Product';
 import { CATEGORY_LIST_QUERY } from '~/gql/queries/category';
 
-const { items } = useListQuery<Product>(PRODUCT_FULL_LIST);
+const { items } = useListQuery<Product>(PRODUCT_FULL_LIST, { limit: 999 });
 const { activeShop, isActiveShopWorking } = storeToRefs(useDeliveryStore());
 
 const { items: categories } = useListQuery<Category>(CATEGORY_LIST_QUERY);
