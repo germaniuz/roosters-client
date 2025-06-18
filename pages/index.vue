@@ -1,36 +1,28 @@
 <script lang="ts" setup>
 import { PRODUCT_FULL_LIST } from '~/gql/queries/product';
-import type { Product } from '~/types/Product';
+import type { Category, Product } from '~/types/Product';
+import { CATEGORY_LIST_QUERY } from '~/gql/queries/category';
 
 const { items } = useListQuery<Product>(PRODUCT_FULL_LIST);
 const { activeShop, isActiveShopWorking } = storeToRefs(useDeliveryStore());
 
-const headerCategories = ref(['Сеты', 'Пицца', 'Шашлык', 'Закуски', 'Напитки', 'Акции']);
+const { items: categories } = useListQuery<Category>(CATEGORY_LIST_QUERY);
 
-const products = computed(() => {
-    const productList: {
-        inStock: Product[];
-        outStock: Product[];
-    } = {
-        inStock: [],
-        outStock: [],
-    };
-    if (!activeShop.value) {
-        productList.inStock = [...items.value];
-    } else {
-        items.value.forEach((product) => {
-            const stopIndex = activeShop.value?.product_stoplist.findIndex((stopProduct) => {
-                return stopProduct.product.id === product.id;
-            });
-            if (stopIndex !== -1) {
-                productList.outStock.push(product);
-            } else {
-                productList.inStock.push(product);
-            }
-        });
-    }
+const productsByCategory = computed(() => {
+    const groupedProducts: Record<number, { category: Category; products: Product[] }> = {};
 
-    return productList;
+    items.value.forEach((product) => {
+        const categoryId = product.category.id;
+        if (!groupedProducts[categoryId]) {
+            groupedProducts[categoryId] = {
+                category: product.category,
+                products: [],
+            };
+        }
+        groupedProducts[categoryId].products.push(product);
+    });
+
+    return Object.values(groupedProducts).sort((a, b) => a.category.name.localeCompare(b.category.name));
 });
 </script>
 
@@ -39,20 +31,24 @@ const products = computed(() => {
         <AppStories />
         <PopularItems />
         <div class="header__categories">
-            <div v-for="headerCategory in headerCategories" :key="headerCategory" class="header__category">
-                {{ headerCategory }}
+            <div v-for="category in categories" :key="category.id" class="header__category">
+                {{ category.name }}
             </div>
         </div>
     </div>
     <ClientOnly>
-        <div v-if="items" class="grid grid--product-test">
-            <ProductCard
-                v-for="product in products.inStock"
-                :key="product.id"
-                :product="product"
-                :disabled="!isActiveShopWorking && !!activeShop"
-            />
-            <ProductCard v-for="product in products.outStock" :key="product.id" :product="product" :disabled="true" />
+        <div class="container" v-if="items">
+            <div v-for="categoryGroup in productsByCategory" :key="categoryGroup.category.id" class="category-section">
+                <h3 class="category-title">{{ categoryGroup.category.name }}</h3>
+                <div class="grid grid--product-test">
+                    <ProductCard
+                        v-for="product in categoryGroup.products"
+                        :key="product.id"
+                        :product="product"
+                        :disabled="!isActiveShopWorking && !!activeShop"
+                    />
+                </div>
+            </div>
         </div>
     </ClientOnly>
 </template>
@@ -238,6 +234,27 @@ const products = computed(() => {
         &::after {
             height: 4px;
         }
+    }
+}
+
+.category-section {
+    margin-bottom: 40px;
+
+    @include media.lg-up {
+        margin-bottom: 60px;
+    }
+}
+
+.category-title {
+    font-size: functions.rem(24);
+    font-weight: 600;
+    color: var(--c-grey90);
+    margin-bottom: 20px;
+    margin-top: 0;
+
+    @include media.lg-up {
+        font-size: functions.rem(28);
+        margin-bottom: 30px;
     }
 }
 </style>
