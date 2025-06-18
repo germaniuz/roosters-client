@@ -93,15 +93,15 @@ const drop = () => {
         </div>
         <div class="cart-summary__info">
             <span class="cart-summary__info-title">Скидка</span>
-            <span class="cart-summary__info-data">-300 ₽</span>
+            <span class="cart-summary__info-data">0 ₽</span>
         </div>
         <div class="cart-summary__info">
             <span class="cart-summary__info-title">Промокод</span>
-            <span class="cart-summary__info-data">-500 ₽</span>
+            <span class="cart-summary__info-data">0 ₽</span>
         </div>
         <div class="cart-summary__info">
             <span class="cart-summary__info-title">Использовано баллов</span>
-            <span class="cart-summary__info-data">-100 <BaseIcon name="pizza-slice" /></span>
+            <span class="cart-summary__info-data">0 <BaseIcon name="pizza-slice" /></span>
         </div>
         <div class="cart-summary__info">
             <span class="cart-summary__info-title">Начислим баллов <span class="cart-summary__info-icon">i</span></span>

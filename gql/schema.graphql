@@ -17,6 +17,8 @@ type ClientCartCategoryOptionIngredient {
 type ClientCartItem {
     "Ингредиенты в корзине"
     cart_category_option_ingredients: [ClientCartCategoryOptionIngredient]
+    "Уникальный ингредиент в корзине"
+    cart_product_unique_ingredients: [ClientCartProductUniqueIngredient]
     "Список исключающих ингредиентов из товара"
     exclude_product_ingredients: [CommonProductIngredient]
     "Идентификатор"
@@ -35,6 +37,14 @@ type ClientCartItemList {
     count: Int
     "Список товаров в корзине"
     items: [ClientCartItem]
+}
+
+"Уникальные добавки для товара (ингридиенты которых нет в категории) в корзине"
+type ClientCartProductUniqueIngredient {
+    "Ингредиенты"
+    product_unique_ingredient: CommonProductUniqueIngredient
+    "Количество"
+    quantity: Int
 }
 
 "Тип оплаты"
@@ -180,8 +190,6 @@ type CommonCategoryOption {
     order: Int
     "Дата последнего изменения пользователя"
     updated_at: String
-    "Уникальный идентификатор (UUID)"
-    uuid: String
 }
 
 "Вариант товаров в категории"
@@ -542,6 +550,8 @@ type CommonProductCategoryOption {
     product_id: String
     "Дата последнего изменения пользователя"
     updated_at: String
+    "Уникальный идентификатор (UUID)"
+    uuid: String
     "Вес"
     weight: Float
 }
@@ -726,7 +736,7 @@ type Mutation {
     "Изменение количества в корзине"
     changeClientCartItemQuantity(cart_item_id: Int!, quantity: Int!): [ClientCartItem]
     "Добавление в корзину"
-    createClientCart(cart_category_option_ingredients: [ClientCartCategoryOptionIngredientFieldInput], exclude_product_ingredient_ids: [Int], preset: ClientPresetFieldInput, product_category_option: ClientProductCategoryOptionFieldInput): [ClientCartItem]
+    createClientCart(cart_category_option_ingredients: [ClientCartCategoryOptionIngredientFieldInput], cart_product_unique_ingredients: [ClientCartProductUniqueIngredientFieldInput], exclude_product_ingredient_ids: [Int], preset: ClientPresetFieldInput, product_category_option: ClientProductCategoryOptionFieldInput): [ClientCartItem]
     "Создание заказа"
     createClientOrder(
         "Комментарий клиента"
@@ -758,7 +768,7 @@ type Mutation {
     "Вращение колеса фортуны"
     spinClientFortuneWheelSpin(order_id: Int!): CommonFortuneWheelSlot
     "Изменение корзины"
-    updateClientCart(cart_category_option_ingredients: [ClientCartCategoryOptionIngredientFieldInput], cart_item_id: Int!, preset: ClientPresetFieldInput, product_category_option: ClientProductCategoryOptionFieldInput): [ClientCartItem]
+    updateClientCart(cart_category_option_ingredients: [ClientCartCategoryOptionIngredientFieldInput], cart_item_id: Int!, cart_product_unique_ingredients: [ClientCartProductUniqueIngredientFieldInput], preset: ClientPresetFieldInput, product_category_option: ClientProductCategoryOptionFieldInput): [ClientCartItem]
     "Изменение пользователя"
     updateClientUser(avatar: Upload, birthday: String, email: String, gender: CommonEnumsGenderEnum, lastname: String, name: String): ClientProfile
     verifyClientSmsCode(code: String!, phone: String!): CommonToken
@@ -774,6 +784,18 @@ type Query {
         offset: Int = 0,
         orders: [ClientCartOrder]
     ): ClientCartItemList
+    "Список категорий для клиента"
+    clientCategoryList(
+        "Поиск без учета регистра (по умолчанию: true)"
+        case_insensitive_search: Boolean = true,
+        "Max 50"
+        ids: [Int],
+        "Max 50"
+        limit: Int = 30,
+        offset: Int = 0,
+        orders: [ClientCategoryListOrder],
+        search: String
+    ): CommonCategoryList
     "Колесо фортуны"
     clientFortuneWheel: [CommonFortuneWheelSlot]
     "История прокрутки колеса фортуны (пользователь)"
@@ -848,11 +870,21 @@ type Query {
 
 enum ClientCartOrderField {
     cart_category_option_ingredients
+    cart_product_unique_ingredients
     exclude_product_ingredients
     id
     preset
     product
     quantity
+}
+
+enum ClientCategoryListOrderField {
+    created_at
+    description
+    id
+    name
+    slug
+    updated_at
 }
 
 enum ClientOrderListOrderField {
@@ -981,6 +1013,19 @@ input ClientCartCategoryOptionIngredientFieldInput {
 input ClientCartOrder {
     dir: CommonOrderDirectionEnum = asc
     field: ClientCartOrderField!
+}
+
+"Данные по уникальным добавкам для товара в корзине"
+input ClientCartProductUniqueIngredientFieldInput {
+    "Идентификатор ингредиента"
+    product_unique_ingredient_id: Int!
+    "Количество ингредиентов"
+    quantity: Int!
+}
+
+input ClientCategoryListOrder {
+    dir: CommonOrderDirectionEnum = asc
+    field: ClientCategoryListOrderField!
 }
 
 input ClientOrderListOrder {

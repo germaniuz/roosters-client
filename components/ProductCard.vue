@@ -17,7 +17,8 @@ const price = computed(() =>
 );
 
 const ingredients = computed(
-    () => props.product.description + ', ' + props.product.product_ingredients.map((i) => i.ingredient.name).join(', '),
+    () =>
+        props.product.description + ', ' + props.product.product_ingredients?.map((i) => i.ingredient.name).join(', '),
 );
 
 const { openProductDialog } = useProductStore();

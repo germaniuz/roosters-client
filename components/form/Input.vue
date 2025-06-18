@@ -6,7 +6,7 @@ type Props = {
     label?: string;
     size?: 'sm' | 'lg';
     errors?: string[] | undefined;
-    type?: 'text' | 'date';
+    type?: 'text' | 'date' | 'tel';
     disabled?: boolean;
 };
 

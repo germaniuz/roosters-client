@@ -40,6 +40,10 @@ input {
     border-color: transparent;
   }
 
+  &:disabled::placeholder {
+    color: var(--c-grey70);
+  }
+
   .form-control--lg & {
     font-size: functions.rem(16);
   }

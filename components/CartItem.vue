@@ -115,7 +115,7 @@ const price_old = ref<number>(1500);
                     :decrease-handler="decreaseQuantity"
                 />
                 <div class="cart-item__price">
-                    <span v-if="price_old" class="cart-item__price-old">{{ price_old }} ₽</span>
+                    <span v-if="false" class="cart-item__price-old">{{ price_old }} ₽</span>
                     {{ totalPrice }} ₽
                 </div>
             </div>
@@ -261,6 +261,7 @@ const price_old = ref<number>(1500);
     font-weight: 600;
     line-height: functions.rem(19);
     font-style: italic;
+    margin-top: auto;
 
     @include media.lg-up {
         font-size: functions.rem(18);

@@ -115,7 +115,11 @@ const totalPrice = computed(() => {
                 :image="product.badges[0].file.url"
                 :alt="product.badges[0].file.name"
             />
-            <img :src="product.file.url" :alt="product.name" />
+            <img
+                src="https://api.roosters-dev.ru/downloads/5e4/5e44bd249c1ee103a7b5da79ac363e61.png"
+                :alt="product.name"
+            />
+            <!--            <img :src="product.file.url" :alt="product.name" />-->
             <div
                 class="product__info"
                 @mouseenter="isDataInfoShowed = true"
@@ -238,6 +242,8 @@ const totalPrice = computed(() => {
     flex: 0 0 100%;
     justify-content: center;
     max-height: var(--product-height);
+    position: relative;
+    z-index: var(--z-bottom);
 
     img {
         width: 100%;
@@ -267,18 +273,19 @@ const totalPrice = computed(() => {
 
 .product__info {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 0;
+    left: 0;
     color: var(--c-secondary);
-    background: var(--c-secondary-light);
     border-radius: 50%;
-    width: 38px;
-    height: 38px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: functions.rem(24);
+    font-size: functions.rem(22);
     cursor: pointer;
+    border: 2px solid var(--c-secondary);
+    z-index: var(--z-top-10);
 
     @include media.lg-up {
         left: initial;
@@ -389,6 +396,7 @@ const totalPrice = computed(() => {
     font-weight: 300;
     border-radius: var(--b-radius);
     padding: 10px;
+    z-index: var(--z-top-10x);
 
     @include media.lg-up {
         left: initial;

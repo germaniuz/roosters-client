@@ -94,6 +94,7 @@ watchEffect(async () => {
                 class="code-card__input"
                 placeholder=""
                 name="code-digit-1"
+                type="tel"
             />
             <FormInput
                 v-model="authCode[1]"
@@ -101,6 +102,7 @@ watchEffect(async () => {
                 class="code-card__input"
                 placeholder=""
                 name="code-digit-2"
+                type="tel"
             />
             <FormInput
                 v-model="authCode[2]"
@@ -108,6 +110,7 @@ watchEffect(async () => {
                 class="code-card__input"
                 placeholder=""
                 name="code-digit-3"
+                type="tel"
             />
             <FormInput
                 v-model="authCode[3]"
@@ -115,6 +118,7 @@ watchEffect(async () => {
                 class="code-card__input"
                 placeholder=""
                 name="code-digit-4"
+                type="tel"
             />
         </div>
         <BaseButton :modifiers="['primary']" class="code-card__button">Получить код снова</BaseButton>

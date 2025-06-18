@@ -3,6 +3,7 @@ import { ORDER_LIST } from '~/gql/queries/order';
 import type { Order } from '~/types/Order';
 import { REPEAT_ORDER } from '~/gql/mutations/order';
 import { useMutation } from 'villus';
+import { PROFILE_PATH } from '~/constants/routing';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -10,16 +11,14 @@ const orderId = +route.params.id;
 
 const { dropLocalCart, fetchUserCart } = useCartStore();
 const { items: orders } = useListQuery<Order>(ORDER_LIST, {
-    variables: {
-        ids: [orderId],
-    },
+    ids: [orderId],
 });
 
 const order = computed(() => {
     return orders.value[0];
 });
 
-const isThanksDialogShowed = ref(true);
+const isThanksDialogShowed = ref(false);
 
 const { execute: repeatOrderMutation } = useMutation(REPEAT_ORDER);
 async function repeatOrder() {
@@ -36,11 +35,14 @@ async function repeatOrder() {
 <template>
     <div v-if="order" class="container card card--shadows order">
         <div class="order__top">
-            <h1 class="h1">Заказ №{{ order.id }}</h1>
+            <h1 class="h1 order__heading">
+                <span>Заказ №{{ order.id }}</span>
+                <NuxtLink class="order__back-btn" :to="PROFILE_PATH"><i class="icon-close"></i></NuxtLink>
+            </h1>
             <div class="order__status">
                 <span class="order__time">{{ getDateTimeString(order.created_at) }}</span
                 ><br />
-                {{ t(`order_status.${order.status}`) }}
+                <span :class="`order__${order.status}`">{{ t(`order_status.${order.status}`) }}</span>
             </div>
         </div>
         <div class="order__payment">
@@ -51,8 +53,12 @@ async function repeatOrder() {
         <div class="order__products">
             <div class="order__product" v-for="product in order.order_products" :key="product.id">
                 <div class="order__product-image">
+                    <!--                    <img-->
+                    <!--                        :src="product.product_category_option.product?.file.url"-->
+                    <!--                        :alt="product.product_category_option.product.name"-->
+                    <!--                    />-->
                     <img
-                        :src="product.product_category_option.product?.file.url"
+                        src="https://api.roosters-dev.ru/downloads/5e4/5e44bd249c1ee103a7b5da79ac363e61.png"
                         :alt="product.product_category_option.product.name"
                     />
                 </div>
@@ -81,25 +87,60 @@ async function repeatOrder() {
 @use '@/assets/styles/helpers/functions';
 
 .order {
-    max-width: 790px;
+    max-width: 640px;
     margin-bottom: 40px;
+
+    @include media.md-down {
+        margin: 12px;
+    }
 }
 
 .order__top {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+
+    @include media.sm-down {
+        flex-direction: column;
+    }
+
+    @include media.md-up {
+        align-items: center;
+    }
 
     .h1 {
         margin-bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: functions.rem(22);
+    }
+}
+
+.order__back-btn {
+    color: var(--c-grey80);
+    font-size: functions.rem(22);
+
+    @include media.lg-up {
+        display: none;
     }
 }
 
 .order__status {
-    text-transform: uppercase;
     font-size: functions.rem(18);
-    font-weight: 300;
     color: var(--c-grey80);
+
+    @include media.lg-up {
+        font-weight: 300;
+        text-transform: uppercase;
+    }
+}
+
+.order__NEW {
+    color: var(--c-secondary);
+}
+
+.order__CONFIRMED {
+    color: var(--c-secondary);
 }
 
 .order__time {
@@ -121,8 +162,12 @@ async function repeatOrder() {
     display: flex;
     gap: 12px;
     justify-content: space-between;
-    padding-block: 12px;
+    padding-block: 16px 12px;
     margin-top: 32px;
+
+    @include media.md-up {
+        gap: 32px;
+    }
 
     & + & {
         border-top: 1px solid var(--c-grey20);
@@ -130,9 +175,18 @@ async function repeatOrder() {
 }
 
 .order__product-image {
-    width: 150px;
-    height: 150px;
-    flex: 0 0 150px;
+    width: 80px;
+    height: 80px;
+    flex: 0 0 80;
+    position: relative;
+    top: -8px;
+
+    @include media.md-up {
+        width: 124px;
+        height: 124px;
+        flex: 0 0 124px;
+        top: -12px;
+    }
 
     img {
         width: 100%;
@@ -142,9 +196,6 @@ async function repeatOrder() {
 }
 
 .order__product-name {
-    text-transform: uppercase;
-    font-weight: 300;
-    font-size: functions.rem(18);
     color: var(--c-grey90);
 }
 
@@ -155,9 +206,7 @@ async function repeatOrder() {
 }
 
 .order__product-price {
-    font-size: functions.rem(18);
     color: var(--c-grey90);
-    font-weight: 300;
 }
 
 .order__comment {

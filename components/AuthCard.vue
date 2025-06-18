@@ -58,6 +58,7 @@ const getCode = async () => {
             v-maska="'+7 (9##) ### ##-##'"
             placeholder="+7 (___) ___ __-__"
             name="phone"
+            type="tel"
             :errors="formErrors?.phone"
         />
         <BaseButton :modifiers="btnModifiers" class="auth-card__button" @click.prevent="getCode"

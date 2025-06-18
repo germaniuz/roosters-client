@@ -26,6 +26,7 @@ const { items: cartItems } = storeToRefs(useCartStore());
 @use '@/assets/styles/helpers/functions';
 
 .promocode {
+    margin-top: 30px;
     max-width: 350px;
     font-size: functions.rem(16);
     line-height: functions.rem(17);

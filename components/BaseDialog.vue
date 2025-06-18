@@ -105,6 +105,7 @@ useClickOutside(dialogBody, closeDialog);
     color: var(--c-grey50);
     background: none;
     font-size: functions.rem(24);
+    z-index: var(--z-top-10);
 
     @include media.lg-up {
         top: -40px;
