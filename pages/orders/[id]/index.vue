@@ -51,7 +51,7 @@ async function repeatOrder() {
 
         <div class="order__delivery">{{ order.delivery_type_text }}</div>
         <div class="order__products">
-            <div class="order__product" v-for="product in order.order_products" :key="product.id">
+            <div v-for="product in order.order_products" :key="product.id" class="order__product">
                 <div class="order__product-image">
                     <!--                    <img-->
                     <!--                        :src="product.product_category_option.product?.file.url"-->
@@ -67,7 +67,7 @@ async function repeatOrder() {
                 <div class="order__product-price">{{ product.price }}&nbsp;₽</div>
             </div>
         </div>
-        <div class="order__comment" v-if="order.customer_comment">{{ order.customer_comment }}</div>
+        <div v-if="order.customer_comment" class="order__comment">{{ order.customer_comment }}</div>
         <BaseButton :modifiers="['primary']" @click="repeatOrder">Повторить заказ</BaseButton>
     </div>
     <BaseDialog v-model:is-active="isThanksDialogShowed">

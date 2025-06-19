@@ -10,7 +10,8 @@
     "lint:prettier": "prettier . --check",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "graphql:schema": "get-graphql-schema $BASE_URL > gql/schema.graphql"
   },
   "devDependencies": {
     "@nuxt/eslint": "^0.7.4",

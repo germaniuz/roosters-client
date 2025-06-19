@@ -109,3 +109,213 @@ Required for development:
 - TypeScript strict mode enabled
 - Always run `bun lint` before commits
 - Use existing type definitions and extend when needed
+
+### SCSS Coding Standards
+
+- write code for components in Vue component in style section with lang=scss and scoped attribute
+- write common styles in separate files in `assets/styles/components/`
+
+#### BEM Naming Convention:
+- **Block**: `.component-name`
+- **Element**: `.component-name__element` (double underscore)
+- **Modifier**: `.component-name--modifier` (double dash)
+
+#### Required File Imports:
+```scss
+@use '@/assets/styles/helpers/functions'; // When using functions
+@use '@/assets/styles/helpers/media'; // When using media
+@use '@/assets/styles/helpers/mixins';       // When using mixins
+```
+
+#### Selector Organization (MANDATORY ORDER):
+1. **Basic styles** (no nesting)
+2. **Media mixins** for the selector
+3. **Pseudo-classes and pseudo-selectors**
+    - Media mixins for pseudo elements
+4. **Modifiers** (`&--modifier`)
+    - Media mixins for modifiers
+5. **Child tags** (`span`, `img`, etc.)
+    - Media mixins for tags
+
+#### Nesting Rules:
+- **NEVER** nest elements inside blocks (`.block .block__element` ❌)
+- **ONLY fold/nest**:
+    - Media mixins (`@include media.lg-up {}`)
+    - Pseudo selectors (`:hover`, `::before`)
+    - Modifiers (`&--modifier`)
+    - Simple single-use tags (`span`, `img`)
+- **Media mixins ALWAYS come last** in any nested group
+
+### Media Queries
+
+#### Required Pattern:
+```scss
+.component {
+  // Base styles first
+  
+  @include media.md-down {
+    // Mobile/tablet styles
+  }
+  
+  @include media.lg-up {
+    // Desktop styles
+  }
+}
+```
+
+#### Available Breakpoints:
+- `xs`, `sm`, `md`, `lg`, `xl`
+- Use `-up`, `-down`, `-only` suffixes
+
+### Typography & Sizing
+
+#### Font Size Functions:
+- **`functions.rem(16)`** - Convert pixels to rem
+- **`functions.rfs(14, 18)`** - Responsive font sizing (min, max)
+
+#### Font Family Variables:
+- **`var(--f-base)`** - Body text font
+- **`var(--f-headings)`** - Heading font
+- **`var(--f-icons)`** - Icon font
+
+### CSS Custom Properties System
+
+#### Color Variables:
+- Primary: `var(--c-primary)`, `var(--c-primary-hover)`
+- Secondary: `var(--c-secondary)`, `var(--c-secondary-hover)`
+- Greys: `var(--c-grey-00)` to `var(--c-grey-100)` (00=white, 100=black)
+- States: `var(--c-danger)`, `var(--c-success)`, `var(--c-error)`
+
+#### Layout Variables:
+- Containers: `var(--w-container)`, `var(--w-container-md)`, etc.
+- Border radius: `var(--b-radius-sm)`, `var(--b-radius-md)`, etc.
+- Z-index: `var(--z-bottom)`, `var(--z-middle)`, `var(--z-top)`
+
+### Code Generation Rules
+
+#### When writing SCSS:
+1. **Always** start with required `@use` imports
+2. **Follow the exact selector organization order**
+3. **Use CSS custom properties** instead of hardcoded values
+4. **Include mobile-first responsive design**
+5. **Apply BEM naming consistently**
+6. **Never nest elements in blocks**
+
+#### When suggesting file structure:
+1. **Place components** in `/components/` directory
+2. **Place sections** in `/sections/` directory
+3. **Use proper file naming**: `_component-name.scss`
+4. **Always include in appropriate `_index.scss`**
+
+#### Before suggesting any SCSS code, verify:
+- [ ] Proper `@use` imports at top
+- [ ] BEM naming convention followed
+- [ ] CSS custom properties used
+- [ ] Media queries in correct order
+- [ ] No element nesting in blocks
+- [ ] Responsive design included
+
+#### Before suggesting file organization:
+- [ ] Files in correct directories
+- [ ] Proper underscore prefixes (`_component.scss`)
+- [ ] Appropriate `_index.scss` updates suggested
+
+### Common Patterns
+
+#### Component Structure:
+```scss
+@use '../helpers/media';
+@use '../helpers/functions';
+
+.component-name {
+  // Base styles
+  property: value;
+  
+  @include media.lg-up {
+    // Desktop styles
+  }
+  
+  &:hover {
+    // Hover styles
+    
+    @include media.lg-up {
+      // Desktop hover
+    }
+  }
+  
+  &--modifier {
+    // Modifier styles
+    
+    @include media.lg-up {
+      // Desktop modifier
+    }
+  }
+}
+
+.component-name__element {
+  // Element styles
+  font-size: functions.rem(16);
+  color: var(--c-grey-80);
+  
+  @include media.lg-up {
+    font-size: functions.rem(18);
+  }
+}
+```
+
+#### Section Structure:
+```scss
+@use '../helpers/media';
+@use '../helpers/functions';
+
+.section-name {
+  // Section container styles
+  max-width: var(--w-container);
+  margin-inline: auto;
+  padding: var(--pi-container);
+  
+  @include media.lg-up {
+    padding: var(--pi-container-lg);
+  }
+}
+
+.section-name__container {
+  // Inner container if needed
+}
+```
+
+### Error Prevention
+
+#### Never suggest:
+- Nested elements (`.block .block__element`)
+- Hardcoded colors or sizes instead of CSS variables
+- Missing `@use` imports
+- Wrong file directory placement
+- Non-BEM class names in component files
+
+#### Always suggest:
+- Mobile-first approach
+- CSS custom properties
+- Proper file organization
+- Semantic HTML with BEM classes
+
+#### When reviewing code:
+1. **Check BEM naming compliance**
+2. **Verify responsive design patterns**
+3. **Ensure CSS custom property usage**
+4. **Validate file organization**
+5. **Confirm proper imports and dependencies**
+
+### Success Criteria
+Code suggestions should:
+- Follow all naming conventions exactly
+- Include proper responsive design
+- Use the established CSS custom property system
+- Maintain the file organization structure
+- Be production-ready and maintainable
+- Follow modern best practices for the Nuxt and Vue ecosystem
+
+- **ALWAYS make all changes to a single file in ONE operation** using MultiEdit tool
+- Never make multiple separate edits to the same file in sequence
+- Group all related changes (fillable, relationships, casts, etc.) into a single file modification
+- This prevents losing track of changes and makes code review easier

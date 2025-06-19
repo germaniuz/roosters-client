@@ -37,7 +37,7 @@ const productsByCategory = computed(() => {
         </div>
     </div>
     <ClientOnly>
-        <div class="container" v-if="items">
+        <div v-if="items" class="container">
             <div v-for="categoryGroup in productsByCategory" :key="categoryGroup.category.id" class="category-section">
                 <h3 class="category-title">{{ categoryGroup.category.name }}</h3>
                 <div class="grid grid--product-test">

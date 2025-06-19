@@ -9,7 +9,6 @@ import VueDatePicker from '@vuepic/vue-datepicker';
 
 const { t } = useI18n();
 
-const savedAddresses = ref<Array<string>>(['Ул. Рабоче-Крестьянская 31', 'Улица Клавы Нечаевой, 4']); // TODO: JS add addresses
 const stories = ref<Array<Story>>([
     // TODO: JS add stories
     {

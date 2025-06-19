@@ -6,7 +6,6 @@ type Props = {
     orders: Order[];
 };
 const props = defineProps<Props>();
-const { t } = useI18n();
 
 const orderNumber = ref(1);
 const ordersQuantity = computed(() => props.orders.length);

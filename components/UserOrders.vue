@@ -17,7 +17,7 @@ const isOrdersDialogShowed = ref(false);
 </script>
 
 <template>
-    <div class="card card--p-md card--grey profile__user-orders-history" v-if="orders.length > 0">
+    <div v-if="orders.length > 0" class="card card--p-md card--grey profile__user-orders-history">
         <div class="text14 g50">История заказов</div>
         <span>Всего заказов: {{ ordersCount }}</span>
         <BaseButton :modifiers="['secondary']" @click="isOrdersDialogShowed = true">Посмотреть все</BaseButton>
