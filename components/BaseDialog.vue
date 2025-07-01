@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-type Modifier = 'p-sm' | 'bg-grey' | 'full-screen';
+type Modifier = 'p-sm' | 'bg-grey' | 'full-screen' | 'no-padding';
 type Props = {
     isActive: boolean;
     modifiers?: Modifier[];
@@ -95,6 +95,10 @@ useClickOutside(dialogBody, closeDialog);
 
     .dialog--sm & {
         padding: 20px;
+    }
+
+    .dialog--no-padding & {
+        padding: 0;
     }
 }
 

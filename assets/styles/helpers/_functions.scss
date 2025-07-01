@@ -16,3 +16,7 @@
 @function hexToRGB($hex) {
   @return red($hex), green($hex), blue($hex);
 }
+
+@function rfs($min: 16, $max: 16) {
+  @return clamp(#{$min}px, #{math.div($max, 1610) * 100}vw, #{$max}px);
+}
