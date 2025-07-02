@@ -154,11 +154,11 @@ const drawWheel = () => {
     ctx.value.translate(centerX.value, centerY.value);
     ctx.value.rotate(currentRotation.value);
 
-    // Draw segments with alternating colors
+    // Draw segments with alternating colors and shadow
     slots.value.forEach((slot: FortuneWheelSlot, index: number) => {
         const startAngle = index * slotAngle;
         const endAngle = (index + 1) * slotAngle;
-        
+
         // Alternate between two colors
         const slotBgColor = index % 2 === 0 ? '#FCEBD4' : '#FFF7EC';
 
@@ -168,24 +168,39 @@ const drawWheel = () => {
         ctx.value!.lineTo(0, 0);
         ctx.value!.fillStyle = slotBgColor;
         ctx.value!.fill();
+
+        // Draw slot border first (under shadow)
         ctx.value!.strokeStyle = '#ffffff';
         ctx.value!.lineWidth = 1;
         ctx.value!.stroke();
+
+        // Draw shadow gradient over the segment
+        const segmentGradient = ctx.value!.createRadialGradient(0, 0, wheelRadius.value * 0.3, 0, 0, wheelRadius.value);
+        segmentGradient.addColorStop(0, 'rgba(212, 190, 154, 0)'); // Transparent light beige
+        segmentGradient.addColorStop(0.92, 'rgba(212, 190, 154, 0)'); // Transparent light beige
+        segmentGradient.addColorStop(0.98, 'rgba(212, 190, 154, 0.7)'); // Light beige shadow
+        segmentGradient.addColorStop(1, 'rgba(212, 190, 154, 0.7)'); // Stronger beige shadow
+
+        ctx.value!.beginPath();
+        ctx.value!.arc(0, 0, wheelRadius.value, startAngle, endAngle);
+        ctx.value!.lineTo(0, 0);
+        ctx.value!.fillStyle = segmentGradient;
+        ctx.value!.fill();
 
         // Draw text
         ctx.value!.save();
         ctx.value!.rotate(startAngle + slotAngle / 2);
         ctx.value!.textAlign = 'center';
         ctx.value!.fillStyle = '#8B4513';
-        ctx.value!.font = 'bold 12px Arial, sans-serif';
+        ctx.value!.font = 'bold 16px Arial, sans-serif';
 
-        // Slot title
-        ctx.value!.fillText(slot.title || '', wheelRadius.value * 0.7, -5);
+        // Slot title - positioned closer to center
+        ctx.value!.fillText(slot.title || '', wheelRadius.value * 0.55, -5);
 
         // Slot value
         if (slot.cashback_value) {
-            ctx.value!.font = '10px Arial, sans-serif';
-            ctx.value!.fillText(`${slot.cashback_value}₽`, wheelRadius.value * 0.7, 8);
+            ctx.value!.font = '14px Arial, sans-serif';
+            ctx.value!.fillText(`${slot.cashback_value}₽`, wheelRadius.value * 0.55, 12);
         }
 
         ctx.value!.restore();
@@ -195,7 +210,7 @@ const drawWheel = () => {
 
     // Draw center circle with mascot
     drawCenterCircle();
-    
+
     // Draw pointer
     drawPointer();
 };
@@ -219,26 +234,10 @@ const drawRimWithDots = () => {
     ctx.value.fillStyle = '#FFFFFF'; // Base white for wheel surface
     ctx.value.fill();
 
-    // Add inner shadow from rim to wheel surface
-    ctx.value.save();
-    ctx.value.clip(); // Clip to wheel area
-    
-    // Create shadow effect around the edge
-    const shadowGradient = ctx.value.createRadialGradient(0, 0, wheelRadius.value - 20, 0, 0, wheelRadius.value);
-    shadowGradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
-    shadowGradient.addColorStop(1, 'rgba(0, 0, 0, 0.15)');
-    
-    ctx.value.beginPath();
-    ctx.value.arc(0, 0, wheelRadius.value, 0, 2 * Math.PI);
-    ctx.value.fillStyle = shadowGradient;
-    ctx.value.fill();
-    
-    ctx.value.restore();
-
     // Draw decorative dots around the rim
     const dotCount = 16;
     const dotRadius = 4;
-    const dotCircleRadius = rimRadius.value - 10;
+    const dotCircleRadius = (rimRadius.value + wheelRadius.value) / 2;
 
     for (let i = 0; i < dotCount; i++) {
         const angle = (i / dotCount) * 2 * Math.PI;
@@ -258,7 +257,7 @@ const drawRimWithDots = () => {
 // Load mascot SVG as image
 const loadMascotImage = () => {
     if (typeof window === 'undefined') return;
-    
+
     const img = new Image();
     img.src = '/images/maskot.svg';
     img.onload = () => {
@@ -285,13 +284,13 @@ const drawCenterCircle = () => {
     ctx.value.arc(0, 0, centerCircleRadius.value, 0, 2 * Math.PI);
     ctx.value.fillStyle = '#FFFFFF'; // White background
     ctx.value.fill();
-    
+
     // Reset shadow for stroke
     ctx.value.shadowColor = 'transparent';
     ctx.value.shadowBlur = 0;
     ctx.value.shadowOffsetX = 0;
     ctx.value.shadowOffsetY = 0;
-    
+
     // Draw red border
     ctx.value.strokeStyle = centerColor.value; // Red border
     ctx.value.lineWidth = 3;
@@ -300,13 +299,7 @@ const drawCenterCircle = () => {
     // Draw mascot image if loaded
     if (mascotImage.value) {
         const imgSize = centerCircleRadius.value * 1.4;
-        ctx.value.drawImage(
-            mascotImage.value,
-            -imgSize / 2,
-            -imgSize / 2,
-            imgSize,
-            imgSize
-        );
+        ctx.value.drawImage(mascotImage.value, -imgSize / 2, -imgSize / 2, imgSize, imgSize);
     } else {
         // Fallback: draw placeholder
         ctx.value.fillStyle = '#333333';
@@ -335,7 +328,7 @@ const drawPointer = () => {
     const pointerWidth = 20;
     const pointerHeight = 35;
     const pointerTop = -rimRadius.value - 8;
-    
+
     // Create shield/badge path
     ctx.value.beginPath();
     ctx.value.moveTo(0, pointerTop + pointerHeight); // Bottom point
@@ -351,16 +344,16 @@ const drawPointer = () => {
     pointerGradient.addColorStop(0, '#E53E3E'); // Primary red at top
     pointerGradient.addColorStop(0.5, '#DC143C'); // Slightly darker in middle
     pointerGradient.addColorStop(1, '#B91C1C'); // Darker red at bottom
-    
+
     ctx.value.fillStyle = pointerGradient;
     ctx.value.fill();
-    
+
     // Reset shadow for stroke
     ctx.value.shadowColor = 'transparent';
     ctx.value.shadowBlur = 0;
     ctx.value.shadowOffsetX = 0;
     ctx.value.shadowOffsetY = 0;
-    
+
     // Add white stroke
     ctx.value.strokeStyle = '#ffffff';
     ctx.value.lineWidth = 2;
