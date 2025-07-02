@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { useProductStore } from '~/stores/product';
 import { useDeliveryStore } from '~/stores/deliveryStore';
+import { useFortuneWheelStore } from '~/stores/fortuneWheelStore';
+import type { FortuneWheelSlot } from '~/types/FortuneWheel';
 
 const route = useRoute();
 const productStore = useProductStore();
@@ -8,6 +10,16 @@ const { closeProductDialog } = productStore;
 const { isProductDialogShown, modalProduct } = storeToRefs(productStore);
 const { isDeliveryChooserOpen } = storeToRefs(useDeliveryStore());
 const { cartCount } = storeToRefs(useCartStore());
+const fortuneWheelStore = useFortuneWheelStore();
+const { isFortuneWheelDialogShown, currentOrderId } = storeToRefs(fortuneWheelStore);
+const { closeFortuneWheelDialog, setWinningSlot } = fortuneWheelStore;
+
+const handleFortuneWheelSpinComplete = (slot: FortuneWheelSlot) => {
+    setWinningSlot(slot);
+    // Show toast notification with result
+    // TODO: Integrate with toast notification system
+    console.log('Fortune wheel result:', slot);
+};
 </script>
 
 <template>
@@ -23,6 +35,7 @@ const { cartCount } = storeToRefs(useCartStore());
         <AppFooter />
         <ClientOnly>
             <CartButton v-if="cartCount && route.fullPath !== '/cart'" />
+            <FortuneWheelButton />
         </ClientOnly>
         <transition name="fade-n-pop">
             <BaseDialog
@@ -44,6 +57,12 @@ const { cartCount } = storeToRefs(useCartStore());
                     <DeliveryTypeChooser />
                 </BaseDialog>
             </transition>
+            <FortuneWheel
+                v-model:is-active="isFortuneWheelDialogShown"
+                :order-id="currentOrderId"
+                @spin-complete="handleFortuneWheelSpinComplete"
+                @update:is-active="closeFortuneWheelDialog"
+            />
         </ClientOnly>
     </div>
 </template>

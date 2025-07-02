@@ -740,41 +740,54 @@ type Mutation {
     "Изменение количества в корзине"
     changeClientCartItemQuantity(cart_item_id: Int!, quantity: Int!): [ClientCartItem]
     "Добавление в корзину"
-    createClientCart(cart_category_option_ingredients: [ClientCartCategoryOptionIngredientFieldInput], cart_product_unique_ingredients: [ClientCartProductUniqueIngredientFieldInput], exclude_product_ingredient_ids: [Int], preset: ClientPresetFieldInput, product_category_option: ClientProductCategoryOptionFieldInput): [ClientCartItem]
+    createClientCart(
+        cart_category_option_ingredients: [ClientCartCategoryOptionIngredientFieldInput]
+        cart_product_unique_ingredients: [ClientCartProductUniqueIngredientFieldInput]
+        exclude_product_ingredient_ids: [Int]
+        preset: ClientPresetFieldInput
+        product_category_option: ClientProductCategoryOptionFieldInput
+    ): [ClientCartItem]
     "Создание заказа"
     createClientOrder(
         "Комментарий клиента"
-        customer_comment: String,
+        customer_comment: String
         "Тип оплаты"
-        delivery_type: CommonEnumsDeliveryTypeEnum!,
+        delivery_type: CommonEnumsDeliveryTypeEnum!
         "Тип оплаты"
-        payment_type: CommonEnumsPaymentTypeEnum!,
+        payment_type: CommonEnumsPaymentTypeEnum!
         "ID торговой точки"
-        shop_id: Int!,
+        shop_id: Int!
         "Тип доставки"
         user_address: CommonUserAddressInput
     ): CommonOrder
     "Создание ссылки для оплаты"
-    createClientOrderPaymentUrl(
-        "ID заказа"
-        order_id: Int
-    ): ClientPaymentUrl
+    createClientOrderPaymentUrl("ID заказа" order_id: Int): ClientPaymentUrl
     "Удаление товара из корзины"
     deleteClientCart(cart_item_id: Int!): Boolean
     "Очистка корзины"
     dropClientCart: Boolean
     "Повторение заказа"
-    repeatClientOrder(
-        "ID заказа"
-        order_id: Int!
-    ): [ClientCartItem]
+    repeatClientOrder("ID заказа" order_id: Int!): [ClientCartItem]
     sendClientSmsCode(phone: String!): CommonSmsCode
     "Вращение колеса фортуны"
     spinClientFortuneWheelSpin(order_id: Int!): CommonFortuneWheelSlot
     "Изменение корзины"
-    updateClientCart(cart_category_option_ingredients: [ClientCartCategoryOptionIngredientFieldInput], cart_item_id: Int!, cart_product_unique_ingredients: [ClientCartProductUniqueIngredientFieldInput], preset: ClientPresetFieldInput, product_category_option: ClientProductCategoryOptionFieldInput): [ClientCartItem]
+    updateClientCart(
+        cart_category_option_ingredients: [ClientCartCategoryOptionIngredientFieldInput]
+        cart_item_id: Int!
+        cart_product_unique_ingredients: [ClientCartProductUniqueIngredientFieldInput]
+        preset: ClientPresetFieldInput
+        product_category_option: ClientProductCategoryOptionFieldInput
+    ): [ClientCartItem]
     "Изменение пользователя"
-    updateClientUser(avatar: Upload, birthday: String, email: String, gender: CommonEnumsGenderEnum, lastname: String, name: String): ClientProfile
+    updateClientUser(
+        avatar: Upload
+        birthday: String
+        email: String
+        gender: CommonEnumsGenderEnum
+        lastname: String
+        name: String
+    ): ClientProfile
     verifyClientSmsCode(code: String!, phone: String!): CommonToken
 }
 
@@ -782,22 +795,22 @@ type Query {
     "Корзина"
     clientCart(
         "Max 50"
-        ids: [Int],
+        ids: [Int]
         "Max 50"
-        limit: Int = 30,
-        offset: Int = 0,
+        limit: Int = 30
+        offset: Int = 0
         orders: [ClientCartOrder]
     ): ClientCartItemList
     "Список категорий для клиента"
     clientCategoryList(
         "Поиск без учета регистра (по умолчанию: true)"
-        case_insensitive_search: Boolean = true,
+        case_insensitive_search: Boolean = true
         "Max 50"
-        ids: [Int],
+        ids: [Int]
         "Max 50"
-        limit: Int = 30,
-        offset: Int = 0,
-        orders: [ClientCategoryListOrder],
+        limit: Int = 30
+        offset: Int = 0
+        orders: [ClientCategoryListOrder]
         search: String
     ): CommonCategoryList
     "Колесо фортуны"
@@ -807,13 +820,13 @@ type Query {
     "Список заказов для клиента"
     clientOrderList(
         "Поиск без учета регистра (по умолчанию: true)"
-        case_insensitive_search: Boolean = true,
+        case_insensitive_search: Boolean = true
         "Max 50"
-        ids: [Int],
+        ids: [Int]
         "Max 50"
-        limit: Int = 30,
-        offset: Int = 0,
-        orders: [ClientOrderListOrder],
+        limit: Int = 30
+        offset: Int = 0
+        orders: [ClientOrderListOrder]
         search: String
     ): CommonOrderList
     "Список способов оплаты"
@@ -821,13 +834,13 @@ type Query {
     "Список продуктов для клиента"
     clientProductList(
         "Поиск без учета регистра (по умолчанию: true)"
-        case_insensitive_search: Boolean = true,
+        case_insensitive_search: Boolean = true
         "Max 50"
-        ids: [Int],
+        ids: [Int]
         "Max 50"
-        limit: Int = 30,
-        offset: Int = 0,
-        orders: [ClientProductListOrder],
+        limit: Int = 30
+        offset: Int = 0
+        orders: [ClientProductListOrder]
         search: String
     ): CommonProductList
     "Профиль клиента"
@@ -835,41 +848,27 @@ type Query {
     "Общий список торговых точек"
     clientShopList(
         "Поиск без учета регистра (по умолчанию: true)"
-        case_insensitive_search: Boolean = true,
+        case_insensitive_search: Boolean = true
         "Показ неактивной информации"
-        get_inactive: Boolean = false,
+        get_inactive: Boolean = false
         "Max 50"
-        ids: [Int],
+        ids: [Int]
         "Max 50"
-        limit: Int = 10,
-        offset: Int = 0,
-        orders: [ClientShopListOrder],
+        limit: Int = 10
+        offset: Int = 0
+        orders: [ClientShopListOrder]
         search: String
     ): CommonShopList
     "Текущая торговая точка относительно геозон и времени работы"
-    currentGeozoneDeliveryShop(
-        "Широта"
-        latitude: Float!,
-        "Долгота"
-        longitude: Float!
-    ): CommonShop
+    currentGeozoneDeliveryShop("Широта" latitude: Float!, "Долгота" longitude: Float!): CommonShop
     "Процент бонусов от её диапазона"
-    getClientAppBonusPercent(
-        "Сумма"
-        sum: Float!
-    ): CommonSettingBonusPercent
+    getClientAppBonusPercent("Сумма" sum: Float!): CommonSettingBonusPercent
     "Диапазоны бонусов"
     getClientAppBonusRanges: [CommonSettingBonusRange]
     "Настройки клиента"
-    getClientAppSetting(
-        "Ключ настройки"
-        setting_key: String!
-    ): CommonSetting
+    getClientAppSetting("Ключ настройки" setting_key: String!): CommonSetting
     "Работает ли сейчас торговая точка самовывозом"
-    isPickupShopOpen(
-        "Торговая точка"
-        shop_id: Float!
-    ): Boolean
+    isPickupShopOpen("Торговая точка" shop_id: Float!): Boolean
 }
 
 enum ClientCartOrderField {
@@ -1000,7 +999,6 @@ enum CommonOrderDirectionEnum {
 }
 
 """
-
 The `Upload` special type represents a file to be uploaded in the same HTTP request as specified by
 [graphql-multipart-request-spec](https://github.com/jaydenseric/graphql-multipart-request-spec).
 """
