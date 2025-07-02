@@ -5,12 +5,10 @@ import { SPIN_FORTUNE_WHEEL } from '~/gql/mutations/fortune';
 import { useQuery, useMutation } from 'villus';
 
 type Props = {
-    isActive: boolean;
     orderId: number | null;
 };
 
 type Emits = {
-    'update:isActive': [value: boolean];
     'spin-complete': [slot: FortuneWheelSlot];
 };
 
@@ -323,18 +321,14 @@ const spin = async () => {
 };
 
 // Watch for canvas changes
-watch([slots, () => props.isActive], () => {
-    if (props.isActive) {
-        nextTick(() => {
-            initCanvas();
-        });
-    }
+watch([slots], () => {
+    nextTick(() => {
+        initCanvas();
+    });
 });
 
 onMounted(() => {
-    if (props.isActive) {
-        initCanvas();
-    }
+    initCanvas();
 });
 
 onUnmounted(() => {
@@ -345,38 +339,27 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <BaseDialog :is-active="isActive" sm @update:is-active="emit('update:isActive', $event)">
-        <div class="fortune-wheel">
-            <div class="fortune-wheel__header">
-                <h2 class="fortune-wheel__title">Колесо фортуны</h2>
-                <p class="fortune-wheel__subtitle">Крутите колесо и выигрывайте призы!</p>
+    <div class="fortune-wheel">
+        <div class="fortune-wheel__container">
+            <div v-if="loadingSlots" class="fortune-wheel__loading">
+                <p>Загрузка...</p>
             </div>
 
-            <div class="fortune-wheel__container">
-                <div v-if="loadingSlots" class="fortune-wheel__loading">
-                    <p>Загрузка...</p>
-                </div>
-
-                <div v-else-if="!slots.length" class="fortune-wheel__empty">
-                    <p>Нет доступных призов</p>
-                </div>
-
-                <div v-else class="fortune-wheel__wheel">
-                    <canvas ref="canvas" class="fortune-wheel__canvas" @click="spin" />
-                </div>
+            <div v-else-if="!slots.length" class="fortune-wheel__empty">
+                <p>Нет доступных призов</p>
             </div>
 
-            <div class="fortune-wheel__controls">
-                <BaseButton :modifiers="['primary', 'lg']" :disabled="!canSpin" @click="spin">
-                    {{ isSpinning ? 'Крутится...' : 'Крутить' }}
-                </BaseButton>
-
-                <p v-if="!props.orderId" class="fortune-wheel__notice">
-                    Демо-режим: Сделайте заказ для получения реальных призов
-                </p>
+            <div v-else class="fortune-wheel__wheel">
+                <canvas ref="canvas" class="fortune-wheel__canvas" @click="spin" />
             </div>
         </div>
-    </BaseDialog>
+
+        <div class="fortune-wheel__controls">
+            <BaseButton :modifiers="['primary', 'lg']" :disabled="!canSpin" @click="spin">
+                {{ isSpinning ? 'Крутится...' : 'Крутить' }}
+            </BaseButton>
+        </div>
+    </div>
 </template>
 
 <style lang="scss" scoped>
@@ -385,31 +368,6 @@ onUnmounted(() => {
 
 .fortune-wheel {
     text-align: center;
-    max-width: 400px;
-
-    @include media.lg-up {
-        max-width: 500px;
-    }
-}
-
-.fortune-wheel__header {
-    margin-bottom: functions.rem(24);
-}
-
-.fortune-wheel__title {
-    font-size: functions.rem(24);
-    font-weight: 700;
-    color: var(--c-grey-90);
-    margin-bottom: functions.rem(8);
-
-    @include media.lg-up {
-        font-size: functions.rem(28);
-    }
-}
-
-.fortune-wheel__subtitle {
-    font-size: functions.rem(16);
-    color: var(--c-grey-70);
 }
 
 .fortune-wheel__container {
@@ -449,11 +407,6 @@ onUnmounted(() => {
     flex-direction: column;
     align-items: center;
     gap: functions.rem(12);
-}
-
-.fortune-wheel__notice {
-    font-size: functions.rem(14);
-    color: var(--c-grey-60);
-    text-align: center;
+    margin-top: functions.rem(24);
 }
 </style>

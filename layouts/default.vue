@@ -57,7 +57,7 @@ const handleFortuneWheelSpinComplete = (slot: FortuneWheelSlot) => {
                     <DeliveryTypeChooser />
                 </BaseDialog>
             </transition>
-            <FortuneWheel
+            <FortuneWheelDialog
                 v-model:is-active="isFortuneWheelDialogShown"
                 :order-id="currentOrderId"
                 @spin-complete="handleFortuneWheelSpinComplete"
