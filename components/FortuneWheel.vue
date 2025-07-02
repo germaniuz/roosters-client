@@ -86,7 +86,7 @@ const initCanvas = () => {
 
     // Set canvas size based on screen size
     const isMobile = window.innerWidth < 992; // lg breakpoint
-    const size = isMobile ? 290 : 420;
+    const size = isMobile ? 290 : 483; // 420 * 1.15 = 483
     canvas.value.width = size;
     canvas.value.height = size;
 
@@ -566,7 +566,7 @@ onUnmounted(() => {
     cursor: pointer;
 
     @include media.lg-up {
-        max-width: functions.rem(420);
+        max-width: functions.rem(483);
     }
 
     &:hover {

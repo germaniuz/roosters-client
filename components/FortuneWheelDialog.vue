@@ -279,6 +279,11 @@ const goToHome = () => {
     align-items: center;
     gap: functions.rem(60);
     margin-bottom: functions.rem(40);
+
+    @include media.lg-up {
+        display: grid;
+        grid-template-columns: functions.rem(500) 1fr;
+    }
 }
 
 .fortune-wheel-dialog__wheel-container {
