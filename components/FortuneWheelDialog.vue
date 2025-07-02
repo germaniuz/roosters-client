@@ -277,6 +277,7 @@ const goToHome = () => {
 
 .fortune-wheel-dialog__main-content {
     display: flex;
+    align-items: center;
     gap: functions.rem(60);
     margin-bottom: functions.rem(40);
 }
