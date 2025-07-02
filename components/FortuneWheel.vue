@@ -18,9 +18,11 @@ const emit = defineEmits<Emits>();
 // Canvas setup
 const canvas = ref<HTMLCanvasElement>();
 const ctx = ref<CanvasRenderingContext2D | null>(null);
-const wheelRadius = ref(150);
+const wheelRadius = ref(140);
+const rimRadius = ref(160);
 const centerX = ref(175);
 const centerY = ref(175);
+const centerCircleRadius = ref(30);
 
 // Spinning state
 const isSpinning = ref(false);
@@ -30,6 +32,9 @@ const startRotation = ref(0);
 const animationFrame = ref<number>();
 const spinStartTime = ref(0);
 const spinDuration = ref(4000); // 4 seconds
+
+// Mascot SVG
+const mascotImage = ref<HTMLImageElement | null>(null);
 
 // GraphQL
 const { data: fortuneWheelData, isFetching: loadingSlots } = useQuery({ query: CLIENT_FORTUNE_WHEEL_QUERY });
@@ -53,29 +58,24 @@ const slots = computed(() => {
 const isLoading = computed(() => loadingSlots.value || loadingSpinning.value);
 const canSpin = computed(() => !isSpinning.value && !isLoading.value && slots.value.length > 0);
 
-// Wheel colors - fallback colors that will be replaced with CSS custom properties
-const wheelColors = ref([
-    '#e74c3c', // Primary fallback
-    '#3498db', // Secondary fallback
-    '#e74c3c', // Danger fallback
-    '#2ecc71', // Success fallback
-    '#f39c12', // Warning fallback
-    '#95a5a6', // Grey fallback
-]);
+// Wheel colors - uniform beige segments with themed colors
+const segmentColor = ref('#F5F0E8'); // Beige/cream for segments
+const rimColor = ref('#3498db'); // Secondary color for rim
+const centerColor = ref('#E53E3E'); // Red for center circle
+const pointerColor = ref('#8B4513'); // Brown for pointer
+const dotColor = ref('#FFFFFF'); // White for decorative dots
 
 // Get CSS custom property values
 const getCSSColors = () => {
     if (typeof window === 'undefined') return;
 
     const computedStyle = getComputedStyle(document.documentElement);
-    wheelColors.value = [
-        computedStyle.getPropertyValue('--c-primary').trim() || '#e74c3c',
-        computedStyle.getPropertyValue('--c-secondary').trim() || '#3498db',
-        computedStyle.getPropertyValue('--c-danger').trim() || '#e74c3c',
-        computedStyle.getPropertyValue('--c-success').trim() || '#2ecc71',
-        computedStyle.getPropertyValue('--c-warning').trim() || '#f39c12',
-        computedStyle.getPropertyValue('--c-grey-60').trim() || '#95a5a6',
-    ];
+    // Use CSS custom properties or fallback to theme colors
+    segmentColor.value = computedStyle.getPropertyValue('--c-grey-10').trim() || '#F5F0E8';
+    rimColor.value = computedStyle.getPropertyValue('--c-secondary').trim() || '#3498db';
+    centerColor.value = computedStyle.getPropertyValue('--c-primary').trim() || '#E53E3E';
+    pointerColor.value = '#8B4513'; // Keep brown for pointer
+    dotColor.value = '#FFFFFF'; // Keep white for dots
 };
 
 // Initialize canvas
@@ -84,15 +84,18 @@ const initCanvas = () => {
 
     ctx.value = canvas.value.getContext('2d');
 
-    // Set canvas size
-    const size = 350;
+    // Set canvas size based on screen size
+    const isMobile = window.innerWidth < 992; // lg breakpoint
+    const size = isMobile ? 290 : 420;
     canvas.value.width = size;
     canvas.value.height = size;
 
-    // Update sizing
-    wheelRadius.value = size * 0.4;
+    // Update sizing - make wheel fill the canvas with minimal gap
+    wheelRadius.value = size * 0.45;
+    rimRadius.value = size * 0.49;
     centerX.value = size / 2;
     centerY.value = size / 2;
+    centerCircleRadius.value = size * 0.085;
 
     // Get actual CSS colors
     getCSSColors();
@@ -133,7 +136,8 @@ const drawWheel = () => {
     if (!ctx.value) return;
 
     // Clear canvas
-    ctx.value.clearRect(0, 0, 350, 350);
+    const canvasSize = canvas.value?.width || 350;
+    ctx.value.clearRect(0, 0, canvasSize, canvasSize);
 
     // If no slots, draw a placeholder wheel
     if (!slots.value.length) {
@@ -141,42 +145,47 @@ const drawWheel = () => {
         return;
     }
 
+    // Draw outer rim with decorative dots first
+    drawRimWithDots();
+
     const slotAngle = (2 * Math.PI) / slots.value.length;
 
     ctx.value.save();
     ctx.value.translate(centerX.value, centerY.value);
     ctx.value.rotate(currentRotation.value);
 
-    // Draw segments
+    // Draw segments with alternating colors
     slots.value.forEach((slot: FortuneWheelSlot, index: number) => {
         const startAngle = index * slotAngle;
         const endAngle = (index + 1) * slotAngle;
-        const color = wheelColors.value[index % wheelColors.value.length];
+        
+        // Alternate between two colors
+        const slotBgColor = index % 2 === 0 ? '#FCEBD4' : '#FFF7EC';
 
         // Draw segment
         ctx.value!.beginPath();
         ctx.value!.arc(0, 0, wheelRadius.value, startAngle, endAngle);
         ctx.value!.lineTo(0, 0);
-        ctx.value!.fillStyle = color;
+        ctx.value!.fillStyle = slotBgColor;
         ctx.value!.fill();
         ctx.value!.strokeStyle = '#ffffff';
-        ctx.value!.lineWidth = 2;
+        ctx.value!.lineWidth = 1;
         ctx.value!.stroke();
 
         // Draw text
         ctx.value!.save();
         ctx.value!.rotate(startAngle + slotAngle / 2);
         ctx.value!.textAlign = 'center';
-        ctx.value!.fillStyle = '#ffffff';
-        ctx.value!.font = 'bold 14px Arial, sans-serif';
+        ctx.value!.fillStyle = '#8B4513';
+        ctx.value!.font = 'bold 12px Arial, sans-serif';
 
         // Slot title
         ctx.value!.fillText(slot.title || '', wheelRadius.value * 0.7, -5);
 
         // Slot value
         if (slot.cashback_value) {
-            ctx.value!.font = '12px Arial, sans-serif';
-            ctx.value!.fillText(`${slot.cashback_value}₽`, wheelRadius.value * 0.7, 10);
+            ctx.value!.font = '10px Arial, sans-serif';
+            ctx.value!.fillText(`${slot.cashback_value}₽`, wheelRadius.value * 0.7, 8);
         }
 
         ctx.value!.restore();
@@ -184,8 +193,129 @@ const drawWheel = () => {
 
     ctx.value.restore();
 
+    // Draw center circle with mascot
+    drawCenterCircle();
+    
     // Draw pointer
     drawPointer();
+};
+
+// Draw outer rim with decorative dots
+const drawRimWithDots = () => {
+    if (!ctx.value) return;
+
+    ctx.value.save();
+    ctx.value.translate(centerX.value, centerY.value);
+
+    // Draw outer rim (solid color, no gradient)
+    ctx.value.beginPath();
+    ctx.value.arc(0, 0, rimRadius.value, 0, 2 * Math.PI);
+    ctx.value.fillStyle = rimColor.value;
+    ctx.value.fill();
+
+    // Draw inner wheel surface with shadow from rim
+    ctx.value.beginPath();
+    ctx.value.arc(0, 0, wheelRadius.value, 0, 2 * Math.PI);
+    ctx.value.fillStyle = '#FFFFFF'; // Base white for wheel surface
+    ctx.value.fill();
+
+    // Add inner shadow from rim to wheel surface
+    ctx.value.save();
+    ctx.value.clip(); // Clip to wheel area
+    
+    // Create shadow effect around the edge
+    const shadowGradient = ctx.value.createRadialGradient(0, 0, wheelRadius.value - 20, 0, 0, wheelRadius.value);
+    shadowGradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
+    shadowGradient.addColorStop(1, 'rgba(0, 0, 0, 0.15)');
+    
+    ctx.value.beginPath();
+    ctx.value.arc(0, 0, wheelRadius.value, 0, 2 * Math.PI);
+    ctx.value.fillStyle = shadowGradient;
+    ctx.value.fill();
+    
+    ctx.value.restore();
+
+    // Draw decorative dots around the rim
+    const dotCount = 16;
+    const dotRadius = 4;
+    const dotCircleRadius = rimRadius.value - 10;
+
+    for (let i = 0; i < dotCount; i++) {
+        const angle = (i / dotCount) * 2 * Math.PI;
+        const x = Math.cos(angle) * dotCircleRadius;
+        const y = Math.sin(angle) * dotCircleRadius;
+
+        // Main dot
+        ctx.value.beginPath();
+        ctx.value.arc(x, y, dotRadius, 0, 2 * Math.PI);
+        ctx.value.fillStyle = dotColor.value;
+        ctx.value.fill();
+    }
+
+    ctx.value.restore();
+};
+
+// Load mascot SVG as image
+const loadMascotImage = () => {
+    if (typeof window === 'undefined') return;
+    
+    const img = new Image();
+    img.src = '/images/maskot.svg';
+    img.onload = () => {
+        mascotImage.value = img;
+        drawWheel(); // Redraw when image loads
+    };
+};
+
+// Draw center circle with mascot
+const drawCenterCircle = () => {
+    if (!ctx.value) return;
+
+    ctx.value.save();
+    ctx.value.translate(centerX.value, centerY.value);
+
+    // Add shadow for center circle
+    ctx.value.shadowColor = 'rgba(0, 0, 0, 0.4)';
+    ctx.value.shadowBlur = 6;
+    ctx.value.shadowOffsetX = 1;
+    ctx.value.shadowOffsetY = 1;
+
+    // Draw center circle with white background
+    ctx.value.beginPath();
+    ctx.value.arc(0, 0, centerCircleRadius.value, 0, 2 * Math.PI);
+    ctx.value.fillStyle = '#FFFFFF'; // White background
+    ctx.value.fill();
+    
+    // Reset shadow for stroke
+    ctx.value.shadowColor = 'transparent';
+    ctx.value.shadowBlur = 0;
+    ctx.value.shadowOffsetX = 0;
+    ctx.value.shadowOffsetY = 0;
+    
+    // Draw red border
+    ctx.value.strokeStyle = centerColor.value; // Red border
+    ctx.value.lineWidth = 3;
+    ctx.value.stroke();
+
+    // Draw mascot image if loaded
+    if (mascotImage.value) {
+        const imgSize = centerCircleRadius.value * 1.4;
+        ctx.value.drawImage(
+            mascotImage.value,
+            -imgSize / 2,
+            -imgSize / 2,
+            imgSize,
+            imgSize
+        );
+    } else {
+        // Fallback: draw placeholder
+        ctx.value.fillStyle = '#333333';
+        ctx.value.font = 'bold 14px Arial, sans-serif';
+        ctx.value.textAlign = 'center';
+        ctx.value.fillText('🐓', 0, 5);
+    }
+
+    ctx.value.restore();
 };
 
 // Draw pointer/indicator
@@ -195,17 +325,57 @@ const drawPointer = () => {
     ctx.value.save();
     ctx.value.translate(centerX.value, centerY.value);
 
-    // Pointer triangle
+    // Add shadow for pointer
+    ctx.value.shadowColor = 'rgba(0, 0, 0, 0.4)';
+    ctx.value.shadowBlur = 6;
+    ctx.value.shadowOffsetX = 2;
+    ctx.value.shadowOffsetY = 3;
+
+    // Draw pointer as shield/badge shape
+    const pointerWidth = 20;
+    const pointerHeight = 35;
+    const pointerTop = -rimRadius.value - 8;
+    
+    // Create shield/badge path
     ctx.value.beginPath();
-    ctx.value.moveTo(0, -wheelRadius.value - 10);
-    ctx.value.lineTo(-15, -wheelRadius.value - 30);
-    ctx.value.lineTo(15, -wheelRadius.value - 30);
+    ctx.value.moveTo(0, pointerTop + pointerHeight); // Bottom point
+    ctx.value.lineTo(-pointerWidth / 2, pointerTop + pointerHeight - 8); // Bottom left
+    ctx.value.lineTo(-pointerWidth / 2, pointerTop + 8); // Left side
+    ctx.value.quadraticCurveTo(-pointerWidth / 2, pointerTop, 0, pointerTop); // Top left curve
+    ctx.value.quadraticCurveTo(pointerWidth / 2, pointerTop, pointerWidth / 2, pointerTop + 8); // Top right curve
+    ctx.value.lineTo(pointerWidth / 2, pointerTop + pointerHeight - 8); // Right side
     ctx.value.closePath();
-    ctx.value.fillStyle = wheelColors.value[0]; // Use first color as primary
+
+    // Fill with red gradient
+    const pointerGradient = ctx.value.createLinearGradient(0, pointerTop, 0, pointerTop + pointerHeight);
+    pointerGradient.addColorStop(0, '#E53E3E'); // Primary red at top
+    pointerGradient.addColorStop(0.5, '#DC143C'); // Slightly darker in middle
+    pointerGradient.addColorStop(1, '#B91C1C'); // Darker red at bottom
+    
+    ctx.value.fillStyle = pointerGradient;
     ctx.value.fill();
+    
+    // Reset shadow for stroke
+    ctx.value.shadowColor = 'transparent';
+    ctx.value.shadowBlur = 0;
+    ctx.value.shadowOffsetX = 0;
+    ctx.value.shadowOffsetY = 0;
+    
+    // Add white stroke
     ctx.value.strokeStyle = '#ffffff';
     ctx.value.lineWidth = 2;
     ctx.value.stroke();
+
+    // Add highlight on top part
+    ctx.value.beginPath();
+    ctx.value.moveTo(-8, pointerTop + 5);
+    ctx.value.quadraticCurveTo(-8, pointerTop + 2, 0, pointerTop + 2);
+    ctx.value.quadraticCurveTo(8, pointerTop + 2, 8, pointerTop + 5);
+    ctx.value.lineTo(8, pointerTop + 12);
+    ctx.value.lineTo(-8, pointerTop + 12);
+    ctx.value.closePath();
+    ctx.value.fillStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.value.fill();
 
     ctx.value.restore();
 };
@@ -320,6 +490,13 @@ const spin = async () => {
     }
 };
 
+// Handle window resize
+const handleResize = () => {
+    nextTick(() => {
+        initCanvas();
+    });
+};
+
 // Watch for canvas changes
 watch([slots], () => {
     nextTick(() => {
@@ -328,13 +505,16 @@ watch([slots], () => {
 });
 
 onMounted(() => {
+    loadMascotImage();
     initCanvas();
+    window.addEventListener('resize', handleResize);
 });
 
 onUnmounted(() => {
     if (animationFrame.value) {
         cancelAnimationFrame(animationFrame.value);
     }
+    window.removeEventListener('resize', handleResize);
 });
 </script>
 
@@ -389,8 +569,12 @@ onUnmounted(() => {
 .fortune-wheel__canvas {
     width: 100%;
     height: auto;
-    max-width: 350px;
+    max-width: functions.rem(290);
     cursor: pointer;
+
+    @include media.lg-up {
+        max-width: functions.rem(420);
+    }
 
     &:hover {
         opacity: 0.9;
