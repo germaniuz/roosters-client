@@ -125,7 +125,7 @@ const goToHome = () => {
                                 <span class="fortune-wheel-dialog__info-title">Попыток</span>
                                 <span class="fortune-wheel-dialog__info-count">x1</span>
                                 <div class="fortune-wheel-dialog__info-icon">
-                                    <i class="icon-pizza"></i>
+                                    <i class="icon-wheel"></i>
                                 </div>
                             </div>
                             <div class="fortune-wheel-dialog__info-steps">
