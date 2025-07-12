@@ -34,8 +34,9 @@ const handleFortuneWheelSpinComplete = (slot: FortuneWheelSlot) => {
         </div>
         <AppFooter />
         <ClientOnly>
-            <CartButton v-if="cartCount && route.fullPath !== '/cart'" />
             <FortuneWheelButton />
+            <CartButton v-if="cartCount && route.fullPath !== '/cart'" />
+            <MobileBottomNavigation />
         </ClientOnly>
         <transition name="fade-n-pop">
             <BaseDialog

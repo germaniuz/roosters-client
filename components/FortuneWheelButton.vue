@@ -32,7 +32,7 @@ const handleClick = () => {
 
 .fortune-wheel-button {
     position: fixed;
-    bottom: functions.rem(20);
+    top: functions.rem(20);
     left: functions.rem(20);
     z-index: var(--z-top-20);
     display: flex;
@@ -41,7 +41,7 @@ const handleClick = () => {
     gap: functions.rem(8);
 
     @include media.lg-up {
-        bottom: functions.rem(30);
+        top: functions.rem(30);
         left: functions.rem(30);
     }
 }

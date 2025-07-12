@@ -32,7 +32,7 @@ const handleDialogClose = (value: boolean) => {
     }
 };
 
-const goToHome = () => {
+const _goToHome = () => {
     handleDialogClose(false);
     navigateTo('/');
 };
@@ -338,7 +338,7 @@ const goToHome = () => {
 
 .fortune-wheel-dialog__info-title {
     font-size: functions.rem(20);
-    font-weight: 300;
+    font-weight: 700;
     color: var(--c-secondary);
 }
 

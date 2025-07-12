@@ -5,6 +5,46 @@ schema {
     mutation: Mutation
 }
 
+"Примененная скидка к корзине"
+type ClientAppliedDiscount {
+    "Время применения скидки"
+    applied_at: String
+    "Описание скидки"
+    description: String
+    "Тип скидки (fixed/percent)"
+    discount_type: String
+    "Значение скидки"
+    discount_value: Float
+    "ID скидки"
+    id: Int
+    "Название скидки"
+    name: String
+    "Код промокода"
+    promocode_code: String
+    "ID промокода (для удаления)"
+    promocode_id: Int
+}
+
+"Доступная скидка для применения"
+type ClientAvailableDiscount {
+    "Можно ли применить скидку"
+    can_apply: Boolean
+    "Описание скидки"
+    description: String
+    "Тип скидки (fixed/percent)"
+    discount_type: String
+    "Значение скидки"
+    discount_value: Float
+    "Ожидаемая сумма скидки"
+    estimated_amount: Float
+    "ID скидки"
+    id: Int
+    "Название скидки"
+    name: String
+    "Причина, если нельзя применить"
+    reason: String
+}
+
 "Ингредиенты в корзине"
 type ClientCartCategoryOptionIngredient {
     "Ингредиенты"
@@ -23,6 +63,10 @@ type ClientCartItem {
     exclude_product_ingredients: [CommonProductIngredient]
     "Идентификатор"
     id: Int
+    "Сумма товара после скидок"
+    item_total_discounted: Float
+    "Сумма товара до скидок"
+    item_total_original: Float
     "Сет"
     preset: CommonPreset
     "Вариант товаров в категории"
@@ -33,10 +77,16 @@ type ClientCartItem {
 
 "Список товаров в корзине"
 type ClientCartItemList {
+    "Примененные скидки"
+    applied_discounts: [ClientAppliedDiscount]
+    "Доступные автоматические скидки"
+    available_automatic_discounts: [ClientAvailableDiscount]
     "Всего записей по фильтру"
     count: Int
     "Список товаров в корзине"
     items: [ClientCartItem]
+    "Итоги корзины с учетом скидок"
+    totals: ClientCartTotals
 }
 
 "Уникальные добавки для товара (ингридиенты которых нет в категории) в корзине"
@@ -45,6 +95,36 @@ type ClientCartProductUniqueIngredient {
     product_unique_ingredient: CommonProductUniqueIngredient
     "Количество"
     quantity: Int
+}
+
+"Итоги корзины с учетом скидок"
+type ClientCartTotals {
+    "Общая сумма скидки"
+    discount_amount: Float
+    "Итоговая сумма к оплате"
+    final_amount: Float
+    "Количество товаров в корзине"
+    items_count: Int
+    "Сумма до применения скидок"
+    original_amount: Float
+    "Процент экономии"
+    savings_percentage: Float
+}
+
+"Результат применения/удаления скидки"
+type ClientDiscountApplicationResult {
+    "Примененная скидка"
+    discount: ClientAppliedDiscount
+    "Сообщение об ошибке"
+    error_message: String
+    "Новая сумма корзины"
+    new_cart_total: Float
+    "ID промокода для удаления"
+    promocode_id: Int
+    "Успешно ли выполнена операция"
+    success: Boolean
+    "Подробные итоги корзины"
+    totals: ClientCartTotals
 }
 
 "Тип оплаты"
@@ -244,6 +324,32 @@ type CommonDeliverySchedule {
     time_start: String
 }
 
+"Скидка"
+type CommonDiscount {
+    "Описание"
+    description: String
+    "Значение скидки"
+    discount_value: Float
+    "id"
+    id: Int
+    "Название"
+    name: String
+}
+
+"Журнал использования скидки"
+type CommonDiscountUsageLog {
+    "Дата применения скидки"
+    created_at: String
+    "Примененная скидка"
+    discount: CommonDiscount
+    "Сумма скидки"
+    discount_amount: Float
+    "ID записи журнала"
+    id: Int
+    "Промокод (если использовался)"
+    promocode: String
+}
+
 "Файл"
 type CommonFile {
     "Дата создания"
@@ -370,7 +476,7 @@ type CommonOptionList {
 
 "Заказ"
 type CommonOrder {
-    "Общая сумма заказа"
+    "Итоговая сумма заказа (после скидок)"
     amount: Float
     "Время начала готовки"
     cooking_start_time: String
@@ -382,16 +488,24 @@ type CommonOrder {
     delivery_type: CommonEnumsDeliveryTypeEnum
     "Тип доставки"
     delivery_type_text: String
+    "Общая сумма скидки"
+    discount_amount: Float
+    "Журнал использования скидок"
+    discount_usage_logs: [CommonDiscountUsageLog]
     "ID заказа"
     id: Int
     "Список товаров в заказе"
     order_products: [CommonOrderProduct]
+    "Сумма заказа до применения скидок"
+    original_amount: Float
     "Дата и время оплаты"
     payment_date: String
     "Тип оплаты (slug)"
     payment_type: CommonEnumsPaymentTypeEnum
     "Описание типа оплаты"
     payment_type_text: String
+    "Примененный промокод"
+    promocode_application: CommonPromocodeApplication
     "Торговая точки, где был сделан заказ"
     shop: CommonShop
     "Статус заказа (slug)"
@@ -624,6 +738,18 @@ type CommonPromocode {
     code: String
 }
 
+"Применение промокода к заказу"
+type CommonPromocodeApplication {
+    "Дата применения промокода"
+    created_at: String
+    "ID применения промокода"
+    id: Int
+    "Примененный промокод"
+    promocode: CommonPromocode
+    "Пользователь, применивший промокод"
+    user: CommonUser
+}
+
 "Настройки"
 type CommonSetting {
     "Отображаемое имя"
@@ -737,80 +863,82 @@ type CommonUserAddress {
 }
 
 type Mutation {
+    "Применение промокода к корзине"
+    applyClientCartPromocodeDiscount(
+        "Промокод для применения"
+        code: String!
+    ): ClientDiscountApplicationResult
     "Изменение количества в корзине"
     changeClientCartItemQuantity(cart_item_id: Int!, quantity: Int!): [ClientCartItem]
     "Добавление в корзину"
-    createClientCart(
-        cart_category_option_ingredients: [ClientCartCategoryOptionIngredientFieldInput]
-        cart_product_unique_ingredients: [ClientCartProductUniqueIngredientFieldInput]
-        exclude_product_ingredient_ids: [Int]
-        preset: ClientPresetFieldInput
-        product_category_option: ClientProductCategoryOptionFieldInput
-    ): [ClientCartItem]
+    createClientCart(cart_category_option_ingredients: [ClientCartCategoryOptionIngredientFieldInput], cart_product_unique_ingredients: [ClientCartProductUniqueIngredientFieldInput], exclude_product_ingredient_ids: [Int], preset: ClientPresetFieldInput, product_category_option: ClientProductCategoryOptionFieldInput): [ClientCartItem]
     "Создание заказа"
     createClientOrder(
         "Комментарий клиента"
-        customer_comment: String
+        customer_comment: String,
         "Тип оплаты"
-        delivery_type: CommonEnumsDeliveryTypeEnum!
+        delivery_type: CommonEnumsDeliveryTypeEnum!,
         "Тип оплаты"
-        payment_type: CommonEnumsPaymentTypeEnum!
+        payment_type: CommonEnumsPaymentTypeEnum!,
         "ID торговой точки"
-        shop_id: Int!
+        shop_id: Int!,
         "Тип доставки"
         user_address: CommonUserAddressInput
     ): CommonOrder
     "Создание ссылки для оплаты"
-    createClientOrderPaymentUrl("ID заказа" order_id: Int): ClientPaymentUrl
+    createClientOrderPaymentUrl(
+        "ID заказа"
+        order_id: Int
+    ): ClientPaymentUrl
     "Удаление товара из корзины"
     deleteClientCart(cart_item_id: Int!): Boolean
     "Очистка корзины"
     dropClientCart: Boolean
+    "Удаление промокода из корзины"
+    removeClientCartPromocodeDiscount(
+        "ID промокода для удаления"
+        promocode_id: Int!
+    ): ClientDiscountApplicationResult
     "Повторение заказа"
-    repeatClientOrder("ID заказа" order_id: Int!): [ClientCartItem]
+    repeatClientOrder(
+        "ID заказа"
+        order_id: Int!
+    ): [ClientCartItem]
     sendClientSmsCode(phone: String!): CommonSmsCode
     "Вращение колеса фортуны"
     spinClientFortuneWheelSpin(order_id: Int!): CommonFortuneWheelSlot
     "Изменение корзины"
-    updateClientCart(
-        cart_category_option_ingredients: [ClientCartCategoryOptionIngredientFieldInput]
-        cart_item_id: Int!
-        cart_product_unique_ingredients: [ClientCartProductUniqueIngredientFieldInput]
-        preset: ClientPresetFieldInput
-        product_category_option: ClientProductCategoryOptionFieldInput
-    ): [ClientCartItem]
+    updateClientCart(cart_category_option_ingredients: [ClientCartCategoryOptionIngredientFieldInput], cart_item_id: Int!, cart_product_unique_ingredients: [ClientCartProductUniqueIngredientFieldInput], preset: ClientPresetFieldInput, product_category_option: ClientProductCategoryOptionFieldInput): [ClientCartItem]
     "Изменение пользователя"
-    updateClientUser(
-        avatar: Upload
-        birthday: String
-        email: String
-        gender: CommonEnumsGenderEnum
-        lastname: String
-        name: String
-    ): ClientProfile
+    updateClientUser(avatar: Upload, birthday: String, email: String, gender: CommonEnumsGenderEnum, lastname: String, name: String): ClientProfile
     verifyClientSmsCode(code: String!, phone: String!): CommonToken
 }
 
 type Query {
+    "Доступные скидки для корзины"
+    clientAvailableCartDiscounts(
+        "Промокод для проверки (опционально)"
+        promocode: String
+    ): [ClientAvailableDiscount]
     "Корзина"
     clientCart(
         "Max 50"
-        ids: [Int]
+        ids: [Int],
         "Max 50"
-        limit: Int = 30
-        offset: Int = 0
+        limit: Int = 30,
+        offset: Int = 0,
         orders: [ClientCartOrder]
     ): ClientCartItemList
     "Список категорий для клиента"
     clientCategoryList(
         "Поиск без учета регистра (по умолчанию: true)"
-        case_insensitive_search: Boolean = true
+        case_insensitive_search: Boolean = true,
         "Max 50"
-        ids: [Int]
+        ids: [Int],
         "Max 50"
-        limit: Int = 30
-        offset: Int = 0
-        orders: [ClientCategoryListOrder]
+        limit: Int = 30,
+        offset: Int = 0,
+        orders: [ClientCategoryListOrder],
         search: String
     ): CommonCategoryList
     "Колесо фортуны"
@@ -820,13 +948,13 @@ type Query {
     "Список заказов для клиента"
     clientOrderList(
         "Поиск без учета регистра (по умолчанию: true)"
-        case_insensitive_search: Boolean = true
+        case_insensitive_search: Boolean = true,
         "Max 50"
-        ids: [Int]
+        ids: [Int],
         "Max 50"
-        limit: Int = 30
-        offset: Int = 0
-        orders: [ClientOrderListOrder]
+        limit: Int = 30,
+        offset: Int = 0,
+        orders: [ClientOrderListOrder],
         search: String
     ): CommonOrderList
     "Список способов оплаты"
@@ -834,13 +962,13 @@ type Query {
     "Список продуктов для клиента"
     clientProductList(
         "Поиск без учета регистра (по умолчанию: true)"
-        case_insensitive_search: Boolean = true
+        case_insensitive_search: Boolean = true,
         "Max 50"
-        ids: [Int]
+        ids: [Int],
         "Max 50"
-        limit: Int = 30
-        offset: Int = 0
-        orders: [ClientProductListOrder]
+        limit: Int = 30,
+        offset: Int = 0,
+        orders: [ClientProductListOrder],
         search: String
     ): CommonProductList
     "Профиль клиента"
@@ -848,27 +976,41 @@ type Query {
     "Общий список торговых точек"
     clientShopList(
         "Поиск без учета регистра (по умолчанию: true)"
-        case_insensitive_search: Boolean = true
+        case_insensitive_search: Boolean = true,
         "Показ неактивной информации"
-        get_inactive: Boolean = false
+        get_inactive: Boolean = false,
         "Max 50"
-        ids: [Int]
+        ids: [Int],
         "Max 50"
-        limit: Int = 10
-        offset: Int = 0
-        orders: [ClientShopListOrder]
+        limit: Int = 10,
+        offset: Int = 0,
+        orders: [ClientShopListOrder],
         search: String
     ): CommonShopList
     "Текущая торговая точка относительно геозон и времени работы"
-    currentGeozoneDeliveryShop("Широта" latitude: Float!, "Долгота" longitude: Float!): CommonShop
+    currentGeozoneDeliveryShop(
+        "Широта"
+        latitude: Float!,
+        "Долгота"
+        longitude: Float!
+    ): CommonShop
     "Процент бонусов от её диапазона"
-    getClientAppBonusPercent("Сумма" sum: Float!): CommonSettingBonusPercent
+    getClientAppBonusPercent(
+        "Сумма"
+        sum: Float!
+    ): CommonSettingBonusPercent
     "Диапазоны бонусов"
     getClientAppBonusRanges: [CommonSettingBonusRange]
     "Настройки клиента"
-    getClientAppSetting("Ключ настройки" setting_key: String!): CommonSetting
+    getClientAppSetting(
+        "Ключ настройки"
+        setting_key: String!
+    ): CommonSetting
     "Работает ли сейчас торговая точка самовывозом"
-    isPickupShopOpen("Торговая точка" shop_id: Float!): Boolean
+    isPickupShopOpen(
+        "Торговая точка"
+        shop_id: Float!
+    ): Boolean
 }
 
 enum ClientCartOrderField {
@@ -999,6 +1141,7 @@ enum CommonOrderDirectionEnum {
 }
 
 """
+
 The `Upload` special type represents a file to be uploaded in the same HTTP request as specified by
 [graphql-multipart-request-spec](https://github.com/jaydenseric/graphql-multipart-request-spec).
 """
