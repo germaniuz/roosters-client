@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { CART_PATH, PROFILE_PATH } from '~/constants/routing';
+import type { MobileNavigationItem } from '~/types/Navigation';
 
 const route = useRoute();
 const { cartCount } = storeToRefs(useCartStore());
 const { isGuest, isAuthenticated, isAuthDialogActive } = storeToRefs(useProfileStore());
 
-const baseNavigationItems: NavigationItem[] = [
+const baseNavigationItems: MobileNavigationItem[] = [
     {
         label: 'Меню',
         path: '/',
@@ -27,7 +28,7 @@ const baseNavigationItems: NavigationItem[] = [
     },
 ];
 
-const profileItem = computed(() => {
+const profileItem = computed<MobileNavigationItem>(() => {
     if (isAuthenticated.value) {
         return {
             label: 'Профиль',
@@ -47,22 +48,13 @@ const profileItem = computed(() => {
 
 const navigationItems = computed(() => [...baseNavigationItems, profileItem.value]);
 
-// TODO: Move this interface to a shared types file
-interface NavigationItem {
-    label: string;
-    path: string;
-    icon: string;
-    badge?: ComputedRef<number>;
-    isLink?: boolean;
-}
-
 const handleProfileClick = () => {
     if (isGuest.value) {
         isAuthDialogActive.value = true;
     }
 };
 
-const isActive = (item: NavigationItem) => {
+const isActive = (item: MobileNavigationItem) => {
     if (item.path === '/') {
         return route.path === '/';
     }
@@ -84,7 +76,7 @@ const isActive = (item: NavigationItem) => {
             >
                 <div class="mobile-bottom-nav__icon">
                     <BaseIcon :name="item.icon" />
-                    <div v-if="item?.badge && item?.badge.value > 0" class="mobile-bottom-nav__badge">
+                    <div v-if="item?.badge" class="mobile-bottom-nav__badge">
                         {{ item.badge.value }}
                     </div>
                 </div>
