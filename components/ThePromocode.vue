@@ -25,7 +25,17 @@ const submitPromocode = async () => {
 
 <template>
     <div class="promocode">
-        <span>Есть промокод?</span>
+        <div class="promocode__top">
+            <span>Есть промокод?</span>
+            <BaseButton
+                class="promocode__btn"
+                :modifiers="['secondary', 'single-icon']"
+                :disabled="isGuest || !cartItems.length"
+                @click.prevent="submitPromocode"
+            >
+                <BaseIcon name="arrow-right" />
+            </BaseButton>
+        </div>
         <FormInput
             v-model="promo"
             placeholder="Введите промокод"
@@ -33,14 +43,8 @@ const submitPromocode = async () => {
             name="promocode"
             :errors="formErrors?.code"
             :disabled="isGuest || !cartItems.length"
+            @keyup.enter="submitPromocode"
         />
-        <BaseButton
-            class="promocode__btn"
-            :modifiers="['secondary']"
-            :disabled="isGuest || !cartItems.length"
-            @click.prevent="submitPromocode"
-            >Применить</BaseButton
-        >
         <div v-if="isGuest" class="promocode__login">
             Промокоды и бонусные баллы действуют только для авторизованных пользователей.
             <span class="promocode__login-link" @click="isAuthDialogActive = true">Войти</span>
@@ -87,6 +91,14 @@ const submitPromocode = async () => {
 }
 
 .promocode__btn {
+    margin-bottom: 0;
+}
+
+.promocode__top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 15px;
 }
 
