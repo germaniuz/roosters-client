@@ -14,7 +14,7 @@ const router = useRouter();
 const { isGuest, isAuthDialogActive } = storeToRefs(useProfileStore());
 
 const cartStore = useCartStore();
-const { items, cartPrice, cartCount } = storeToRefs(cartStore);
+const { items, cartPrice, cartCount, appliedDiscounts, cartTotals } = storeToRefs(cartStore);
 const { dropLocalCart, dropCart } = cartStore;
 
 const { activeShop } = storeToRefs(useDeliveryStore());
@@ -52,7 +52,7 @@ const drop = () => {
         </div>
         <div class="cart-summary__price">
             <span>Сумма заказа</span>
-            <span>{{ cartPrice }} ₽</span>
+            <span>{{ cartTotals?.original_amount }} ₽</span>
         </div>
         <div
             v-if="type === 'view' && items"
@@ -91,13 +91,15 @@ const drop = () => {
                 </div>
             </div>
         </div>
-        <div class="cart-summary__info">
+        <div v-if="cartTotals?.discount_amount" class="cart-summary__info">
             <span class="cart-summary__info-title">Скидка</span>
-            <span class="cart-summary__info-data">0 ₽</span>
+            <span class="cart-summary__info-data">{{ cartTotals.discount_amount }} ₽</span>
         </div>
-        <div class="cart-summary__info">
+        <div v-if="appliedDiscounts.length" class="cart-summary__info">
             <span class="cart-summary__info-title">Промокод</span>
-            <span class="cart-summary__info-data">0 ₽</span>
+            <span class="cart-summary__info-data cart-summary__info-data--regular">{{
+                appliedDiscounts.find((d) => d.promocode_code)?.promocode_code || 'Активен'
+            }}</span>
         </div>
         <div class="cart-summary__info">
             <span class="cart-summary__info-title">Использовано баллов</span>
@@ -109,7 +111,7 @@ const drop = () => {
         </div>
         <div class="cart-summary__final-price">
             Итого
-            <span>{{ cartPrice }} ₽</span>
+            <span>{{ cartTotals?.final_amount || cartPrice }} ₽</span>
         </div>
         <BaseButton
             v-if="type === 'action'"
@@ -348,6 +350,10 @@ const drop = () => {
     &--add {
         color: var(--c-secondary);
         font-weight: 700;
+    }
+
+    &--regular {
+        color: var(--c-grey80);
     }
 
     i {

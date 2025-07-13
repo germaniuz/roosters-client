@@ -37,6 +37,9 @@ export const useCartStore = defineStore('cart', () => {
         const { onData } = useListQuery<CartProduct>(CLIENT_CART);
         onData((res) => {
             items.value = res?.clientCart?.items || [];
+            appliedDiscounts.value = res?.clientCart?.applied_discounts || [];
+            availableDiscounts.value = res?.clientCart?.available_automatic_discounts || [];
+            cartTotals.value = res?.clientCart?.totals || null;
         });
     };
 
