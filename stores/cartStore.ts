@@ -85,6 +85,8 @@ export const useCartStore = defineStore('cart', () => {
         const res = await createClientCart(cartProductInput);
         if (res?.data?.createClientCart) {
             items.value = res.data.createClientCart;
+            // Refresh all cart data including totals and discounts
+            await fetchUserCart();
         }
     };
 
@@ -100,6 +102,8 @@ export const useCartStore = defineStore('cart', () => {
             await changeProductQuantity(changeProductQuantityInput);
             if (changeProductQuantityData.value?.changeClientCartProductQuantity?.items) {
                 items.value = changeProductQuantityData.value.changeClientCartProductQuantity.items;
+                // Refresh all cart data including totals and discounts
+                await fetchUserCart();
             } else {
                 items.value[itemIndex].quantity = prevQuantity;
             }
@@ -123,11 +127,16 @@ export const useCartStore = defineStore('cart', () => {
         });
         if (res?.data.deleteClientCart) {
             items.value = items.value.filter((item) => item.id !== cart_item_id);
+            // Refresh all cart data including totals and discounts
+            await fetchUserCart();
         }
     };
 
     const dropCart = async () => {
         items.value = [];
+        appliedDiscounts.value = [];
+        availableDiscounts.value = [];
+        cartTotals.value = null;
         await dropClientCart();
     };
 
