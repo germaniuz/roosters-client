@@ -35,3 +35,20 @@ export const CART_TOTALS_FRAGMENT = gql`
         savings_percentage
     }
 `;
+
+export const DISCOUNT_APPLICATION_RESULT_FRAGMENT = gql`
+    fragment DiscountApplicationResult on ClientDiscountApplicationResult {
+        discount {
+            ...AppliedDiscount
+        }
+        error_message
+        new_cart_total
+        promocode_id
+        success
+        totals {
+            ...CartTotals
+        }
+    }
+    ${APPLIED_DISCOUNT_FRAGMENT}
+    ${CART_TOTALS_FRAGMENT}
+`;

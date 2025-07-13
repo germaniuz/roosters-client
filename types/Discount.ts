@@ -1,3 +1,5 @@
+import * as v from 'valibot';
+
 export type AppliedDiscount = {
     id: number;
     name: string;
@@ -27,3 +29,24 @@ export type CartTotals = {
     original_amount: number;
     savings_percentage: number;
 };
+
+export type DiscountApplicationResult = {
+    discount: AppliedDiscount | null;
+    error_message: string | null;
+    new_cart_total: number | null;
+    promocode_id: number | null;
+    success: boolean | null;
+    totals: CartTotals | null;
+};
+
+export const ApplyPromocodeFieldsSchema = v.object({
+    code: v.pipe(v.string(), v.nonEmpty('Введите промокод')),
+});
+
+export type ApplyPromocodeFields = v.InferOutput<typeof ApplyPromocodeFieldsSchema>;
+
+export const RemovePromocodeFieldsSchema = v.object({
+    promocode_id: v.number(),
+});
+
+export type RemovePromocodeFields = v.InferOutput<typeof RemovePromocodeFieldsSchema>;
