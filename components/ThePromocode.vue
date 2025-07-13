@@ -1,7 +1,26 @@
 <script setup lang="ts">
+import { flatten } from 'valibot';
+import useValidateFormData from '~/composables/useValidateFormData';
+import { PromocodeSchema, type PromocodeFields } from '~/types/Promocode';
+
 const promo = ref<string>('');
+const cartStore = useCartStore();
+const { applyPromocode } = cartStore;
 const { isGuest, isAuthDialogActive } = storeToRefs(useProfileStore());
-const { items: cartItems } = storeToRefs(useCartStore());
+const { items: cartItems } = storeToRefs(cartStore);
+
+const promoFields = computed<PromocodeFields>(() => ({ code: promo.value }));
+const { validate, formErrors } = useValidateFormData<PromocodeFields>(promoFields, PromocodeSchema);
+
+const submitPromocode = async () => {
+    const result = validate();
+    if (result.success) {
+        await applyPromocode(promo.value);
+        promo.value = '';
+    } else {
+        console.error({ ...flatten(result.issues).nested });
+    }
+};
 </script>
 
 <template>
@@ -12,8 +31,16 @@ const { items: cartItems } = storeToRefs(useCartStore());
             placeholder="Введите промокод"
             class="promocode__input"
             name="promocode"
+            :errors="formErrors?.code"
             :disabled="isGuest || !cartItems.length"
         />
+        <BaseButton
+            class="promocode__btn"
+            :modifiers="['secondary']"
+            :disabled="isGuest || !cartItems.length"
+            @click.prevent="submitPromocode"
+            >Применить</BaseButton
+        >
         <div v-if="isGuest" class="promocode__login">
             Промокоды и бонусные баллы действуют только для авторизованных пользователей.
             <span class="promocode__login-link" @click="isAuthDialogActive = true">Войти</span>
@@ -57,6 +84,10 @@ const { items: cartItems } = storeToRefs(useCartStore());
 
 .promocode__input {
     margin-block: 15px;
+}
+
+.promocode__btn {
+    margin-bottom: 15px;
 }
 
 .promocode__login-link {

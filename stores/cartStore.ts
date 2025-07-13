@@ -1,5 +1,5 @@
 import type { ChangeProductQuantityInput, CreateLocalCartProductInput } from './../types/Cart';
-import { useMutation } from 'villus';
+import { useMutation, useQuery } from 'villus';
 import {
     CHANGE_CART_PRODUCT_QUANTITY,
     CREATE_CLIENT_CART,
@@ -8,6 +8,9 @@ import {
 } from '~/gql/mutations/clientCart';
 import { CLIENT_CART } from '~/gql/queries/clientCart';
 import type { CartProduct, CreateCartProductInput } from '~/types/Cart';
+import type { AppliedDiscount, AvailableDiscount, CartTotals } from '~/types/Discount';
+import { APPLY_PROMOCODE, REMOVE_PROMOCODE } from '~/gql/mutations/discount';
+import { AVAILABLE_DISCOUNTS_QUERY } from '~/gql/queries/discount';
 import { StorageSerializers, useStorage } from '@vueuse/core';
 import { skipHydrate } from 'pinia';
 
@@ -17,10 +20,16 @@ export const useCartStore = defineStore('cart', () => {
         useMutation(CHANGE_CART_PRODUCT_QUANTITY);
     const { execute: deleteClientCart } = useMutation(DELETE_CLIENT_CART);
     const { execute: dropClientCart } = useMutation(DROP_CLIENT_CART);
+    const { execute: applyPromocodeMutation } = useMutation(APPLY_PROMOCODE);
+    const { execute: removePromocodeMutation } = useMutation(REMOVE_PROMOCODE);
 
     const items = useStorage<CartProduct[]>('cart', [], undefined, {
         serializer: StorageSerializers.object,
     });
+
+    const appliedDiscounts = ref<AppliedDiscount[]>([]);
+    const availableDiscounts = ref<AvailableDiscount[]>([]);
+    const cartTotals = ref<CartTotals | null>(null);
 
     const cartCount = computed(() => items.value.length);
 
@@ -29,6 +38,16 @@ export const useCartStore = defineStore('cart', () => {
         onData((res) => {
             items.value = res?.clientCart?.items || [];
         });
+    };
+
+    const fetchAvailableDiscounts = async (code?: string) => {
+        const { data } = await useQuery<{ clientAvailableCartDiscounts: AvailableDiscount[] }>({
+            query: AVAILABLE_DISCOUNTS_QUERY,
+            variables: { promocode: code },
+        });
+        if (data.value?.clientAvailableCartDiscounts) {
+            availableDiscounts.value = data.value.clientAvailableCartDiscounts;
+        }
     };
 
     const setLocalCartToUser = async () => {
@@ -124,6 +143,9 @@ export const useCartStore = defineStore('cart', () => {
     };
 
     const cartPrice = computed(() => {
+        if (cartTotals.value) {
+            return cartTotals.value.final_amount;
+        }
         return items.value.reduce((total, item) => {
             return (
                 total +
@@ -135,6 +157,36 @@ export const useCartStore = defineStore('cart', () => {
             );
         }, 0);
     });
+
+    const applyPromocode = async (code: string) => {
+        const res = await applyPromocodeMutation({ code });
+        const result = res?.data?.applyClientCartPromocodeDiscount;
+        if (result?.success) {
+            if (result.discount) {
+                appliedDiscounts.value.push(result.discount);
+            }
+            if (result.totals) {
+                cartTotals.value = result.totals;
+            }
+        }
+        if (result?.error_message) {
+            console.error(result.error_message);
+        }
+    };
+
+    const removePromocode = async (id: number) => {
+        const res = await removePromocodeMutation({ promocode_id: id });
+        const result = res?.data?.removeClientCartPromocodeDiscount;
+        if (result?.success) {
+            appliedDiscounts.value = appliedDiscounts.value.filter((d) => d.id !== id);
+            if (result.totals) {
+                cartTotals.value = result.totals;
+            }
+        }
+        if (result?.error_message) {
+            console.error(result.error_message);
+        }
+    };
 
     return {
         items: skipHydrate(items),
@@ -150,5 +202,11 @@ export const useCartStore = defineStore('cart', () => {
         dropLocalCart,
         fetchUserCart,
         setLocalCartToUser,
+        appliedDiscounts,
+        availableDiscounts,
+        fetchAvailableDiscounts,
+        applyPromocode,
+        removePromocode,
+        cartTotals,
     };
 });
