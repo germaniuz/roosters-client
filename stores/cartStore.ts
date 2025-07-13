@@ -100,8 +100,8 @@ export const useCartStore = defineStore('cart', () => {
         items.value[itemIndex].quantity = changeProductQuantityInput.quantity;
         try {
             await changeProductQuantity(changeProductQuantityInput);
-            if (changeProductQuantityData.value?.changeClientCartProductQuantity?.items) {
-                items.value = changeProductQuantityData.value.changeClientCartProductQuantity.items;
+            if (changeProductQuantityData.value?.changeClientCartItemQuantity) {
+                items.value = changeProductQuantityData.value.changeClientCartItemQuantity;
                 // Refresh all cart data including totals and discounts
                 await fetchUserCart();
             } else {
