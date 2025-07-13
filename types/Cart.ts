@@ -14,6 +14,7 @@ export const CreateCartProductInputSchema = v.object({
     }),
     cart_category_option_ingredients: v.array(CartCategoryOptionIngredientInputSchema),
     exclude_product_ingredient_ids: v.array(v.number()),
+    cart_product_unique_ingredients: v.array(v.number()),
 });
 export const UpdateCartProductInputSchema = v.object({
     cart_item_id: v.nonNullable(v.number(), 'Укажите cart_item_id'),
@@ -33,12 +34,15 @@ export type CreateLocalCartProductInput = {
     product: ProductCategoryOption;
     cart_category_option_ingredients: CartCategoryOptionIngredient[];
     exclude_product_ingredients: ProductIngredient[];
+    cart_product_unique_ingredients: CartCategoryOptionIngredient[];
 };
 export type UpdateLocalCartProductInput = {
     id: number;
     quantity: number;
     product: ProductCategoryOption;
     cart_category_option_ingredients: CartCategoryOptionIngredient[];
+    exclude_product_ingredients: ProductIngredient[];
+    cart_product_unique_ingredients: CartCategoryOptionIngredient[];
 };
 
 export type CartCategoryOptionIngredient = {
@@ -53,4 +57,5 @@ export type CartProduct = {
     product: ProductCategoryOption;
     cart_category_option_ingredients: CartCategoryOptionIngredient[];
     exclude_product_ingredients: ProductIngredient[];
+    cart_product_unique_ingredients: CartCategoryOptionIngredient[];
 };

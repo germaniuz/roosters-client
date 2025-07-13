@@ -70,6 +70,10 @@ export const useCartStore = defineStore('cart', () => {
                     quantity: ingredient.quantity,
                 })),
                 exclude_product_ingredient_ids: item.exclude_product_ingredients?.map((ingredient) => ingredient.id),
+                cart_product_unique_ingredients:
+                    item.cart_product_unique_ingredients?.map(
+                        (ingredient) => ingredient.category_option_ingredient.id,
+                    ) || [],
             });
         }
     };
@@ -131,6 +135,7 @@ export const useCartStore = defineStore('cart', () => {
             product: cartProductInput.product,
             cart_category_option_ingredients: cartProductInput.cart_category_option_ingredients,
             exclude_product_ingredients: cartProductInput.exclude_product_ingredients,
+            cart_product_unique_ingredients: cartProductInput.cart_product_unique_ingredients,
         });
     };
 

@@ -6,12 +6,14 @@ export const CREATE_CLIENT_CART = gql`
         $product_category_option: ClientProductCategoryOptionFieldInput
         $cart_category_option_ingredients: [ClientCartCategoryOptionIngredientFieldInput]
         $exclude_product_ingredient_ids: [Int]
+        $cart_product_unique_ingredients: [ClientCartProductUniqueIngredientFieldInput]
     ) {
         createClientCart(
             preset: $preset
             product_category_option: $product_category_option
             cart_category_option_ingredients: $cart_category_option_ingredients
             exclude_product_ingredient_ids: $exclude_product_ingredient_ids
+            cart_product_unique_ingredients: $cart_product_unique_ingredients
         ) {
             id
             quantity
@@ -52,34 +54,32 @@ export const CREATE_CLIENT_CART = gql`
 export const CHANGE_CART_PRODUCT_QUANTITY = gql`
     mutation changeClientCartItemQuantity($cart_item_id: Int!, $quantity: Int!) {
         changeClientCartItemQuantity(cart_item_id: $cart_item_id, quantity: $quantity) {
-            items {
+            id
+            quantity
+            preset {
                 id
-                quantity
-                preset {
-                    id
-                    name
-                    description
-                }
+                name
+                description
+            }
+            product {
+                id
+                price
                 product {
+                    name
+                    file {
+                        url
+                    }
+                }
+            }
+            cart_category_option_ingredients {
+                quantity
+                category_option_ingredient {
                     id
                     price
-                    product {
+                    ingredient {
                         name
                         file {
                             url
-                        }
-                    }
-                }
-                cart_category_option_ingredients {
-                    quantity
-                    category_option_ingredient {
-                        id
-                        price
-                        ingredient {
-                            name
-                            file {
-                                url
-                            }
                         }
                     }
                 }

@@ -60,6 +60,7 @@ const addToCart = async () => {
             },
             cart_category_option_ingredients: activeIngredients.value,
             exclude_product_ingredients: excludeIngredients.value,
+            cart_product_unique_ingredients: [], // This is a placeholder, implement real data here
         });
         closeProductDialog();
 
@@ -76,6 +77,7 @@ const addToCart = async () => {
             quantity: ingredient.quantity,
         })),
         exclude_product_ingredient_ids: excludeIngredients.value.map((item) => item.id),
+        cart_product_unique_ingredients: [],
     });
     closeProductDialog();
 };
