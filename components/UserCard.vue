@@ -11,7 +11,7 @@ const { profile } = storeToRefs(useProfileStore());
         <div class="user-card__data">
             <div class="user-card__name">{{ profile?.name ?? 'Гость' }}</div>
             <BaseTextBadge :modifiers="['sm', 'secondary']"
-                ><strong>150</strong> <i class="icon-pizza-slice color-primary"></i>
+                ><strong>{{ profile?.cashback }}</strong> <i class="icon-pizza-slice color-primary"></i>
             </BaseTextBadge>
         </div>
     </NuxtLink>
