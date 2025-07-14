@@ -30,6 +30,10 @@ const { cartPrice } = storeToRefs(useCartStore());
     height: max-content;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgb(255, 255, 255) 100%);
 
+    @include media.md-down {
+        display: none;
+    }
+
     @include media.md-up {
         left: unset;
         background: unset;

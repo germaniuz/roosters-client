@@ -4,6 +4,7 @@ type Props = {
     isActive: boolean;
     modifiers?: Modifier[];
     sm?: boolean;
+    smFull?: boolean;
 };
 
 const props = defineProps<Props>();
@@ -49,7 +50,11 @@ useClickOutside(dialogBody, closeDialog);
 </script>
 
 <template>
-    <dialog ref="dialog" :class="`dialog ${modifiers} ${sm ? 'dialog--sm' : ''}`" @keydown.stop.esc="closeDialog">
+    <dialog
+        ref="dialog"
+        :class="`dialog ${modifiers} ${sm ? 'dialog--sm' : ''} ${smFull ? 'dialog--sm-full' : ''}`"
+        @keydown.stop.esc="closeDialog"
+    >
         <div ref="dialogBody" class="dialog__body">
             <slot />
         </div>
@@ -78,6 +83,21 @@ useClickOutside(dialogBody, closeDialog);
         background: color(from var(--c-grey90) srgb r g b / 0.8);
     }
 
+    &--sm-full {
+        @include media.sm-down {
+            top: 0;
+            left: 0;
+            translate: 0 0;
+            width: 100vw;
+            height: 100vh;
+            max-height: 100vh;
+            min-height: 100vh;
+            min-width: 100vw;
+            max-width: 100vw;
+            border-radius: 0;
+        }
+    }
+
     &--bg-grey {
         background: var(--c-grey10);
     }
@@ -99,6 +119,18 @@ useClickOutside(dialogBody, closeDialog);
 
     .dialog--no-padding & {
         padding: 0;
+    }
+
+    .dialog--sm-full & {
+        @include media.sm-down {
+            width: 100vw;
+            height: 100vh;
+            max-height: 100vh;
+            min-height: 100vh;
+            min-width: 100vw;
+            max-width: 100vw;
+            border-radius: 0;
+        }
     }
 }
 

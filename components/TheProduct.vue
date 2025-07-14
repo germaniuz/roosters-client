@@ -212,7 +212,14 @@ const totalPrice = computed(() => {
     height: 100%;
     max-height: var(--product-height);
 
-    @include media.md-down {
+    @include media.sm-down {
+        width: 90vw;
+        min-height: 100vh;
+        max-height: 100vh;
+        height: 100vh;
+    }
+
+    @include media.md-only {
         width: 80vw;
     }
 
@@ -299,6 +306,11 @@ const totalPrice = computed(() => {
     height: 100%;
     overflow-y: auto;
     scrollbar-width: none;
+
+    @include media.sm-down {
+        height: auto;
+        overflow: initial;
+    }
 
     @include media.lg-up {
         max-height: var(--product-height);

@@ -43,6 +43,7 @@ const handleFortuneWheelSpinComplete = (slot: FortuneWheelSlot) => {
                 v-if="modalProduct && isProductDialogShown"
                 v-model:is-active="isProductDialogShown"
                 :sm="true"
+                :sm-full="true"
                 @close="closeProductDialog"
             >
                 <TheProduct :product="modalProduct" />
