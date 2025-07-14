@@ -37,11 +37,11 @@ const submitPromocode = async () => {
                 @keyup.enter="submitPromocode"
             />
             <BaseButton
+                v-if="promo"
                 class="promocode__btn"
                 :modifiers="['secondary', 'single-icon']"
                 :disabled="isGuest || !cartItems.length"
                 @click.prevent="submitPromocode"
-                v-if="promo"
             >
                 <BaseIcon name="arrow-right" />
             </BaseButton>
